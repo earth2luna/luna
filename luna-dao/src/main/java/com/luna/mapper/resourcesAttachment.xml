@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.laulyl.data.declare.po.ResourcesAttachment">
+
+	<sql id="selectColumnSQL">
+		<![CDATA[
+	    	SELECT 
+				id id,
+				resources_id resourcesId,
+				attachment_id attachmentId,
+				join_type joinType
+			FROM l_resources_attachment
+	    ]]>
+	</sql>
+
+	<sql id="selectCountSQL">
+		<![CDATA[
+	    	SELECT COUNT(1) count FROM l_resources_attachment
+	    ]]>
+	</sql>
+
+	<sql id="deleteSQL">
+		<![CDATA[
+	    	DELETE FROM l_resources_attachment
+	    ]]>
+	</sql>
+
+	<sql id="updateSQL">
+		UPDATE l_resources_attachment
+			<trim prefix="SET" suffixOverrides=",">
+				<if test="null!=prop.id">id=#{prop.id},</if>
+				<if test="null!=prop.resourcesId">resources_id=#{prop.resourcesId},</if>
+				<if test="null!=prop.attachmentId">attachment_id=#{prop.attachmentId},</if>
+				<if test="null!=prop.joinType">join_type=#{prop.joinType},</if>
+			</trim>
+	</sql>
+
+	<sql id="whereAllSQL">
+		<trim prefix="WHERE" prefixOverrides="AND|OR" suffixOverrides=",">
+			<if test="null!=resourcesId">and resources_id=#{resourcesId}</if>
+			<if test="null!=attachmentId">and attachment_id=#{attachmentId}</if>
+			<if test="null!=joinType">and join_type=#{joinType}</if>
+			<if test="null!=keys">id IN <foreach item="id" collection="keys" open="(" separator="," close=")">#{id}</foreach></if>
+		</trim>
+	</sql>
+
+	<sql id="whereIdSQL">
+		<![CDATA[
+	    	WHERE id=#{PRIMARYKEY}
+	    ]]>
+	</sql>
+
+	<sql id="orderBySQL">
+		<if test="null!=sortProperty and null!=sortOrder and ''!=sortProperty and ''!=sortOrder ">ORDER BY ${sortProperty} ${sortOrder}</if>
+	</sql>
+
+	<sql id="limitSQL">
+		<if test="null!=startIndex">limit #{startIndex}<if test="null!=endIndex">, #{endIndex}</if></if>
+	</sql>
+
+	<insert id="insert" parameterType="resourcesAttachment" useGeneratedKeys="true" keyProperty="id">
+	    <![CDATA[
+	    	INSERT INTO l_resources_attachment(resources_id,attachment_id,join_type)
+			VALUES(#{resourcesId},#{attachmentId},#{joinType})
+	     ]]>
+	</insert>
+
+	<delete id="deleteById" parameterType="Long">
+		<include refid="deleteSQL"/>
+		<include refid="whereIdSQL"/>
+	</delete>
+
+	<delete id="delete" parameterType="map">
+		<include refid="deleteSQL"/>
+		<include refid="whereAllSQL"/>
+	</delete>
+
+	<update id="updateById" parameterType="Long">
+		<include refid="updateSQL"/>
+		<include refid="whereIdSQL"/>
+	</update>
+
+	<update id="update" parameterType="map">
+		<include refid="updateSQL"/>
+		<include refid="whereAllSQL"/>
+	</update>
+
+	<select id="selectById" parameterType="Long" resultType="resourcesAttachment">
+		<include refid="selectColumnSQL"/>
+		<include refid="whereIdSQL"/>
+	</select>
+
+	<select id="selectList" parameterType="map" resultType="resourcesAttachment">
+		<include refid="selectColumnSQL"/>
+		<include refid="whereAllSQL"/>
+		<include refid="orderBySQL"/>
+		<include refid="limitSQL"/>
+	</select>
+
+	<select id="selectCount" parameterType="map" resultType="int">
+		<include refid="selectCountSQL"/>
+		<include refid="whereAllSQL"/>
+	</select>
+</mapper>

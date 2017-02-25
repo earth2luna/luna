@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luna.mapper.IResourcesMapper">
+
+	<sql id="selectColumnSQL">
+		<![CDATA[
+	    	SELECT 
+				id id,
+				create_time createTime,
+				source_site_name sourceSiteName,
+				source_site_link sourceSiteLink,
+				creator_id creatorId,
+				category_id categoryId,
+				title title,
+				source_author sourceAuthor,
+				source_date sourceDate,
+				thumbnail thumbnail,
+				page_view pageView,
+				user_view userView
+			FROM l_resources
+	    ]]>
+	</sql>
+
+	<sql id="selectCountSQL">
+		<![CDATA[
+	    	SELECT COUNT(1) count FROM l_resources
+	    ]]>
+	</sql>
+
+	<sql id="deleteSQL">
+		<![CDATA[
+	    	DELETE FROM l_resources
+	    ]]>
+	</sql>
+
+	<sql id="updateSQL">
+		UPDATE l_resources
+			<trim prefix="SET" suffixOverrides=",">
+				<if test="null!=prop.createTime">create_time=#{prop.createTime},</if>
+				<if test="null!=prop.sourceSiteName and ''!=prop.sourceSiteName">source_site_name=#{prop.sourceSiteName},</if>
+				<if test="null!=prop.sourceSiteLink and ''!=prop.sourceSiteLink">source_site_link=#{prop.sourceSiteLink},</if>
+				<if test="null!=prop.creatorId">creator_id=#{prop.creatorId},</if>
+				<if test="null!=prop.categoryId">category_id=#{prop.categoryId},</if>
+				<if test="null!=prop.title and ''!=prop.title">title=#{prop.title},</if>
+				<if test="null!=prop.sourceAuthor and ''!=prop.sourceAuthor">source_author=#{prop.sourceAuthor},</if>
+				<if test="null!=prop.sourceDate">source_date=#{prop.sourceDate},</if>
+				<if test="null!=prop.thumbnail and ''!=prop.thumbnail">thumbnail=#{prop.thumbnail},</if>
+				<if test="null!=prop.pageView">page_view=#{prop.pageView},</if>
+				<if test="null!=prop.userView">user_view=#{prop.userView},</if>
+			</trim>
+	</sql>
+
+	<sql id="whereAllSQL">
+		<trim prefix="WHERE" prefixOverrides="AND|OR" suffixOverrides=",">
+			<if test="null!=startCreateTime"><![CDATA[ and create_time>=#{startCreateTime}]]></if>
+			<if test="null!=endCreateTime"><![CDATA[ and create_time<=#{endCreateTime}]]></if>
+			<if test="null!=sourceSiteName and ''!=sourceSiteName">and source_site_name like CONCAT('%','${sourceSiteName}','%')</if>
+			<if test="null!=sourceSiteLink and ''!=sourceSiteLink">and source_site_link like CONCAT('%','${sourceSiteLink}','%')</if>
+			<if test="null!=creatorId">and creator_id=#{creatorId}</if>
+			<if test="null!=categoryId">and category_id=#{categoryId}</if>
+			<if test="null!=title and ''!=title">and title like CONCAT('%','${title}','%')</if>
+			<if test="null!=sourceAuthor and ''!=sourceAuthor">and source_author like CONCAT('%','${sourceAuthor}','%')</if>
+			<if test="null!=startSourceDate"><![CDATA[ and source_date>=#{startSourceDate}]]></if>
+			<if test="null!=endSourceDate"><![CDATA[ and source_date<=#{endSourceDate}]]></if>
+			<if test="null!=thumbnail and ''!=thumbnail">and thumbnail like CONCAT('%','${thumbnail}','%')</if>
+			<if test="null!=pageView">and page_view=#{pageView}</if>
+			<if test="null!=userView">and user_view=#{userView}</if>
+			<if test="null!=keys">id IN <foreach item="id" collection="keys" open="(" separator="," close=")">#{id}</foreach></if>
+		</trim>
+	</sql>
+
+	<sql id="whereIdSQL">
+		<![CDATA[
+	    	WHERE id=#{PRIMARYKEY}
+	    ]]>
+	</sql>
+
+	<sql id="orderBySQL">
+		<if test="null!=sortProperty and null!=sortOrder and ''!=sortProperty and ''!=sortOrder ">ORDER BY ${sortProperty} ${sortOrder}</if>
+	</sql>
+
+	<sql id="limitSQL">
+		<if test="null!=startIndex">limit #{startIndex}<if test="null!=endIndex">, #{endIndex}</if></if>
+	</sql>
+
+	<insert id="insert" parameterType="resources" useGeneratedKeys="true" keyProperty="id">
+	    <![CDATA[
+	    	INSERT INTO l_resources(create_time,source_site_name,source_site_link,creator_id,category_id,title,source_author,source_date,thumbnail,page_view,user_view)
+			VALUES(#{createTime},#{sourceSiteName},#{sourceSiteLink},#{creatorId},#{categoryId},#{title},#{sourceAuthor},#{sourceDate},#{thumbnail},#{pageView},#{userView})
+	     ]]>
+	</insert>
+
+	<delete id="deleteById" parameterType="Long">
+		<include refid="deleteSQL"/>
+		<include refid="whereIdSQL"/>
+	</delete>
+
+	<delete id="delete" parameterType="map">
+		<include refid="deleteSQL"/>
+		<include refid="whereAllSQL"/>
+	</delete>
+
+	<update id="updateById" parameterType="Long">
+		<include refid="updateSQL"/>
+		<include refid="whereIdSQL"/>
+	</update>
+
+	<update id="update" parameterType="map">
+		<include refid="updateSQL"/>
+		<include refid="whereAllSQL"/>
+	</update>
+
+	<select id="selectById" parameterType="Long" resultType="resources">
+		<include refid="selectColumnSQL"/>
+		<include refid="whereIdSQL"/>
+	</select>
+
+	<select id="selectList" parameterType="map" resultType="resources">
+		<include refid="selectColumnSQL"/>
+		<include refid="whereAllSQL"/>
+		<include refid="orderBySQL"/>
+		<include refid="limitSQL"/>
+	</select>
+
+	<select id="selectCount" parameterType="map" resultType="int">
+		<include refid="selectCountSQL"/>
+		<include refid="whereAllSQL"/>
+	</select>
+</mapper>
