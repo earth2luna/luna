@@ -1,0 +1,26 @@
+/**
+ * copyright@lyl
+ *laulyl-web Maven Webapp.com.laulyl.web.configuration.Aplication.java.java
+ */
+package com.luna.web.configure;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
+
+/**
+ * @author lyl 2016-2-4
+ * @description
+ */
+@Configuration
+@ComponentScan
+public class Aplication {
+
+	@Bean(name = "simpleMappingExceptionResolver")
+	public SimpleMappingExceptionResolver getSimpleMappingExceptionResolver() {
+		SimpleMappingExceptionResolver exceptionResolver = new SimpleMappingExceptionResolver();
+		exceptionResolver.setWarnLogCategory("com.luna");
+		return exceptionResolver;
+	}
+}
