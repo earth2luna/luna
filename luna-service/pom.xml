@@ -14,6 +14,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit.version>4.12</junit.version>
 		<luna.dao.version>1.0-SNAPSHOT</luna.dao.version>
+		<luna.utils.version>1.0-SNAPSHOT</luna.utils.version>
 	</properties>
 
 	<dependencies>
@@ -29,6 +30,12 @@
 			<groupId>com.luna</groupId>
 			<artifactId>luna-dao</artifactId>
 			<version>${luna.dao.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.luna</groupId>
+			<artifactId>luna-utils</artifactId>
+			<version>${luna.utils.version}</version>
 		</dependency>
 
 	</dependencies>
