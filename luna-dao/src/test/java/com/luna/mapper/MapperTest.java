@@ -10,7 +10,8 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.luna.po.Resources;
+import com.luna.dao.mapper.IResourcesMapper;
+import com.luna.dao.po.Resources;
 
 /**
  * @author laulyl

@@ -1,7 +1,7 @@
 /**
  * COPYRIGHT@LAULYL
  */
-package com.luna.catcher;
+package com.luna.service.catcher;
 
 /**
  * @author laulyl

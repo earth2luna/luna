@@ -1,9 +1,9 @@
 /**
  * COPYRIGHT@LAULYL
  */
-package com.luna.mapper;
+package com.luna.dao.mapper;
 
-import com.luna.po.Resources;
+import com.luna.dao.po.Resources;
 
 /**
  * @author laulyl

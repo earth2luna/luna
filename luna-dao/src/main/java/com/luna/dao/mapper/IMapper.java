@@ -1,4 +1,4 @@
-package com.luna.mapper;
+package com.luna.dao.mapper;
 
 import java.util.List;
 import java.util.Map;

@@ -1,7 +1,7 @@
 /**
  * copyright@www.laulyl.com
  */
-package com.luna.po;
+package com.luna.dao.po;
 
 import java.util.Date;
 import java.io.Serializable;
