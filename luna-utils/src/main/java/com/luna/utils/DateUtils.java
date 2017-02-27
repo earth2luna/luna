@@ -34,8 +34,7 @@ public class DateUtils {
 		if (null == date)
 			return null;
 		Validate.notNull(pattern);
-		SimpleDateFormat dateFormat = new SimpleDateFormat(pattern,
-				Locale.getDefault());
+		SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, Locale.getDefault());
 		dateFormat.setTimeZone(TimeZone.getDefault());
 		return dateFormat.format(date);
 	}
@@ -50,12 +49,10 @@ public class DateUtils {
 		} else if (date instanceof Calendar) {
 			return getDateFormat((Calendar) date, pattern);
 		}
-		throw new RuntimeException(
-				"the input object is not a class of Date or Calendar");
+		throw new RuntimeException("the input object is not a class of Date or Calendar");
 	}
 
-	public static Calendar getDiffDate(Calendar calendar, int number,
-			int field, boolean before) {
+	public static Calendar getDiffDate(Calendar calendar, int number, int field, boolean before) {
 		Validate.notNull(calendar);
 		if (before)
 			calendar.add(field, -number);
@@ -64,19 +61,22 @@ public class DateUtils {
 		return calendar;
 	}
 
-	public static Calendar getDiffDate(Date date, int number, int field,
-			boolean before) {
+	public static Calendar getDiffDate(Date date, int number, int field, boolean before) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		return getDiffDate(calendar, number, field, before);
 	}
 
-	public static Date parse(String date, String pattern) throws ParseException {
+	public static Date parse(String date, String pattern) {
 		if (StringUtils.isBlank(date))
 			return null;
 		Validate.notNull(pattern);
 		SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
-		return dateFormat.parse(date);
+		try {
+			return dateFormat.parse(date);
+		} catch (ParseException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public static boolean isBeforeOfYear(Date date, int year) {
