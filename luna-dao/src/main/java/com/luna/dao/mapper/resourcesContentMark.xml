@@ -42,6 +42,7 @@
 			<if test="null!=resourcesContentId">and resources_content_id=#{resourcesContentId}</if>
 			<if test="null!=content and ''!=content">and content like CONCAT('%','${content}','%')</if>
 			<if test="null!=handleCode">and handle_code=#{handleCode}</if>
+			<if test="null!=resourcesContentIds">resources_content_id IN <foreach item="id" collection="resourcesContentIds" open="(" separator="," close=")">#{id}</foreach></if>
 			<if test="null!=keys">id IN <foreach item="id" collection="keys" open="(" separator="," close=")">#{id}</foreach></if>
 		</trim>
 	</sql>

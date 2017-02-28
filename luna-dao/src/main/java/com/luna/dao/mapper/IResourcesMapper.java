@@ -3,7 +3,11 @@
  */
 package com.luna.dao.mapper;
 
+import java.util.List;
+import java.util.Map;
+
 import com.luna.dao.po.Resources;
+import com.luna.dao.vo.ResourcesCasecade;
 
 /**
  * @author laulyl
@@ -12,4 +16,5 @@ import com.luna.dao.po.Resources;
  */
 public interface IResourcesMapper extends IMapper<Resources> {
 
+	public List<ResourcesCasecade> selectResourcesCasecade(Map<String, Object> map);
 }

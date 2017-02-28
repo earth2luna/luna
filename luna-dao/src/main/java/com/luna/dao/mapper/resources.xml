@@ -128,4 +128,45 @@
 		<include refid="selectCountSQL"/>
 		<include refid="whereAllSQL"/>
 	</select>
+	
+	<select id="selectResourcesCasecade" parameterType="map" resultType="com.luna.dao.vo.ResourcesCasecade">
+		SELECT 
+		    lr.id resourcesId,
+		    lr.create_time resourcesCreateTime,
+		    lr.source_site_name resourcesSourceSiteName,
+		    lr.source_site_link resourcesSourceSiteLink,
+		    lr.creator_id resourcesCreatetorId,
+		    lr.category_id resourcesCategroyId,
+		    lr.title resourcesTitle,
+		    lr.source_author resourcesSourceAuthor,
+		    lr.source_date resourcesSourceDate,
+		    lr.thumbnail resourcesThumbnail,
+		    lr.page_view resourcesPageView,
+		    lr.user_view resourcesUserView,
+		    lrc.id recourcesContentId,
+		    lrc.title resourcesContentTitle,
+		    lrc.content resourcesContent,
+		    lrc.p_id resourcesContentParentId,
+		    lrc.sort_code resourcesContentSortCode
+		FROM
+		    (SELECT 
+		        id,
+		            create_time,
+		            source_site_name,
+		            source_site_link,
+		            creator_id,
+		            category_id,
+		            title,
+		            source_author,
+		            source_date,
+		            thumbnail,
+		            page_view,
+		            user_view
+		    FROM
+		        l_resources
+		    LIMIT #{startIndex} ,#{endIndex}) lr
+		        LEFT JOIN
+		    l_resources_content lrc ON lr.id = lrc.resources_id
+		ORDER BY lrc.sort_code ASC
+	</select>
 </mapper>
