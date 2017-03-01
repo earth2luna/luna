@@ -41,9 +41,10 @@ public class NodeUtils {
 			Iterator<T> iterator = list.iterator();
 			while (iterator.hasNext()) {
 				INode node = inputOutput.get(iterator.next());
+				inputOutput(node, variable);
 				Long pId = node.getParentId();
 				if (node.isRoot() || null == pId) {
-					roots.add(inputOutput(node, variable));
+					roots.add(node);
 				} else {
 					List<INode> childrens = subNodes.get(pId);
 					if (null == childrens) {
@@ -134,7 +135,6 @@ public class NodeUtils {
 	private static void setDefaultValue(INode parentNode, List<INode> nodes, NodeVariable variable) {
 		for (INode node : nodes) {
 			node.setParentNode(parentNode);
-			inputOutput(node, variable);
 		}
 	}
 

@@ -71,11 +71,11 @@ public class NodeVariable {
 	}
 
 	/**
-	 * @param inputOutput
-	 *            the inputOutput to set
+	 * @param inputOutput the inputOutput to set
 	 */
 	public void setInputOutput(IInputOutput<INode, INode> inputOutput) {
 		this.inputOutput = inputOutput;
 	}
+
 
 }
