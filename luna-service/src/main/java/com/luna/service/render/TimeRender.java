@@ -3,6 +3,7 @@
  */
 package com.luna.service.render;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -26,6 +27,7 @@ import com.luna.dao.mapper.IResourcesMapper;
 import com.luna.dao.po.ResourcesContentMark;
 import com.luna.dao.vo.ResourcesCasecade;
 import com.luna.service.data.utils.ResourcesUtils;
+import com.luna.utils.FilePropertyUtils;
 import com.luna.utils.LangUtils;
 import com.luna.utils.node.INode;
 import com.luna.utils.node.NodeUtils;
@@ -63,7 +65,7 @@ public class TimeRender {
 
 	private static NodeVariable variable = new NodeVariable();
 
-	@Scheduled(cron = "0 55 23 * * ?")
+	@Scheduled(cron = "0 30 0 * * ?")
 	public void render() {
 
 		int startIndex = 0;
@@ -90,8 +92,9 @@ public class TimeRender {
 
 		Writer out = null;
 		try {
-			String file = LangUtils.append(node.getId(), ".html");
-			out = new FileWriter(file);
+			File origin = new File(resourcesGeneratePath, LangUtils.append(node.getId(), ".html"));
+			FilePropertyUtils.touchFile(origin);
+			out = new FileWriter(origin);
 			Configuration configuration = freeMarkerConfigurationFactoryBean.getObject();
 			Template template = configuration.getTemplate(freemarkerTemplateName);
 			template.process(dataModel, out);

@@ -15,11 +15,12 @@
 	http://www.springframework.org/schema/task
 	http://www.springframework.org/schema/task/spring-task-4.3.xsd
 	">
-	
+
 	<import resource="applicationContext-data.xml" />
-	
-	<context:property-placeholder location="classpath:config.service.properties" ignore-unresolvable="false"/>
-	
+
+	<context:property-placeholder location="classpath:config.service.properties"
+		ignore-unresolvable="false" />
+
 	<!-- 开启注解,指定扫描路径 -->
 	<context:component-scan base-package="com.luna" />
 	<!-- 开启注解 -->
@@ -31,14 +32,13 @@
 
 	<bean id="freeMarkerProperties"
 		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-		<property name="location"
-			value="com/luna/service/render/template/config.freemarker.properties"></property>
+		<property name="location" value="classpath:config.freemarker.properties"></property>
 	</bean>
 
 	<bean id="freeMarkerConfigurationFactoryBean"
 		class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
 		<property name="defaultEncoding" value="UTF-8"></property>
-		<property name="templateLoaderPath" value="classpath*:com/luna/service/render/template/"></property>
+		<property name="templateLoaderPath" value="classpath:com/luna/service/render/template/"></property>
 		<property name="freemarkerSettings" ref="freeMarkerProperties"></property>
 	</bean>
 </beans>
