@@ -22,7 +22,7 @@ import com.luna.utils.node.NodeVariable;
 public class Main {
 
 	public static void main(String[] args) {
-		List<CommentVo> list = new ArrayList<>();
+		List<CommentVo> list = new ArrayList<CommentVo>();
 		list.add(new CommentVo(1L, null, "今天的月亮好圆啊", "laulyl", DateUtils.parse("2017-02-01", DateUtils.DATE_PATTERN_2),
 				0));
 		list.add(new CommentVo(2L, 1L, "是啊，今天的月亮好圆啊", "zhaomin",

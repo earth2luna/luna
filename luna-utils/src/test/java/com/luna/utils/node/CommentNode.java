@@ -101,7 +101,7 @@ public class CommentNode extends CommentVo implements INode {
 	 * @return the childrens
 	 */
 	public List<CommentNode> getChildrens() {
-		List<CommentNode> commentNodes = new ArrayList<>();
+		List<CommentNode> commentNodes = new ArrayList<CommentNode>();
 		if (CollectionUtils.isEmpty(childrens))
 			return commentNodes;
 		for (int i = 0; i < childrens.size(); i++) {
@@ -109,5 +109,5 @@ public class CommentNode extends CommentVo implements INode {
 		}
 		return commentNodes;
 	}
-	
+
 }

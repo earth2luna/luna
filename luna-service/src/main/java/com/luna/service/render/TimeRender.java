@@ -3,23 +3,40 @@
  */
 package com.luna.service.render;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 
 import com.luna.dao.mapper.IResourcesContentMarkMapper;
 import com.luna.dao.mapper.IResourcesMapper;
 import com.luna.dao.po.ResourcesContentMark;
 import com.luna.dao.vo.ResourcesCasecade;
 import com.luna.service.data.utils.ResourcesUtils;
+import com.luna.utils.LangUtils;
 import com.luna.utils.node.INode;
 import com.luna.utils.node.NodeUtils;
 import com.luna.utils.node.NodeVariable;
+
+import freemarker.core.ParseException;
+import freemarker.template.Configuration;
+import freemarker.template.MalformedTemplateNameException;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import freemarker.template.TemplateNotFoundException;
 
 /**
  * @author laulyl
@@ -29,17 +46,26 @@ import com.luna.utils.node.NodeVariable;
 @Component
 public class TimeRender {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(TimeRender.class);
+
 	@Autowired
 	private IResourcesMapper resourcesMapper;
 	@Autowired
 	private IResourcesContentMarkMapper contentMarkMapper;
+	@Autowired
+	private FreeMarkerConfigurationFactoryBean freeMarkerConfigurationFactoryBean;
+	@Value("${resources.generate.path}")
+	private String resourcesGeneratePath;
+	@Value("${freemarker.template.name}")
+	private String freemarkerTemplateName;
 
 	private static InputResourceOutputINode inputOutput = new InputResourceOutputINode();
 
 	private static NodeVariable variable = new NodeVariable();
 
-	@Scheduled(cron = "0 01 16 * * ?")
+	@Scheduled(cron = "0 55 23 * * ?")
 	public void render() {
+
 		int startIndex = 0;
 		List<ResourcesCasecade> casecades = ResourcesUtils.selectResourcesCasecades(resourcesMapper, startIndex);
 		Map<Long, List<ResourcesContentMark>> resourcesContentMarkMap = ResourcesUtils
@@ -47,16 +73,43 @@ public class TimeRender {
 		variable.setInputOutput(new InputNodeOutputNode(resourcesContentMarkMap));
 		while (CollectionUtils.isNotEmpty(casecades)) {
 			List<INode> nodes = NodeUtils.sort(casecades, inputOutput, variable);
-
-			System.out.println("----------------------------------------------------------------");
-			pf(nodes, 0);
-
+			INode node = nodes.get(0);
+			Map<String, Object> dataModel = new HashMap<String, Object>();
+			dataModel.put("node", node);
+			dataModel.put("nodes", nodes);
+			format(dataModel, node);
 			casecades = ResourcesUtils.selectResourcesCasecades(resourcesMapper, ++startIndex);
 			resourcesContentMarkMap = ResourcesUtils.selectResourcesContentMarkMapAsCasecades(contentMarkMapper,
 					casecades);
 			variable.setInputOutput(new InputNodeOutputNode(resourcesContentMarkMap));
 		}
 
+	}
+
+	private void format(Map<String, Object> dataModel, INode node) {
+
+		Writer out = null;
+		try {
+			String file = LangUtils.append(node.getId(), ".html");
+			out = new FileWriter(file);
+			Configuration configuration = freeMarkerConfigurationFactoryBean.getObject();
+			Template template = configuration.getTemplate(freemarkerTemplateName);
+			template.process(dataModel, out);
+		} catch (TemplateNotFoundException e) {
+			LOGGER.error("[can't find the template]", e);
+		} catch (MalformedTemplateNameException e) {
+			LOGGER.error("[malformed templateName problem]", e);
+		} catch (ParseException e) {
+			LOGGER.error("[parse template has problem]", e);
+		} catch (IOException e) {
+			LOGGER.error("[IO problem]", e);
+		} catch (TemplateException e) {
+			LOGGER.error("[template problem]", e);
+		} catch (Exception e) {
+			LOGGER.error("[format error]", e);
+		} finally {
+			IOUtils.closeQuietly(out);
+		}
 	}
 
 	public static void pf(List<INode> list, int index) {

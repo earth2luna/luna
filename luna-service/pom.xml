@@ -15,6 +15,7 @@
 		<junit.version>4.12</junit.version>
 		<luna.dao.version>1.0-SNAPSHOT</luna.dao.version>
 		<luna.utils.version>1.0-SNAPSHOT</luna.utils.version>
+		<freemaker.version>2.3.25-incubating</freemaker.version>
 	</properties>
 
 	<dependencies>
@@ -31,16 +32,22 @@
 			<artifactId>luna-dao</artifactId>
 			<version>${luna.dao.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.luna</groupId>
 			<artifactId>luna-utils</artifactId>
 			<version>${luna.utils.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker-gae</artifactId>
+			<version>${freemaker.version}</version>
+		</dependency>
 
 	</dependencies>
 
 	<build>
-		<finalName>luna-web</finalName>
+		<finalName>luna-service</finalName>
 	</build>
 </project>

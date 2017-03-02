@@ -59,4 +59,8 @@
 			<version>2.0.2</version>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<finalName>luna-utils</finalName>
+	</build>
 </project>

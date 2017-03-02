@@ -27,8 +27,11 @@ public class InputNodeOutputNode implements IInputOutput<CommentVo, INode> {
 		CommentNode commentNode = new CommentNode();
 		try {
 			PropertyUtils.copyProperties(commentNode, i);
-		} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-			// TODO Auto-generated catch block
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		}
 		return commentNode;
