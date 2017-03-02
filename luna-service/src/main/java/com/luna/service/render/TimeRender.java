@@ -65,7 +65,7 @@ public class TimeRender {
 
 	private static NodeVariable variable = new NodeVariable();
 
-	@Scheduled(cron = "0 30 0 * * ?")
+	@Scheduled(cron = "0 32 0 * * ?")
 	public void render() {
 
 		int startIndex = 0;
