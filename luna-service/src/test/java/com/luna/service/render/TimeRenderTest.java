@@ -25,7 +25,7 @@ public class TimeRenderTest {
 	}
 
 	@Test
-	public void test_render() {
+	public void test_shcheduleRender() {
 		try {
 			if (null != render) {
 				System.out.println("开睡！");
@@ -34,5 +34,10 @@ public class TimeRenderTest {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Test
+	public void test_rightNowRender() {
+		render.render();
 	}
 }

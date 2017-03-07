@@ -4,6 +4,7 @@
 package com.luna.dao.po;
 
 import java.io.Serializable;
+
 /**
  * @author laulyl
  * @time 2017-02-25 18:14:21
@@ -17,6 +18,7 @@ public class ResourcesContent implements Serializable {
 	private String content;// 内容
 	private Long pId;// 父id
 	private Integer sortCode;// 排序编码
+	private Integer handlerCode;// 处理编码
 	private static final long serialVersionUID = 1488017661199L;
 
 	public void setId(Long id) {
@@ -65,5 +67,13 @@ public class ResourcesContent implements Serializable {
 
 	public Integer getSortCode() {
 		return this.sortCode;
+	}
+
+	public Integer getHandlerCode() {
+		return handlerCode;
+	}
+
+	public void setHandlerCode(Integer handlerCode) {
+		this.handlerCode = handlerCode;
 	}
 }

@@ -15,7 +15,8 @@
 		<junit.version>4.12</junit.version>
 		<luna.dao.version>1.0-SNAPSHOT</luna.dao.version>
 		<luna.utils.version>1.0-SNAPSHOT</luna.utils.version>
-		<freemaker.version>2.3.25-incubating</freemaker.version>
+		<freemaker.version>2.3.23</freemaker.version>
+		<jsoup.version>1.10.2</jsoup.version>
 	</properties>
 
 	<dependencies>
@@ -38,11 +39,17 @@
 			<artifactId>luna-utils</artifactId>
 			<version>${luna.utils.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.freemarker</groupId>
-			<artifactId>freemarker-gae</artifactId>
+			<artifactId>freemarker</artifactId>
 			<version>${freemaker.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>${jsoup.version}</version>
 		</dependency>
 
 	</dependencies>

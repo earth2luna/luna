@@ -147,7 +147,8 @@
 		    lrc.title resourcesContentTitle,
 		    lrc.content resourcesContent,
 		    lrc.p_id resourcesContentParentId,
-		    lrc.sort_code resourcesContentSortCode
+		    lrc.sort_code resourcesContentSortCode,
+		    lrc.handler_code resourcesContentHandlerCode
 		FROM
 		    (SELECT 
 		        id,

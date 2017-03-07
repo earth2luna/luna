@@ -65,9 +65,9 @@ public class TimeRender {
 
 	private static NodeVariable variable = new NodeVariable();
 
-	@Scheduled(cron = "0 32 0 * * ?")
+	@Scheduled(cron = "0 20 * * * ?")
 	public void render() {
-
+		LOGGER.info("[start render htmls]");
 		int startIndex = 0;
 		List<ResourcesCasecade> casecades = ResourcesUtils.selectResourcesCasecades(resourcesMapper, startIndex);
 		Map<Long, List<ResourcesContentMark>> resourcesContentMarkMap = ResourcesUtils
@@ -75,29 +75,29 @@ public class TimeRender {
 		variable.setInputOutput(new InputNodeOutputNode(resourcesContentMarkMap));
 		while (CollectionUtils.isNotEmpty(casecades)) {
 			List<INode> nodes = NodeUtils.sort(casecades, inputOutput, variable);
-			INode node = nodes.get(0);
-			Map<String, Object> dataModel = new HashMap<String, Object>();
-			dataModel.put("node", node);
-			dataModel.put("nodes", nodes);
-			format(dataModel, node);
+			format(nodes);
 			casecades = ResourcesUtils.selectResourcesCasecades(resourcesMapper, ++startIndex);
 			resourcesContentMarkMap = ResourcesUtils.selectResourcesContentMarkMapAsCasecades(contentMarkMapper,
 					casecades);
 			variable.setInputOutput(new InputNodeOutputNode(resourcesContentMarkMap));
 		}
-
+		LOGGER.info("[end render htmls]");
 	}
 
-	private void format(Map<String, Object> dataModel, INode node) {
-
+	private void format(List<INode> nodes) {
 		Writer out = null;
 		try {
-			File origin = new File(resourcesGeneratePath, LangUtils.append(node.getId(), ".html"));
+			ResourcesCasecadeNode node = (ResourcesCasecadeNode) nodes.get(0);
+			Map<String, Object> dataModel = new HashMap<String, Object>();
+			dataModel.put("node", node);
+			dataModel.put("nodes", nodes);
+			File origin = new File(resourcesGeneratePath, LangUtils.append(node.getResourcesId(), ".html"));
 			FilePropertyUtils.touchFile(origin);
 			out = new FileWriter(origin);
 			Configuration configuration = freeMarkerConfigurationFactoryBean.getObject();
 			Template template = configuration.getTemplate(freemarkerTemplateName);
 			template.process(dataModel, out);
+			LOGGER.info(origin.toString());
 		} catch (TemplateNotFoundException e) {
 			LOGGER.error("[can't find the template]", e);
 		} catch (MalformedTemplateNameException e) {

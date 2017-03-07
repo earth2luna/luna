@@ -21,39 +21,24 @@ public class InputResourceOutputINode implements IInputOutput<ResourcesCasecade,
 	 */
 	public INode get(ResourcesCasecade input) {
 		ResourcesCasecadeNode output = new ResourcesCasecadeNode();
-
 		output.setResourcesId(input.getResourcesId());
-
 		output.setResourcesCreateTime(input.getResourcesCreateTime());
-
 		output.setResourcesSourceSiteName(input.getResourcesSourceSiteName());
-
 		output.setResourcesSourceSiteLink(input.getResourcesSourceSiteLink());
-
 		output.setResourcesCreatetorId(input.getResourcesCreatetorId());
-
 		output.setResourcesCategroyId(input.getResourcesCategroyId());
-
 		output.setResourcesTitle(input.getResourcesTitle());
-
 		output.setResourcesSourceAuthor(input.getResourcesSourceAuthor());
-
 		output.setResourcesSourceDate(input.getResourcesSourceDate());
-
 		output.setResourcesThumbnail(input.getResourcesThumbnail());
-
 		output.setResourcesPageView(input.getResourcesPageView());
-
 		output.setResourcesUserView(input.getResourcesUserView());
-
 		output.setRecourcesContentId(input.getRecourcesContentId());
-
 		output.setResourcesContentTitle(input.getResourcesContentTitle());
 		output.setResourcesContent(input.getResourcesContent());
-
 		output.setResourcesContentParentId(input.getResourcesContentParentId());
-
 		output.setResourcesContentSortCode(input.getResourcesContentSortCode());
+		output.setResourcesContentHandlerCode(input.getResourcesContentHandlerCode());
 		return output;
 	}
 

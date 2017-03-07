@@ -31,6 +31,7 @@ public class ResourcesCasecade implements Serializable {
 	private String resourcesContent;// 资源内容
 	private Long resourcesContentParentId;// 资源内容父id
 	private Integer resourcesContentSortCode;// 资源内容排序编码
+	private Integer resourcesContentHandlerCode;// 资源内容处理编码
 
 	/**
 	 * @return the resourcesId
@@ -285,5 +286,19 @@ public class ResourcesCasecade implements Serializable {
 	 */
 	public void setResourcesContentSortCode(Integer resourcesContentSortCode) {
 		this.resourcesContentSortCode = resourcesContentSortCode;
+	}
+
+	/**
+	 * @return the resourcesContentHandlerCode
+	 */
+	public Integer getResourcesContentHandlerCode() {
+		return resourcesContentHandlerCode;
+	}
+
+	/**
+	 * @param resourcesContentHandlerCode the resourcesContentHandlerCode to set
+	 */
+	public void setResourcesContentHandlerCode(Integer resourcesContentHandlerCode) {
+		this.resourcesContentHandlerCode = resourcesContentHandlerCode;
 	}
 }

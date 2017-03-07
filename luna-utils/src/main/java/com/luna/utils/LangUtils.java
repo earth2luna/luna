@@ -38,6 +38,16 @@ public class LangUtils {
 		return !isBlank(input);
 	}
 
+	public static String defaultEmpty(String value) {
+		return defaultValue(value, Constants.EMPTY_STRING);
+	}
+
+	public static <T> T defaultValue(T value, T defaultValue) {
+		if (null == value)
+			return defaultValue;
+		return value;
+	}
+
 	public static <T> StringBuilder append(CharSequence startFragment, Collection<T> collection,
 			IGetProperty<T> property, String splitor) {
 		startFragment = (CharSequence) decode(null == startFragment, Constants.EMPTY_STRING, startFragment);
@@ -322,6 +332,5 @@ public class LangUtils {
 			return false;
 		}
 	}
-
 
 }

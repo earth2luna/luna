@@ -3,6 +3,8 @@
  */
 package com.luna.utils.constant;
 
+import com.luna.utils.LangUtils;
+
 /**
  * @author lyl 2016-3-8
  * @description
@@ -25,4 +27,10 @@ public interface Constants {
 	String EMPTY_STRING = "";
 
 	String SPACE_STRING = " ";
+	
+	String DOUBLE_SPACE_STRING =LangUtils.append(SPACE_STRING,SPACE_STRING);
+	
+	String TAB_STRING = "	";
+	
+	String NEW_LINE = "\r\n";
 }
