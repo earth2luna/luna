@@ -29,7 +29,6 @@
 <!-- Favicons -->
 <link rel="apple-touch-icon" href="/static/resources/custom/images/apple-touch-icon.png">
 <link rel="icon" href="/static/resources/custom/images/favicon.ico">
-
 </head>
   <body>
     <a id="skippy" class="sr-only sr-only-focusable" href="http://v3.bootcss.com/css/#content">
@@ -89,17 +88,17 @@
 	      <div class="col-md-9" role="main">
 	      	<#list nodes as rootNode>
 		      	<div class="bs-docs-section">
-		      		<h1 id="overview" class="page-header">${rootNode.resourcesContentTitle}</h1>
+		      		<h1 id="${rootNode.recourcesContentId}" class="page-header">${rootNode.resourcesContentTitle}</h1>
   					<p class="lead">${rootNode.resourcesContent}</p>
   					<#list rootNode.childrens as subNode>
   						 <#switch subNode.resourcesContentHandlerCode>  
 						    <#case 1>
-						    	<h2 id="overview-doctype">${subNode.resourcesContentTitle}</h2>
+						    	<h2 id="${subNode.recourcesContentId}">${subNode.resourcesContentTitle}</h2>
 						        <div class="zero-clipboard"></div>
 						        <figure class="highlight"><pre><code class="language-html" data-lang="html">${subNode.resourcesContent}</code></pre></figure>
 						        <#break>  
 						    <#default>  
-						        <h2 id="overview-doctype">${subNode.resourcesContentTitle}</h2>
+						        <h2 id="${subNode.recourcesContentId}">${subNode.resourcesContentTitle}</h2>
 								<p>${subNode.resourcesContent}</p>
 						        <#break>  
 						    </#switch> 
@@ -114,11 +113,11 @@
 				<ul class="nav bs-docs-sidenav">
 					<#list nodes as rootNode>
 						<li class="active">
-							<a href="javascript:void(0);">${rootNode.resourcesContentTitle}</a>
+							<a href="#${rootNode.recourcesContentId}">${rootNode.resourcesContentTitle}</a>
 							<ul class="nav">
 								<#list rootNode.childrens as subNode>
 									<li>
-										<a href="javascript:void(0);">${subNode.resourcesContentTitle}</a>
+										<a href="#${subNode.recourcesContentId}">${subNode.resourcesContentTitle}</a>
 									</li>
 								</#list>
 							</ul>
@@ -126,7 +125,7 @@
 					</#list>
 				</ul>
             	<a class="back-to-top" href="#top">返回顶部</a>
-            	<a href="#" class="bs-docs-theme-toggle" role="button">主题预览</a>
+            	<#--<a href="#" class="bs-docs-theme-toggle" role="button">主题预览</a>-->
           	</nav>
 	      </div>
       </div>
