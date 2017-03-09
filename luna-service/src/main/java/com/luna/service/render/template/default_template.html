@@ -79,8 +79,8 @@
     <!-- Docs page layout -->
     <div class="bs-docs-header" id="content" tabindex="-1">
       <div class="container">
-        <h1>强势 登陆 月球</h1>
-        <p>设置全局 CSS 样式；基本的 HTML 元素均可以通过 class 设置样式并得到增强效果；还有先进的栅格系统。</p>
+        <h1>生活不止眼前的苟且</h1>
+        <p>生活之外，不要忘了最初的梦想；不过于执着于物质，多读点书，也许你会明白你真正的远方在哪里</p>
       </div>
     </div>
     <div class="container bs-docs-container">
@@ -97,8 +97,28 @@
 						        <div class="zero-clipboard"></div>
 						        <figure class="highlight"><pre><code class="language-html" data-lang="html">${subNode.resourcesContent}</code></pre></figure>
 						        <#break>  
+						    <#case 2>
+						    	<h2 id="${subNode.recourcesContentId}">${subNode.resourcesContentTitle}</h2>
+						        <div class="zero-clipboard"></div>
+						        <figure class="highlight"><pre><code class="language-html" data-lang="html">${subNode.resourcesContent}</code></pre></figure>
+						        <#break>
+						     <#case 3>
+					     		<div class="row bs-examples">
+								    <div class="col-xs-6 col-md-12">
+								      <#if subNode.resourcesContentTitle??>
+								      	<h2 id="${subNode.recourcesContentId}">${subNode.resourcesContentTitle}</h2>
+								      </#if>
+								      <p>${subNode.resourcesContent}</p>
+								      <a class="thumbnail" href="javascript:void(0);">
+								        <img src="${subNode.resourcesContentPath}" alt="${subNode.resourcesContentTitle}">
+								      </a>
+								    </div>
+							    </div>
+						     	<#break>  
 						    <#default>  
-						        <h2 id="${subNode.recourcesContentId}">${subNode.resourcesContentTitle}</h2>
+						    	<#if subNode.resourcesContentTitle??>
+						        	<h2 id="${subNode.recourcesContentId}">${subNode.resourcesContentTitle}</h2>
+						        </#if>
 								<p>${subNode.resourcesContent}</p>
 						        <#break>  
 						    </#switch> 
@@ -116,9 +136,11 @@
 							<a href="#${rootNode.recourcesContentId}">${rootNode.resourcesContentTitle}</a>
 							<ul class="nav">
 								<#list rootNode.childrens as subNode>
-									<li>
-										<a href="#${subNode.recourcesContentId}">${subNode.resourcesContentTitle}</a>
-									</li>
+									<#if subNode.resourcesContentTitle??>
+										<li>
+											<a href="#${subNode.recourcesContentId}">${subNode.resourcesContentTitle}</a>
+										</li>
+									</#if>
 								</#list>
 							</ul>
 						</li>

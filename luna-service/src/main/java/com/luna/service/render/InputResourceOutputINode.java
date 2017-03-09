@@ -39,6 +39,7 @@ public class InputResourceOutputINode implements IInputOutput<ResourcesCasecade,
 		output.setResourcesContentParentId(input.getResourcesContentParentId());
 		output.setResourcesContentSortCode(input.getResourcesContentSortCode());
 		output.setResourcesContentHandlerCode(input.getResourcesContentHandlerCode());
+		output.setResourcesContentPath(input.getResourcesContentPath());
 		return output;
 	}
 

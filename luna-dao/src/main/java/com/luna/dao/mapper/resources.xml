@@ -148,7 +148,8 @@
 		    lrc.content resourcesContent,
 		    lrc.p_id resourcesContentParentId,
 		    lrc.sort_code resourcesContentSortCode,
-		    lrc.handler_code resourcesContentHandlerCode
+		    lrc.handler_code resourcesContentHandlerCode,
+		    lrc.path resourcesContentPath
 		FROM
 		    (SELECT 
 		        id,
@@ -166,7 +167,7 @@
 		    FROM
 		        l_resources
 		    LIMIT #{startIndex} ,#{endIndex}) lr
-		        LEFT JOIN
+		        INNER JOIN
 		    l_resources_content lrc ON lr.id = lrc.resources_id
 		ORDER BY lrc.sort_code ASC
 	</select>

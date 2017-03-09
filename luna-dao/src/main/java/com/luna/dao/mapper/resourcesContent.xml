@@ -13,7 +13,8 @@
 				content content,
 				p_id pId,
 				sort_code sortCode,
-				handler_code handlerCode
+				handler_code handlerCode,
+				path path
 			FROM l_resources_content
 	    ]]>
 	</sql>
@@ -40,6 +41,7 @@
 				<if test="null!=prop.pId">p_id=#{prop.pId},</if>
 				<if test="null!=prop.sortCode">sort_code=#{prop.sortCode},</if>
 				<if test="null!=prop.handlerCode">handler_code=#{prop.handlerCode},</if>
+				<if test="null!=prop.path">handler_code=#{prop.path},</if>
 			</trim>
 	</sql>
 
@@ -70,8 +72,8 @@
 
 	<insert id="insert" parameterType="resourcesContent" useGeneratedKeys="true" keyProperty="id">
 	    <![CDATA[
-	    	INSERT INTO l_resources_content(resources_id,title,content,p_id,sort_code,handler_code)
-			VALUES(#{resourcesId},#{title},#{content},#{pId},#{sortCode},#{handlerCode})
+	    	INSERT INTO l_resources_content(resources_id,title,content,p_id,sort_code,handler_code,path)
+			VALUES(#{resourcesId},#{title},#{content},#{pId},#{sortCode},#{handlerCode},#{path})
 	     ]]>
 	</insert>
 
