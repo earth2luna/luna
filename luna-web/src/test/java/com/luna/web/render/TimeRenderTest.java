@@ -1,12 +1,14 @@
 /**
  * COPYRIGHT@LAULYL
  */
-package com.luna.service.render;
+package com.luna.web.render;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.luna.web.render.TimeRender;
 
 /**
  * @author laulyl
@@ -20,7 +22,7 @@ public class TimeRenderTest {
 
 	@Before
 	public void before() {
-		applicationContext = new ClassPathXmlApplicationContext("applicationContext-service.xml");
+		applicationContext = new ClassPathXmlApplicationContext("applicationContext-web.xml");
 		render = applicationContext.getBean(TimeRender.class);
 	}
 

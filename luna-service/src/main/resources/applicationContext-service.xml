@@ -30,16 +30,5 @@
 	<task:scheduler id="scheduler" pool-size="5" />
 	<!-- 开启定时任务 -->
 	<task:annotation-driven />
-
-	<bean id="freeMarkerProperties"
-		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-		<property name="location" value="classpath:config.freemarker.properties"></property>
-	</bean>
-
-	<bean id="freeMarkerConfigurationFactoryBean"
-		class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
-		<property name="defaultEncoding" value="UTF-8"></property>
-		<property name="templateLoaderPath" value="classpath:com/luna/service/render/template"></property>
-		<property name="freemarkerSettings" ref="freeMarkerProperties"></property>
-	</bean>
+	
 </beans>

@@ -34,14 +34,13 @@
 		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
 		<property name="viewClass"
 			value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"></property>
-		<property name="prefix" value="/WEB-INF/template/" />
 		<property name="suffix" value=".html" />
 		<property name="contentType" value="text/html;charset=utf-8" />
 		<property name="exposeRequestAttributes" value="true" />
 		<property name="exposeSessionAttributes" value="true" />
 		<property name="exposeSpringMacroHelpers" value="true" />
 	</bean>
-	
+	<!-- 
 	<mvc:resources location="/static/resources/" mapping="/static/resources/**"></mvc:resources>
-
+ -->
 </beans>
