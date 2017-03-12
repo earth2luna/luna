@@ -10,7 +10,7 @@
 <title>
     强势登陆月球计划
 </title>
-<style class="anchorjs"></style><link href="/static/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <!-- Optional Bootstrap Theme -->
 <link href="data:text/css;charset=utf-8," data-href="/static/resources/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" id="bs-theme-stylesheet">
 <!-- Documentation extras -->
@@ -80,7 +80,7 @@
     <div class="bs-docs-header" id="content" tabindex="-1">
       <div class="container">
         <h1>生活不止眼前的苟且</h1>
-        <p>生活之外，不要忘了最初的梦想；不过于执着于物质，多读点书，也许你会明白你真正的远方在哪里</p>
+        <p>生活之外，不要忘了最初的梦想；不过于执着于物质，多读书，也许会明白自己真正的远方在哪里</p>
       </div>
     </div>
     <div class="container bs-docs-container">
@@ -93,13 +93,15 @@
   					<#list rootNode.childrens as subNode>
   						 <#switch subNode.resourcesContentHandlerCode>  
 						    <#case 1>
-						    	<h2 id="${subNode.recourcesContentId}">${subNode.resourcesContentTitle}</h2>
-						        <div class="zero-clipboard"></div>
+						    	<#if subNode.resourcesContentTitle??>
+						    		<h2 id="${subNode.recourcesContentId}">${subNode.resourcesContentTitle}</h2>
+						        </#if>
 						        <figure class="highlight"><pre><code class="language-html" data-lang="html">${subNode.resourcesContent}</code></pre></figure>
 						        <#break>  
 						    <#case 2>
-						    	<h2 id="${subNode.recourcesContentId}">${subNode.resourcesContentTitle}</h2>
-						        <div class="zero-clipboard"></div>
+						    	<#if subNode.resourcesContentTitle??>
+						    		<h2 id="${subNode.recourcesContentId}">${subNode.resourcesContentTitle}</h2>
+						        </#if>
 						        <figure class="highlight"><pre><code class="language-html" data-lang="html">${subNode.resourcesContent}</code></pre></figure>
 						        <#break>
 						     <#case 3>
