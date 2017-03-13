@@ -32,6 +32,7 @@
 		<property name="exposeRequestAttributes" value="true" />
 		<property name="exposeSessionAttributes" value="true" />
 		<property name="exposeSpringMacroHelpers" value="true" />
+		<property name="cache" value="false"/>
 	</bean>
 	
 	<mvc:resources location="/static/resources/" mapping="/static/resources/**"></mvc:resources>

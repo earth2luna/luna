@@ -6,6 +6,9 @@ package com.luna.web.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.luna.web.form.ContentForm;
 
 /**
  * @author laulyl
@@ -13,11 +16,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @description
  */
 @Controller
-@RequestMapping("/manager")
+@RequestMapping("/content")
 public class ManagerController {
 
-	@RequestMapping("/init")
-	public String init(Model model) {
-		return "/manager";
+	@RequestMapping("/query")
+	public String query(Model model) {
+		return "/content_query";
+	}
+
+	@RequestMapping("/mdf")
+	@ResponseBody
+	public String mdf(ContentForm contentForm) {
+
+		return "/save_or_update_content";
 	}
 }

@@ -110,7 +110,9 @@
 								      <#if subNode.resourcesContentTitle??>
 								      	<h2 id="${subNode.recourcesContentId}">${subNode.resourcesContentTitle}</h2>
 								      </#if>
-								      <p>${subNode.resourcesContent}</p>
+								      <#if subNode.resourcesContent??>
+								      	<p>${subNode.resourcesContent}</p>
+								      </#if>
 								      <a class="thumbnail" href="javascript:void(0);">
 								        <img src="${subNode.resourcesContentPath}" alt="${subNode.resourcesContentTitle}">
 								      </a>

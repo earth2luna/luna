@@ -1,0 +1,39 @@
+<html lang="zh-CN">
+<head>
+<script src="/static/resources/sources/jquery-1.12.4.min.js"></script>
+<script type="text/javascript">
+	jQuery(function() {
+		
+		jQuery(".script-content-form .script-submit").click(function(){
+			
+		});
+
+	});
+</script>
+</head>
+<body>
+	<h1>生活不止眼前的苟且</h1>
+	<h3>生活之外，不要忘了最初的梦想；不过于执着于物质，多读书，也许会明白自己真正的远方在哪里。</h3>
+	<form class="script-content-form">
+		所属文章: <select name="rsid">
+			<option value="0">登陆月球计划</option>
+		</select> <br /> 是否是父段落：是<input type="radio" name="isp" value="1" /> 否<input
+			type="radio" name="isp" value="0" /> <br /> 父段落： <select name="pid">
+			<option value="0">文章段落</option>
+			<option value="1">完整的THML代码</option>
+			<option value="2">THML代码片段</option>
+			<option value="3">THML代码片段</option>
+		</select> <br /> 处理方式： <select name="hc">
+			<option value="0">文章段落</option>
+			<option value="1">完整的THML代码</option>
+			<option value="2">THML代码片段</option>
+			<option value="3">图片</option>
+		</select> <br /> 路径：<input name="pth" size="100" /> <br /> 段落标题：<input
+			name="tt" size="50" /> <br /> 排序字段：<input name="st" size="50" /> <br />
+		<br /> 段落内容：
+		<textarea rows="10" cols="100" name="cont"></textarea>
+		<br /> <input type="reset" value="重置" /> <input type="button" class="script-submit"
+			value="提交" />
+	</form>
+</body>
+</html>
