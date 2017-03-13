@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="
 	http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
@@ -9,27 +9,20 @@
 	http://www.springframework.org/schema/context/spring-context-4.3.xsd
 	http://www.springframework.org/schema/mvc
 	http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
-
+	http://www.springframework.org/schema/task
+	http://www.springframework.org/schema/task/spring-task-4.3.xsd
 	">
-
-	<import resource="applicationContext-service.xml" />
-
-	<!-- ignore-unresolvable:false 校验没有加载到的值，并且不加载后续配置文件 -->
-	<context:property-placeholder location="classpath:config.web.properties"
-		ignore-unresolvable="true" />
 		
-	<bean id="freeMarkerProperties"
-		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-		<property name="location" value="classpath:config.freemarker.properties"></property>
+	<!-- 开启注解,指定扫描路径 -->
+	<context:component-scan base-package="com.luna.web.controller" />
+	<mvc:annotation-driven/>
+	
+	<bean id="freemarkerConfig"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="freemarkerSettings" ref="freeMarkerProperties" /> 
+		<property name="templateLoaderPath" value="/WEB-INF/freemarker/"/>
 	</bean>
-
-	<bean id="freeMarkerConfigurationFactoryBean"
-		class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
-		<property name="defaultEncoding" value="UTF-8"></property>
-		<property name="templateLoaderPath" value="classpath:com/luna/web/template/"></property>
-		<property name="freemarkerSettings" ref="freeMarkerProperties"></property>
-	</bean>	
-		
+	
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
 		<property name="viewClass"
@@ -40,7 +33,8 @@
 		<property name="exposeSessionAttributes" value="true" />
 		<property name="exposeSpringMacroHelpers" value="true" />
 	</bean>
-	<!-- 
+	
 	<mvc:resources location="/static/resources/" mapping="/static/resources/**"></mvc:resources>
- -->
+	
+ 	
 </beans>
