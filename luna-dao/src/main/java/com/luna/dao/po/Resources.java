@@ -25,6 +25,7 @@ public class Resources implements Serializable {
 	private String thumbnail;// 缩略图
 	private Long pageView;// pv
 	private Long userView;// uv
+	private Integer status;//状态
 	private static final long serialVersionUID = 1488017661183L;
 
 	public void setId(Long id) {
@@ -121,5 +122,16 @@ public class Resources implements Serializable {
 
 	public Long getUserView() {
 		return this.userView;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 }

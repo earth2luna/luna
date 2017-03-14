@@ -17,7 +17,7 @@ import com.luna.web.form.ContentForm;
  */
 @Controller
 @RequestMapping("/content")
-public class ManagerController {
+public class ContentController extends ParentController {
 
 	@RequestMapping("/query")
 	public String query(Model model) {

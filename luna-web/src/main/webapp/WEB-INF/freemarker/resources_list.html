@@ -1,0 +1,43 @@
+<html lang="zh-CN">
+<head>
+<link href="/static/resources/iterator/v2/iterator.css" rel="stylesheet">
+<script src="/static/resources/sources/jquery-1.12.4.min.js"></script>
+<script src="/static/resources/iterator/v2/iterator.page.v2.js"></script>
+</head>
+<body>
+	<h1>生活不止眼前的苟且</h1>
+	<h3>生活之外，不要忘了最初的梦想；不过于执着于物质，多读书，也许会明白自己真正的远方在哪里。</h3>
+	##${CategoryEnum.TECHNOLOGY.getName()}
+	<hr>
+	<#list status_list as status>
+		<#if 0==status_index>
+			<label><input type="radio" name="sts" value="${status.getCode()}" checked="checked"/>${status.getName()}</label>
+		<#else>
+			<label><input type="radio" name="sts" value="${status.getCode()}" />${status.getName()}</label>
+		</#if>
+	</#list>
+	<label><input type="radio" name="sts" value="3,4,5" />异常数据</label>
+	<input type="button" value="查询" class="script-do-search">
+	<hr>
+	<table width="100%" border="1" cellspacing="0" cellspadding="0" style="border-collapse: collapse">
+		<thead>
+			<tr>
+				<td>key</td>
+				<td>标题</td>
+				<td>所属分类</td>
+				<td>创建时间</td>
+				<td>状态</td>
+				<td>创建人</td>
+				<td>来源网站</td>
+				<td>来源作者</td>
+				<td>来源时间</td>
+				<td>PV</td>
+				<td>UV</td>
+				<td>权限</td>
+			</tr>
+		</thead>
+		<tbody></tbody>
+	</table>
+	<span class="async-page"></span>
+</body>
+</html>

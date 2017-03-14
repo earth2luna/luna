@@ -18,7 +18,8 @@
 				source_date sourceDate,
 				thumbnail thumbnail,
 				page_view pageView,
-				user_view userView
+				user_view userView,
+				status status
 			FROM l_resources
 	    ]]>
 	</sql>
@@ -67,6 +68,7 @@
 			<if test="null!=thumbnail and ''!=thumbnail">and thumbnail like CONCAT('%','${thumbnail}','%')</if>
 			<if test="null!=pageView">and page_view=#{pageView}</if>
 			<if test="null!=userView">and user_view=#{userView}</if>
+			<if test="null!=status">and status=#{status}</if>
 			<if test="null!=keys">id IN <foreach item="id" collection="keys" open="(" separator="," close=")">#{id}</foreach></if>
 		</trim>
 	</sql>
@@ -87,8 +89,8 @@
 
 	<insert id="insert" parameterType="resources" useGeneratedKeys="true" keyProperty="id">
 	    <![CDATA[
-	    	INSERT INTO l_resources(create_time,source_site_name,source_site_link,creator_id,category_id,title,source_author,source_date,thumbnail,page_view,user_view)
-			VALUES(#{createTime},#{sourceSiteName},#{sourceSiteLink},#{creatorId},#{categoryId},#{title},#{sourceAuthor},#{sourceDate},#{thumbnail},#{pageView},#{userView})
+	    	INSERT INTO l_resources(create_time,source_site_name,source_site_link,creator_id,category_id,title,source_author,source_date,thumbnail,page_view,user_view,status)
+			VALUES(#{createTime},#{sourceSiteName},#{sourceSiteLink},#{creatorId},#{categoryId},#{title},#{sourceAuthor},#{sourceDate},#{thumbnail},#{pageView},#{userView},#{status})
 	     ]]>
 	</insert>
 
