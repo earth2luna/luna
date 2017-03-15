@@ -1,0 +1,23 @@
+<#list page.list as item>
+<tr>
+	<td>${item.id}</td>
+	<td>${item.title}</td>
+	<td>${CategoryEnum.getName(item.categoryId)}</td>
+	<td>${item.createTime?string("yyyy年MM月dd日HH时mm分ss秒")}</td>
+	<td>${StatusEnum.getName(item.status)}</td>
+	<td>${CreatorEnum.getName(item.creatorId)}</td>
+	<td><#if item.sourceSiteName??><a href="${item.sourceSiteLink}"
+		target="_blank">${item.sourceSiteName}</a></#if>
+	</td>
+	<td>${item.sourceAuthor}</td>
+	<td>${item.sourceDate?string("yyyy年MM月dd日HH时mm分ss秒")}</td>
+	<td>${item.pageView}</td>
+	<td>${item.userView}</td>
+	<td><select><option value="2">上线</option>
+			<option value="3">资源删除</option>
+			<option value="4">表标记删除</option>
+			<option value="5">逻辑删除</option></select></td>
+</tr>
+</#list>
+<input type="hidden"
+	value="{page:${page.pageNow},pageSize:${page.pageSize},total:${page.count}}" />

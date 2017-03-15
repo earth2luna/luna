@@ -48,6 +48,12 @@ public class LangUtils {
 		return value;
 	}
 
+	public static <T> T defaultValue(boolean expression, T value, T defaultValue) {
+		if (expression)
+			return value;
+		return defaultValue;
+	}
+
 	public static <T> StringBuilder append(CharSequence startFragment, Collection<T> collection,
 			IGetProperty<T> property, String splitor) {
 		startFragment = (CharSequence) decode(null == startFragment, Constants.EMPTY_STRING, startFragment);

@@ -24,6 +24,7 @@ public class ContentController extends ParentController {
 		return "/content_query";
 	}
 
+
 	@RequestMapping("/mdf")
 	@ResponseBody
 	public String mdf(ContentForm contentForm) {

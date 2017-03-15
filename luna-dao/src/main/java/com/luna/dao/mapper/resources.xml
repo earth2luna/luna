@@ -69,6 +69,7 @@
 			<if test="null!=pageView">and page_view=#{pageView}</if>
 			<if test="null!=userView">and user_view=#{userView}</if>
 			<if test="null!=status">and status=#{status}</if>
+			<if test="null!=statusIn">and status IN <foreach item="sts" collection="statusIn" open="(" separator="," close=")">#{sts}</foreach></if>
 			<if test="null!=keys">id IN <foreach item="id" collection="keys" open="(" separator="," close=")">#{id}</foreach></if>
 		</trim>
 	</sql>

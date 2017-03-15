@@ -13,9 +13,11 @@ import org.apache.commons.collections.CollectionUtils;
 
 import com.luna.dao.mapper.IResourcesContentMarkMapper;
 import com.luna.dao.mapper.IResourcesMapper;
+import com.luna.dao.po.Resources;
 import com.luna.dao.po.ResourcesContentMark;
 import com.luna.dao.vo.ResourcesCasecade;
 import com.luna.utils.LangUtils;
+import com.luna.utils.classes.Page;
 
 /**
  * @author laulyl
@@ -70,6 +72,16 @@ public class ResourcesUtils {
 			}
 		}
 		return contentMarkMap;
+	}
+
+	public static Page<Resources> selectResources(IResourcesMapper resourcesMapper, String sts, Integer pageNow) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		int pageSize = 1;
+		int defaultPageNow = LangUtils.defaultValue(!(null == pageNow || pageNow <= 0), pageNow, 1);
+		ServiceUtils.evalStatusInMap(map, sts);
+		ServiceUtils.evalPageMap(map, defaultPageNow, pageSize);
+		return new Page<Resources>(resourcesMapper.selectList(map), resourcesMapper.selectCount(map), pageSize,
+				defaultPageNow);
 	}
 
 }

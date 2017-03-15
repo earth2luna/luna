@@ -1,13 +1,14 @@
 <html lang="zh-CN">
 <head>
+<link href="/static/resources/custom/css/global.css" rel="stylesheet">
 <link href="/static/resources/iterator/v2/iterator.css" rel="stylesheet">
 <script src="/static/resources/sources/jquery-1.12.4.min.js"></script>
 <script src="/static/resources/iterator/v2/iterator.page.v2.js"></script>
+<script src="/static/resources/custom/js/resources.operation.js"></script>
 </head>
 <body>
 	<h1>生活不止眼前的苟且</h1>
 	<h3>生活之外，不要忘了最初的梦想；不过于执着于物质，多读书，也许会明白自己真正的远方在哪里。</h3>
-	##${CategoryEnum.TECHNOLOGY.getName()}
 	<hr>
 	<#list status_list as status>
 		<#if 0==status_index>
@@ -17,9 +18,9 @@
 		</#if>
 	</#list>
 	<label><input type="radio" name="sts" value="3,4,5" />异常数据</label>
-	<input type="button" value="查询" class="script-do-search">
+	<label><input type="radio" name="sts" value="1,2,3,4,5" />全部</label>
 	<hr>
-	<table width="100%" border="1" cellspacing="0" cellspadding="0" style="border-collapse: collapse">
+	<table class="script-table" width="100%" border="1" cellspacing="0" cellspadding="0" style="border-collapse: collapse">
 		<thead>
 			<tr>
 				<td>key</td>
