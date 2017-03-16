@@ -1,7 +1,7 @@
 /**
  * COPYRIGHT@LAULYL
  */
-package com.luna.web.render;
+package com.luna.service.data.utils;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -15,17 +15,12 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 
 import com.luna.dao.mapper.IResourcesContentMarkMapper;
 import com.luna.dao.mapper.IResourcesMapper;
 import com.luna.dao.po.ResourcesContentMark;
 import com.luna.dao.vo.ResourcesCasecade;
-import com.luna.service.data.utils.ResourcesUtils;
 import com.luna.service.node.InputNodeOutputNode;
 import com.luna.service.node.InputResourceOutputINode;
 import com.luna.service.node.ResourcesCasecadeNode;
@@ -44,30 +39,33 @@ import freemarker.template.TemplateNotFoundException;
 
 /**
  * @author laulyl
- * @date 2017年2月26日 下午1:31:10
+ * @date 2017年3月16日 下午11:28:51
  * @description
  */
-@Component
-public class TimeRender {
+public class Render {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(TimeRender.class);
-
-	@Autowired
-	private IResourcesMapper resourcesMapper;
-	@Autowired
-	private IResourcesContentMarkMapper contentMarkMapper;
-	@Autowired
-	private FreeMarkerConfigurationFactoryBean freeMarkerConfigurationFactoryBean;
-	@Value("${resources.generate.path}")
-	private String resourcesGeneratePath;
-	@Value("${freemarker.template.name}")
-	private String freemarkerTemplateName;
-
+	private static final Logger LOGGER = LoggerFactory.getLogger(Render.class);
 	private static InputResourceOutputINode inputOutput = new InputResourceOutputINode();
 
-	private static NodeVariable variable = new NodeVariable();
+	private IResourcesMapper resourcesMapper;
+	private IResourcesContentMarkMapper contentMarkMapper;
+	private FreeMarkerConfigurationFactoryBean freeMarkerConfigurationFactoryBean;
+	private String resourcesGeneratePath;
+	private String freemarkerTemplateName;
+	private NodeVariable variable;
 
-	@Scheduled(cron = "0 20 * * * ?")
+	public Render(IResourcesMapper resourcesMapper, IResourcesContentMarkMapper contentMarkMapper,
+			FreeMarkerConfigurationFactoryBean freeMarkerConfigurationFactoryBean, String resourcesGeneratePath,
+			String freemarkerTemplateName, NodeVariable variable) {
+		super();
+		this.resourcesMapper = resourcesMapper;
+		this.contentMarkMapper = contentMarkMapper;
+		this.freeMarkerConfigurationFactoryBean = freeMarkerConfigurationFactoryBean;
+		this.resourcesGeneratePath = resourcesGeneratePath;
+		this.freemarkerTemplateName = freemarkerTemplateName;
+		this.variable = variable;
+	}
+
 	public void render() {
 		LOGGER.info("[start render htmls]");
 		int startIndex = 0;

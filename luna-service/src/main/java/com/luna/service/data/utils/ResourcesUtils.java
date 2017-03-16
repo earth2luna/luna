@@ -16,6 +16,7 @@ import com.luna.dao.mapper.IResourcesMapper;
 import com.luna.dao.po.Resources;
 import com.luna.dao.po.ResourcesContentMark;
 import com.luna.dao.vo.ResourcesCasecade;
+import com.luna.service.pimpl.InputResourcesCasecadeOutputId;
 import com.luna.utils.LangUtils;
 import com.luna.utils.classes.Page;
 
@@ -76,7 +77,7 @@ public class ResourcesUtils {
 
 	public static Page<Resources> selectResources(IResourcesMapper resourcesMapper, String sts, Integer pageNow) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		int pageSize = 1;
+		int pageSize = 20;
 		int defaultPageNow = LangUtils.defaultValue(!(null == pageNow || pageNow <= 0), pageNow, 1);
 		ServiceUtils.evalStatusInMap(map, sts);
 		ServiceUtils.evalPageMap(map, defaultPageNow, pageSize);
