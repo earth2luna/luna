@@ -1,7 +1,7 @@
 /**
  * COPYRIGHT@LAULYL
  */
-package com.luna.service.pimpl;
+package com.luna.service.common.impl;
 
 import com.luna.dao.vo.ResourcesCasecade;
 import com.luna.utils.infce.IInputOutput;

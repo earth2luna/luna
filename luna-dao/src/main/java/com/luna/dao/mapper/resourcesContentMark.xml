@@ -43,13 +43,14 @@
 			<if test="null!=content and ''!=content">and content like CONCAT('%','${content}','%')</if>
 			<if test="null!=handleCode">and handle_code=#{handleCode}</if>
 			<if test="null!=resourcesContentIds">resources_content_id IN <foreach item="id" collection="resourcesContentIds" open="(" separator="," close=")">#{id}</foreach></if>
+			<if test="null!=id">and id=#{id}</if>
 			<if test="null!=keys">id IN <foreach item="id" collection="keys" open="(" separator="," close=")">#{id}</foreach></if>
 		</trim>
 	</sql>
 
 	<sql id="whereIdSQL">
 		<![CDATA[
-	    	WHERE id=#{PRIMARYKEY}
+	    	WHERE id=#{id}
 	    ]]>
 	</sql>
 
@@ -78,7 +79,7 @@
 		<include refid="whereAllSQL"/>
 	</delete>
 
-	<update id="updateById" parameterType="Long">
+	<update id="updateById" parameterType="map">
 		<include refid="updateSQL"/>
 		<include refid="whereIdSQL"/>
 	</update>

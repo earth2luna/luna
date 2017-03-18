@@ -6,11 +6,17 @@ package com.luna.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 
+import com.luna.dao.mapper.IResourcesContentMarkMapper;
 import com.luna.dao.mapper.IResourcesMapper;
 import com.luna.dao.po.Resources;
+import com.luna.service.data.utils.Render;
 import com.luna.service.data.utils.ResourcesUtils;
+import com.luna.service.dto.RenderParameter;
+import com.luna.service.enumer.resource.StatusEnum;
 import com.luna.utils.LangUtils;
 import com.luna.utils.classes.AppException;
 import com.luna.utils.classes.InvokeVo;
@@ -28,6 +34,14 @@ public class ResourcesServiceImpl implements ResourcesService {
 
 	@Autowired
 	private IResourcesMapper resourcesMapper;
+	@Autowired
+	private IResourcesContentMarkMapper contentMarkMapper;
+	@Autowired
+	private FreeMarkerConfigurationFactoryBean factoryBean;
+	@Value("resources.generate.path")
+	private String resourcesGeneratePath;
+	@Value("${freemarker.template.name}")
+	private String freemarkerTemplateName;
 
 	/*
 	 * (non-Javadoc)
@@ -52,14 +66,28 @@ public class ResourcesServiceImpl implements ResourcesService {
 		try {
 			if (LangUtils.equals(2, op)) {
 				// 上线
-			} else if (LangUtils.equals(2, op)) {
+				new Render(new RenderParameter(resourcesMapper, contentMarkMapper, factoryBean.getObject(),
+						resourcesGeneratePath, freemarkerTemplateName, null, rsId)).render();
+			} else if (LangUtils.equals(3, op)) {
 				// 资源删除
+				ResourcesUtils.resourcesDeletion(resourcesMapper, rsId);
+				ResourcesUtils.deleteResourcesFile(resourcesGeneratePath, rsId);
 			} else if (LangUtils.equals(4, op)) {
-				// 标记删除
+				// 表标记删除
+				ResourcesUtils.tableMarkDeletion(resourcesMapper, rsId);
 			} else if (LangUtils.equals(5, op)) {
 				// 逻辑删除
+				ResourcesUtils.logicalDeletion(resourcesMapper, rsId);
+				ResourcesUtils.deleteResourcesFile(resourcesGeneratePath, rsId);
+			} else if (LangUtils.equals(9, op)) {
+				// 全部上线
+				new Render(new RenderParameter(resourcesMapper, contentMarkMapper, factoryBean.getObject(),
+						resourcesGeneratePath, freemarkerTemplateName, String.valueOf(StatusEnum.INIT.getCode()), null))
+								.render();
 			} else if (LangUtils.equals(10, op)) {
 				// 全部上线
+				new Render(new RenderParameter(resourcesMapper, contentMarkMapper, factoryBean.getObject(),
+						resourcesGeneratePath, freemarkerTemplateName, null, null)).render();
 			} else {
 				// 无效的权限操作
 				throw new AppException(0, "无效的权限操作");

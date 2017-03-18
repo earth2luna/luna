@@ -42,13 +42,14 @@
 			<if test="null!=resourcesId">and resources_id=#{resourcesId}</if>
 			<if test="null!=attachmentId">and attachment_id=#{attachmentId}</if>
 			<if test="null!=joinType">and join_type=#{joinType}</if>
+			<if test="null!=id">and id=#{id}</if>
 			<if test="null!=keys">id IN <foreach item="id" collection="keys" open="(" separator="," close=")">#{id}</foreach></if>
 		</trim>
 	</sql>
 
 	<sql id="whereIdSQL">
 		<![CDATA[
-	    	WHERE id=#{PRIMARYKEY}
+	    	WHERE id=#{id}
 	    ]]>
 	</sql>
 
@@ -77,7 +78,7 @@
 		<include refid="whereAllSQL"/>
 	</delete>
 
-	<update id="updateById" parameterType="Long">
+	<update id="updateById" parameterType="map">
 		<include refid="updateSQL"/>
 		<include refid="whereIdSQL"/>
 	</update>

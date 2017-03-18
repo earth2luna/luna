@@ -16,5 +16,5 @@ public interface ResourcesService {
 
 	Page<Resources> selectResources(String sts, Integer pageNow);
 
-	InvokeVo operation(Long rsId, Integer op);
+	InvokeVo operation(Long rsId,Integer op);
 }

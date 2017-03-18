@@ -1,7 +1,7 @@
 /**
  * COPYRIGHT@LAULYL
  */
-package com.luna.web.form;
+package com.luna.service.dto;
 
 /**
  * @author laulyl

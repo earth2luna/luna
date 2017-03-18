@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.luna.web.form.ContentForm;
+import com.luna.service.dto.ContentForm;
 
 /**
  * @author laulyl

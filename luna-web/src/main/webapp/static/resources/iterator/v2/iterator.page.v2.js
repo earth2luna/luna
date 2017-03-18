@@ -2,6 +2,7 @@
 //update by lyl as laulyl 20170225 解决了多条件交替分页，如果其中一个条件总条数为0,不清除分页内容的问题
 // 公共局部刷新分页
 var pageObject = {
+	runtime : {},
 	refresh : function(config) {
 		// 初始化配置项
 		var configured = jQuery.extend({
@@ -15,7 +16,8 @@ var pageObject = {
 				alert("havent'implements !");
 			}
 		}, config);
-
+		// 赋值给运行时
+		pageObject.runtime = configured;
 		// 首先清理一下
 		jQuery(configured.jQueryParentSelector).empty();
 

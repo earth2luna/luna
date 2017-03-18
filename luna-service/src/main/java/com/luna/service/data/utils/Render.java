@@ -15,17 +15,16 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 
 import com.luna.dao.mapper.IResourcesContentMarkMapper;
 import com.luna.dao.mapper.IResourcesMapper;
 import com.luna.dao.po.ResourcesContentMark;
 import com.luna.dao.vo.ResourcesCasecade;
+import com.luna.service.dto.RenderParameter;
 import com.luna.service.node.InputNodeOutputNode;
 import com.luna.service.node.InputResourceOutputINode;
 import com.luna.service.node.ResourcesCasecadeNode;
 import com.luna.utils.FilePropertyUtils;
-import com.luna.utils.LangUtils;
 import com.luna.utils.node.INode;
 import com.luna.utils.node.NodeUtils;
 import com.luna.utils.node.NodeVariable;
@@ -46,40 +45,41 @@ public class Render {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(Render.class);
 	private static InputResourceOutputINode inputOutput = new InputResourceOutputINode();
+	private RenderParameter renderParameter;
 
-	private IResourcesMapper resourcesMapper;
-	private IResourcesContentMarkMapper contentMarkMapper;
-	private FreeMarkerConfigurationFactoryBean freeMarkerConfigurationFactoryBean;
-	private String resourcesGeneratePath;
-	private String freemarkerTemplateName;
-	private NodeVariable variable;
-
-	public Render(IResourcesMapper resourcesMapper, IResourcesContentMarkMapper contentMarkMapper,
-			FreeMarkerConfigurationFactoryBean freeMarkerConfigurationFactoryBean, String resourcesGeneratePath,
-			String freemarkerTemplateName, NodeVariable variable) {
+	/**
+	 * @param renderParameter
+	 */
+	public Render(RenderParameter renderParameter) {
 		super();
-		this.resourcesMapper = resourcesMapper;
-		this.contentMarkMapper = contentMarkMapper;
-		this.freeMarkerConfigurationFactoryBean = freeMarkerConfigurationFactoryBean;
-		this.resourcesGeneratePath = resourcesGeneratePath;
-		this.freemarkerTemplateName = freemarkerTemplateName;
-		this.variable = variable;
+		this.renderParameter = renderParameter;
 	}
 
 	public void render() {
 		LOGGER.info("[start render htmls]");
-		int startIndex = 0;
-		List<ResourcesCasecade> casecades = ResourcesUtils.selectResourcesCasecades(resourcesMapper, startIndex);
-		Map<Long, List<ResourcesContentMark>> resourcesContentMarkMap = ResourcesUtils
-				.selectResourcesContentMarkMapAsCasecades(contentMarkMapper, casecades);
-		variable.setInputOutput(new InputNodeOutputNode(resourcesContentMarkMap));
+		// 准备参数
+		NodeVariable variable = new NodeVariable();
+		int pageNow = 1;
+		IResourcesMapper resourcesMapper = renderParameter.getResourcesMapper();
+		IResourcesContentMarkMapper contentMarkMapper = renderParameter.getContentMarkMapper();
+		String status = renderParameter.getSts();
+		Long resourcesId = renderParameter.getId();
+		// 获取资源资源内容列表
+		List<ResourcesCasecade> casecades = ResourcesUtils.selectResourcesCasecades(resourcesMapper, pageNow, status,
+				resourcesId);
 		while (CollectionUtils.isNotEmpty(casecades)) {
-			List<INode> nodes = NodeUtils.sort(casecades, inputOutput, variable);
-			format(nodes);
-			casecades = ResourcesUtils.selectResourcesCasecades(resourcesMapper, ++startIndex);
-			resourcesContentMarkMap = ResourcesUtils.selectResourcesContentMarkMapAsCasecades(contentMarkMapper,
-					casecades);
+			// 获取资源内容标记列表
+			Map<Long, List<ResourcesContentMark>> resourcesContentMarkMap = ResourcesUtils
+					.selectResourcesContentMarkMapAsCasecades(contentMarkMapper, casecades);
 			variable.setInputOutput(new InputNodeOutputNode(resourcesContentMarkMap));
+			// 划分等级
+			List<INode> nodes = NodeUtils.sort(casecades, inputOutput, variable);
+			// 执行渲染
+			format(nodes);
+			// 数据库上线
+			ResourcesUtils.online(resourcesMapper, resourcesId);
+			// 再次获取
+			casecades = ResourcesUtils.selectResourcesCasecades(resourcesMapper, ++pageNow, status, resourcesId);
 		}
 		LOGGER.info("[end render htmls]");
 	}
@@ -87,14 +87,16 @@ public class Render {
 	private void format(List<INode> nodes) {
 		Writer out = null;
 		try {
-			ResourcesCasecadeNode node = (ResourcesCasecadeNode) nodes.get(0);
+			String resourcesGeneratePath = renderParameter.getResourcesGeneratePath();
+			String freemarkerTemplateName = renderParameter.getFreemarkerTemplateName();
+			Configuration configuration = renderParameter.getConfiguration();
 			Map<String, Object> dataModel = new HashMap<String, Object>();
+			ResourcesCasecadeNode node = (ResourcesCasecadeNode) nodes.get(0);
 			dataModel.put("node", node);
 			dataModel.put("nodes", nodes);
-			File origin = new File(resourcesGeneratePath, LangUtils.append(node.getResourcesId(), ".html"));
+			File origin = ResourcesUtils.getResourcesFile(resourcesGeneratePath, node.getResourcesId());
 			FilePropertyUtils.touchFile(origin);
 			out = new FileWriter(origin);
-			Configuration configuration = freeMarkerConfigurationFactoryBean.getObject();
 			Template template = configuration.getTemplate(freemarkerTemplateName);
 			template.process(dataModel, out);
 			LOGGER.info(origin.toString());

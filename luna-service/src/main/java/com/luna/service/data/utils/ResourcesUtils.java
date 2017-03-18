@@ -3,6 +3,7 @@
  */
 package com.luna.service.data.utils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,12 +12,14 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 
+import com.luna.dao.mapper.IMapper;
 import com.luna.dao.mapper.IResourcesContentMarkMapper;
 import com.luna.dao.mapper.IResourcesMapper;
 import com.luna.dao.po.Resources;
 import com.luna.dao.po.ResourcesContentMark;
 import com.luna.dao.vo.ResourcesCasecade;
-import com.luna.service.pimpl.InputResourcesCasecadeOutputId;
+import com.luna.service.common.impl.InputResourcesCasecadeOutputId;
+import com.luna.service.enumer.resource.StatusEnum;
 import com.luna.utils.LangUtils;
 import com.luna.utils.classes.Page;
 
@@ -38,6 +41,15 @@ public class ResourcesUtils {
 
 	public static List<ResourcesCasecade> selectResourcesCasecades(IResourcesMapper resourcesMapper, int startIndex) {
 		return selectResourcesCasecades(resourcesMapper, startIndex, 1);
+	}
+
+	public static List<ResourcesCasecade> selectResourcesCasecades(IResourcesMapper resourcesMapper, Integer pageNow,
+			String sts, Long id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		ConditionUtils.evalIdEqMap(map, id);
+		ConditionUtils.evalPageMap(map, pageNow, 1);
+		ConditionUtils.evalStatusInMap(map, sts);
+		return resourcesMapper.selectResourcesCasecade(map);
 	}
 
 	public static List<ResourcesContentMark> selectResourcesContentMarks(IResourcesContentMarkMapper contentMarkMapper,
@@ -77,12 +89,50 @@ public class ResourcesUtils {
 
 	public static Page<Resources> selectResources(IResourcesMapper resourcesMapper, String sts, Integer pageNow) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		int pageSize = 20;
+		int pageSize = ConditionUtils.DEFAULT_PAGE_SIZE;
 		int defaultPageNow = LangUtils.defaultValue(!(null == pageNow || pageNow <= 0), pageNow, 1);
-		ServiceUtils.evalStatusInMap(map, sts);
-		ServiceUtils.evalPageMap(map, defaultPageNow, pageSize);
+		ConditionUtils.evalStatusInMap(map, sts);
+		ConditionUtils.evalPageMap(map, defaultPageNow, pageSize);
 		return new Page<Resources>(resourcesMapper.selectList(map), resourcesMapper.selectCount(map), pageSize,
 				defaultPageNow);
+	}
+
+	public static void markStatus(IMapper<Resources> resourcesMapper, Long id, StatusEnum statusEnum) {
+		Map<String, Object> map = ConditionUtils.getHashMap();
+		ConditionUtils.evalIdEqMap(map, id);
+		ConditionUtils.evalPopStatus(map, LangUtils.intValueOfNumber(statusEnum.getCode()));
+		resourcesMapper.updateById(map);
+	}
+
+	public static void init(IMapper<Resources> resourcesMapper, Long id) {
+		markStatus(resourcesMapper, id, StatusEnum.INIT);
+	}
+
+	public static void online(IMapper<Resources> resourcesMapper, Long id) {
+		markStatus(resourcesMapper, id, StatusEnum.ONLINE);
+	}
+
+	public static void resourcesDeletion(IMapper<Resources> resourcesMapper, Long id) {
+		markStatus(resourcesMapper, id, StatusEnum.RESOURCES_DELETION);
+	}
+
+	public static void tableMarkDeletion(IMapper<Resources> resourcesMapper, Long id) {
+		markStatus(resourcesMapper, id, StatusEnum.TABLE_MARK_DELETION);
+	}
+
+	public static void logicalDeletion(IMapper<Resources> resourcesMapper, Long id) {
+		markStatus(resourcesMapper, id, StatusEnum.LOGICAL_DELETION);
+	}
+
+	public static File getResourcesFile(String resourcesGeneratePath, Long resourcesId) {
+		return new File(resourcesGeneratePath, LangUtils.append(resourcesId, ".html"));
+	}
+
+	public static void deleteResourcesFile(String resourcesGeneratePath, Long resourcesId) {
+		File file = getResourcesFile(resourcesGeneratePath, resourcesId);
+		if (file.exists()) {
+			file.delete();
+		}
 	}
 
 }

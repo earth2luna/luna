@@ -50,6 +50,7 @@
 				<if test="null!=prop.thumbnail and ''!=prop.thumbnail">thumbnail=#{prop.thumbnail},</if>
 				<if test="null!=prop.pageView">page_view=#{prop.pageView},</if>
 				<if test="null!=prop.userView">user_view=#{prop.userView},</if>
+				<if test="null!=prop.status">status=#{prop.status},</if>
 			</trim>
 	</sql>
 
@@ -70,13 +71,14 @@
 			<if test="null!=userView">and user_view=#{userView}</if>
 			<if test="null!=status">and status=#{status}</if>
 			<if test="null!=statusIn">and status IN <foreach item="sts" collection="statusIn" open="(" separator="," close=")">#{sts}</foreach></if>
+			<if test="null!=id">and id=#{id}</if>
 			<if test="null!=keys">id IN <foreach item="id" collection="keys" open="(" separator="," close=")">#{id}</foreach></if>
 		</trim>
 	</sql>
 
 	<sql id="whereIdSQL">
 		<![CDATA[
-	    	WHERE id=#{PRIMARYKEY}
+	    	WHERE id=#{id}
 	    ]]>
 	</sql>
 
@@ -105,7 +107,7 @@
 		<include refid="whereAllSQL"/>
 	</delete>
 
-	<update id="updateById" parameterType="Long">
+	<update id="updateById" parameterType="map">
 		<include refid="updateSQL"/>
 		<include refid="whereIdSQL"/>
 	</update>
@@ -169,7 +171,9 @@
 		            user_view
 		    FROM
 		        l_resources
-		    LIMIT #{startIndex} ,#{endIndex}) lr
+		    <include refid="whereAllSQL"/>
+		    <include refid="limitSQL"/>
+		    ) lr
 		        INNER JOIN
 		    l_resources_content lrc ON lr.id = lrc.resources_id
 		ORDER BY lrc.sort_code ASC

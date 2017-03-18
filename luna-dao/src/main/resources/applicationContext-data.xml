@@ -52,13 +52,16 @@
 
 			<tx:method name="update*" propagation="REQUIRED"
 				no-rollback-for="java.lang.RuntimeException" />
+				
+			<tx:method name="operation*" propagation="REQUIRED"
+				no-rollback-for="java.lang.RuntimeException" />
 
 			<tx:method name="select*" propagation="SUPPORTS" read-only="true" />
 		</tx:attributes>
 	</tx:advice>
 
 	<aop:config>
-		<aop:pointcut expression="execution(public * com.luna.service.data.*.*(..))"
+		<aop:pointcut expression="execution(public * com.luna.service.*.*(..))"
 			id="transactionPointcut" />
 		<aop:advisor advice-ref="transactionAdvice" pointcut-ref="transactionPointcut" />
 	</aop:config>

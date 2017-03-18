@@ -19,7 +19,6 @@ function refreshData(pageNow) {
 		jQuery("table.script-table tbody").empty().html(data);
 		eval('var pageInfo=' + jQuery(data).filter(":input:hidden").val());
 		refreshPageIterator(pageInfo);
-
 	});
 }
 
@@ -28,7 +27,12 @@ function operation(key, op) {
 		key : key,
 		op : op
 	}, function(data) {
-		alert(JSON.stringify(data));
+		if (1 == data.code) {
+			refreshData(pageObject.runtime.page);
+		} else {
+			alert(data.message);
+		}
+
 	}, "json");
 }
 

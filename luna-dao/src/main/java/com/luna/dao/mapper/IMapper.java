@@ -11,7 +11,7 @@ public interface IMapper<T> {
 
 	public long delete(Map<String, Object> map);
 
-	public long updateById(Long id);
+	public long updateById(Map<String, Object> map);
 
 	public long update(Map<String, Object> map);
 
