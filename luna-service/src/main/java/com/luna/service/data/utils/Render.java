@@ -74,24 +74,24 @@ public class Render {
 			variable.setInputOutput(new InputNodeOutputNode(resourcesContentMarkMap));
 			// 划分等级
 			List<INode> nodes = NodeUtils.sort(casecades, inputOutput, variable);
+			ResourcesCasecadeNode node = (ResourcesCasecadeNode) nodes.get(0);
 			// 执行渲染
-			format(nodes);
+			format(nodes,node);
 			// 数据库上线
-			ResourcesUtils.online(resourcesMapper, resourcesId);
+			ResourcesUtils.online(resourcesMapper, node.getResourcesId());
 			// 再次获取
 			casecades = ResourcesUtils.selectResourcesCasecades(resourcesMapper, ++pageNow, status, resourcesId);
 		}
 		LOGGER.info("[end render htmls]");
 	}
 
-	private void format(List<INode> nodes) {
+	private void format(List<INode> nodes, ResourcesCasecadeNode node) {
 		Writer out = null;
 		try {
 			String resourcesGeneratePath = renderParameter.getResourcesGeneratePath();
 			String freemarkerTemplateName = renderParameter.getFreemarkerTemplateName();
 			Configuration configuration = renderParameter.getConfiguration();
 			Map<String, Object> dataModel = new HashMap<String, Object>();
-			ResourcesCasecadeNode node = (ResourcesCasecadeNode) nodes.get(0);
 			dataModel.put("node", node);
 			dataModel.put("nodes", nodes);
 			File origin = ResourcesUtils.getResourcesFile(resourcesGeneratePath, node.getResourcesId());

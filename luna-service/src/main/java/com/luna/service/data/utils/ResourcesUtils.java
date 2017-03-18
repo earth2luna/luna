@@ -20,6 +20,7 @@ import com.luna.dao.po.ResourcesContentMark;
 import com.luna.dao.vo.ResourcesCasecade;
 import com.luna.service.common.impl.InputResourcesCasecadeOutputId;
 import com.luna.service.enumer.resource.StatusEnum;
+import com.luna.utils.AssertUtils;
 import com.luna.utils.LangUtils;
 import com.luna.utils.classes.Page;
 
@@ -98,6 +99,7 @@ public class ResourcesUtils {
 	}
 
 	public static void markStatus(IMapper<Resources> resourcesMapper, Long id, StatusEnum statusEnum) {
+		AssertUtils.isTrueOfApp(LangUtils.booleanValueOfNumber(id), "无效的key值");
 		Map<String, Object> map = ConditionUtils.getHashMap();
 		ConditionUtils.evalIdEqMap(map, id);
 		ConditionUtils.evalPopStatus(map, LangUtils.intValueOfNumber(statusEnum.getCode()));

@@ -6,14 +6,15 @@ package com.luna.utils;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.luna.utils.classes.AppException;
+
 /**
  * @author lyl 2015-10-30
  * @description
  */
 public class AssertUtils {
 
-	public static void isTrue(boolean expression,
-			Class<? extends RuntimeException> t, String message) {
+	public static void isTrue(boolean expression, Class<? extends RuntimeException> t, String message) {
 		if (!expression)
 			try {
 				RuntimeException exception = t.newInstance();
@@ -29,6 +30,14 @@ public class AssertUtils {
 
 	public static void isTrue(boolean expression, String message) {
 		isTrue(expression, IllegalArgumentException.class, message);
+	}
+
+	public static void isTrueOfApp(boolean expression, String message) {
+		isTrue(expression, AppException.class, message);
+	}
+
+	public static void notNullOfApp(Object object, String message) {
+		isTrueOfApp(null != object, message);
 	}
 
 	public static void isTrue(boolean expression) {
