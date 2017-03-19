@@ -13,13 +13,17 @@
 	<td>${item.sourceDate?string("yyyy年MM月dd日HH时mm分ss秒")}</td>
 	<td>${item.pageView}</td>
 	<td>${item.userView}</td>
-	<td><select class="script-operator-select">
-			<option value="-1">选择执行权限</option>
-			<option value="2">上线</option>
-			<option value="3">资源删除</option>
-			<option value="4">表标记删除</option>
-			<option value="5">逻辑删除</option>
-	</select><input type="hidden" value="${item.id}" /></td>
+	<td>
+		<select class="script-operator-select">
+				<option value="-1">选择执行权限</option>
+				<option value="2">上线</option>
+				<option value="3">资源删除</option>
+				<option value="4">表标记删除</option>
+				<option value="5">逻辑删除</option>
+				<#if StatusEnum.ONLINE.getCode()==item.status><option value="6">访问</option></#if>
+		</select>
+		<input type="hidden" value="${item.id}" />
+	</td>
 </tr>
 </#list>
 <input type="hidden"

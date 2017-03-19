@@ -18,8 +18,7 @@ import com.luna.utils.enm.CharsetEnum;
 public class ClassLoaderUtils {
 
 	public static ClassLoader getClassLoader() {
-		ClassLoader classLoader = Thread.currentThread()
-				.getContextClassLoader();
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		if (null == classLoader) {
 			classLoader = PropertyLoaderUtils.class.getClassLoader();
 		}
@@ -31,11 +30,14 @@ public class ClassLoaderUtils {
 	}
 
 	public static String getLocation(String name) {
+		File file = getFileLocation(name);
+		return null == file ? null : file.getAbsolutePath();
+	}
+
+	public static File getFileLocation(String name) {
 		URL url = getClassLoader().getResource(name);
 		try {
-			return null == url ? null : new File(URLDecoder.decode(
-					url.getFile(), CharsetEnum.UTF8.getCharsetName()))
-					.getAbsolutePath();
+			return null == url ? null : new File(URLDecoder.decode(url.getFile(), CharsetEnum.UTF8.getCharsetName()));
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
 		}

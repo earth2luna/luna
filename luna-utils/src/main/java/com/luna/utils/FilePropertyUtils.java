@@ -77,8 +77,7 @@ public class FilePropertyUtils {
 	 * </pre>
 	 */
 	public static String getConcatFullFileName(File origin, String destSuffix) {
-		return new StringBuilder(getFileName(origin)).append(SPLITOR_SUFFIX)
-				.append(destSuffix).toString();
+		return new StringBuilder(getFileName(origin)).append(SPLITOR_SUFFIX).append(destSuffix).toString();
 	}
 
 	/**
@@ -101,20 +100,15 @@ public class FilePropertyUtils {
 			if (suffixSpitorIndex != fileAbsolutePath.length() - 1)
 				ret = fileAbsolutePath.substring(0, suffixSpitorIndex);
 			else
-				Validate.isTrue(false, String.format(
-						"the path [%s] is invalid", fileAbsolutePath));
+				Validate.isTrue(false, String.format("the path [%s] is invalid", fileAbsolutePath));
 		} else {
-			if (fileAbsolutePath.endsWith(WEB_URL_SPLITOR)
-					|| fileAbsolutePath.endsWith(WINDOWS_URL_SPLITOR))
-				ret = new StringBuilder().append(System.currentTimeMillis())
-						.toString();
+			if (fileAbsolutePath.endsWith(WEB_URL_SPLITOR) || fileAbsolutePath.endsWith(WINDOWS_URL_SPLITOR))
+				ret = new StringBuilder().append(System.currentTimeMillis()).toString();
 			else
-				ret = new StringBuilder().append(File.separator)
-						.append(System.currentTimeMillis()).toString();
+				ret = new StringBuilder().append(File.separator).append(System.currentTimeMillis()).toString();
 
 		}
-		return new File(new StringBuilder(ret).append(SPLITOR_SUFFIX)
-				.append(destSuffix).toString());
+		return new File(new StringBuilder(ret).append(SPLITOR_SUFFIX).append(destSuffix).toString());
 	}
 
 	public static void touchDirectory(File origin) {
@@ -125,8 +119,7 @@ public class FilePropertyUtils {
 	}
 
 	public static void touchDirectory(String origin) {
-		Validate.notNull(StringUtils.isNotBlank(origin),
-				"can't find the origin file");
+		Validate.notNull(StringUtils.isNotBlank(origin), "can't find the origin file");
 		touchDirectory(new File(origin));
 	}
 
@@ -139,34 +132,26 @@ public class FilePropertyUtils {
 	}
 
 	public static void touchFile(String origin) throws IOException {
-		Validate.notNull(StringUtils.isNotBlank(origin),
-				"can't find the origin file");
+		Validate.notNull(StringUtils.isNotBlank(origin), "can't find the origin file");
 		touchFile(new File(origin));
 	}
 
 	public static void copyDirectory(File origin, File dest) throws IOException {
 		Validate.notNull(origin, "can't find the origin file");
-		Validate.isTrue(
-				origin.canRead(),
-				String.format("the origin file [%s] is can't read",
-						origin.getAbsolutePath()));
+		Validate.isTrue(origin.canRead(),
+				String.format("the origin file [%s] is can't read", origin.getAbsolutePath()));
 		Validate.notNull(dest, "can't find the dest file");
 
 		if (dest.exists()) {
 			if (origin.isDirectory()) {
-				Validate.isTrue(
-						dest.isDirectory(),
-						String.format("can't copy [%s] to [%s]",
-								origin.getAbsolutePath(),
-								dest.getAbsolutePath()));
+				Validate.isTrue(dest.isDirectory(),
+						String.format("can't copy [%s] to [%s]", origin.getAbsolutePath(), dest.getAbsolutePath()));
 				FileUtils.copyDirectory(origin, dest);
 			} else {
-				Validate.isTrue(origin.isFile(), String.format(
-						"the origin [%s] is neither directory nor file",
-						origin.getAbsolutePath()));
+				Validate.isTrue(origin.isFile(),
+						String.format("the origin [%s] is neither directory nor file", origin.getAbsolutePath()));
 				if (dest.isDirectory())
-					FileUtils
-							.copyFile(origin, new File(dest, origin.getName()));
+					FileUtils.copyFile(origin, new File(dest, origin.getName()));
 				else
 					FileUtils.copyFile(origin, dest);
 			}
@@ -174,20 +159,16 @@ public class FilePropertyUtils {
 			if (origin.isDirectory()) {
 				FileUtils.copyDirectory(origin, dest);
 			} else {
-				Validate.isTrue(origin.isFile(), String.format(
-						"the origin [%s] is neither directory nor file",
-						origin.getAbsolutePath()));
+				Validate.isTrue(origin.isFile(),
+						String.format("the origin [%s] is neither directory nor file", origin.getAbsolutePath()));
 				FileUtils.copyFile(origin, dest);
 			}
 		}
 	}
 
-	public static void copyDirectory(String origin, String dest)
-			throws IOException {
-		Validate.isTrue(StringUtils.isNotBlank(origin),
-				"can't find the origin file");
-		Validate.isTrue(StringUtils.isNotBlank(dest),
-				"can't find the dest file");
+	public static void copyDirectory(String origin, String dest) throws IOException {
+		Validate.isTrue(StringUtils.isNotBlank(origin), "can't find the origin file");
+		Validate.isTrue(StringUtils.isNotBlank(dest), "can't find the dest file");
 		copyDirectory(new File(origin), new File(dest));
 	}
 
@@ -212,12 +193,25 @@ public class FilePropertyUtils {
 	}
 
 	public static String deleteUrlSplitor(String path) {
-		return LangUtils.deleteLastSplitor(replace2WebUrl(path),
-				WEB_URL_SPLITOR);
+		return LangUtils.deleteLastSplitor(replace2WebUrl(path), WEB_URL_SPLITOR);
 	}
 
 	// 拼接路径，会转换成web URL，会删除最后一个 /
 	public static String appendPath(String... paths) {
 		return LangUtils.appendFragment(WEB_URL_SPLITOR, paths);
+	}
+
+	// 获取Web App 路径
+	public static File getWebAppFile() {
+		File file = ClassLoaderUtils.getFileLocation("/");
+		validateFilePath(file, "classes");
+		File parentFile = file.getParentFile();
+		validateFilePath(parentFile, "WEB-INF");
+		return parentFile.getParentFile();
+	}
+
+	public static void validateFilePath(File file, String endWidth) {
+		AssertUtils.notNullOfApp(file, "invalid file");
+		AssertUtils.isTrueOfApp(file.getAbsolutePath().endsWith(endWidth), "[validate file failed]");
 	}
 }

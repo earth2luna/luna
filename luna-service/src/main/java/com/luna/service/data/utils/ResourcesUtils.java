@@ -21,6 +21,7 @@ import com.luna.dao.vo.ResourcesCasecade;
 import com.luna.service.common.impl.InputResourcesCasecadeOutputId;
 import com.luna.service.enumer.resource.StatusEnum;
 import com.luna.utils.AssertUtils;
+import com.luna.utils.FilePropertyUtils;
 import com.luna.utils.LangUtils;
 import com.luna.utils.classes.Page;
 
@@ -126,8 +127,25 @@ public class ResourcesUtils {
 		markStatus(resourcesMapper, id, StatusEnum.LOGICAL_DELETION);
 	}
 
-	public static File getResourcesFile(String resourcesGeneratePath, Long resourcesId) {
-		return new File(resourcesGeneratePath, LangUtils.append(resourcesId, ".html"));
+	public static File getResourcesFile(String resourcesPath, Long resourcesId) {
+		String absoluteGeneratePath = getAbsoluteGeneratePath(resourcesPath);
+		return new File(absoluteGeneratePath, getResourcesFileName(resourcesId));
+	}
+
+	public static String getWebResourcesPath(String resourcesPath, Long resourcesId) {
+		String webPath = FilePropertyUtils.filterPathAsWeb(resourcesPath);
+		String ret = null;
+		if (!webPath.startsWith(FilePropertyUtils.WEB_URL_SPLITOR)) {
+			ret = LangUtils.append(FilePropertyUtils.WEB_URL_SPLITOR, webPath);
+		}
+		if (!webPath.endsWith(FilePropertyUtils.WEB_URL_SPLITOR)) {
+			ret = LangUtils.append(webPath, FilePropertyUtils.WEB_URL_SPLITOR);
+		}
+		return LangUtils.append(ret, getResourcesFileName(resourcesId));
+	}
+
+	public static String getResourcesFileName(Long resourcesId) {
+		return LangUtils.append(resourcesId, ".html");
 	}
 
 	public static void deleteResourcesFile(String resourcesGeneratePath, Long resourcesId) {
@@ -135,6 +153,15 @@ public class ResourcesUtils {
 		if (file.exists()) {
 			file.delete();
 		}
+	}
+
+	public static String getAbsoluteGeneratePath(String appender) {
+		File root = FilePropertyUtils.getWebAppFile();
+		String absoluteRootPath = root.getAbsolutePath();
+		if (LangUtils.isBlank(appender)) {
+			return absoluteRootPath;
+		}
+		return new File(absoluteRootPath, appender).getAbsolutePath();
 	}
 
 }

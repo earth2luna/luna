@@ -38,8 +38,8 @@ public class ResourcesServiceImpl implements ResourcesService {
 	private IResourcesContentMarkMapper contentMarkMapper;
 	@Autowired
 	private FreeMarkerConfigurationFactoryBean factoryBean;
-	@Value("resources.generate.path")
-	private String resourcesGeneratePath;
+	@Value("${resources.generate.path}")
+	private String resourcesRelativePath;
 	@Value("${freemarker.template.name}")
 	private String freemarkerTemplateName;
 
@@ -64,35 +64,41 @@ public class ResourcesServiceImpl implements ResourcesService {
 	public InvokeVo operation(Long rsId, Integer op) {
 		InvokeVo invokeVo = null;
 		try {
+			Object data = null;
 			if (LangUtils.equals(2, op)) {
 				// 上线
 				new Render(new RenderParameter(resourcesMapper, contentMarkMapper, factoryBean.getObject(),
-						resourcesGeneratePath, freemarkerTemplateName, null, rsId)).render();
+						resourcesRelativePath, freemarkerTemplateName, null, rsId)).render();
 			} else if (LangUtils.equals(3, op)) {
 				// 资源删除
 				ResourcesUtils.resourcesDeletion(resourcesMapper, rsId);
-				ResourcesUtils.deleteResourcesFile(resourcesGeneratePath, rsId);
+				ResourcesUtils.deleteResourcesFile(resourcesRelativePath, rsId);
 			} else if (LangUtils.equals(4, op)) {
 				// 表标记删除
 				ResourcesUtils.tableMarkDeletion(resourcesMapper, rsId);
 			} else if (LangUtils.equals(5, op)) {
 				// 逻辑删除
 				ResourcesUtils.logicalDeletion(resourcesMapper, rsId);
-				ResourcesUtils.deleteResourcesFile(resourcesGeneratePath, rsId);
+				ResourcesUtils.deleteResourcesFile(resourcesRelativePath, rsId);
+			} else if (LangUtils.equals(6, op)) {
+				// 获取访问路径
+				data = ResourcesUtils.getWebResourcesPath(resourcesRelativePath, rsId);
+				System.out.println(data);
+				System.out.println(ResourcesUtils.getAbsoluteGeneratePath(resourcesRelativePath));
 			} else if (LangUtils.equals(9, op)) {
 				// 全部上线
 				new Render(new RenderParameter(resourcesMapper, contentMarkMapper, factoryBean.getObject(),
-						resourcesGeneratePath, freemarkerTemplateName, String.valueOf(StatusEnum.INIT.getCode()), null))
+						resourcesRelativePath, freemarkerTemplateName, String.valueOf(StatusEnum.INIT.getCode()), null))
 								.render();
 			} else if (LangUtils.equals(10, op)) {
 				// 全部上线
 				new Render(new RenderParameter(resourcesMapper, contentMarkMapper, factoryBean.getObject(),
-						resourcesGeneratePath, freemarkerTemplateName, null, null)).render();
+						resourcesRelativePath, freemarkerTemplateName, null, null)).render();
 			} else {
 				// 无效的权限操作
 				throw new AppException(0, "无效的权限操作");
 			}
-			invokeVo = new InvokeVo("操作成功", null, 1);
+			invokeVo = new InvokeVo("操作成功", data, 1);
 			new InvokeVo();
 		} catch (AppException e) {
 			invokeVo = e.getInvokeVo();

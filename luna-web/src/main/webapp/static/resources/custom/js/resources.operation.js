@@ -28,7 +28,11 @@ function operation(key, op) {
 		op : op
 	}, function(data) {
 		if (1 == data.code) {
-			refreshData(pageObject.runtime.page);
+			if (6 == op) {
+				open(data.data);
+			} else {
+				refreshData(pageObject.runtime.page);
+			}
 		} else {
 			alert(data.message);
 		}
