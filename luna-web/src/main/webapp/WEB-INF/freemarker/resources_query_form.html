@@ -1,35 +1,49 @@
 <form class="script-mdf-resources-form">
 	<input type="hidden" name="rsId" value="${(resources.id)!}">
-	<label>标题:<input name="ttl" value="${(resources.title)!}"/></label> | 
-	<label>来源网站名称:<input name="sourceWebsiteName" value="${(resources.sourceSiteName)!}"/></label> | 
-	<label>来源网站链接:<input name="sourceWebsiteLink" value="${(resources.sourceSiteLink)!}"/></label> | 
-	<label>来源网站作者:<input name="sourceAuthor" value="${(resources.sourceAuthor)!}"/></label> 
-	<label>来源网站日期:<input type="text" name="sourceDate" value="${(resources.sourceDate?string("yyyy-MM-dd"))!}" class="datepicker"/></label> | 
-	<br/>
-	<br/>
-	<label>所属分类:
-		<select name="categoryId">
-		<#list category_list as category>
-			<#if category==resources.categoryId>
-				<option value="${category.getCode()}" checked="checked">${category.getName()}</option>
-			<#else>
-				<option value="${category.getCode()}">${category.getName()}</option>
-			</#if>
-		</#list>
-		</select>
-	</label> | 
-	<label>创建人:
-		<select name="creatorId">
-		<#list creator_list as creator>
-			<#if creator==resources.creatorId>
-				<option value="${creator.getCode()}" checked="checked">${creator.getName()}</option>
-			<#else>
-				<option value="${creator.getCode()}">${creator.getName()}</option>
-			</#if>
-		</#list>
-		</select>
-	</label> | 
-	<input type="button" value="执行">
+	<table>
+		<tr>
+			<td class="text-right">标题:</td><td><input name="ttl" value="${(resources.title)!}"/></td> 
+			<td>来源网站名称:</td><td><input name="sourceWebsiteName" value="${(resources.sourceSiteName)!}"/></td>
+			<td>来源网站链接:</td><td><input name="sourceWebsiteLink" value="${(resources.sourceSiteLink)!}" /></td>
+			<td>来源网站作者:</td><td><input name="sourceAuthor" value="${(resources.sourceAuthor)!}"/></td> 
+			<td>来源网站日期:</td><td><input type="text" name="sourceDate" value="${(resources.sourceDate?string("yyyy-MM-dd"))!}" class="datepicker"/></td>
+		</tr>
+		<tr>
+		<td>
+		所属分类:</td><td>
+			<select name="categoryId" style="width: 160px;">
+			<#list category_list as category>
+				<#if category==resources.categoryId>
+					<option value="${category.getCode()}" checked="checked">${category.getName()}</option>
+				<#else>
+					<option value="${category.getCode()}">${category.getName()}</option>
+				</#if>
+			</#list>
+			</select>
+		
+		</td>
+		<td class="text-right">
+		创建人:</td><td>
+			<select name="creatorId" style="width: 160px;">
+			<#list creator_list as creator>
+				<#if creator==resources.creatorId>
+					<option value="${creator.getCode()}" checked="checked">${creator.getName()}</option>
+				<#else>
+					<option value="${creator.getCode()}">${creator.getName()}</option>
+				</#if>
+			</#list>
+			</select>
+		</td>
+		<td>
+		<input type="button" value=" 执 行 " class="script-exe">
+		</td>
+		<td>
+		<input type="reset" value=" 重 置 ">
+		</td>
+		<td>
+		<input type="button" value=" 清 空 " class="script-clear">
+		</td>
+	</table>
 </form>
 <script type="text/javascript">
 	var $input = $( '.datepicker' ).pickadate({

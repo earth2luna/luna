@@ -21,7 +21,9 @@ import com.luna.service.data.utils.Render;
 import com.luna.service.data.utils.ResourcesUtils;
 import com.luna.service.dto.RenderParameter;
 import com.luna.service.dto.ResourcesForm;
+import com.luna.service.enumer.resource.CreatorEnum;
 import com.luna.service.enumer.resource.StatusEnum;
+import com.luna.utils.AssertUtils;
 import com.luna.utils.DateUtils;
 import com.luna.utils.LangUtils;
 import com.luna.utils.classes.AppException;
@@ -102,7 +104,7 @@ public class ResourcesServiceImpl implements ResourcesService {
 						resourcesRelativePath, freemarkerTemplateName, null, null)).render();
 			} else {
 				// 无效的权限操作
-				throw new AppException(0, "无效的权限操作");
+				throw new AppException("无效的权限操作");
 			}
 			invokeVo = new InvokeVo("操作成功", data, 1);
 		} catch (AppException e) {
@@ -136,6 +138,13 @@ public class ResourcesServiceImpl implements ResourcesService {
 	public InvokeVo modify(ResourcesForm resourcesForm) {
 		InvokeVo invokeVo = null;
 		try {
+			AssertUtils.notNullOfApp(resourcesForm, "无效的参数");
+			AssertUtils.notNullOfApp(StatusEnum.get(resourcesForm.getCategoryId()), "无效的类目");
+			AssertUtils.notNullOfApp(CreatorEnum.get(resourcesForm.getCreatorId()), "无效的创建人");
+			AssertUtils.notNullOfApp(resourcesForm.getSourceWebsiteLink(), "无效的来源网站链接");
+			AssertUtils.notNullOfApp(resourcesForm.getSourceWebsiteName(), "无效的来源网站名称");
+			AssertUtils.notNullOfApp(resourcesForm.getSourceAuthor(), "无效的来源作者");
+			AssertUtils.notNullOfApp(resourcesForm.getTtl(), "无效的标题");
 			Date sourceDate = DateUtils.parse(resourcesForm.getSourceDate(), DateUtils.DATE_PATTERN_2);
 			if (LangUtils.booleanValueOfNumber(resourcesForm.getRsId())) {
 				Map<String, Object> map = ConditionUtils.getHashMap();
@@ -164,6 +173,8 @@ public class ResourcesServiceImpl implements ResourcesService {
 				resourcesMapper.insert(r);
 			}
 			invokeVo = new InvokeVo("操作成功", null, 1);
+		} catch (AppException e) {
+			invokeVo = e.getInvokeVo();
 		} catch (Exception e) {
 			invokeVo = new InvokeVo("未知异常", null, 0);
 			LOGGER.error("[operation error]", e);

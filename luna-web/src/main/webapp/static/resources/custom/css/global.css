@@ -1,3 +1,21 @@
-td {
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+select {
+	min-width: 100px;
+	height: 23px;
+}
+
+.text-center {
 	text-align: center;
+}
+
+.text-left {
+	text-align: left;
+}
+
+.text-right {
+	text-align: right;
 }

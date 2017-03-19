@@ -13,17 +13,18 @@
 	<td>${item.sourceDate?string("yyyy年MM月dd日")}</td>
 	<td>${item.pageView}</td>
 	<td>${item.userView}</td>
-	<td>
+	<td class="text-left">
 		<select class="script-operator-select">
 				<option value="-1">选择执行权限</option>
-				<option value="2">上线</option>
-				<option value="3">资源删除</option>
-				<option value="4">表标记删除</option>
-				<option value="5">逻辑删除</option>
+				<#if StatusEnum.ONLINE.getCode()!=item.status><option value="2">上线</option></#if>
+				<#if StatusEnum.RESOURCES_DELETION.getCode()!=item.status><option value="3">资源删除</option></#if>
+				<#if StatusEnum.TABLE_MARK_DELETION.getCode()!=item.status><option value="4">表标记删除</option></#if>
+				<#if StatusEnum.LOGICAL_DELETION.getCode()!=item.status><option value="5">逻辑删除</option></#if>
 				<#if StatusEnum.ONLINE.getCode()==item.status><option value="6">访问</option></#if>
 		</select>
 		<input type="hidden" value="${item.id}" />
 		<input type="button" value="编辑" onclick="refreshForm(${item.id});">
+		<input type="button" value="内容编辑" onclick="refreshForm(${item.id});">
 	</td>
 </tr>
 </#list>

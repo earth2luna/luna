@@ -4,7 +4,7 @@
  */
 package com.luna.utils;
 
-import org.apache.commons.lang.StringUtils;
+import java.lang.reflect.InvocationTargetException;
 
 import com.luna.utils.classes.AppException;
 
@@ -14,34 +14,52 @@ import com.luna.utils.classes.AppException;
  */
 public class AssertUtils {
 
-	public static void isTrue(boolean expression, Class<? extends RuntimeException> t, String message) {
+	public static void isTrue(boolean expression, Class<? extends RuntimeException> t, Integer code, String message) {
 		if (!expression)
 			try {
-				RuntimeException exception = t.newInstance();
-				if (StringUtils.isNotBlank(message))
-					exception.initCause(new Throwable(message));
+				RuntimeException exception = null;
+				if (t.isAssignableFrom(AppException.class))
+					exception = t.getConstructor(Integer.class, String.class).newInstance(code, message);
+				else
+					exception = t.getConstructor(String.class).newInstance(message);
 				throw exception;
 			} catch (InstantiationException e) {
 				throw new RuntimeException(e);
 			} catch (IllegalAccessException e) {
 				throw new RuntimeException(e);
+			} catch (IllegalArgumentException e) {
+				throw new RuntimeException(e);
+			} catch (InvocationTargetException e) {
+				throw new RuntimeException(e);
+			} catch (NoSuchMethodException e) {
+				throw new RuntimeException(e);
+			} catch (SecurityException e) {
+				throw new RuntimeException(e);
 			}
 	}
 
 	public static void isTrue(boolean expression, String message) {
-		isTrue(expression, IllegalArgumentException.class, message);
-	}
-
-	public static void isTrueOfApp(boolean expression, String message) {
-		isTrue(expression, AppException.class, message);
-	}
-
-	public static void notNullOfApp(Object object, String message) {
-		isTrueOfApp(null != object, message);
+		isTrue(expression, IllegalArgumentException.class, 0, message);
 	}
 
 	public static void isTrue(boolean expression) {
 		isTrue(expression, "[Assertion failed] - this expression must be true");
+	}
+
+	public static void isTrueOfApp(boolean expression, Integer code, String message) {
+		isTrue(expression, AppException.class, code, message);
+	}
+
+	public static void isTrueOfApp(boolean expression, String message) {
+		isTrueOfApp(expression, 0, message);
+	}
+
+	public static void notNullOfApp(Object object, Integer code, String message) {
+		isTrueOfApp(null != object, code, message);
+	}
+
+	public static void notNullOfApp(Object object, String message) {
+		notNullOfApp(object, 0, message);
 	}
 
 }

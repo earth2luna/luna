@@ -56,6 +56,7 @@ jQuery(function() {
 
 	jQuery(":radio[value=1]").trigger("change");
 
+	// 任务
 	jQuery(document).on("change", "table.script-table .script-operator-select",
 			function() {
 				var select = jQuery(this).find(":checked");
@@ -68,9 +69,10 @@ jQuery(function() {
 
 	refreshForm(null);
 
+	// 执行
 	jQuery(document).on(
 			"click",
-			".script-mdf-resources-form :input[type=button]",
+			".script-mdf-resources-form .script-exe:input[type=button]",
 			function() {
 				jQuery.post("/resources/mdf", jc
 						.serializeObject(".script-mdf-resources-form"),
@@ -81,5 +83,11 @@ jQuery(function() {
 								alert(data.message);
 							}
 						});
+			});
+	// 清空
+	jQuery(document).on("click",
+			".script-mdf-resources-form .script-clear:input[type=button]",
+			function() {
+				jc.clear(".script-mdf-resources-form");
 			});
 });

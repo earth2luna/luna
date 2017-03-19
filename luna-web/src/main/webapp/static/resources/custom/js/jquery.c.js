@@ -1,5 +1,5 @@
 jc = {
-	formSelector : ":input,:input[type=hidden],:checked,textarea",
+	formSelector : ":input:not(:input[type=button],:input[type=reset],:input[type=submit]),:checked,textarea",
 	serializeObject : function(formSelector) {
 		var data = {};
 		jQuery(formSelector).find(jc.formSelector).each(function() {
@@ -10,5 +10,8 @@ jc = {
 				data[name] = value;
 		});
 		return data;
+	},
+	clear : function(formSelector) {
+		jQuery(formSelector).find(jc.formSelector).not(":checked,select,option,:radio,checkbox").val("");
 	}
 };

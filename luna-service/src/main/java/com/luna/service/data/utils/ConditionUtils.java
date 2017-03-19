@@ -21,7 +21,7 @@ public class ConditionUtils {
 
 	public static final String DESC = "DESC";
 
-	public static final int DEFAULT_PAGE_SIZE = 20;
+	public static final int DEFAULT_PAGE_SIZE = 14;
 
 	public static final String DEFAULT_PROP_KEY = "prop";
 
