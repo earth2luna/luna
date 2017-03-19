@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.luna.service.ResourcesService;
+import com.luna.service.dto.ResourcesForm;
 import com.luna.service.enumer.resource.CategoryEnum;
 import com.luna.service.enumer.resource.CreatorEnum;
 import com.luna.service.enumer.resource.StatusEnum;
@@ -40,9 +41,23 @@ public class ResourcesController extends ParentController {
 		return "/resources_query_items";
 	}
 
+	@RequestMapping("/queryForm")
+	public String queryForm(Model model, Long rsId) {
+		model.addAttribute("category_list", CategoryEnum.values());
+		model.addAttribute("creator_list", CreatorEnum.values());
+		model.addAttribute("resources", resourcesService.selectById(rsId));
+		return "/resources_query_form";
+	}
+
 	@RequestMapping("/operation")
 	@ResponseBody
 	public InvokeVo operation(Long key, Integer op) {
 		return resourcesService.operation(key, op);
+	}
+
+	@RequestMapping("/mdf")
+	@ResponseBody
+	public InvokeVo modify(Model model, ResourcesForm resourcesForm) {
+		return resourcesService.modify(resourcesForm);
 	}
 }

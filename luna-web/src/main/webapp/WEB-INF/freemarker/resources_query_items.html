@@ -10,7 +10,7 @@
 		target="_blank">${item.sourceSiteName}</a></#if>
 	</td>
 	<td>${item.sourceAuthor}</td>
-	<td>${item.sourceDate?string("yyyy年MM月dd日HH时mm分ss秒")}</td>
+	<td>${item.sourceDate?string("yyyy年MM月dd日")}</td>
 	<td>${item.pageView}</td>
 	<td>${item.userView}</td>
 	<td>
@@ -23,6 +23,7 @@
 				<#if StatusEnum.ONLINE.getCode()==item.status><option value="6">访问</option></#if>
 		</select>
 		<input type="hidden" value="${item.id}" />
+		<input type="button" value="编辑" onclick="refreshForm(${item.id});">
 	</td>
 </tr>
 </#list>

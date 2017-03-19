@@ -1,0 +1,41 @@
+<form class="script-mdf-resources-form">
+	<input type="hidden" name="rsId" value="${(resources.id)!}">
+	<label>标题:<input name="ttl" value="${(resources.title)!}"/></label> | 
+	<label>来源网站名称:<input name="sourceWebsiteName" value="${(resources.sourceSiteName)!}"/></label> | 
+	<label>来源网站链接:<input name="sourceWebsiteLink" value="${(resources.sourceSiteLink)!}"/></label> | 
+	<label>来源网站作者:<input name="sourceAuthor" value="${(resources.sourceAuthor)!}"/></label> 
+	<label>来源网站日期:<input type="text" name="sourceDate" value="${(resources.sourceDate?string("yyyy-MM-dd"))!}" class="datepicker"/></label> | 
+	<br/>
+	<br/>
+	<label>所属分类:
+		<select name="categoryId">
+		<#list category_list as category>
+			<#if category==resources.categoryId>
+				<option value="${category.getCode()}" checked="checked">${category.getName()}</option>
+			<#else>
+				<option value="${category.getCode()}">${category.getName()}</option>
+			</#if>
+		</#list>
+		</select>
+	</label> | 
+	<label>创建人:
+		<select name="creatorId">
+		<#list creator_list as creator>
+			<#if creator==resources.creatorId>
+				<option value="${creator.getCode()}" checked="checked">${creator.getName()}</option>
+			<#else>
+				<option value="${creator.getCode()}">${creator.getName()}</option>
+			</#if>
+		</#list>
+		</select>
+	</label> | 
+	<input type="button" value="执行">
+</form>
+<script type="text/javascript">
+	var $input = $( '.datepicker' ).pickadate({
+		formatSubmit: 'yyyy/mm/dd',
+		container: '.container',
+		closeOnSelect: true,
+		closeOnClear: true,
+	});
+ </script>

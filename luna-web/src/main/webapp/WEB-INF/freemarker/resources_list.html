@@ -2,13 +2,34 @@
 <head>
 <link href="/static/resources/custom/css/global.css" rel="stylesheet">
 <link href="/static/resources/iterator/v2/iterator.css" rel="stylesheet">
+<link rel="stylesheet" href="/static/resources/pickadate/themes/default.css">
+<link rel="stylesheet" href="/static/resources/pickadate/themes/default.date.css">
+<!--[if lt IE 9]>
+    <script>document.createElement('section')</script>
+    <style type="text/css">
+        .holder {
+            position: relative;
+            z-index: 10000;
+        }
+        .datepicker {
+            display: block;
+        }
+    </style>
+<![endif]-->
 <script src="/static/resources/sources/jquery-1.12.4.min.js"></script>
 <script src="/static/resources/iterator/v2/iterator.page.v2.js"></script>
+<script src="/static/resources/custom/js/jquery.c.js"></script>
 <script src="/static/resources/custom/js/resources.operation.js"></script>
+<script src="/static/resources/pickadate/picker.js"></script>
+<script src="/static/resources/pickadate/picker.date.js"></script>
+<script src="/static/resources/pickadate/legacy.js"></script>
+<script src="/static/resources/pickadate/translations/zh_CN.js"></script>
 </head>
 <body>
 	<h1>生活不止眼前的苟且</h1>
 	<h3>生活之外，不要忘了最初的梦想；不过于执着于物质，多读书，也许会明白自己真正的远方在哪里。</h3>
+	<hr>
+	<span class="script-resources-form-appender"></span>
 	<hr>
 	<a href="javascript:void(0);" onclick="operation(null,10);">全部上线</a> |
 	<a href="javascript:void(0);" onclick="operation(null,9);">待上线状态的全部上线</a>
@@ -43,5 +64,6 @@
 		<tbody></tbody>
 	</table>
 	<span class="async-page"></span>
+	<div class="container"></div>
 </body>
 </html>

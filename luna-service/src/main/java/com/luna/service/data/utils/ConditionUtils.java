@@ -19,6 +19,8 @@ import com.luna.utils.constant.Constants;
  */
 public class ConditionUtils {
 
+	public static final String DESC = "DESC";
+
 	public static final int DEFAULT_PAGE_SIZE = 20;
 
 	public static final String DEFAULT_PROP_KEY = "prop";
@@ -26,6 +28,11 @@ public class ConditionUtils {
 	public static void evalPageMap(Map<String, Object> map, Integer pageNow, Integer pageSize) {
 		map.put("startIndex", (pageNow - 1) * pageSize);
 		map.put("endIndex", pageSize);
+	}
+
+	public static void evalSortOrderMap(Map<String, Object> map, String sortProperty, String sortOrder) {
+		map.put("sortProperty", sortProperty);
+		map.put("sortOrder", sortOrder);
 	}
 
 	public static void evalStatusInMap(Map<String, Object> map, String sts) {
@@ -58,5 +65,10 @@ public class ConditionUtils {
 	public static void evalPopStatus(Map<String, Object> map, Integer status) {
 		Map<String, Object> props = getProps(map);
 		evalStatusEqMap(props, status);
+	}
+
+	public static void evalPopProperty(Map<String, Object> map, String key, Object value) {
+		Map<String, Object> props = getProps(map);
+		props.put(key, value);
 	}
 }

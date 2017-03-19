@@ -4,6 +4,7 @@
 package com.luna.service;
 
 import com.luna.dao.po.Resources;
+import com.luna.service.dto.ResourcesForm;
 import com.luna.utils.classes.InvokeVo;
 import com.luna.utils.classes.Page;
 
@@ -16,5 +17,9 @@ public interface ResourcesService {
 
 	Page<Resources> selectResources(String sts, Integer pageNow);
 
-	InvokeVo operation(Long rsId,Integer op);
+	InvokeVo operation(Long rsId, Integer op);
+
+	Resources selectById(Long id);
+	
+	InvokeVo modify(ResourcesForm resourcesForm);
 }

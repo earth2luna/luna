@@ -95,6 +95,7 @@ public class ResourcesUtils {
 		int defaultPageNow = LangUtils.defaultValue(!(null == pageNow || pageNow <= 0), pageNow, 1);
 		ConditionUtils.evalStatusInMap(map, sts);
 		ConditionUtils.evalPageMap(map, defaultPageNow, pageSize);
+		ConditionUtils.evalSortOrderMap(map, "createTime", ConditionUtils.DESC);
 		return new Page<Resources>(resourcesMapper.selectList(map), resourcesMapper.selectCount(map), pageSize,
 				defaultPageNow);
 	}
