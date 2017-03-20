@@ -339,4 +339,8 @@ public class LangUtils {
 		}
 	}
 
+	public static String subtringDefaultAppender(String input, int length) {
+		return null == input || input.length() <= length ? input : append(input.substring(0, length), "...");
+	}
+
 }

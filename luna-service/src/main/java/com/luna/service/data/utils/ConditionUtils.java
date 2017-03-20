@@ -19,6 +19,8 @@ import com.luna.utils.constant.Constants;
  */
 public class ConditionUtils {
 
+	public static final String ASC = "ASC";
+	
 	public static final String DESC = "DESC";
 
 	public static final int DEFAULT_PAGE_SIZE = 14;

@@ -1,0 +1,18 @@
+<#list page.list as item>
+<tr>
+	<td>${item.id}</td>
+	<td>${item.sortCode}</td>
+	<td>${item.title}</td>
+	<td>${(null==item.PId)?string('是','否')}</td>
+	<td>${HandlerMethodEnum.getName(item.handlerCode)}</td>
+	<td><#if item.path??><a href="${item.path}" target="_blank">资源路径</a></#if></td>
+	<td title="${item.content?html}">${(LangUtils.subtringDefaultAppender(item.content,20))?html}</td>
+	<td class="text-left">
+		<input type="hidden" value="${item.id}" />
+		<input type="button" value="编辑" onclick="refreshForm(${item.id});">
+		<input type="button" value="内容编辑" onclick="openNewWindow(${item.id});">
+	</td>
+</tr>
+</#list>
+<input type="hidden"
+	value="{page:${page.pageNow},pageSize:${page.pageSize},total:${page.count}}" />

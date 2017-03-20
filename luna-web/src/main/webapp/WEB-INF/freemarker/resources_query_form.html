@@ -3,13 +3,13 @@
 	<table>
 		<tr>
 			<td class="text-right">标题:</td><td><input name="ttl" value="${(resources.title)!}"/></td> 
-			<td>来源网站名称:</td><td><input name="sourceWebsiteName" value="${(resources.sourceSiteName)!}"/></td>
-			<td>来源网站链接:</td><td><input name="sourceWebsiteLink" value="${(resources.sourceSiteLink)!}" /></td>
-			<td>来源网站作者:</td><td><input name="sourceAuthor" value="${(resources.sourceAuthor)!}"/></td> 
-			<td>来源网站日期:</td><td><input type="text" name="sourceDate" value="${(resources.sourceDate?string("yyyy-MM-dd"))!}" class="datepicker"/></td>
+			<td class="text-right">来源网站名称:</td><td><input name="sourceWebsiteName" value="${(resources.sourceSiteName)!}"/></td>
+			<td class="text-right">来源网站链接:</td><td><input name="sourceWebsiteLink" value="${(resources.sourceSiteLink)!}" /></td>
+			<td class="text-right">来源网站作者:</td><td><input name="sourceAuthor" value="${(resources.sourceAuthor)!}"/></td> 
+			<td class="text-right">来源网站日期:</td><td><input type="text" name="sourceDate" value="${(resources.sourceDate?string("yyyy-MM-dd"))!}" class="datepicker"/></td>
 		</tr>
 		<tr>
-		<td>
+		<td class="text-right">
 		所属分类:</td><td>
 			<select name="categoryId" style="width: 160px;">
 			<#list category_list as category>
@@ -34,14 +34,10 @@
 			</#list>
 			</select>
 		</td>
-		<td>
-		<input type="button" value=" 执 行 " class="script-exe">
-		</td>
-		<td>
-		<input type="reset" value=" 重 置 ">
-		</td>
-		<td>
-		<input type="button" value=" 清 空 " class="script-clear">
+		<td class="text-right">
+			<input type="button" value=" 执 行 " class="script-exe">
+			<input type="reset" value=" 重 置 ">
+			<input type="button" value=" 清 空 " class="script-clear">
 		</td>
 	</table>
 </form>

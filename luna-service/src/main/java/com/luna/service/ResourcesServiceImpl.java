@@ -91,8 +91,6 @@ public class ResourcesServiceImpl implements ResourcesService {
 			} else if (LangUtils.equals(6, op)) {
 				// 获取访问路径
 				data = ResourcesUtils.getWebResourcesPath(resourcesRelativePath, rsId);
-				System.out.println(data);
-				System.out.println(ResourcesUtils.getAbsoluteGeneratePath(resourcesRelativePath));
 			} else if (LangUtils.equals(9, op)) {
 				// 全部上线
 				new Render(new RenderParameter(resourcesMapper, contentMarkMapper, factoryBean.getObject(),

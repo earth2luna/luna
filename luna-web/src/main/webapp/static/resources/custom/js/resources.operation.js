@@ -48,6 +48,10 @@ function refreshForm(rsId) {
 	});
 }
 
+function openNewWindow(rsId){
+	open("/content/query?rsId="+rsId);
+}
+
 jQuery(function() {
 
 	jQuery(":radio").change(function() {

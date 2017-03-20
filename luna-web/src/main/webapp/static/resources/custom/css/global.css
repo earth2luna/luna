@@ -19,3 +19,7 @@ select {
 .text-right {
 	text-align: right;
 }
+
+.text-bottom {
+	vertical-align: bottom;
+}
