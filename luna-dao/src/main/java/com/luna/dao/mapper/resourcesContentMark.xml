@@ -30,7 +30,6 @@
 	<sql id="updateSQL">
 		UPDATE l_resources_content_mark
 			<trim prefix="SET" suffixOverrides=",">
-				<if test="null!=prop.id">id=#{prop.id},</if>
 				<if test="null!=prop.resourcesContentId">resources_content_id=#{prop.resourcesContentId},</if>
 				<if test="null!=prop.content and ''!=prop.content">content=#{prop.content},</if>
 				<if test="null!=prop.handleCode">handle_code=#{prop.handleCode},</if>

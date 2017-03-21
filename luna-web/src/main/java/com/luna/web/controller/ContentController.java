@@ -9,10 +9,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.luna.service.ResourcesContentService;
+import com.luna.service.ContentService;
 import com.luna.service.dto.ContentForm;
 import com.luna.service.enumer.content.HandlerMethodEnum;
 import com.luna.utils.LangUtils;
+import com.luna.utils.classes.InvokeVo;
 
 /**
  * @author laulyl
@@ -21,15 +22,15 @@ import com.luna.utils.LangUtils;
  */
 @Controller
 @RequestMapping("/content")
-public class ResourcesContentController extends ParentController {
+public class ContentController extends ParentController {
 
 	@Autowired
-	private ResourcesContentService contentService;
+	private ContentService contentService;
 
 	@RequestMapping("/query")
 	public String query(Model model, Long rsId) {
 		model.addAttribute("rsId", rsId);
-		return "/content_query";
+		return "/content_list";
 	}
 
 	@RequestMapping("/queryItems")
@@ -39,10 +40,16 @@ public class ResourcesContentController extends ParentController {
 		return "/content_query_items";
 	}
 
+	@RequestMapping("/queryForm")
+	public String queryForm(Model model, Long rsId, Long cId) {
+		model.addAttribute("handlers", HandlerMethodEnum.values());
+		model.addAttribute("content", contentService.selectById(cId));
+		return "/content_query_form";
+	}
+
 	@RequestMapping("/mdf")
 	@ResponseBody
-	public String mdf(ContentForm contentForm) {
-
-		return "/save_or_update_content";
+	public InvokeVo modify(ContentForm contentForm) {
+		return contentService.modify(contentForm);
 	}
 }

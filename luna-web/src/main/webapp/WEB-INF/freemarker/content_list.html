@@ -1,0 +1,37 @@
+<html lang="zh-CN">
+<head>
+<link href="/static/resources/custom/css/global.css" rel="stylesheet">
+<link href="/static/resources/iterator/v2/iterator.css" rel="stylesheet">
+<script src="/static/resources/sources/jquery-1.12.4.min.js"></script>
+<script src="/static/resources/layer/layer.js"></script>
+<script src="/static/resources/iterator/v2/iterator.page.v2.js"></script>
+<script src="/static/resources/custom/js/jquery.c.js"></script>
+<script src="/static/resources/custom/js/content.operation.js"></script>
+</head>
+<body>
+	<#include "luna_languge.html"/>
+	<hr>
+	<form class="script-content-form">
+		<input type="hidden" value="${rsId}" name="rsId" /> 
+		<span class="script-content-form-appender"></span>
+	</form>
+	<hr>
+	<table class="script-table text-center" border="1" cellspacing="0"
+		cellspadding="0">
+		<thead>
+			<tr>
+				<td>key</td>
+				<td>排序</td>
+				<td>段落标题</td>
+				<td>是否是父段落</td>
+				<td>处理方法</td>
+				<td>资源路径</td>
+				<td>段落内容</td>
+				<td>权限</td>
+			</tr>
+		</thead>
+		<tbody></tbody>
+	</table>
+	<span class="async-page"></span>
+</body>
+</html>

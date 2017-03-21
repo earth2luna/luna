@@ -11,7 +11,9 @@ jc = {
 		});
 		return data;
 	},
-	clear : function(formSelector) {
-		jQuery(formSelector).find(jc.formSelector).not(":checked,select,option,:radio,checkbox").val("");
+	clear : function(formSelector, notSelector) {
+		jQuery(formSelector).find(jc.formSelector).not(
+				":checked,select,option,:radio,checkbox").not(notSelector).val(
+				"");
 	}
 };

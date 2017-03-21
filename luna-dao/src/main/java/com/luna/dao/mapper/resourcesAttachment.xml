@@ -30,7 +30,6 @@
 	<sql id="updateSQL">
 		UPDATE l_resources_attachment
 			<trim prefix="SET" suffixOverrides=",">
-				<if test="null!=prop.id">id=#{prop.id},</if>
 				<if test="null!=prop.resourcesId">resources_id=#{prop.resourcesId},</if>
 				<if test="null!=prop.attachmentId">attachment_id=#{prop.attachmentId},</if>
 				<if test="null!=prop.joinType">join_type=#{prop.joinType},</if>

@@ -34,14 +34,13 @@
 	<sql id="updateSQL">
 		UPDATE l_resources_content
 			<trim prefix="SET" suffixOverrides=",">
-				<if test="null!=prop.id">id=#{prop.id},</if>
-				<if test="null!=prop.resourcesId">resources_id=#{prop.resourcesId},</if>
-				<if test="null!=prop.title and ''!=prop.title">title=#{prop.title},</if>
-				<if test="null!=prop.content and ''!=prop.content">content=#{prop.content},</if>
-				<if test="null!=prop.pId">p_id=#{prop.pId},</if>
-				<if test="null!=prop.sortCode">sort_code=#{prop.sortCode},</if>
-				<if test="null!=prop.handlerCode">handler_code=#{prop.handlerCode},</if>
-				<if test="null!=prop.path">handler_code=#{prop.path},</if>
+				resources_id=#{prop.resourcesId},
+				title=#{prop.title},
+				content=#{prop.content},
+				p_id=#{prop.pId},
+				sort_code=#{prop.sortCode},
+				handler_code=#{prop.handlerCode},
+				path=#{prop.path}
 			</trim>
 	</sql>
 
@@ -51,6 +50,7 @@
 			<if test="null!=title and ''!=title">and title like CONCAT('%','${title}','%')</if>
 			<if test="null!=content and ''!=content">and content like CONCAT('%','${content}','%')</if>
 			<if test="null!=pId">and p_id=#{pId}</if>
+			<if test="null!=pIdIsNull">and p_id IS NULL</if>
 			<if test="null!=sortCode">and sort_code=#{sortCode}</if>
 			<if test="null!=id">and id=#{id}</if>
 			<if test="null!=keys">id IN <foreach item="id" collection="keys" open="(" separator="," close=")">#{id}</foreach></if>

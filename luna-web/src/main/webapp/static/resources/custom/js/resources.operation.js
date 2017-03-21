@@ -34,7 +34,7 @@ function operation(key, op) {
 				refreshData(pageObject.runtime.page);
 			}
 		} else {
-			alert(data.message);
+			layer.alert(data.message,{icon: 2});
 		}
 
 	}, "json");
@@ -84,7 +84,7 @@ jQuery(function() {
 							if (1 == data.code) {
 								refreshData(pageObject.runtime.page);
 							} else {
-								alert(data.message);
+								layer.alert(data.message,{icon: 2});
 							}
 						});
 			});

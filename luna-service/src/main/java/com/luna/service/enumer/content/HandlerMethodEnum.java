@@ -12,7 +12,7 @@ import com.luna.utils.LangUtils;
  */
 public enum HandlerMethodEnum {
 
-	P(0, "段落"), HTML(1, "完整的THML代码"), HTML_SEGMENT(2, "HTML代码片段"), IMAGE(3, "图片");
+	HTML(1, "完整的THML代码"), HTML_SEGMENT(2, "HTML代码片段"), IMAGE(3, "图片"), P(4, "段落");
 
 	public static HandlerMethodEnum get(Integer code) {
 		if (null == code)

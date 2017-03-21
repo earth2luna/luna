@@ -10,42 +10,54 @@ package com.luna.service.dto;
  */
 public class ContentForm {
 
-	private long rsid;// 所属资源
-	private long pid;// 父段落
+	private long key;//id
+	private long rsId;// 所属资源
+	private Long pId;// 父段落
 	private int hc;// 处理方式
 	private String pth;// 路径
 	private String tt;// 标题
-	private int st;// 排序
+	private String st;// 排序
 	private String cont;// 内容
 
 	/**
-	 * @return the rsid
+	 * @return the key
 	 */
-	public long getRsid() {
-		return rsid;
+	public long getKey() {
+		return key;
 	}
 
 	/**
-	 * @param rsid
-	 *            the rsid to set
+	 * @param key the key to set
 	 */
-	public void setRsid(long rsid) {
-		this.rsid = rsid;
+	public void setKey(long key) {
+		this.key = key;
+	}
+	/**
+	 * @return the rsId
+	 */
+	public long getRsId() {
+		return rsId;
 	}
 
 	/**
-	 * @return the pid
+	 * @param rsId the rsId to set
 	 */
-	public long getPid() {
-		return pid;
+	public void setRsId(long rsId) {
+		this.rsId = rsId;
 	}
 
 	/**
-	 * @param pid
-	 *            the pid to set
+	 * @return the pId
 	 */
-	public void setPid(long pid) {
-		this.pid = pid;
+	public Long getpId() {
+		return pId;
+	}
+
+	/**
+	 * @param pId the pId to set
+	 */
+	public void setpId(Long pId) {
+		this.pId = pId;
 	}
 
 	/**
@@ -96,15 +108,14 @@ public class ContentForm {
 	/**
 	 * @return the st
 	 */
-	public int getSt() {
+	public String getSt() {
 		return st;
 	}
 
 	/**
-	 * @param st
-	 *            the st to set
+	 * @param st the st to set
 	 */
-	public void setSt(int st) {
+	public void setSt(String st) {
 		this.st = st;
 	}
 
