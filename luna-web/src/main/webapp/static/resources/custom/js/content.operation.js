@@ -53,6 +53,7 @@ jQuery(function() {
 						function(data) {
 							if (1 == data.code) {
 								refreshData(pageObject.runtime.page);
+								refreshForm(null)
 							} else {
 								layer.alert(data.message,{icon: 2});
 							}

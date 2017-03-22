@@ -20,7 +20,7 @@ import com.luna.utils.constant.Constants;
 public class ConditionUtils {
 
 	public static final String ASC = "ASC";
-	
+
 	public static final String DESC = "DESC";
 
 	public static final int DEFAULT_PAGE_SIZE = 14;
@@ -62,6 +62,10 @@ public class ConditionUtils {
 			map.put(DEFAULT_PROP_KEY, props);
 		}
 		return props;
+	}
+
+	public static void evalPops(Map<String, Object> map, Object object) {
+		map.put(DEFAULT_PROP_KEY, object);
 	}
 
 	public static void evalPopStatus(Map<String, Object> map, Integer status) {

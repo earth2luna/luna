@@ -72,25 +72,36 @@ public class ResourcesServiceImpl implements ResourcesService {
 	public InvokeVo operation(Long rsId, Integer op) {
 		InvokeVo invokeVo = null;
 		try {
+
 			Object data = null;
 			if (LangUtils.equals(2, op)) {
 				// 上线
+				AssertUtils.isTrue(LangUtils.booleanValueOfNumber(rsId), "无效的资源key值");
 				new Render(new RenderParameter(resourcesMapper, contentMarkMapper, factoryBean.getObject(),
 						resourcesRelativePath, freemarkerTemplateName, null, rsId)).render();
 			} else if (LangUtils.equals(3, op)) {
 				// 资源删除
+				AssertUtils.isTrue(LangUtils.booleanValueOfNumber(rsId), "无效的资源key值");
 				ResourcesUtils.resourcesDeletion(resourcesMapper, rsId);
 				ResourcesUtils.deleteResourcesFile(resourcesRelativePath, rsId);
 			} else if (LangUtils.equals(4, op)) {
 				// 表标记删除
+				AssertUtils.isTrue(LangUtils.booleanValueOfNumber(rsId), "无效的资源key值");
 				ResourcesUtils.tableMarkDeletion(resourcesMapper, rsId);
 			} else if (LangUtils.equals(5, op)) {
 				// 逻辑删除
+				AssertUtils.isTrue(LangUtils.booleanValueOfNumber(rsId), "无效的资源key值");
 				ResourcesUtils.logicalDeletion(resourcesMapper, rsId);
 				ResourcesUtils.deleteResourcesFile(resourcesRelativePath, rsId);
 			} else if (LangUtils.equals(6, op)) {
 				// 获取访问路径
+				AssertUtils.isTrue(LangUtils.booleanValueOfNumber(rsId), "无效的资源key值");
 				data = ResourcesUtils.getWebResourcesPath(resourcesRelativePath, rsId);
+			} else if (LangUtils.equals(7, op)) {
+				// 数据删除
+				AssertUtils.isTrue(LangUtils.booleanValueOfNumber(rsId), "无效的资源key值");
+				resourcesMapper.deleteById(rsId);
+				ResourcesUtils.deleteResourcesFile(resourcesRelativePath, rsId);
 			} else if (LangUtils.equals(9, op)) {
 				// 全部上线
 				new Render(new RenderParameter(resourcesMapper, contentMarkMapper, factoryBean.getObject(),

@@ -43,6 +43,7 @@ public class ContentController extends ParentController {
 	@RequestMapping("/queryForm")
 	public String queryForm(Model model, Long rsId, Long cId) {
 		model.addAttribute("handlers", HandlerMethodEnum.values());
+		model.addAttribute("parents", contentService.selectParentContents(rsId));
 		model.addAttribute("content", contentService.selectById(cId));
 		return "/content_query_form";
 	}

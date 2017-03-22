@@ -104,7 +104,9 @@ public class ResourcesUtils {
 		AssertUtils.isTrueOfApp(LangUtils.booleanValueOfNumber(id), "无效的key值");
 		Map<String, Object> map = ConditionUtils.getHashMap();
 		ConditionUtils.evalIdEqMap(map, id);
-		ConditionUtils.evalPopStatus(map, LangUtils.intValueOfNumber(statusEnum.getCode()));
+		Resources resources = resourcesMapper.selectById(id);
+		resources.setStatus(LangUtils.intValueOfNumber(statusEnum.getCode()));
+		ConditionUtils.evalPops(map, resources);
 		resourcesMapper.updateById(map);
 	}
 

@@ -36,11 +36,15 @@ public class HtmlUtils {
 	}
 
 	public static String getFormatHtmlFragment(String bodyHtml) {
+		if (LangUtils.isBlank(bodyHtml))
+			return null;
 		Document document = Jsoup.parseBodyFragment(bodyHtml);
 		return deepNodes(document.body().childNodes(), 0).getBuilder().toString();
 	}
 
 	public static String getFormatHtml(String bodyHtml) {
+		if (LangUtils.isBlank(bodyHtml))
+			return null;
 		Document document = Jsoup.parse(bodyHtml);
 		return deepNodes(document.childNodes(), 0).getBuilder().toString();
 	}
@@ -167,7 +171,7 @@ public class HtmlUtils {
 			ret = input.trim();
 		return ret;
 	}
-	
+
 	static class DeepNodeStatus {
 		private StringBuilder builder;
 		private boolean isText;

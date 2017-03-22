@@ -16,16 +16,18 @@
 	<td class="text-left">
 		<select class="script-operator-select">
 				<option value="-1">选择执行权限</option>
-				<#if StatusEnum.ONLINE.getCode()!=item.status><option value="2">上线</option></#if>
+				<option value="2">上线</option>
+				<#-- <#if StatusEnum.ONLINE.getCode()!=item.status><option value="2">上线</option></#if> -->
 				<#if StatusEnum.RESOURCES_DELETION.getCode()!=item.status><option value="3">资源删除</option></#if>
 				<#if StatusEnum.TABLE_MARK_DELETION.getCode()!=item.status><option value="4">表标记删除</option></#if>
 				<#if StatusEnum.LOGICAL_DELETION.getCode()!=item.status><option value="5">逻辑删除</option></#if>
 				<#if StatusEnum.ONLINE.getCode()==item.status><option value="6">访问</option></#if>
+				<option value="7">表数据删除</option>
 		</select>
-		<input type="hidden" value="${item.id}" />
-		<input type="button" value="编辑" onclick="refreshForm(${item.id});">
+		<input class="script-resource-id" type="hidden" value="${item.id}" />
+		<input class="script-resource-title" type="hidden" value="${item.title}" />
+		<input type="button" value=" 编 辑 " onclick="refreshForm(${item.id});">
 		<input type="button" value="内容编辑" onclick="openNewWindow(${item.id});">
-		
 	</td>
 </tr>
 </#list>

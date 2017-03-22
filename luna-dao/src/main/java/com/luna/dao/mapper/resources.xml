@@ -39,18 +39,17 @@
 	<sql id="updateSQL">
 		UPDATE l_resources
 			<trim prefix="SET" suffixOverrides=",">
-				<if test="null!=prop.createTime">create_time=#{prop.createTime},</if>
-				<if test="null!=prop.sourceSiteName and ''!=prop.sourceSiteName">source_site_name=#{prop.sourceSiteName},</if>
-				<if test="null!=prop.sourceSiteLink and ''!=prop.sourceSiteLink">source_site_link=#{prop.sourceSiteLink},</if>
-				<if test="null!=prop.creatorId">creator_id=#{prop.creatorId},</if>
-				<if test="null!=prop.categoryId">category_id=#{prop.categoryId},</if>
-				<if test="null!=prop.title and ''!=prop.title">title=#{prop.title},</if>
-				<if test="null!=prop.sourceAuthor and ''!=prop.sourceAuthor">source_author=#{prop.sourceAuthor},</if>
-				<if test="null!=prop.sourceDate">source_date=#{prop.sourceDate},</if>
-				<if test="null!=prop.thumbnail and ''!=prop.thumbnail">thumbnail=#{prop.thumbnail},</if>
-				<if test="null!=prop.pageView">page_view=#{prop.pageView},</if>
-				<if test="null!=prop.userView">user_view=#{prop.userView},</if>
-				<if test="null!=prop.status">status=#{prop.status},</if>
+				source_site_name=#{prop.sourceSiteName},
+				source_site_link=#{prop.sourceSiteLink},
+				creator_id=#{prop.creatorId},
+				category_id=#{prop.categoryId},
+				title=#{prop.title},
+				source_author=#{prop.sourceAuthor},
+				source_date=#{prop.sourceDate},
+				thumbnail=#{prop.thumbnail},
+				page_view=#{prop.pageView},
+				user_view=#{prop.userView},
+				status=#{prop.status}
 			</trim>
 	</sql>
 

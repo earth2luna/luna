@@ -23,10 +23,12 @@ function refreshData(pageNow) {
 }
 
 function operation(key, op) {
+	var ii = layer.load();
 	jQuery.post("/resources/operation", {
 		key : key,
 		op : op
 	}, function(data) {
+		layer.close(ii);
 		if (1 == data.code) {
 			if (6 == op) {
 				open(data.data);
@@ -34,7 +36,9 @@ function operation(key, op) {
 				refreshData(pageObject.runtime.page);
 			}
 		} else {
-			layer.alert(data.message,{icon: 2});
+			layer.alert(data.message, {
+				icon : 2
+			});
 		}
 
 	}, "json");
@@ -48,8 +52,8 @@ function refreshForm(rsId) {
 	});
 }
 
-function openNewWindow(rsId){
-	open("/content/query?rsId="+rsId);
+function openNewWindow(rsId) {
+	open("/content/query?rsId=" + rsId);
 }
 
 jQuery(function() {
@@ -61,13 +65,28 @@ jQuery(function() {
 	jQuery(":radio[value=1]").trigger("change");
 
 	// 任务
-	jQuery(document).on("change", "table.script-table .script-operator-select",
+	jQuery(document).on(
+			"change",
+			"table.script-table .script-operator-select",
 			function() {
 				var select = jQuery(this).find(":checked");
-				var key = select.parent().siblings(":input:hidden").val();
+				var title = select.parent().siblings(
+						":input:hidden.script-resource-title").val();
+				var key = select.parent().siblings(
+						":input:hidden.script-resource-id").val();
 				var value = select.val();
-				if (-1 != value && confirm("你确定要执行'" + select.text() + "'吗？")) {
-					operation(key, value);
+				if (-1 != value) {
+					layer.confirm("你确定要将'" + title + "'执行'" + select.text()
+							+ "'吗？", {
+						btn : [ '必须的', '不要' ]
+					// 按钮
+					}, function(index) {
+						operation(key, value);
+						layer.close(index);
+					}, function() {
+						select.siblings("option[value=-1]").attr("selected",
+								true);
+					});
 				}
 			});
 
@@ -84,7 +103,9 @@ jQuery(function() {
 							if (1 == data.code) {
 								refreshData(pageObject.runtime.page);
 							} else {
-								layer.alert(data.message,{icon: 2});
+								layer.alert(data.message, {
+									icon : 2
+								});
 							}
 						});
 			});
