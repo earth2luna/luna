@@ -53,4 +53,10 @@ public class ContentController extends ParentController {
 	public InvokeVo modify(ContentForm contentForm) {
 		return contentService.modify(contentForm);
 	}
+	
+	@RequestMapping("/deleteItem")
+	@ResponseBody
+	public InvokeVo deleteItem(Long cId) {
+		return contentService.delete(cId);
+	}
 }

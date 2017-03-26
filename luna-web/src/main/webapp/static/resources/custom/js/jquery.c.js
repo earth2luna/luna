@@ -15,5 +15,18 @@ jc = {
 		jQuery(formSelector).find(jc.formSelector).not(
 				":checked,select,option,:radio,checkbox").not(notSelector).val(
 				"");
+	},
+	sPost : function(url, parameters, fn, type) {
+		var ii = layer.load();
+		jQuery.post(url, parameters, function(data) {
+			layer.close(ii);
+			if (1 == data.code) {
+				fn(data);
+			} else {
+				layer.alert(data.message, {
+					icon : 2
+				});
+			}
+		}, type);
 	}
 };

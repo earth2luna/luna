@@ -32,6 +32,26 @@ function refreshForm(cId) {
 	});
 }
 
+function deleteContent(cId) {
+	jc.sPost("/content/deleteItem", {
+		cId : cId
+	}, function() {
+		refreshData(pageObject.runtime.page);
+	})
+}
+
+function deleteItem(cId, title) {
+	layer.confirm("你确定要将 '" + cId + "' 删除吗？", {
+		btn : [ '必须的', '不要' ]
+	// 按钮
+	}, function(index) {
+		deleteContent(cId);
+		layer.close(index);
+	}, function() {
+		// nothing
+	});
+}
+
 jQuery(function() {
 
 	refreshForm(null);
@@ -55,7 +75,9 @@ jQuery(function() {
 								refreshData(pageObject.runtime.page);
 								refreshForm(null)
 							} else {
-								layer.alert(data.message,{icon: 2});
+								layer.alert(data.message, {
+									icon : 2
+								});
 							}
 						});
 			});

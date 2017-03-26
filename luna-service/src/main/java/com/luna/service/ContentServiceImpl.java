@@ -124,7 +124,7 @@ public class ContentServiceImpl implements ContentService {
 
 	private ResourcesContent transfer2ResourcesContent(ResourcesContent content, ContentForm contentForm) {
 		AssertUtils.notNullOfApp(contentForm, "无效的内容参数");
-		AssertUtils.isTrueOfApp(RegexUtils.matches(contentForm.getSt(), "\\d+", false), "无效的排序规则");
+		AssertUtils.isTrueOfApp(RegexUtils.matches(contentForm.getSt(), "\\d+", true), "无效的排序规则");
 		AssertUtils.notNullOfApp(contentForm.getHc(), "无效的处理方式");
 		AssertUtils.isTrueOfApp(LangUtils.booleanValueOfNumber(contentForm.getRsId()), "无效的资源");
 		AssertUtils.isTrueOfApp(null == contentForm.getpId() || LangUtils.booleanValueOfNumber(contentForm.getpId()),
@@ -137,5 +137,26 @@ public class ContentServiceImpl implements ContentService {
 		content.setSortCode(NumberUtils.toInt(contentForm.getSt()));
 		content.setTitle(contentForm.getTt());
 		return content;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.luna.service.ContentService#delete(java.lang.Long)
+	 */
+	@Override
+	public InvokeVo delete(Long cId) {
+		InvokeVo invokeVo = null;
+		try {
+			AssertUtils.isTrueOfApp(LangUtils.booleanValueOfNumber(cId), "无效的key值");
+			resourcesContentMapper.deleteById(cId);
+			invokeVo = new InvokeVo("执行成功", null, 1);
+		} catch (AppException e) {
+			invokeVo = e.getInvokeVo();
+		} catch (Exception e) {
+			invokeVo = new InvokeVo("未知异常", null, 0);
+			LOGGER.error("[modify error]", e);
+		}
+		return invokeVo;
 	}
 }

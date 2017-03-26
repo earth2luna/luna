@@ -10,7 +10,7 @@
 	<td class="text-left">
 		<input type="hidden" value="${item.id}" />
 		<input type="button" value="编辑" onclick="refreshForm(${item.id});">
-		<input type="button" value="内容编辑" onclick="openNewWindow(${item.id});">
+		<input type="button" value="删除" onclick="deleteItem(${item.id},'${item.title}');">
 	</td>
 </tr>
 </#list>

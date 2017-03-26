@@ -27,4 +27,6 @@ public interface ContentService {
 	ResourcesContent selectById(Long cId);
 
 	InvokeVo modify(ContentForm contentForm);
+	
+	InvokeVo delete(Long cId);
 }

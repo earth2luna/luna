@@ -3,7 +3,6 @@
 	<tr>
 		<td class="text-right">父段落：</td>
 		<td><select name="pId">
-				<option value="">父段落</option>
 				<#list parents as parent>
 					<#if content?? && content.PId==parent.id>
 						<option value="${parent.id}" selected="selected">${parent.title}</option>
@@ -11,6 +10,7 @@
 						<option value="${parent.id}">${parent.title}</option>
 					</#if>
 				</#list>
+				<option value="">父段落</option>
 		</select></td>
 		<td class="text-right">处理方式：</td>
 		<td><select name="hc">
@@ -31,7 +31,7 @@
 	</tr>
 	<tr>
 		<td class="text-right">段落内容：</td>
-		<td colspan="7"><textarea rows="9" cols="166" name="cont">${content.content}</textarea></td>
+		<td colspan="7"><textarea rows="6" cols="166" name="cont">${content.content}</textarea></td>
 		<td colspan="2" class="text-bottom">
 			<input type="button" class="script-submit" value="执 行" />
 			<input type="reset" value="重 置" /> 
