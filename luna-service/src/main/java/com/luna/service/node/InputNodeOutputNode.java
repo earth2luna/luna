@@ -52,7 +52,6 @@ public class InputNodeOutputNode implements IInputOutput<INode, INode> {
 	}
 
 	public void change(ResourcesCasecadeNode casecadeNode) {
-		// TODO 等完成
 		switch (casecadeNode.getResourcesContentHandlerCode()) {
 		case 1:
 			casecadeNode.setResourcesContent(HtmlUtils.getFormatHtml(casecadeNode.getResourcesContent()));
