@@ -167,4 +167,8 @@ public class ResourcesUtils {
 		return new File(absoluteRootPath, appender).getAbsolutePath();
 	}
 
+	public static long insertResources(IMapper<Resources> resourcesMapper, Resources resources) {
+		return resourcesMapper.insert(resources);
+	}
+
 }

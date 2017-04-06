@@ -17,6 +17,7 @@
 		<luna.utils.version>1.0-SNAPSHOT</luna.utils.version>
 		<freemaker.version>2.3.23</freemaker.version>
 		<jsoup.version>1.10.2</jsoup.version>
+		<webmagic.version>0.6.1</webmagic.version>
 	</properties>
 
 	<dependencies>
@@ -50,6 +51,24 @@
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
 			<version>${jsoup.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>us.codecraft</groupId>
+			<artifactId>webmagic-core</artifactId>
+			<version>${webmagic.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.jsoup</groupId>
+					<artifactId>jsoup</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>us.codecraft</groupId>
+			<artifactId>webmagic-extension</artifactId>
+			<version>${webmagic.version}</version>
 		</dependency>
 
 	</dependencies>

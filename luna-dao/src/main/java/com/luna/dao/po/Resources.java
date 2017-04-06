@@ -128,10 +128,18 @@ public class Resources implements Serializable {
 		return status;
 	}
 
-	/**
-	 * @param status the status to set
-	 */
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "[id=" + id + ", createTime=" + createTime + ", sourceSiteName=" + sourceSiteName
+				+ ", sourceSiteLink=" + sourceSiteLink + ", creatorId=" + creatorId + ", categoryId=" + categoryId
+				+ ", title=" + title + ", sourceAuthor=" + sourceAuthor + ", sourceDate=" + sourceDate + ", thumbnail="
+				+ thumbnail + ", pageView=" + pageView + ", userView=" + userView + ", status=" + status + "]";
 	}
 }

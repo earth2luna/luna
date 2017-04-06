@@ -85,4 +85,16 @@ public class ResourcesContent implements Serializable {
 	public void setPath(String path) {
 		this.path = path;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return " [id=" + id + ", resourcesId=" + resourcesId + ", title=" + title + ", content="
+				+ content + ", pId=" + pId + ", sortCode=" + sortCode + ", handlerCode=" + handlerCode + ", path="
+				+ path + "]";
+	}
+	
+	
 }

@@ -339,6 +339,23 @@ public class LangUtils {
 		}
 	}
 
+	public static String toString(Object input, Object defaultValue) {
+		Object value = defaultValue(input, defaultValue);
+		return null == value ? null : value.toString();
+	}
+
+	public static String toString(Object input) {
+		return null == input ? null : input.toString();
+	}
+
+	public static String trim(Object input) {
+		String ret = null;
+		if (null != input) {
+			ret = input.toString();
+		}
+		return null == ret ? null : ret.trim();
+	}
+
 	public static String subtringDefaultAppender(String input, int length) {
 		return null == input || input.length() <= length ? input : append(input.substring(0, length), "...");
 	}

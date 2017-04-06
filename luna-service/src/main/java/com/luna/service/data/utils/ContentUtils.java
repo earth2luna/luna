@@ -3,8 +3,11 @@
  */
 package com.luna.service.data.utils;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.collections.CollectionUtils;
 
 import com.luna.dao.mapper.IResourcesContentMapper;
 import com.luna.dao.po.ResourcesContent;
@@ -48,5 +51,16 @@ public class ContentUtils {
 		map.put("pIdIsNull", true);
 		map.put("resourcesId", rsId);
 		return resourcesContentMapper.selectList(map);
+	}
+	
+	public static void insert(IResourcesContentMapper mapper,List<ResourcesContent> resourcesContents,long resourcesId){
+		if(CollectionUtils.isNotEmpty(resourcesContents)){
+			Iterator<ResourcesContent> iterator=resourcesContents.iterator();
+			while(iterator.hasNext()){
+				ResourcesContent content=iterator.next();
+				content.setResourcesId(resourcesId);
+				mapper.insert(content);
+			}
+		}
 	}
 }
