@@ -89,7 +89,9 @@
 	      	<#list nodes as rootNode>
 		      	<div class="bs-docs-section">
 		      		<h1 id="${rootNode.recourcesContentId}" class="page-header">${rootNode.resourcesContentTitle}</h1>
-  					<p class="lead">${rootNode.resourcesContent}</p>
+		      		<#if rootNode.resourcesContent??>
+  						<p class="lead">${rootNode.resourcesContent}</p>
+  					</#if>
   					<#list rootNode.childrens as subNode>
   						 <#switch subNode.resourcesContentHandlerCode>  
 						    <#case 1>

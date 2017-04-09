@@ -1,12 +1,11 @@
 <div class="row bs-examples">
 	<div class="col-xs-6 col-md-12">
 		<#if subNode.resourcesContentTitle??>
-		<h2 id="${subNode.recourcesContentId}">${subNode.resourcesContentTitle}</h2>
-		</#if> <#if subNode.resourcesContent??>
-		<p>${subNode.resourcesContent}</p>
-		</#if> <a class="thumbnail" href="javascript:void(0);"> <img
-			src="${subNode.resourcesContentPath}"
-			alt="${subNode.resourcesContentTitle}">
-		</a>
+			<h2 id="${subNode.recourcesContentId}">${subNode.resourcesContentTitle}</h2>
+		</#if> 
+		<#if subNode.resourcesContent??>
+			<p>${subNode.resourcesContent}</p>
+		</#if> 
+		<a class="thumbnail" href="javascript:void(0);"><img src="${subNode.resourcesContentPath}" alt="${subNode.resourcesContentTitle}"></a>
 	</div>
 </div>

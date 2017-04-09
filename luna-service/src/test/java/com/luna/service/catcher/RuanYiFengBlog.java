@@ -175,7 +175,7 @@ public class RuanYiFengBlog implements PageProcessor {
 			}
 		}
 		resourcesMapper.insert(resources);
-		ContentUtils.insert(contentMapper, rcs, resources.getId());
+//		ContentUtils.insert(contentMapper, rcs, resources.getId());
 	}
 
 	private static KV<String, Integer> handler(List<CatchRuler> rulers, Html html) {

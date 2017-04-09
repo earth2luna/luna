@@ -15,7 +15,7 @@ public class CatchRuler {
 	private Integer replaceCode;// 替换规则编码
 	private String[] replaceTagNames;// 要替换的标签名称
 	private String replacement;// 替换内容
-	private Integer handlerCode;//处理编码
+	private Integer handlerCode;// 处理编码
 
 	public CatchRuler(String tryXPath, String getXPath, Integer replaceCode, String[] replaceTagNames,
 			String replacement, Integer handlerCode) {
@@ -111,7 +111,8 @@ public class CatchRuler {
 	}
 
 	/**
-	 * @param handlerCode the handlerCode to set
+	 * @param handlerCode
+	 *            the handlerCode to set
 	 */
 	public void setHandlerCode(Integer handlerCode) {
 		this.handlerCode = handlerCode;
