@@ -4,6 +4,7 @@
 	<td>${item.sortCode}</td>
 	<td>${item.title}</td>
 	<td>${(null==item.PId)?string('是','否')}</td>
+	<td>${(null==item.PId)?string('','${item.PId}')}</td>
 	<td>${HandlerMethodEnum.getName(item.handlerCode)}</td>
 	<td><#if item.path??><a href="${item.path}" target="_blank">资源路径</a></#if></td>
 	<td title="${item.content?html}">${(LangUtils.subtringDefaultAppender(item.content,20))?html}</td>

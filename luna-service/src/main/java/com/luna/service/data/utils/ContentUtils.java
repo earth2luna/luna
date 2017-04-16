@@ -31,7 +31,7 @@ public class ContentUtils {
 		int defaultPageNow = LangUtils.defaultValue(!(null == pageNow || pageNow <= 0), pageNow, 1);
 		map.put("resourcesId", rsId);
 		ConditionUtils.evalPageMap(map, defaultPageNow, pageSize);
-		ConditionUtils.evalSortOrderMap(map, "sortCode", ConditionUtils.ASC);
+		ConditionUtils.evalSortOrderMap(map, "id ASC,sortCode", ConditionUtils.ASC);
 		return new Page<ResourcesContent>(resourcesContentMapper.selectList(map),
 				resourcesContentMapper.selectCount(map), pageSize, defaultPageNow);
 	}

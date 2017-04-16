@@ -9,11 +9,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.luna.dao.po.ResourcesContent;
 import com.luna.service.ContentService;
 import com.luna.service.dto.ContentForm;
 import com.luna.service.enumer.content.HandlerMethodEnum;
 import com.luna.utils.LangUtils;
 import com.luna.utils.classes.InvokeVo;
+import com.luna.utils.classes.Page;
 
 /**
  * @author laulyl
@@ -36,7 +38,8 @@ public class ContentController extends ParentController {
 	@RequestMapping("/queryItems")
 	public String queryItems(Model model, Long rsId, Integer pageNow) {
 		setDefaultStaticModel(model, HandlerMethodEnum.class, LangUtils.class);
-		model.addAttribute("page", contentService.selectResourcesContents(rsId, pageNow));
+		Page<ResourcesContent> page = contentService.selectResourcesContents(rsId, pageNow);
+		model.addAttribute("page", page);
 		return "/content_query_items";
 	}
 
@@ -53,7 +56,7 @@ public class ContentController extends ParentController {
 	public InvokeVo modify(ContentForm contentForm) {
 		return contentService.modify(contentForm);
 	}
-	
+
 	@RequestMapping("/deleteItem")
 	@ResponseBody
 	public InvokeVo deleteItem(Long cId) {

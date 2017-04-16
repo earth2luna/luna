@@ -71,6 +71,12 @@
 			<version>${webmagic.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>us.codecraft</groupId>
+			<artifactId>webmagic-samples</artifactId>
+			<version>${webmagic.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

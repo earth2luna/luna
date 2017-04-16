@@ -68,7 +68,7 @@ public class CatcherProcessor implements PageProcessor {
 		if (null != resourceDateKv) {
 			resources.setSourceDate(DateUtils.parse(resourceDateKv.getK(), catcherModel.getResourceDateFormat()));
 		}
-		KV<String, Integer> resourceAuthorKv = handler(catcherModel.getResourceDateCatchRulers(), page.getHtml());
+		KV<String, Integer> resourceAuthorKv = handler(catcherModel.getResourceAuthorCatchRulers(), page.getHtml());
 		if (null != resourceAuthorKv) {
 			resources.setSourceAuthor(resourceAuthorKv.getK());
 		}
@@ -141,6 +141,16 @@ public class CatcherProcessor implements PageProcessor {
 								currentLevel, " oneLevelId:", oneLevelId, " twoLevelId:", twoLevelId));
 						break;
 					}
+					
+					// 获取路径
+					KV<String, Integer> contentPathKv = handler(iteratorRuler.getContentPathCatchRulers(), tempHtml);
+					if (null != contentPathKv) {
+						rc.setPath(contentPathKv.getK());
+						rc.setHandlerCode(contentPathKv.getV());
+						rc.setParentLevelId(currentLevelId);
+						rcs.add(rc);
+						continue;
+					}
 
 					// 获取内容
 					KV<String, Integer> contentKv = handler(iteratorRuler.getContentCatchRulers(), tempHtml);
@@ -152,15 +162,7 @@ public class CatcherProcessor implements PageProcessor {
 						continue;
 					}
 
-					// 获取路径
-					KV<String, Integer> contentPathKv = handler(iteratorRuler.getContentPathCatchRulers(), tempHtml);
-					if (null != contentPathKv) {
-						rc.setPath(contentPathKv.getK());
-						rc.setHandlerCode(contentPathKv.getV());
-						rc.setParentLevelId(currentLevelId);
-						rcs.add(rc);
-						continue;
-					}
+					
 				}
 			}
 		}
