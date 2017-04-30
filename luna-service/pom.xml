@@ -18,6 +18,8 @@
 		<freemaker.version>2.3.23</freemaker.version>
 		<jsoup.version>1.10.2</jsoup.version>
 		<webmagic.version>0.6.1</webmagic.version>
+		<solrj.version>6.5.0</solrj.version>
+		<pinyin.version>1.1.8</pinyin.version>
 	</properties>
 
 	<dependencies>
@@ -75,6 +77,18 @@
 			<groupId>us.codecraft</groupId>
 			<artifactId>webmagic-samples</artifactId>
 			<version>${webmagic.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.solr</groupId>
+			<artifactId>solr-solrj</artifactId>
+			<version>${solrj.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.stuxuhai</groupId>
+			<artifactId>jpinyin</artifactId>
+			<version>${pinyin.version}</version>
 		</dependency>
 
 	</dependencies>

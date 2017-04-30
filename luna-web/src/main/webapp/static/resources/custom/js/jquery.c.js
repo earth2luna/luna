@@ -28,5 +28,12 @@ jc = {
 				});
 			}
 		}, type);
+	},
+	pPost : function(url, parameters, fn, type) {
+		var ii = layer.load();
+		jQuery.post(url, parameters, function(data) {
+			layer.close(ii);
+			fn(data);
+		}, type);
 	}
 };

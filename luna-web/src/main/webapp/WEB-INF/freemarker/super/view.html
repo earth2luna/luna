@@ -1,0 +1,24 @@
+<html lang="zh-CN">
+<head>
+<link href="/static/resources/custom/css/global.css" rel="stylesheet">
+<link href="/static/resources/iterator/v2/iterator.css" rel="stylesheet">
+<script src="/static/resources/sources/jquery-1.12.4.min.js"></script>
+<script src="/static/resources/layer/layer.js"></script>
+<script src="/static/resources/iterator/v2/iterator.page.v2.js"></script>
+<script src="/static/resources/custom/js/jquery.c.js"></script>
+<script src="/static/resources/custom/js/super.operation.js"></script>
+</head>
+<body>
+	<#include "luna_languge.html"/>
+	<hr>
+	<select class="script-super-select">
+		<option value="1">SYNCHRONIZED RESOURCE DATA TO SOLR</option>
+		<option value="2">DELETE RESOURCE SOLR FROM </option>
+	</select>
+	<span class="script-super_select-parameter"></span>
+	<br>
+	<span class="script-super-select-show" style="color:red"></span>
+	<br>
+	<button onclick="doIt();">执行任务</button>
+</body>
+</html>

@@ -1,0 +1,8 @@
+<#list page.list as item>
+<a href="#" class="list-group-item">
+	<h4 class="list-group-item-heading">${item.title}</h4>
+	<p class="list-group-item-text">${item.summary}</p>
+</a>
+</#list>
+<input type="hidden"
+	value="{page:${page.pageNow},pageSize:${page.pageSize},total:${page.count}}" />
