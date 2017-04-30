@@ -9,7 +9,8 @@ jQuery(function() {
 			});
 		}
 	}
-	jQuery(".search-wraper .form-control.search").autosuggest({
+	var selector_input = jQuery(".search-wraper .form-control.search");
+	selector_input.autosuggest({
 		url : '/front/sugget',
 		align : 'left',
 		method : 'post',
@@ -22,4 +23,9 @@ jQuery(function() {
 		},
 		split : ' '
 	});
+
+	jQuery(".search-wraper .input-group-btn .btn").off().on("click",
+			function() {
+				search(selector_input.val(), 1);
+			});
 });

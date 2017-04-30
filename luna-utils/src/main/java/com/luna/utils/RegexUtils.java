@@ -30,6 +30,8 @@ public class RegexUtils {
 	public static final String REGX_DIG_COMMA = "^[0-9]+(,[0-9]+)*$";
 	// 数字
 	public static final String REGX_DIG = "^[0-9]+$";
+	
+	public static final String HTML_TAG="</?[^>]*>";
 
 	// 验证是否是小数
 	// input:验证参数值,p:总长度,s:小数长度,isPositive:是否有正数限制,allowNull:是否允许为null

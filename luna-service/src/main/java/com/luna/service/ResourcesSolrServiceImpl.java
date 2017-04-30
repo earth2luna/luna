@@ -15,6 +15,7 @@ import com.luna.service.componet.SolrComponet;
 import com.luna.service.componet.SolrQueryPage;
 import com.luna.service.componet.SuggetVo;
 import com.luna.service.sync.SynchronizedResource;
+import com.luna.utils.LangUtils;
 import com.luna.utils.classes.Page;
 
 /**
@@ -74,8 +75,8 @@ public class ResourcesSolrServiceImpl implements ResourcesSolrService {
 	@Override
 	public Page<ResourceSolr> query(String query, Integer pageNow) {
 		if (StringUtils.isNotEmpty(query)) {
-			return resourceSolrComponet.query(new SolrQueryPage("suggest:*" + query + "*", pageNow, null),
-					ResourceSolr.class);
+			return resourceSolrComponet.query(
+					new SolrQueryPage("suggest:*" + LangUtils.trim(query) + "*", pageNow, null), ResourceSolr.class);
 		}
 		return null;
 	}

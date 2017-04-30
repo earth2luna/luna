@@ -360,4 +360,11 @@ public class LangUtils {
 		return null == input || input.length() <= length ? input : append(input.substring(0, length), "...");
 	}
 
+	public static String replaceAll(String input, String regex, String replacement) {
+		if (StringUtils.isEmpty(input)) {
+			return null;
+		}
+		return input.replaceAll(regex, replacement);
+	}
+
 }
