@@ -85,6 +85,11 @@
             searchQuery();
 
         }
+        
+        //add by lyl 20170501
+        jQuery($(that)).off().on('click',function(){
+        	openComponent($(that).next('.' + settings.menuClass));
+        });
 
         //hide auto-suggest component when lose focus
         $(this).blur(function () {
@@ -249,13 +254,15 @@
             }
         }
 
-        //建议框打开
+        //建议框打开 mdf by lyl 20170501
         function openComponent(ele) {
-            if (!ele.is(':visible')) {
+            if (!ele.is(':visible')&&0!=ele.children().length) {
                 ele.show();
                 if (settings.open != null) {
                     settings.open();
                 }
+            }else{
+            	closeComponent(ele);
             }
         }
 
