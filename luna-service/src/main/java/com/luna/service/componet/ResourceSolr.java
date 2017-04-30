@@ -20,7 +20,9 @@ public class ResourceSolr {
 	@Field
 	private String title;// 资源标题
 	@Field
-	private String summary;//简介
+	private String imageUrl;// image Url
+	@Field
+	private String summary;// 简介
 	@Field
 	private Date createTime;// 创建时间
 	@Field
@@ -44,12 +46,14 @@ public class ResourceSolr {
 	public ResourceSolr() {
 	}
 
-	public ResourceSolr(String id, String title, String summary, Date createTime, Long creatorId, String creatorName,
-			Long categoryId, String categoryName, String sourceAuthor, Date sourceDate, String thumbnail,
-			List<String> titlePinyin) {
+	
+	public ResourceSolr(String id, String title, String imageUrl, String summary, Date createTime, Long creatorId,
+			String creatorName, Long categoryId, String categoryName, String sourceAuthor, Date sourceDate,
+			String thumbnail, List<String> titlePinyin) {
 		super();
 		this.id = id;
 		this.title = title;
+		this.imageUrl = imageUrl;
 		this.summary = summary;
 		this.createTime = createTime;
 		this.creatorId = creatorId;
@@ -237,10 +241,25 @@ public class ResourceSolr {
 	}
 
 	/**
-	 * @param summary the summary to set
+	 * @param summary
+	 *            the summary to set
 	 */
 	public void setSummary(String summary) {
 		this.summary = summary;
+	}
+
+	/**
+	 * @return the imageUrl
+	 */
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	/**
+	 * @param imageUrl the imageUrl to set
+	 */
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 }

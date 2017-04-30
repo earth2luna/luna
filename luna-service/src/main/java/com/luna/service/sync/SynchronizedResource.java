@@ -85,8 +85,9 @@ public class SynchronizedResource extends AbstractListWhileDo<INode> {
 		// }
 		ResourcesCasecadeNode t = (ResourcesCasecadeNode) node;
 		String summary = getSummary(t);
-		solrComponet.persistenceWhile(new ResourceSolr(t.getResourcesId().toString(), t.getResourcesTitle(), summary,
-				t.getResourcesCreateTime(), t.getResourcesCreatetorId(),
+		String imageUrl = getImageUrl(t);
+		solrComponet.persistenceWhile(new ResourceSolr(t.getResourcesId().toString(), t.getResourcesTitle(), imageUrl,
+				summary, t.getResourcesCreateTime(), t.getResourcesCreatetorId(),
 				CreatorEnum.getName(t.getResourcesCreatetorId()), t.getResourcesCategroyId(),
 				CategoryEnum.getName(t.getResourcesCategroyId()), t.getResourcesSourceAuthor(),
 				t.getResourcesSourceDate(), t.getResourcesThumbnail(), titlePinyin), count, COMMIT_LIMIT_COUNT);
@@ -94,8 +95,23 @@ public class SynchronizedResource extends AbstractListWhileDo<INode> {
 		LOGGER.info("current complete count is:" + count);
 	}
 
+	private String getImageUrl(ResourcesCasecadeNode t) {
+		List<INode> nodes = t.getChildrens();
+		if (CollectionUtils.isNotEmpty(nodes)) {
+			Iterator<INode> iterator = nodes.iterator();
+			while (iterator.hasNext()) {
+				INode node = iterator.next();
+				ResourcesCasecadeNode casecade = (ResourcesCasecadeNode) node;
+				if (!LangUtils.isBlank(casecade.getResourcesContentPath())) {
+					return casecade.getResourcesContentPath();
+				}
+			}
+		}
+		return null;
+	}
+
 	private String getSummary(ResourcesCasecadeNode t) {
-		int length = 150;
+		int length = 220;
 		StringBuffer buffer = new StringBuffer();
 		List<INode> nodes = t.getChildrens();
 		if (CollectionUtils.isNotEmpty(nodes)) {

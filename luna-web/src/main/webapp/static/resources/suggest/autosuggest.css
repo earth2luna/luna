@@ -1,28 +1,38 @@
 .as-wrapper {
-    position: relative;
+	position: relative;
 }
 
 .as-wrapper .as-menu {
-    position: absolute;
-    z-index: 1000;
-    width: 100%;
-    display: none;
+	position: absolute;
+	z-index: 1000;
+	width: 100%;
+	display: none;
+	/****add by lyl 20170430****/
+	border: 1px solid #ddd;
+	border-Radius: 5px;
 }
 
 .as-wrapper .as-selected {
-    background-color: #f5f5f5;
+	background-color: #f5f5f5;
 }
 
-.as-align-left{
-    text-align: left;
+.as-align-left {
+	text-align: left;
 }
 
-
-.as-align-right{
-    text-align: right;
+.as-align-right {
+	text-align: right;
 }
 
+.as-align-center {
+	text-align: center;
+}
 
-.as-align-center{
-    text-align: center;
+/****add by lyl 20170430****/
+.as-wrapper .as-menu .list-group-item {
+	padding: 1px 10px;
+	font-size: 14px;
+	color: #000;
+	line-height: 25px;
+	border: 0px;
 }

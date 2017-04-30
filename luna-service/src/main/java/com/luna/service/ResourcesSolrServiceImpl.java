@@ -6,6 +6,8 @@ package com.luna.service;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,7 @@ import com.luna.utils.classes.Page;
  */
 @Service
 public class ResourcesSolrServiceImpl implements ResourcesSolrService {
+	private static final Logger LOGGER = LoggerFactory.getLogger(ResourcesSolrServiceImpl.class);
 
 	@Autowired
 	private IResourcesMapper resourcesMapper;
@@ -75,8 +78,13 @@ public class ResourcesSolrServiceImpl implements ResourcesSolrService {
 	@Override
 	public Page<ResourceSolr> query(String query, Integer pageNow) {
 		if (StringUtils.isNotEmpty(query)) {
-			return resourceSolrComponet.query(
-					new SolrQueryPage("suggest:*" + LangUtils.trim(query) + "*", pageNow, null), ResourceSolr.class);
+			try {
+				return resourceSolrComponet.query(
+						new SolrQueryPage("suggest:*" + LangUtils.trim(query) + "*", pageNow, null),
+						ResourceSolr.class);
+			} catch (Exception e) {
+				LOGGER.error("query error:", e);
+			}
 		}
 		return null;
 	}
