@@ -17,6 +17,7 @@ import com.luna.dao.mapper.IResourcesContentMarkMapper;
 import com.luna.dao.mapper.IResourcesMapper;
 import com.luna.dao.po.Resources;
 import com.luna.service.data.utils.ConditionUtils;
+import com.luna.service.data.utils.Configure;
 import com.luna.service.data.utils.Render;
 import com.luna.service.data.utils.ResourcesUtils;
 import com.luna.service.dto.RenderParameter;
@@ -46,8 +47,6 @@ public class ResourcesServiceImpl implements ResourcesService {
 	private IResourcesContentMarkMapper contentMarkMapper;
 	@Autowired
 	private FreeMarkerConfigurationFactoryBean factoryBean;
-	@Value("${resources.generate.path}")
-	private String resourcesRelativePath;
 	@Value("${freemarker.template.name}")
 	private String freemarkerTemplateName;
 
@@ -74,6 +73,7 @@ public class ResourcesServiceImpl implements ResourcesService {
 		try {
 
 			Object data = null;
+			String resourcesRelativePath = Configure.getResourceRelativePath();
 			if (LangUtils.equals(2, op)) {
 				// 上线
 				AssertUtils.isTrue(LangUtils.booleanValueOfNumber(rsId), "无效的资源key值");

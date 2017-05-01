@@ -135,7 +135,7 @@ public class ResourcesUtils {
 		return new File(absoluteGeneratePath, getResourcesFileName(resourcesId));
 	}
 
-	public static String getWebResourcesPath(String resourcesPath, Long resourcesId) {
+	public static String getWebResourcesPath(String resourcesPath, String resourcesId) {
 		String webPath = FilePropertyUtils.filterPathAsWeb(resourcesPath);
 		String ret = null;
 		if (!webPath.startsWith(FilePropertyUtils.WEB_URL_SPLITOR)) {
@@ -147,8 +147,16 @@ public class ResourcesUtils {
 		return LangUtils.append(ret, getResourcesFileName(resourcesId));
 	}
 
-	public static String getResourcesFileName(Long resourcesId) {
+	public static String getWebResourcesPath(String resourcesPath, Long resourcesId) {
+		return getWebResourcesPath(resourcesPath, resourcesId.toString());
+	}
+
+	public static String getResourcesFileName(String resourcesId) {
 		return LangUtils.append(resourcesId, ".html");
+	}
+
+	public static String getResourcesFileName(Long resourcesId) {
+		return getResourcesFileName(resourcesId.toString());
 	}
 
 	public static void deleteResourcesFile(String resourcesGeneratePath, Long resourcesId) {

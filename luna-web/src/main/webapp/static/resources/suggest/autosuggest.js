@@ -55,8 +55,7 @@
         var lock = false;
 
         setInterval(checkInput, 200);
-
-
+        
         //检测输入
         function checkInput() {
             var query = $(that).val();

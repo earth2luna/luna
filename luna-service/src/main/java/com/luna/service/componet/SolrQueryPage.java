@@ -27,7 +27,7 @@ public class SolrQueryPage extends SolrQuery {
 
 	private void set(Integer pageNow, Integer pageSize) {
 		int defaultPageNow = LangUtils.defaultValue(pageNow, 1);
-		int defaultPageSize = LangUtils.defaultValue(pageSize, 20);
+		int defaultPageSize = LangUtils.defaultValue(pageSize, 7);
 		this.pageNow = defaultPageNow;
 		this.pageSize = defaultPageSize;
 		this.setStart((defaultPageNow - 1) * defaultPageSize);

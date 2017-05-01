@@ -5,8 +5,8 @@ package com.luna.service;
 
 import java.util.List;
 
-import com.luna.service.componet.ResourceSolr;
 import com.luna.service.componet.SuggetVo;
+import com.luna.service.dto.ResourceSolrVo;
 import com.luna.utils.classes.Page;
 
 /**
@@ -22,5 +22,7 @@ public interface ResourcesSolrService {
 
 	public List<SuggetVo> sugget(String query);
 
-	public Page<ResourceSolr> query(String query, Integer pageNo);
+	public Page<ResourceSolrVo> query(String query, Integer pageNo);
+
+	public Page<ResourceSolrVo> query();
 }

@@ -3,19 +3,23 @@
  */
 package com.luna.service;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.luna.dao.mapper.IResourcesMapper;
-import com.luna.service.componet.ResourceSolr;
 import com.luna.service.componet.SolrComponet;
 import com.luna.service.componet.SolrQueryPage;
 import com.luna.service.componet.SuggetVo;
+import com.luna.service.data.utils.Configure;
+import com.luna.service.data.utils.ResourcesUtils;
+import com.luna.service.dto.ResourceSolrVo;
 import com.luna.service.sync.SynchronizedResource;
 import com.luna.utils.LangUtils;
 import com.luna.utils.classes.Page;
@@ -70,23 +74,47 @@ public class ResourcesSolrServiceImpl implements ResourcesSolrService {
 		return resourceSolrComponet.querySugget(query);
 	}
 
+	private void evalResourceRequestPath(Page<ResourceSolrVo> page) {
+		if (!(null == page || page.getList().isEmpty())) {
+			Iterator<ResourceSolrVo> iterator = page.getList().iterator();
+			while (iterator.hasNext()) {
+				ResourceSolrVo solrVo = iterator.next();
+				solrVo.setRequestUrl(
+						ResourcesUtils.getWebResourcesPath(Configure.getResourceRelativePath(), solrVo.getId()));
+			}
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see com.luna.service.ResourcesSolrService#search(java.lang.String)
 	 */
 	@Override
-	public Page<ResourceSolr> query(String query, Integer pageNow) {
+	public Page<ResourceSolrVo> query(String query, Integer pageNow) {
 		if (StringUtils.isNotEmpty(query)) {
 			try {
-				return resourceSolrComponet.query(
-						new SolrQueryPage("suggest:*" + LangUtils.trim(query) + "*", pageNow, null),
-						ResourceSolr.class);
+				SolrQueryPage solrQuery = new SolrQueryPage("suggest:*" + LangUtils.trim(query) + "*", pageNow, null);
+				solrQuery.addSort("sourceDate", ORDER.desc);
+				solrQuery.addSort("createTime", ORDER.desc);
+				Page<ResourceSolrVo> page = resourceSolrComponet.query(solrQuery, ResourceSolrVo.class);
+				evalResourceRequestPath(page);
+				return page;
 			} catch (Exception e) {
 				LOGGER.error("query error:", e);
 			}
 		}
 		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.luna.service.ResourcesSolrService#query()
+	 */
+	@Override
+	public Page<ResourceSolrVo> query() {
+		return query("*", 1);
 	}
 
 }

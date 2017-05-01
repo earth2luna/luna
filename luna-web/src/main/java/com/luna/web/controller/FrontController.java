@@ -27,7 +27,8 @@ public class FrontController extends ParentController {
 	private ResourcesSolrService resourcesSolrService;
 
 	@RequestMapping("/home")
-	public String home() {
+	public String home(Model model) {
+		model.addAttribute("page", resourcesSolrService.query());
 		return "front/page_home";
 	}
 
