@@ -357,7 +357,15 @@ public class LangUtils {
 	}
 
 	public static String subtringDefaultAppender(String input, int length) {
-		return null == input || input.length() <= length ? input : append(input.substring(0, length), "...");
+		return subtringAppender(input, length, "...");
+	}
+
+	public static String subtring(String input, int length) {
+		return subtringAppender(input, length, "");
+	}
+
+	public static String subtringAppender(String input, int length, String appender) {
+		return null == input || input.length() <= length ? input : append(input.substring(0, length), appender);
 	}
 
 	public static String replaceAll(String input, String regex, String replacement) {

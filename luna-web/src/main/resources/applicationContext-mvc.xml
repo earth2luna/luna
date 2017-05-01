@@ -36,6 +36,5 @@
 	</bean>
 	
 	<mvc:resources location="/static/resources/" mapping="/static/resources/**"></mvc:resources>
-	
  	
 </beans>

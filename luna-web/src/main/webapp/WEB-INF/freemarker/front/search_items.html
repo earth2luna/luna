@@ -1,24 +1,33 @@
-<#list page.list as item>
-	<#if (item.imageUrl)??>
-		<span class="list-group-item">
-			<a href="/ddd/" target="_blank"><h4 class="list-group-item-heading">${item.title}</h4></a>
-			<div class="media">
-			  <div class="media-left media-middle">
-			   	<a href="${item.requestUrl}" target="_blank" class="thumbnail fornt-search-list-image" title="${item.title}">
-			      <img class="media-object" src="${item.imageUrl}" alt="${item.title}">
-			    </a>
-			  </div>
-			  <div class="media-body">
-			    <p title="${item.summary}">${item.sourceDate?string("yyyy年MM月dd日")} - ${item.summary}</p>
-			  </div>
-			</div>
-		</span>
-	<#else>
-		<span class="list-group-item">
-			<a href="${item.requestUrl}" target="_blank" title="${item.title}"><h4 class="list-group-item-heading">${item.title}</h4></a>
-			<p title="${item.summary}" class="list-group-item-text">${item.sourceDate?string("yyyy年MM月dd日")} - ${item.summary}</p>
-		</span>
-	</#if>
-</#list>
-<input type="hidden"
-	value="{page:${page.pageNow},pageSize:${page.pageSize},total:${page.count}}" />
+<#if (page.list)?? && (page.list?size>0)>
+	<div class="alert alert-success" role="alert">
+	   <strong>Well done!</strong> You successfully query ${page.count} items.
+	</div>
+	<#list page.list as item>
+		<#if (item.imageUrl)??>
+			<span class="list-group-item">
+				<h4 class="list-group-item-heading"><a href="${item.requestUrl}" target="_blank">${item.title}</a></h4>
+				<div class="media">
+				  <div class="media-left media-middle">
+				   	<a href="${item.requestUrl}" target="_blank" class="thumbnail fornt-search-list-image" title="${item.title}">
+				      <img class="media-object" src="${item.imageUrl}" alt="${item.title}">
+				    </a>
+				  </div>
+				  <div class="media-body">
+				    <p title="${item.summary?html}">${item.sourceDate?string("yyyy年MM月dd日")} - ${item.highlight}<a href="${item.requestUrl}" target="_blank">详情</a></p>
+				  </div>
+				</div>
+			</span>
+		<#else>
+			<span class="list-group-item">
+				<h4 class="list-group-item-heading"><a href="${item.requestUrl}" target="_blank" title="${item.title}">${item.title}</a></h4>
+				<p title="${item.summary?html}" class="list-group-item-text">${item.sourceDate?string("yyyy年MM月dd日")} - ${item.highlight}<a href="${item.requestUrl}" target="_blank">详情</a></p>
+			</span>
+		</#if>
+	</#list>
+<#else>
+	<div class="alert alert-danger" role="alert">
+	  <strong>Oh snap!</strong> <a href="javascript:void(0);" class="alert-link">Change a few things up</a> and try submitting again.
+	</div>
+</#if>
+<input type="hidden" value="{page:${page.pageNow},pageSize:${page.pageSize},total:${page.count}}" />
+

@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +16,7 @@ import com.luna.dao.mapper.IResourcesMapper;
 import com.luna.dao.vo.ResourcesCasecade;
 import com.luna.service.componet.ResourceSolr;
 import com.luna.service.componet.SolrComponet;
+import com.luna.service.data.utils.Constants;
 import com.luna.service.data.utils.ResourcesUtils;
 import com.luna.service.enumer.resource.CategoryEnum;
 import com.luna.service.enumer.resource.CreatorEnum;
@@ -32,7 +34,7 @@ import com.luna.utils.node.NodeVariable;
  * @date 2017年4月29日 上午9:02:03
  * @description
  */
-public class SynchronizedResource extends AbstractListWhileDo<INode> {
+public class SynchronizedResource extends AbstractListWhileDo<ResourceSolr> {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SynchronizedResource.class);
 	private static final Long COMMIT_LIMIT_COUNT = 50L;
 	private static InputResourceOutputINode inputOutput = new InputResourceOutputINode();
@@ -52,7 +54,7 @@ public class SynchronizedResource extends AbstractListWhileDo<INode> {
 	 * @see com.luna.service.sync.AbstractListWhileDo#getList(long)
 	 */
 	@Override
-	public List<INode> getList(long count) {
+	public List<ResourceSolr> getList(long count) {
 		// Page<Resources> page =
 		// ResourcesUtils.selectResources(resourcesMapper,
 		// String.valueOf(StatusEnum.ONLINE.getCode()),
@@ -63,18 +65,31 @@ public class SynchronizedResource extends AbstractListWhileDo<INode> {
 				LangUtils.intValueOfNumber(count), String.valueOf(StatusEnum.ONLINE.getCode()), null);
 		// 划分等级
 		List<INode> nodes = NodeUtils.sort(casecades, inputOutput, variable);
-		return nodes;
-	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.luna.service.sync.AbstractListWhileDo#doElement(java.lang.Object,
-	 * long)
-	 */
-	@Override
-	public void doElement(INode node, long count) {
+		if (CollectionUtils.isEmpty(nodes)) {
+			return null;
+		}
+
+		Iterator<INode> iterator = nodes.iterator();
+		ResourcesCasecadeNode t = null;
+		String imageUrl = null;
+		StringBuffer summary = new StringBuffer();
+		int length = Constants.SOLR_RESULT_SUMMARY_MAX_LENGTH;
+		// has next
+		// empty image url
+		// summary < length
+		while (iterator.hasNext() && (StringUtils.isEmpty(imageUrl) || (null == summary || length > summary.length()))) {
+			t = (ResourcesCasecadeNode) iterator.next();
+
+			if (StringUtils.isEmpty(imageUrl)) {
+				imageUrl = getImageUrl(t);
+			}
+
+			if (null == summary || length > summary.length()) {
+				evalueSummary(summary, t, length);
+			}
+		}
+
 		List<String> titlePinyin = new ArrayList<String>();
 		// try {
 		// titlePinyin.add(PinyinHelper.getShortPinyin(t.getTitle()));
@@ -83,16 +98,19 @@ public class SynchronizedResource extends AbstractListWhileDo<INode> {
 		// } catch (PinyinException e) {
 		// LOGGER.error("pin yin error:", e);
 		// }
-		ResourcesCasecadeNode t = (ResourcesCasecadeNode) node;
-		String summary = getSummary(t);
-		String imageUrl = getImageUrl(t);
-		solrComponet.persistenceWhile(new ResourceSolr(t.getResourcesId().toString(), t.getResourcesTitle(), imageUrl,
-				summary, t.getResourcesCreateTime(), t.getResourcesCreatetorId(),
-				CreatorEnum.getName(t.getResourcesCreatetorId()), t.getResourcesCategroyId(),
-				CategoryEnum.getName(t.getResourcesCategroyId()), t.getResourcesSourceAuthor(),
-				t.getResourcesSourceDate(), t.getResourcesThumbnail(), titlePinyin), count, COMMIT_LIMIT_COUNT);
+		ResourceSolr resourceSolr = new ResourceSolr(t.getResourcesId().toString(), t.getResourcesTitle(), imageUrl,
+				LangUtils.subtringDefaultAppender(summary.toString(), length), t.getResourcesCreateTime(),
+				t.getResourcesCreatetorId(), CreatorEnum.getName(t.getResourcesCreatetorId()),
+				t.getResourcesCategroyId(), CategoryEnum.getName(t.getResourcesCategroyId()),
+				t.getResourcesSourceAuthor(), t.getResourcesSourceDate(), t.getResourcesThumbnail(), titlePinyin);
+		List<ResourceSolr> list = new ArrayList<ResourceSolr>() {
 
-		LOGGER.info("current complete count is:" + count);
+			private static final long serialVersionUID = 1L;
+			{
+				add(resourceSolr);
+			}
+		};
+		return list;
 	}
 
 	private String getImageUrl(ResourcesCasecadeNode t) {
@@ -110,22 +128,39 @@ public class SynchronizedResource extends AbstractListWhileDo<INode> {
 		return null;
 	}
 
-	private String getSummary(ResourcesCasecadeNode t) {
-		int length = 220;
-		StringBuffer buffer = new StringBuffer();
+	private StringBuffer evalueSummary(StringBuffer buffer, ResourcesCasecadeNode t, int length) {
 		List<INode> nodes = t.getChildrens();
 		if (CollectionUtils.isNotEmpty(nodes)) {
 			Iterator<INode> iterator = nodes.iterator();
 			while (iterator.hasNext() && buffer.length() < length) {
 				INode node = iterator.next();
 				ResourcesCasecadeNode casecade = (ResourcesCasecadeNode) node;
+				String title = LangUtils.replaceAll(casecade.getResourcesTitle(), RegexUtils.HTML_TAG, "");
 				String content = LangUtils.replaceAll(casecade.getResourcesContent(), RegexUtils.HTML_TAG, "");
+				if (!LangUtils.isBlank(title)) {
+					buffer.append(title);
+				}
 				if (!LangUtils.isBlank(content)) {
 					buffer.append(content);
 				}
 			}
 		}
-		return LangUtils.subtringDefaultAppender(buffer.toString(), length);
+		return buffer;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.luna.service.sync.AbstractListWhileDo#doElement(java.lang.Object,
+	 * long)
+	 */
+	@Override
+	public void doElement(ResourceSolr node, long count) {
+
+		solrComponet.persistenceWhile(node, count, COMMIT_LIMIT_COUNT);
+
+		LOGGER.info("current complete count is:" + count);
 	}
 
 	/*

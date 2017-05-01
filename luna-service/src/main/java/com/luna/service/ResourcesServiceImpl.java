@@ -103,7 +103,7 @@ public class ResourcesServiceImpl implements ResourcesService {
 				resourcesMapper.deleteById(rsId);
 				ResourcesUtils.deleteResourcesFile(resourcesRelativePath, rsId);
 			} else if (LangUtils.equals(9, op)) {
-				// 全部上线
+				// 待上线状态的全部上线全
 				new Render(new RenderParameter(resourcesMapper, contentMarkMapper, factoryBean.getObject(),
 						resourcesRelativePath, freemarkerTemplateName, String.valueOf(StatusEnum.INIT.getCode()), null))
 								.render();

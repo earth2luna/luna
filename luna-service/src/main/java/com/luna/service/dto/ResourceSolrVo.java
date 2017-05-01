@@ -14,6 +14,7 @@ public class ResourceSolrVo extends ResourceSolr {
 	
 
 	private String requestUrl;
+	private String highlight;
 
 	/**
 	 * @return the requestUrl
@@ -29,5 +30,22 @@ public class ResourceSolrVo extends ResourceSolr {
 	public void setRequestUrl(String requestUrl) {
 		this.requestUrl = requestUrl;
 	}
+
+	/**
+	 * @return the highlight
+	 */
+	public String getHighlight() {
+		return highlight;
+	}
+
+	/**
+	 * @param highlight the highlight to set
+	 */
+	public void setHighlight(String highlight) {
+		this.highlight = highlight;
+	}
+
+	
+	
 
 }

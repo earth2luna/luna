@@ -32,7 +32,7 @@ public class ContentController extends ParentController {
 	@RequestMapping("/query")
 	public String query(Model model, Long rsId) {
 		model.addAttribute("rsId", rsId);
-		return "/content_list";
+		return "behind/content_list";
 	}
 
 	@RequestMapping("/queryItems")
@@ -40,7 +40,7 @@ public class ContentController extends ParentController {
 		setDefaultStaticModel(model, HandlerMethodEnum.class, LangUtils.class);
 		Page<ResourcesContent> page = contentService.selectResourcesContents(rsId, pageNow);
 		model.addAttribute("page", page);
-		return "/content_query_items";
+		return "behind/content_query_items";
 	}
 
 	@RequestMapping("/queryForm")
@@ -48,7 +48,7 @@ public class ContentController extends ParentController {
 		model.addAttribute("handlers", HandlerMethodEnum.values());
 		model.addAttribute("parents", contentService.selectParentContents(rsId));
 		model.addAttribute("content", contentService.selectById(cId));
-		return "/content_query_form";
+		return "behind/content_query_form";
 	}
 
 	@RequestMapping("/mdf")

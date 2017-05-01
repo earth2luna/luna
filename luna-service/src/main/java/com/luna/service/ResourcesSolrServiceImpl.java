@@ -5,9 +5,13 @@ package com.luna.service;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,7 @@ import com.luna.service.componet.SolrComponet;
 import com.luna.service.componet.SolrQueryPage;
 import com.luna.service.componet.SuggetVo;
 import com.luna.service.data.utils.Configure;
+import com.luna.service.data.utils.Constants;
 import com.luna.service.data.utils.ResourcesUtils;
 import com.luna.service.dto.ResourceSolrVo;
 import com.luna.service.sync.SynchronizedResource;
@@ -74,13 +79,14 @@ public class ResourcesSolrServiceImpl implements ResourcesSolrService {
 		return resourceSolrComponet.querySugget(query);
 	}
 
-	private void evalResourceRequestPath(Page<ResourceSolrVo> page) {
+	private void evalResource(Page<ResourceSolrVo> page) {
 		if (!(null == page || page.getList().isEmpty())) {
 			Iterator<ResourceSolrVo> iterator = page.getList().iterator();
 			while (iterator.hasNext()) {
 				ResourceSolrVo solrVo = iterator.next();
 				solrVo.setRequestUrl(
 						ResourcesUtils.getWebResourcesPath(Configure.getResourceRelativePath(), solrVo.getId()));
+				solrVo.setHighlight(solrVo.getSummary());
 			}
 		}
 	}
@@ -92,29 +98,77 @@ public class ResourcesSolrServiceImpl implements ResourcesSolrService {
 	 */
 	@Override
 	public Page<ResourceSolrVo> query(String query, Integer pageNow) {
-		if (StringUtils.isNotEmpty(query)) {
+		if (!(StringUtils.isEmpty(query) || query.matches("\\**"))) {
 			try {
-				SolrQueryPage solrQuery = new SolrQueryPage("suggest:*" + LangUtils.trim(query) + "*", pageNow, null);
+				// fields
+				String primaryField = "id";
+				String queryField = "suggest";
+
+				// set sorl query
+				SolrQueryPage solrQuery = new SolrQueryPage(queryField + ":*"
+						+ LangUtils.subtring(LangUtils.trim(query), Constants.QUERY_STRING_MAX_LENGTH) + "*", pageNow,
+						null);
+				// set highlight
+				solrQuery.setHighlight(true);
+				solrQuery.addHighlightField(queryField);
+				solrQuery.setHighlightFragsize(Constants.SOLR_RESULT_SUMMARY_MAX_LENGTH);
+				solrQuery.setHighlightSimplePre("<span class=\"front-color-red\">");
+				solrQuery.setHighlightSimplePost("</span>");
+				solrQuery.set("hl.preserveMulti", true);
+				// set sort
 				solrQuery.addSort("sourceDate", ORDER.desc);
 				solrQuery.addSort("createTime", ORDER.desc);
-				Page<ResourceSolrVo> page = resourceSolrComponet.query(solrQuery, ResourceSolrVo.class);
-				evalResourceRequestPath(page);
+				// get response
+				QueryResponse queryResponse = resourceSolrComponet.getSolrClient().query(solrQuery);
+				SolrDocumentList solrDocumentList = queryResponse.getResults();
+				Page<ResourceSolrVo> page = new Page<ResourceSolrVo>();
+				page.setCount(solrDocumentList.getNumFound());
+				page.setPageNow(solrQuery.getPageNow());
+				page.setPageSize(solrQuery.getPageSize());
+				// get highlight and results
+				Map<String, Map<String, List<String>>> highlightMap = queryResponse.getHighlighting();
+
+				for (SolrDocument doc : solrDocumentList) {
+					ResourceSolrVo solrVo = resourceSolrComponet.getSolrClient().getBinder()
+							.getBean(ResourceSolrVo.class, doc);
+					// set request url
+					solrVo.setRequestUrl(
+							ResourcesUtils.getWebResourcesPath(Configure.getResourceRelativePath(), solrVo.getId()));
+					// set highlight
+					List<String> summarys = highlightMap.get(doc.getFieldValue(primaryField).toString())
+							.get(queryField);
+					String highlight = StringUtils.join(summarys, " ");
+					if (StringUtils.isEmpty(highlight)
+							|| highlight.length() < Constants.SOLR_RESULT_SUMMARY_MAX_LENGTH) {
+						solrVo.setHighlight(LangUtils.subtringDefaultAppender(
+								LangUtils.append(highlight, " - ", solrVo.getSummary()),
+								Constants.SOLR_RESULT_SUMMARY_MAX_LENGTH));
+					} else {
+						solrVo.setHighlight(highlight+"...");
+					}
+
+					page.addList(solrVo);
+				}
 				return page;
 			} catch (Exception e) {
 				LOGGER.error("query error:", e);
 			}
 		}
-		return null;
+		return query(pageNow);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.luna.service.ResourcesSolrService#query()
-	 */
-	@Override
-	public Page<ResourceSolrVo> query() {
-		return query("*", 1);
+	public Page<ResourceSolrVo> query(Integer pageNow) {
+		try {
+			SolrQueryPage solrQuery = new SolrQueryPage("*:*", pageNow, null);
+			solrQuery.addSort("sourceDate", ORDER.desc);
+			solrQuery.addSort("createTime", ORDER.desc);
+			Page<ResourceSolrVo> page = resourceSolrComponet.query(solrQuery, ResourceSolrVo.class);
+			evalResource(page);
+			return page;
+		} catch (Exception e) {
+			LOGGER.error("query error:", e);
+		}
+		return null;
 	}
 
 }

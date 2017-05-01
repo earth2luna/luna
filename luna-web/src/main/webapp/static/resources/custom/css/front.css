@@ -22,3 +22,12 @@
 	height: 64px;
 	margin-bottom: 0px;
 }
+
+.front-color-red {
+	color: red;
+}
+
+.front-header-padding {
+	padding-top: 30px;
+	padding-bottom: 30px;
+}

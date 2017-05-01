@@ -124,7 +124,6 @@ public abstract class SolrComponet implements InitializingBean {
 		}
 	}
 
-
 	public <T> Page<T> query(SolrQueryPage query, Class<T> type) {
 		Page<T> page = new Page<T>();
 		try {

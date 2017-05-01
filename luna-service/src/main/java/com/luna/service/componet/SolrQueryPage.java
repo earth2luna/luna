@@ -5,6 +5,7 @@ package com.luna.service.componet;
 
 import org.apache.solr.client.solrj.SolrQuery;
 
+import com.luna.service.data.utils.Constants;
 import com.luna.utils.LangUtils;
 
 /**
@@ -27,7 +28,7 @@ public class SolrQueryPage extends SolrQuery {
 
 	private void set(Integer pageNow, Integer pageSize) {
 		int defaultPageNow = LangUtils.defaultValue(pageNow, 1);
-		int defaultPageSize = LangUtils.defaultValue(pageSize, 7);
+		int defaultPageSize = LangUtils.defaultValue(pageSize, Constants.HOME_SEARCH_ITEMS_PAGE_SIZE);
 		this.pageNow = defaultPageNow;
 		this.pageSize = defaultPageSize;
 		this.setStart((defaultPageNow - 1) * defaultPageSize);

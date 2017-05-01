@@ -3,6 +3,7 @@
  */
 package com.luna.utils.classes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,6 +50,13 @@ public class Page<T> {
 	 */
 	public void setList(List<T> list) {
 		this.list = list;
+	}
+
+	public void addList(T t) {
+		if (null == this.list) {
+			setList(new ArrayList<T>());
+		}
+		this.list.add(t);
 	}
 
 	/**

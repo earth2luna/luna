@@ -24,5 +24,4 @@ public interface ResourcesSolrService {
 
 	public Page<ResourceSolrVo> query(String query, Integer pageNo);
 
-	public Page<ResourceSolrVo> query();
 }

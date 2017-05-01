@@ -31,14 +31,14 @@ public class ResourcesController extends ParentController {
 	@RequestMapping("/query")
 	public String query(Model model) {
 		model.addAttribute("status_list", StatusEnum.values());
-		return "/resources_list";
+		return "behind/resources_list";
 	}
 
 	@RequestMapping("/queryItems")
 	public String queryItems(Model model, String sts, Integer pageNow) {
 		setDefaultStaticModel(model, CategoryEnum.class, CreatorEnum.class, StatusEnum.class);
 		model.addAttribute("page", resourcesService.selectResources(sts, pageNow));
-		return "/resources_query_items";
+		return "behind/resources_query_items";
 	}
 
 	@RequestMapping("/queryForm")
@@ -46,7 +46,7 @@ public class ResourcesController extends ParentController {
 		model.addAttribute("category_list", CategoryEnum.values());
 		model.addAttribute("creator_list", CreatorEnum.values());
 		model.addAttribute("resources", resourcesService.selectById(rsId));
-		return "/resources_query_form";
+		return "behind/resources_query_form";
 	}
 
 	@RequestMapping("/operation")
