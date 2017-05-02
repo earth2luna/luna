@@ -9,15 +9,17 @@
 <script src="/static/resources/custom/js/super.operation.js"></script>
 </head>
 <body>
-	<#include "luna_languge.html"/>
+	<#include "behind/luna_languge.html"/>
+	<hr>
+	<a href="/resources/query" target="_blank">资源列表</a>
 	<hr>
 	<select class="script-super-select">
 		<option value="1">SYNCHRONIZED RESOURCE DATA TO SOLR</option>
-		<option value="2">DELETE RESOURCE SOLR FROM </option>
+		<option value="2">DELETE RESOURCE SOLR FROM</option>
 	</select>
 	<span class="script-super_select-parameter"></span>
 	<br>
-	<span class="script-super-select-show" style="color:red"></span>
+	<span class="script-super-select-show" style="color: red"></span>
 	<br>
 	<button onclick="doIt();">执行任务</button>
 </body>

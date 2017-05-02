@@ -3,6 +3,7 @@
  */
 package com.luna.utils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
@@ -49,8 +50,7 @@ public class IOUtils {
 		}
 	}
 
-	public static void write(Writer writer, IHandler handlder)
-			throws IOException {
+	public static void write(Writer writer, IHandler handlder) throws IOException {
 		try {
 			handlder.handle(writer);
 			writer.flush();
@@ -70,11 +70,34 @@ public class IOUtils {
 		}
 	}
 
-	public static InputStream openInputStream(File file)
-			throws FileNotFoundException {
+	public static InputStream openInputStream(File file) throws FileNotFoundException {
 		AssertUtils.isTrue(file.isFile());
 		AssertUtils.isTrue(file.canRead());
 		return new FileInputStream(file);
+	}
+
+	public static byte[] readBytes(String path) {
+		try {
+			return readBytes(openInputStream(new File(path)));
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public static byte[] readBytes(InputStream in) {
+		int buffSize = 1024;
+		ByteArrayOutputStream out = new ByteArrayOutputStream(buffSize);
+		byte[] buffer = new byte[buffSize];
+		int size = 0;
+		try {
+			while ((size = in.read(buffer)) != -1) {
+				out.write(buffer, 0, size);
+			}
+		} catch (IOException e) {
+			close(in);
+		}
+		byte[] content = out.toByteArray();
+		return content;
 	}
 
 }

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<#include "front/layout_header.html"/>
+<body>
+	<#include "front/layout_body_header.html"/> <#include
+	"front/layout_body_banner.html"/>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4">
+				<div class="margin-bottom">
+					<form action="/signin" method="post">
+						<div class="input-group margin-bottom-sm">
+							<span class="input-group-addon"> <i class="fa fa-user fa-fw"></i></span> 
+							<input class="form-control" type="text" placeholder="您的用户名" name="userName">
+						</div>
+						<br>
+						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+							<input class="form-control" type="password" placeholder="请输入密码" name="password">
+						</div>
+						<br>
+						<div class="btn-group open">
+						  <button type="submit" class="btn btn-default btn-primary"><i class="fa fa-check fa-fw"></i> 登陆</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<#include "front/layout_body_footer.html"/>
+</body>
+</html>

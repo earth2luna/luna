@@ -3,18 +3,24 @@
  */
 package com.luna.web.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
-import org.apache.commons.lang.math.RandomUtils;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.luna.service.ResourcesSolrService;
+import com.luna.service.data.utils.Configure;
 import com.luna.service.data.utils.Constants;
-import com.luna.service.dto.PageHeaderSayVo;
+import com.luna.utils.LangUtils;
+import com.luna.utils.VerificationUtils;
+import com.luna.web.security.AuthenticationTicket;
+import com.luna.web.security.SecurityConstants;
 
 /**
  * @author laulyl
@@ -22,24 +28,18 @@ import com.luna.service.dto.PageHeaderSayVo;
  * @description
  */
 @Controller
-public class IndexController {
-
-	private static final List<PageHeaderSayVo> PAGE_HEADER_SAY = new ArrayList<PageHeaderSayVo>() {
-
-		private static final long serialVersionUID = -634655138563100362L;
-		{
-			add(new PageHeaderSayVo("生活不止眼前的苟且", "生活之外，不要忘了最初的梦想；不过于执着于物质，多读书，也许会明白自己真正的远方在哪里。——高晓松"));
-			add(new PageHeaderSayVo("生如夏花", "我听见回声，来自山谷和心间；生如夏花之绚烂，死如秋叶之静美；还在乎拥有什么。——泰戈尔"));
-			add(new PageHeaderSayVo("生如夏花", "惊鸿一般短暂，像夏花一样绚烂；我从远方赶来，赴你一面之约；我为你来看我不顾一切；我将熄灭永不能再回来。——朴树"));
-		}
-	};
+public class IndexController extends ParentController {
 
 	@Autowired
 	private ResourcesSolrService resourcesSolrService;
 
+	@ModelAttribute
+	public void indexAnywhere(Model model) {
+		addPageHeaderSay(model);
+	}
+
 	@RequestMapping("/")
 	public String home(Model model) {
-		model.addAttribute("PAGE_HEADER_SAY", PAGE_HEADER_SAY.get(RandomUtils.nextInt(PAGE_HEADER_SAY.size())));
 		model.addAttribute("QUERY_STRING_MAX_LENGTH", Constants.QUERY_STRING_MAX_LENGTH);
 		model.addAttribute("page", resourcesSolrService.query(null, 1));
 		return "front/page_home";
@@ -47,7 +47,34 @@ public class IndexController {
 
 	@RequestMapping("/about")
 	public String about(Model model) {
-		model.addAttribute("PAGE_HEADER_SAY", PAGE_HEADER_SAY.get(RandomUtils.nextInt(PAGE_HEADER_SAY.size())));
 		return "front/page_about";
+	}
+
+	@RequestMapping("/login")
+	public String login(Model model) {
+		return "front/page_login";
+	}
+
+	@RequestMapping("/signin")
+	public void signIn(Model model, String userName, String password, HttpServletResponse response) {
+		String returnUrl = Configure.getLoginPageUrl();
+		if (StringUtils.isNotEmpty(userName) && StringUtils.isNotEmpty(password)) {
+			String signIn = VerificationUtils.getMD5Encode(LangUtils.append(userName, ":", password));
+			if (Configure.getSignInPassKey().equals(signIn)) {
+				try {
+					addCookie(response, Configure.getSignInCookiesName(),
+							SecurityConstants.getBase64String(new AuthenticationTicket(userName, null, null)),
+							SecurityConstants.LOGIN_STAY_TIME_SECONDS);
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+				returnUrl = Configure.getLoginSuccessUrl();
+			}
+		}
+		try {
+			response.sendRedirect(returnUrl);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }
