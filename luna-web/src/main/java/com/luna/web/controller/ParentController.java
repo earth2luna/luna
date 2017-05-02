@@ -6,6 +6,7 @@ package com.luna.web.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.ext.beans.BeansWrapperBuilder;
@@ -18,7 +19,6 @@ import freemarker.template.TemplateModelException;
  * @description
  */
 public class ParentController {
-
 	private static final Logger LOGGER = LoggerFactory.getLogger(ParentController.class);
 
 	protected static void setDefaultStaticModel(Model model, Class<?>... classes) {
@@ -30,5 +30,10 @@ public class ParentController {
 				LOGGER.error("[static model error]", e);
 			}
 		}
+	}
+
+	@ModelAttribute
+	public void anywhere(Model model) {
+
 	}
 }

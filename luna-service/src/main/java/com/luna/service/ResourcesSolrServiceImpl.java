@@ -98,7 +98,7 @@ public class ResourcesSolrServiceImpl implements ResourcesSolrService {
 	 */
 	@Override
 	public Page<ResourceSolrVo> query(String query, Integer pageNow) {
-		if (!(StringUtils.isEmpty(query) || query.matches("\\**"))) {
+		if (!(StringUtils.isEmpty(query) || query.matches("[\\*\\:]*"))) {
 			try {
 				// fields
 				String primaryField = "id";

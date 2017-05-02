@@ -55,11 +55,6 @@ public class SynchronizedResource extends AbstractListWhileDo<ResourceSolr> {
 	 */
 	@Override
 	public List<ResourceSolr> getList(long count) {
-		// Page<Resources> page =
-		// ResourcesUtils.selectResources(resourcesMapper,
-		// String.valueOf(StatusEnum.ONLINE.getCode()),
-		// LangUtils.intValueOfNumber(count));
-		// return page.getList();
 
 		List<ResourcesCasecade> casecades = ResourcesUtils.selectResourcesCasecades(resourcesMapper,
 				LangUtils.intValueOfNumber(count), String.valueOf(StatusEnum.ONLINE.getCode()), null);
@@ -74,19 +69,30 @@ public class SynchronizedResource extends AbstractListWhileDo<ResourceSolr> {
 		ResourcesCasecadeNode t = null;
 		String imageUrl = null;
 		StringBuffer summary = new StringBuffer();
-		int length = Constants.SOLR_RESULT_SUMMARY_MAX_LENGTH;
+		int solrSummaryMaxLength = Constants.SOLR_RESULT_SUMMARY_MAX_LENGTH;
+		StringBuffer content = new StringBuffer();
+		int solrContentMaxLength = Constants.SOLR_STORE_CONTENT_MAX_LENGTH;
 		// has next
-		// empty image url
-		// summary < length
-		while (iterator.hasNext() && (StringUtils.isEmpty(imageUrl) || (null == summary || length > summary.length()))) {
+		// &&
+		// ( empty image url ||
+		// summary < solrSummaryMaxLength ||
+		// content < solrContentMaxLength)
+		while (iterator.hasNext()
+				&& (StringUtils.isEmpty(imageUrl) || (null == summary || solrSummaryMaxLength > summary.length())
+						|| (null == content || solrContentMaxLength > content.length()))) {
+
 			t = (ResourcesCasecadeNode) iterator.next();
 
 			if (StringUtils.isEmpty(imageUrl)) {
 				imageUrl = getImageUrl(t);
 			}
 
-			if (null == summary || length > summary.length()) {
-				evalueSummary(summary, t, length);
+			if (null == summary || solrSummaryMaxLength > summary.length()) {
+				evalueSummary(summary, t, solrSummaryMaxLength);
+			}
+
+			if (null == content || solrContentMaxLength > content.length()) {
+				evalueSummary(content, t, solrContentMaxLength);
 			}
 		}
 
@@ -99,13 +105,17 @@ public class SynchronizedResource extends AbstractListWhileDo<ResourceSolr> {
 		// LOGGER.error("pin yin error:", e);
 		// }
 		ResourceSolr resourceSolr = new ResourceSolr(t.getResourcesId().toString(), t.getResourcesTitle(), imageUrl,
-				LangUtils.subtringDefaultAppender(summary.toString(), length), t.getResourcesCreateTime(),
+				LangUtils.subtringDefaultAppender(summary.toString(), solrSummaryMaxLength), t.getResourcesCreateTime(),
 				t.getResourcesCreatetorId(), CreatorEnum.getName(t.getResourcesCreatetorId()),
 				t.getResourcesCategroyId(), CategoryEnum.getName(t.getResourcesCategroyId()),
 				t.getResourcesSourceAuthor(), t.getResourcesSourceDate(), t.getResourcesThumbnail(), titlePinyin);
+		// set content
+		resourceSolr.setContent(LangUtils.subtringDefaultAppender(content.toString(), solrContentMaxLength));
+
 		List<ResourceSolr> list = new ArrayList<ResourceSolr>() {
 
-			private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 3013883866990547963L;
+
 			{
 				add(resourceSolr);
 			}
@@ -128,24 +138,30 @@ public class SynchronizedResource extends AbstractListWhileDo<ResourceSolr> {
 		return null;
 	}
 
-	private StringBuffer evalueSummary(StringBuffer buffer, ResourcesCasecadeNode t, int length) {
+	private void evalueSummary(StringBuffer buffer, ResourcesCasecadeNode t, int length) {
+		evalueSummary(buffer, t);
 		List<INode> nodes = t.getChildrens();
 		if (CollectionUtils.isNotEmpty(nodes)) {
 			Iterator<INode> iterator = nodes.iterator();
 			while (iterator.hasNext() && buffer.length() < length) {
 				INode node = iterator.next();
 				ResourcesCasecadeNode casecade = (ResourcesCasecadeNode) node;
-				String title = LangUtils.replaceAll(casecade.getResourcesTitle(), RegexUtils.HTML_TAG, "");
-				String content = LangUtils.replaceAll(casecade.getResourcesContent(), RegexUtils.HTML_TAG, "");
-				if (!LangUtils.isBlank(title)) {
-					buffer.append(title);
-				}
-				if (!LangUtils.isBlank(content)) {
-					buffer.append(content);
-				}
+				evalueSummary(buffer, casecade);
 			}
 		}
-		return buffer;
+	}
+
+	private void evalueSummary(StringBuffer buffer, ResourcesCasecadeNode t) {
+		String title = LangUtils.replaceAll(t.getResourcesTitle(), RegexUtils.HTML_TAG, "");
+		String content = LangUtils.replaceAll(t.getResourcesContent(), RegexUtils.HTML_TAG, "");
+		if (!LangUtils.isBlank(title)) {
+			buffer.append(title);
+			buffer.append(" - ");
+		}
+		if (!LangUtils.isBlank(content)) {
+			buffer.append(content);
+			buffer.append(" ");
+		}
 	}
 
 	/*

@@ -75,5 +75,5 @@ jQuery(function() {
 					}
 				}
 			});
-	jQuery(document).on("click",".alert-danger",function(){selector_input.val("");selector_input.trigger('focus');});
+	jQuery(document).on("click",".alert-danger .alert-link",function(){selector_input.val("");selector_input.trigger('focus');});
 });

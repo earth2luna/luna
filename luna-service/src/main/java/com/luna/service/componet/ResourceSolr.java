@@ -24,6 +24,8 @@ public class ResourceSolr {
 	@Field
 	private String summary;// 简介
 	@Field
+	private String content;//内容
+	@Field
 	private Date createTime;// 创建时间
 	@Field
 	private Long creatorId;// 创建人id
@@ -260,6 +262,22 @@ public class ResourceSolr {
 	 */
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+
+
+	/**
+	 * @return the content
+	 */
+	public String getContent() {
+		return content;
+	}
+
+
+	/**
+	 * @param content the content to set
+	 */
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 }
