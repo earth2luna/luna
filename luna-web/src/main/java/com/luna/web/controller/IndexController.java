@@ -44,4 +44,10 @@ public class IndexController {
 		model.addAttribute("page", resourcesSolrService.query(null, 1));
 		return "front/page_home";
 	}
+
+	@RequestMapping("/about")
+	public String about(Model model) {
+		model.addAttribute("PAGE_HEADER_SAY", PAGE_HEADER_SAY.get(RandomUtils.nextInt(PAGE_HEADER_SAY.size())));
+		return "front/page_about";
+	}
 }

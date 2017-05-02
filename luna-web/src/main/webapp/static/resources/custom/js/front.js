@@ -75,5 +75,20 @@ jQuery(function() {
 					}
 				}
 			});
-	jQuery(document).on("click",".alert-danger .alert-link",function(){selector_input.val("");selector_input.trigger('focus');});
+	
+	jQuery(document).on("click", ".alert-danger .alert-link", function() {
+		selector_input.val("");
+		selector_input.trigger('focus');
+	});
+
+	$.scrollUp({
+		scrollName : "scrollUp",
+		topDistance : "300",
+		topSpeed : 300,
+		animation : "fade",
+		animationInSpeed : 200,
+		animationOutSpeed : 200,
+		scrollText : '<i class="fa fa-angle-up"></i>',
+		activeOverlay : !1
+	})
 });
