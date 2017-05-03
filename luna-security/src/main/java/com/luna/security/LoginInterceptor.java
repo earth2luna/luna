@@ -68,7 +68,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
 	public boolean tryIsLogin(HttpServletRequest request, HttpServletResponse response) {
 		AuthenticationTicket ticket = parseTicket(request, response);
-		String path = request.getServletPath();
+		String path = request.getRequestURI();
 		boolean ret = true;
 		if (needLogin(path) && (null == ticket || ticket.isExpired())) {
 			redirect2LoginPage(request, response);

@@ -13,6 +13,7 @@ import com.luna.dao.mapper.IResourcesContentMapper;
 import com.luna.dao.mapper.IResourcesMapper;
 import com.luna.dao.po.Resources;
 import com.luna.service.data.utils.ContentUtils;
+import com.luna.service.dto.CatcherContent;
 import com.luna.service.enumer.resource.CategoryEnum;
 import com.luna.service.enumer.resource.CreatorEnum;
 import com.luna.service.enumer.resource.StatusEnum;

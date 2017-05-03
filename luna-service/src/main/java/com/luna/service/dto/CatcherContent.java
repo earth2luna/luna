@@ -1,7 +1,7 @@
 /**
  * COPYRIGHT@LAULYL
  */
-package com.luna.service.catcher;
+package com.luna.service.dto;
 
 import com.luna.dao.po.ResourcesContent;
 

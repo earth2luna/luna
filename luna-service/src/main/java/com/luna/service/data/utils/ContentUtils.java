@@ -13,7 +13,7 @@ import org.apache.commons.collections.CollectionUtils;
 import com.luna.dao.mapper.IResourcesContentMapper;
 import com.luna.dao.po.ResourcesContent;
 import com.luna.dao.vo.ResourcesCasecade;
-import com.luna.service.catcher.CatcherContent;
+import com.luna.service.dto.CatcherContent;
 import com.luna.utils.LangUtils;
 import com.luna.utils.classes.Page;
 
