@@ -22,9 +22,7 @@ public class SecurityListener implements ServletContextListener {
 	 */
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
-		System.out.println("*****************override start**************************");
 		SecurityCusor.overrideKeyPair();
-		System.out.println("*****************override end**************************");
 	}
 
 	/*

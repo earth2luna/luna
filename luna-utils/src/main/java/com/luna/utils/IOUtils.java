@@ -50,17 +50,13 @@ public class IOUtils {
 		return new FileWriter(file);
 	}
 
-	public static void checkOpenFile(File file) {
+	public static void checkOpenFile(File file) throws IOException {
 		if (file.exists()) {
 			AssertUtils.isTrue(file.isFile());
 			AssertUtils.isTrue(file.canRead());
+			AssertUtils.isTrue(file.canWrite());
 		} else {
-			File parent = file.getParentFile();
-			if (parent.exists()) {
-				AssertUtils.isTrue(parent.isDirectory());
-			} else {
-				AssertUtils.isTrue(parent.mkdirs());
-			}
+			FilePropertyUtils.touchFile(file);
 		}
 	}
 
