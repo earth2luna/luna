@@ -1,7 +1,7 @@
 /**
  * COPYRIGHT@LAULYL
  */
-package com.luna.web.security;
+package com.luna.security;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.AntPathMatcher;
@@ -21,7 +21,6 @@ import org.springframework.util.PathMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.luna.service.data.utils.Configure;
 import com.luna.utils.IOUtils;
 
 /**
@@ -88,7 +87,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 		if (ArrayUtils.isNotEmpty(cookies)) {
 			for (int i = 0; i < cookies.length && null == ticket; i++) {
 				Cookie cookie = cookies[i];
-				if (!Configure.getSignInCookiesName().equals(cookie.getName())) {
+				if (!Configuration.signInCookiesName.equals(cookie.getName())) {
 					continue;
 				}
 				try {
@@ -104,7 +103,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 	}
 
 	public boolean needLogin(String path) {
-		if (StringUtils.equals(path, Configure.getLoginPageUrl())) {
+		if (StringUtils.equals(path, Configuration.loginPageUrl)) {
 			return false;
 		}
 		if ((StringUtils.isEmpty(path)) || CollectionUtils.isEmpty(unLoginPaths)) {
@@ -138,7 +137,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 				response.setHeader("Pragma", "No-cache");
 				response.setHeader("Cache-Control", "no-cache");
 				response.setDateHeader("Expires", 0L);
-				response.sendRedirect(Configure.getLoginPageUrl());
+				response.sendRedirect(Configuration.loginPageUrl);
 			} catch (IOException e) {
 				LOGGER.error("send redirect response error:", e);
 			}

@@ -6,9 +6,6 @@ package com.luna.web.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.math.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,10 +57,4 @@ public class ParentController {
 
 	}
 
-	public static void addCookie(HttpServletResponse response, String key, String value, int maxAge) {
-		Cookie cookie = new Cookie(key, value);
-		cookie.setPath("/");
-		cookie.setMaxAge(maxAge);
-		response.addCookie(cookie);
-	}
 }

@@ -1,4 +1,4 @@
-package com.luna.web.security;
+package com.luna.security;
 
 import java.util.Date;
 

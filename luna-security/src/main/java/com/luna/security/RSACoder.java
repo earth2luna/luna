@@ -1,7 +1,7 @@
 /**
  * COPYRIGHT@LAULYL
  */
-package com.luna.web.security;
+package com.luna.security;
 
 import java.io.ByteArrayOutputStream;
 import java.security.Key;

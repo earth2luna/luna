@@ -4,6 +4,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.luna.security.Configuration;
+
 /**
  * @author laulyl
  * @time 2017年4月13日上午10:30:55
@@ -25,7 +27,7 @@ public class Configure implements InitializingBean {
 
 	@Value("${login.page.url}")
 	private String loginPageUrl;
-	
+
 	@Value("${login.success.url}")
 	private String loginSuccessUrl;
 
@@ -44,7 +46,7 @@ public class Configure implements InitializingBean {
 	public static String getLoginPageUrl() {
 		return configure.loginPageUrl;
 	}
-	
+
 	public static String getLoginSuccessUrl() {
 		return configure.loginSuccessUrl;
 	}
@@ -62,6 +64,11 @@ public class Configure implements InitializingBean {
 		configure.signInCookiesName = signInCookiesName;
 		configure.loginPageUrl = loginPageUrl;
 		configure.loginSuccessUrl = loginSuccessUrl;
+
+		Configuration.loginInitKey = signInPassKey;
+		Configuration.signInCookiesName = signInCookiesName;
+		Configuration.loginPageUrl = loginPageUrl;
+		Configuration.loginSuccessUrl = loginSuccessUrl;
 	}
 
 }

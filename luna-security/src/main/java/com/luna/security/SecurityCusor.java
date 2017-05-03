@@ -1,7 +1,7 @@
 /**
  * COPYRIGHT@LAULYL
  */
-package com.luna.web.security;
+package com.luna.security;
 
 import java.security.Key;
 import java.security.KeyPair;
@@ -34,11 +34,13 @@ public class SecurityCusor {
 
 	public static final String NO_LOGIN_OBJECT = "{\"code\":\"0\",\"message\":\"NotLogin\"}";
 
-	public static final String SECURITY_PRIVATE_RAS_PATH = FilePropertyUtils
-			.appendPath(ClassLoaderUtils.getLocation(LoginInterceptor.class), SecurityCusor.SECURITY_PRIVATE_RAS);
+	public static final String CLASS_PATH = FilePropertyUtils.filterPathAsWeb(ClassLoaderUtils.getLocation("."));
 
-	public static final String SECURITY_PUBLIC_RAS_PATH = FilePropertyUtils
-			.appendPath(ClassLoaderUtils.getLocation(LoginInterceptor.class), SecurityCusor.SECURITY_PUBLIC_RAS);
+	public static final String SECURITY_PRIVATE_RAS_PATH = FilePropertyUtils.appendPath(CLASS_PATH, "security",
+			SecurityCusor.SECURITY_PRIVATE_RAS);
+
+	public static final String SECURITY_PUBLIC_RAS_PATH = FilePropertyUtils.appendPath(CLASS_PATH, "security",
+			SecurityCusor.SECURITY_PUBLIC_RAS);
 
 	private static Key publicKey;
 

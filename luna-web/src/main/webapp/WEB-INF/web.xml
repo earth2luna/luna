@@ -10,7 +10,7 @@
 	</context-param>
 
 	<listener>
-		<listener-class>com.luna.web.security.SecurityListener</listener-class>
+		<listener-class>com.luna.security.SecurityListener</listener-class>
 	</listener>
 
 	<listener>

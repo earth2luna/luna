@@ -15,6 +15,7 @@
 		<junit.version>4.12</junit.version>
 		<luna.dao.version>1.0-SNAPSHOT</luna.dao.version>
 		<luna.utils.version>1.0-SNAPSHOT</luna.utils.version>
+		<luna.security.version>1.0-SNAPSHOT</luna.security.version>
 		<freemaker.version>2.3.23</freemaker.version>
 		<jsoup.version>1.10.2</jsoup.version>
 		<webmagic.version>0.6.1</webmagic.version>
@@ -41,6 +42,12 @@
 			<groupId>com.luna</groupId>
 			<artifactId>luna-utils</artifactId>
 			<version>${luna.utils.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.luna</groupId>
+			<artifactId>luna-security</artifactId>
+			<version>${luna.security.version}</version>
 		</dependency>
 
 		<dependency>

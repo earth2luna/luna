@@ -1,7 +1,7 @@
 /**
  * COPYRIGHT@LAULYL
  */
-package com.luna.web.security;
+package com.luna.security;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -23,6 +23,10 @@ public class SecurityListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		SecurityCusor.overrideKeyPair();
+		Configuration.loginPageUrl = sce.getServletContext().getInitParameter(Configuration.LOGIN_PAGE_URL);
+		Configuration.loginSuccessUrl = sce.getServletContext().getInitParameter(Configuration.LOGIN_SUCCESS_URL);
+		Configuration.signInCookiesName = sce.getServletContext().getInitParameter(Configuration.SIGN_IN_COOKIES_NAME);
+		Configuration.loginInitKey = sce.getServletContext().getInitParameter(Configuration.LOGIN_INIT_KEY);
 	}
 
 	/*
@@ -33,7 +37,6 @@ public class SecurityListener implements ServletContextListener {
 	 */
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
-
 	}
 
 }
