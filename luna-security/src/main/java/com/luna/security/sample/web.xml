@@ -8,17 +8,17 @@
 		<param-name>SIGN_IN_COOKIES_NAME</param-name>
 		<param-value>_apoollo_s_</param-value>
 	</context-param>
-	
+
 	<context-param>
 		<param-name>LOGIN_PAGE_URL</param-name>
 		<param-value>//apoollo.com/login</param-value>
 	</context-param>
-	
+
 	<context-param>
 		<param-name>LOGIN_SUCCESS_URL</param-name>
 		<param-value>//apoollo.com/super/view</param-value>
 	</context-param>
-	
+
 	<context-param>
 		<param-name>LOGIN_INIT_KEY</param-name>
 		<param-value>69ba1c09e383ea646b6fffe6d3388dc</param-value>
@@ -29,35 +29,13 @@
 	</listener>
 
 	<filter>
-		<filter-name>encodingFilter</filter-name>
-		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-		<init-param>
-			<param-name>encoding</param-name>
-			<param-value>UTF-8</param-value>
-		</init-param>
-		<init-param>
-			<param-name>forceEncoding</param-name>
-			<param-value>true</param-value>
-		</init-param>
+		<filter-name>loginFilter</filter-name>
+		<filter-class>com.luna.security.LoginFilter</filter-class>
 	</filter>
-	
+
 	<filter-mapping>
-		<filter-name>encodingFilter</filter-name>
+		<filter-name>loginFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-	<servlet>
-		<servlet-name>mvc</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:applicationContext-mvc.xml</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>mvc</servlet-name>
-		<url-pattern>/*</url-pattern>
-	</servlet-mapping>
 </web-app>

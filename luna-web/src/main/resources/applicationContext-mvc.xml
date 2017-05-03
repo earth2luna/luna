@@ -45,5 +45,4 @@
 			<bean class="com.luna.security.LoginInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
-
 </beans>
