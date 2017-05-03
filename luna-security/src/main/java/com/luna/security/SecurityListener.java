@@ -27,6 +27,7 @@ public class SecurityListener implements ServletContextListener {
 		Configuration.loginSuccessUrl = sce.getServletContext().getInitParameter(Configuration.LOGIN_SUCCESS_URL);
 		Configuration.signInCookiesName = sce.getServletContext().getInitParameter(Configuration.SIGN_IN_COOKIES_NAME);
 		Configuration.loginInitKey = sce.getServletContext().getInitParameter(Configuration.LOGIN_INIT_KEY);
+		Configuration.rsaKeyPairPath = sce.getServletContext().getInitParameter(Configuration.RSA_KEY_PAIR_PATH);
 	}
 
 	/*

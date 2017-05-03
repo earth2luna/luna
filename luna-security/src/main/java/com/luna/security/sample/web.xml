@@ -5,16 +5,27 @@
 <web-app>
 
 	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:applicationContext-web.xml</param-value>
+		<param-name>SIGN_IN_COOKIES_NAME</param-name>
+		<param-value>_apoollo_s_</param-value>
 	</context-param>
 	
-	<listener>
-		<listener-class>com.luna.security.SecurityListener</listener-class>
-	</listener>
+	<context-param>
+		<param-name>LOGIN_PAGE_URL</param-name>
+		<param-value>//apoollo.com/login</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>LOGIN_SUCCESS_URL</param-name>
+		<param-value>//apoollo.com/super/view</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>LOGIN_INIT_KEY</param-name>
+		<param-value>69ba1c09e383ea646b6fffe6d3388dc</param-value>
+	</context-param>
 
 	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+		<listener-class>com.luna.security.SecurityListener</listener-class>
 	</listener>
 
 	<filter>
@@ -29,6 +40,7 @@
 			<param-value>true</param-value>
 		</init-param>
 	</filter>
+	
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
@@ -44,16 +56,4 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
-	<servlet-mapping>
-		<servlet-name>mvc</servlet-name>
-		<url-pattern>/*</url-pattern>
-	</servlet-mapping>
-	<error-page>
-		<error-code>500</error-code>
-		<location>/static/resources/404.html</location>
-	</error-page>
-	<error-page>
-		<error-code>404</error-code>
-		<location>/static/resources/404.html</location>
-	</error-page>
 </web-app>

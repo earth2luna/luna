@@ -15,14 +15,18 @@ public class Configuration {
 	public static final String LOGIN_PAGE_URL = "LOGIN_PAGE_URL";
 
 	public static final String LOGIN_SUCCESS_URL = "LOGIN_SUCCESS_URL";
-	
+
 	public static final String LOGIN_INIT_KEY = "LOGIN_INIT_KEY";
+
+	public static final String RSA_KEY_PAIR_PATH = "RSA_KEY_PAIR_PATH";
 
 	public static String signInCookiesName;
 
 	public static String loginPageUrl;
 
 	public static String loginSuccessUrl;
-	
+
 	public static String loginInitKey;
+
+	public static String rsaKeyPairPath;
 }

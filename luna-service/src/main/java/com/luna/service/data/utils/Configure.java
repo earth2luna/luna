@@ -35,22 +35,6 @@ public class Configure implements InitializingBean {
 		return configure.resourceRelativePath;
 	}
 
-	public static String getSignInPassKey() {
-		return configure.signInPassKey;
-	}
-
-	public static String getSignInCookiesName() {
-		return configure.signInCookiesName;
-	}
-
-	public static String getLoginPageUrl() {
-		return configure.loginPageUrl;
-	}
-
-	public static String getLoginSuccessUrl() {
-		return configure.loginSuccessUrl;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -60,10 +44,6 @@ public class Configure implements InitializingBean {
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		configure.resourceRelativePath = resourceRelativePath;
-		configure.signInPassKey = signInPassKey;
-		configure.signInCookiesName = signInCookiesName;
-		configure.loginPageUrl = loginPageUrl;
-		configure.loginSuccessUrl = loginSuccessUrl;
 
 		Configuration.loginInitKey = signInPassKey;
 		Configuration.signInCookiesName = signInCookiesName;

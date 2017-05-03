@@ -12,6 +12,7 @@ import com.alibaba.fastjson.JSON;
 import com.luna.utils.ClassLoaderUtils;
 import com.luna.utils.FilePropertyUtils;
 import com.luna.utils.IOUtils;
+import com.luna.utils.LangUtils;
 
 /**
  * @author laulyl
@@ -36,21 +37,21 @@ public class SecurityCusor {
 
 	public static final String CLASS_PATH = FilePropertyUtils.filterPathAsWeb(ClassLoaderUtils.getLocation("."));
 
-	public static final String SECURITY_PRIVATE_RAS_PATH = FilePropertyUtils.appendPath(CLASS_PATH, "security",
-			SecurityCusor.SECURITY_PRIVATE_RAS);
-
-	public static final String SECURITY_PUBLIC_RAS_PATH = FilePropertyUtils.appendPath(CLASS_PATH, "security",
-			SecurityCusor.SECURITY_PUBLIC_RAS);
-
 	private static Key publicKey;
 
 	private static Key privateKey;
+
+	public static String getKeyPath(String appender) {
+		String classPath = LangUtils.defaultValue(Configuration.rsaKeyPairPath, CLASS_PATH);
+		return FilePropertyUtils.appendPath(classPath, "security", appender);
+	}
 
 	public static Key getPublicKey() {
 		if (null == publicKey) {
 			synchronized (SECURITY_PUBLIC_RAS) {
 				if (null == publicKey) {
-					publicKey = RSACoder.getKeyBase64(SecurityCusor.SECURITY_PUBLIC_RAS_PATH, true);
+					String keyPath = getKeyPath(SecurityCusor.SECURITY_PUBLIC_RAS);
+					publicKey = RSACoder.getKeyBase64(keyPath, true);
 				}
 			}
 		}
@@ -61,7 +62,8 @@ public class SecurityCusor {
 		if (null == privateKey) {
 			synchronized (SECURITY_PRIVATE_RAS) {
 				if (null == privateKey) {
-					privateKey = RSACoder.getKeyBase64(SecurityCusor.SECURITY_PRIVATE_RAS_PATH, false);
+					String keyPath = getKeyPath(SecurityCusor.SECURITY_PRIVATE_RAS);
+					privateKey = RSACoder.getKeyBase64(keyPath, false);
 				}
 			}
 		}
@@ -80,9 +82,10 @@ public class SecurityCusor {
 	public static void overrideKeyPair() {
 		try {
 			KeyPair keyPair = RSACoder.generateKeyPair();
-			IOUtils.write(SecurityCusor.SECURITY_PUBLIC_RAS_PATH,
+			IOUtils.write(getKeyPath(SecurityCusor.SECURITY_PUBLIC_RAS),
 					Base64.encodeBase64String(keyPair.getPublic().getEncoded()));
-			IOUtils.write(SecurityCusor.SECURITY_PRIVATE_RAS_PATH,
+
+			IOUtils.write(getKeyPath(SecurityCusor.SECURITY_PRIVATE_RAS),
 					Base64.encodeBase64String(keyPair.getPrivate().getEncoded()));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
