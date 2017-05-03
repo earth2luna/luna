@@ -47,12 +47,13 @@ public class IndexController extends ParentController {
 	@RequestMapping("/login")
 	public String login(Model model, HttpServletRequest request) {
 		model.addAttribute("w", request.getParameter("w"));
+		model.addAttribute("key", request.getParameter("key"));
 		return "front/page_login";
 	}
 
 	@RequestMapping("/signin")
-	public void signIn(Model model, String userName, String password, HttpServletResponse response) {
-		SignIn.simpleSignIn(response, userName, password);
+	public void signIn(Model model, String key, String userName, String password, HttpServletResponse response) {
+		SignIn.simpleSignIn(response, key, userName, password);
 	}
 
 }

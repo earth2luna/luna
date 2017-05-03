@@ -9,6 +9,61 @@
 		<param-value>classpath:applicationContext-web.xml</param-value>
 	</context-param>
 	
+	<context-param>
+		<param-name>SIGN_IN_COOKIES_NAME</param-name>
+		<param-value>3ab16929a98fcb3282d89aa4b3271451</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>LOGIN_PAGE_URL</param-name>
+		<param-value>//apoollo.com/login</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>LOGIN_SUCCESS_URL</param-name>
+		<param-value>//apoollo.com/super/view</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>LOGIN_INIT_KEY</param-name>
+		<param-value>69ba1c09e383ea646b6fffe6d3388dc</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>UN_LOGIN_PATHS</param-name>
+		<param-value>/</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>IS_NEED_GENERATE_RSA</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>RSA_KEY_PAIR_PATH</param-name>
+		<param-value>C:/Users/Administrator/Desktop/build</param-value>
+	</context-param>
+	<!-- 
+	<filter>
+		<filter-name>loginFilter</filter-name>
+		<filter-class>com.luna.security.WebLoginFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>loginFilter</filter-name>
+		<url-pattern>/resources/*</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>loginFilter</filter-name>
+		<url-pattern>/content/*</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>loginFilter</filter-name>
+		<url-pattern>/super/*</url-pattern>
+	</filter-mapping>
+	 -->
 	<listener>
 		<listener-class>com.luna.security.SecurityListener</listener-class>
 	</listener>

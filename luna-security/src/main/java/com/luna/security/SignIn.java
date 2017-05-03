@@ -20,21 +20,28 @@ import com.luna.utils.VerificationUtils;
  */
 public class SignIn {
 
-	public static void simpleSignIn(HttpServletResponse response, String userName, String password) {
-		String returnUrl = LangUtils.append(Configuration.loginPageUrl, "?w=a15byq897xxc");
-		if (StringUtils.isNotEmpty(userName) && StringUtils.isNotEmpty(password)) {
+	public static void simpleSignIn(HttpServletResponse response, String key, String userName, String password) {
+		String returnUrl = null;
+		if (StringUtils.isEmpty(key)) {
+			returnUrl = "/";
+		} else if (StringUtils.isEmpty(userName) || StringUtils.isEmpty(password)) {
+			returnUrl = LangUtils.append(Configuration.loginPageUrl, "?w=a15byq897xxc&key=" + key);
+		} else {
 			String signIn = VerificationUtils.getMD5Encode(LangUtils.append(userName, ":", password));
 			if (Configuration.loginInitKey.equals(signIn)) {
 				try {
-					addCookie(response, Configuration.signInCookiesName,
+					addCookie(response, VerificationUtils.getMD5Encode(key),
 							SecurityCusor.getBase64String(new AuthenticationTicket(userName, null, null)),
 							SecurityCusor.LOGIN_STAY_TIME_SECONDS);
 				} catch (Exception e) {
 					throw new RuntimeException(e);
 				}
 				returnUrl = Configuration.loginSuccessUrl;
+			} else {
+				returnUrl = LangUtils.append(Configuration.loginPageUrl, "?w=a15byq897xxc&key=" + key);
 			}
 		}
+
 		try {
 			response.sendRedirect(returnUrl);
 		} catch (IOException e) {
@@ -48,7 +55,5 @@ public class SignIn {
 		cookie.setMaxAge(maxAge);
 		response.addCookie(cookie);
 	}
-	
-	
 
 }

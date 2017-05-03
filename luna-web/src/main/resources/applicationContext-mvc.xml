@@ -36,13 +36,14 @@
 	</bean>
 
 	<mvc:resources location="/static/" mapping="/static/**"></mvc:resources>
-
+	
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/resources/**" />
 			<mvc:mapping path="/content/**" />
 			<mvc:mapping path="/super/**" />
-			<bean class="com.luna.security.LoginInterceptor" />
+			<bean class="com.luna.security.SpringLoginInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
+	
 </beans>

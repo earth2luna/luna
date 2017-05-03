@@ -327,6 +327,17 @@ public class LangUtils {
 		return CharacterUtils.split(character, splitor);
 	}
 
+	public static Set<String> split2HashSetString(String character, String splitor) {
+		Set<String> set = new HashSet<String>();
+		List<String> list = CharacterUtils.split(character, splitor);
+		if (CollectionUtils.isNotEmpty(list)) {
+			for (String s : list) {
+				set.add(s);
+			}
+		}
+		return set;
+	}
+
 	public static boolean equals(Object object1, Object object2) {
 		try {
 			return null == object1 || null == object2 ? false

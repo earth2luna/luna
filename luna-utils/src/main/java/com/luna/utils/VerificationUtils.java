@@ -4,6 +4,8 @@ import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.luna.utils.enm.CharsetEnum;
 import com.luna.utils.enm.VerificationEnum;
 
@@ -24,12 +26,15 @@ public class VerificationUtils {
 	}
 
 	public String getMD5Encode(String input, Charset charset) {
+		if (StringUtils.isEmpty(input))
+			return null;
 		return bytes2HexString(getMD5Encode(input.getBytes(charset)));
 	}
 
 	public static String getMD5Encode(String input) {
-		return bytes2HexString(getMD5Encode(input.getBytes(Charset
-				.forName(CharsetEnum.UTF8.getCharsetName()))));
+		if (StringUtils.isEmpty(input))
+			return null;
+		return bytes2HexString(getMD5Encode(input.getBytes(Charset.forName(CharsetEnum.UTF8.getCharsetName()))));
 	}
 
 	private static String bytes2HexString(byte[] bs) {

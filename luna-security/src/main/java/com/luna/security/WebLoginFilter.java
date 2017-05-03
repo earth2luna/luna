@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  * @date 2017年5月3日 下午5:29:21
  * @description
  */
-public class LoginFilter extends SecurityFilter implements Filter {
+public class WebLoginFilter extends SecurityHandler implements Filter {
 
 	/*
 	 * (non-Javadoc)
@@ -40,7 +40,6 @@ public class LoginFilter extends SecurityFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-
 		if (tryIsLogin((HttpServletRequest) request, (HttpServletResponse) response)) {
 			chain.doFilter(request, response);
 		}

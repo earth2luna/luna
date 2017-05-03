@@ -8,11 +8,12 @@
 		<div class="row">
 			<div class="col-md-4">
 				<#if w??>
-					<div class="alert alert-danger" role="alert">
-						<strong>Oh snap!</strong> 用户名或密码错误。
-					</div>
+				<div class="alert alert-danger" role="alert">
+					<strong>Oh snap!</strong> 用户名或密码错误。
+				</div>
 				</#if>
 				<form action="/signin" method="post">
+					<input name="key" value="${key}" type="hidden">
 					<div class="input-group">
 						<span class="input-group-addon"> <i
 							class="fa fa-user fa-fw"></i></span> <input class="form-control"

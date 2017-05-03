@@ -3,6 +3,8 @@
  */
 package com.luna.security;
 
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @date 2017年5月2日 下午2:24:51
  * @description
  */
-public class LoginInterceptor extends SecurityFilter implements HandlerInterceptor {
+public class SpringLoginInterceptor extends SecurityHandler implements HandlerInterceptor {
 
 	private static final PathMatcher MATCHER = new AntPathMatcher();
 
@@ -39,8 +41,8 @@ public class LoginInterceptor extends SecurityFilter implements HandlerIntercept
 	 * @see com.luna.security.SecurityFilter#hasUnLoginPaths(java.lang.String)
 	 */
 	@Override
-	protected boolean hasUnLoginPaths(String halfPath) {
-		for (String perPath : this.unLoginPaths) {
+	protected boolean hasUnLoginPaths(String halfPath, Set<String> unLoginPaths) {
+		for (String perPath : unLoginPaths) {
 			if (MATCHER.match(perPath, halfPath)) {
 				return true;
 			}

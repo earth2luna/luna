@@ -18,15 +18,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.luna.utils.IOUtils;
+import com.luna.utils.LangUtils;
 
 /**
  * @author laulyl
  * @date 2017年5月3日 下午5:34:07
  * @description
  */
-public class SecurityFilter {
+public class SecurityHandler {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(LoginInterceptor.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SecurityHandler.class);
 
 	protected Set<String> everNeedLoginPaths;
 	protected Set<String> unLoginPaths;
@@ -62,17 +63,24 @@ public class SecurityFilter {
 	}
 
 	public boolean tryIsLogin(HttpServletRequest request, HttpServletResponse response) {
-		AuthenticationTicket ticket = parseTicket(request, response);
 		String path = request.getRequestURI();
-		boolean ret = true;
-		if (needLogin(path) && (null == ticket || ticket.isExpired())) {
-			redirect2LoginPage(request, response);
-			ret = false;
-		}
-		if (null != ticket) {
-			request.setAttribute(SecurityCusor.PIN_KEY, ticket.get_userName());
-		}
 
+		LOGGER.info("request uri :" + path);
+
+		boolean ret = true;
+		if (needLogin(path)) {
+			AuthenticationTicket ticket = parseTicket(request, response);
+			if (!(null == ticket || ticket.isExpired())) {
+				request.setAttribute(SecurityCusor.PIN_KEY, ticket.get_userName());
+				LOGGER.info("need login and sign in .");
+			} else {
+				LOGGER.info("need login and sign out .");
+				redirect2LoginPage(request, response);
+				ret = false;
+			}
+		} else {
+			LOGGER.info("do not need login .");
+		}
 		return ret;
 	}
 
@@ -82,7 +90,7 @@ public class SecurityFilter {
 		if (ArrayUtils.isNotEmpty(cookies)) {
 			for (int i = 0; i < cookies.length && null == ticket; i++) {
 				Cookie cookie = cookies[i];
-				if (!Configuration.signInCookiesName.equals(cookie.getName())) {
+				if (!Configuration.signInCookiesNamePlaintext.equals(cookie.getName())) {
 					continue;
 				}
 				try {
@@ -98,16 +106,18 @@ public class SecurityFilter {
 	}
 
 	public boolean needLogin(String path) {
-		if (StringUtils.equals(path, Configuration.loginPageUrl)) {
+		if (StringUtils.equals(path, Configuration.loginPageUrl) || StringUtils.isEmpty(path)) {
 			return false;
 		}
-		if ((StringUtils.isEmpty(path)) || CollectionUtils.isEmpty(unLoginPaths)) {
+		if (CollectionUtils.isEmpty(unLoginPaths) && CollectionUtils.isEmpty(Configuration.unLoginPaths)) {
 			return Boolean.TRUE.booleanValue();
 		}
-		String halfPath = "";
+		String halfPath = null;
 		int lastIndex = path.lastIndexOf(".");
 		if (lastIndex > -1) {
 			halfPath = path.substring(0, lastIndex);
+		}else{
+			halfPath=path;
 		}
 
 		boolean hasEverNeedLoginPaths = hasEverNeedLoginPaths(halfPath);
@@ -115,7 +125,8 @@ public class SecurityFilter {
 			return true;
 		}
 
-		boolean hasUnLoginPaths = hasUnLoginPaths(halfPath);
+		boolean hasUnLoginPaths = hasUnLoginPaths(halfPath, unLoginPaths)
+				|| hasUnLoginPaths(halfPath, Configuration.unLoginPaths);
 		if (hasUnLoginPaths) {
 			return false;
 		}
@@ -126,15 +137,23 @@ public class SecurityFilter {
 	protected boolean hasEverNeedLoginPaths(String halfPath) {
 		boolean ret = false;
 		if (CollectionUtils.isNotEmpty(everNeedLoginPaths)) {
-			ret = everNeedLoginPaths.contains(halfPath);
+			for (String everNeedLoginPath : everNeedLoginPaths) {
+				if (halfPath.endsWith(everNeedLoginPath)) {
+					return true;
+				}
+			}
 		}
 		return ret;
 	}
 
-	protected boolean hasUnLoginPaths(String halfPath) {
+	protected boolean hasUnLoginPaths(String halfPath, Set<String> unLoginPaths) {
 		boolean ret = false;
 		if (CollectionUtils.isNotEmpty(unLoginPaths)) {
-			ret = unLoginPaths.contains(halfPath);
+			for (String unLoginPath : unLoginPaths) {
+				if (halfPath.endsWith(unLoginPath)) {
+					return true;
+				}
+			}
 		}
 		return ret;
 	}
@@ -147,7 +166,8 @@ public class SecurityFilter {
 				response.setHeader("Pragma", "No-cache");
 				response.setHeader("Cache-Control", "no-cache");
 				response.setDateHeader("Expires", 0L);
-				response.sendRedirect(Configuration.loginPageUrl);
+				response.sendRedirect(LangUtils.append(Configuration.loginPageUrl, "?key=",
+						Configuration.signInCookiesNameCiphertext));
 			} catch (IOException e) {
 				LOGGER.error("send redirect response error:", e);
 			}
@@ -169,4 +189,5 @@ public class SecurityFilter {
 			IOUtils.close(writer);
 		}
 	}
+
 }

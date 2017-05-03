@@ -3,6 +3,8 @@
  */
 package com.luna.security;
 
+import java.util.Set;
+
 /**
  * @author laulyl
  * @date 2017年5月3日 下午12:19:23
@@ -18,9 +20,15 @@ public class Configuration {
 
 	public static final String LOGIN_INIT_KEY = "LOGIN_INIT_KEY";
 
+	public static final String UN_LOGIN_PATHS = "UN_LOGIN_PATHS";
+	
 	public static final String RSA_KEY_PAIR_PATH = "RSA_KEY_PAIR_PATH";
+	
+	public static final String IS_NEED_GENERATE_RSA = "IS_NEED_GENERATE_RSA";
 
-	public static String signInCookiesName;
+	public static String signInCookiesNamePlaintext;
+
+	public static String signInCookiesNameCiphertext;
 
 	public static String loginPageUrl;
 
@@ -29,4 +37,6 @@ public class Configuration {
 	public static String loginInitKey;
 
 	public static String rsaKeyPairPath;
+
+	public static Set<String> unLoginPaths;
 }

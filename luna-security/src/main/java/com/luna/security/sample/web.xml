@@ -6,7 +6,7 @@
 
 	<context-param>
 		<param-name>SIGN_IN_COOKIES_NAME</param-name>
-		<param-value>_apoollo_s_</param-value>
+		<param-value>b1b8ff6e0b868b7229fb6c85a25852a</param-value>
 	</context-param>
 
 	<context-param>
@@ -16,12 +16,22 @@
 
 	<context-param>
 		<param-name>LOGIN_SUCCESS_URL</param-name>
-		<param-value>//apoollo.com/super/view</param-value>
+		<param-value>//apoollo.com:8080/solr/index.html</param-value>
 	</context-param>
 
 	<context-param>
 		<param-name>LOGIN_INIT_KEY</param-name>
 		<param-value>69ba1c09e383ea646b6fffe6d3388dc</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>UN_LOGIN_PATHS</param-name>
+		<param-value>/resource/select,/resource/suggest</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>RSA_KEY_PAIR_PATH</param-name>
+		<param-value>C:/Users/Administrator/Desktop/build</param-value>
 	</context-param>
 
 	<listener>
@@ -30,7 +40,7 @@
 
 	<filter>
 		<filter-name>loginFilter</filter-name>
-		<filter-class>com.luna.security.LoginFilter</filter-class>
+		<filter-class>com.luna.security.WebLoginFilter</filter-class>
 	</filter>
 
 	<filter-mapping>
