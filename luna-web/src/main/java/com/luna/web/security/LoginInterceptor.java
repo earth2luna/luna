@@ -76,7 +76,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 			ret = false;
 		}
 		if (null != ticket) {
-			request.setAttribute(SecurityConstants.PIN_KEY, ticket.get_userName());
+			request.setAttribute(SecurityCusor.PIN_KEY, ticket.get_userName());
 		}
 
 		return ret;
@@ -92,7 +92,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 					continue;
 				}
 				try {
-					ticket = SecurityConstants.getAuthenticationTicket(cookie.getValue());
+					ticket = SecurityCusor.getAuthenticationTicket(cookie.getValue());
 				} catch (Exception e) {
 					LOGGER.error("login error:", e);
 					break;
@@ -153,7 +153,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 		PrintWriter writer = null;
 		try {
 			writer = response.getWriter();
-			writer.write(SecurityConstants.NO_LOGIN_OBJECT);
+			writer.write(SecurityCusor.NO_LOGIN_OBJECT);
 		} catch (Exception e) {
 			LOGGER.error("ajax response error:", e);
 		} finally {

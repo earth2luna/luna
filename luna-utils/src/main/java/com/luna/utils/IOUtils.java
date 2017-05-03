@@ -21,6 +21,20 @@ import com.luna.utils.infce.IHandler;
  */
 public class IOUtils {
 
+	public static void write(String file, String input) {
+		try {
+			write(file, new IHandler() {
+
+				@Override
+				public void handle(Object object) throws Exception {
+					((Writer) (object)).write(input);
+				}
+			});
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	public static void write(String file, IHandler handlder) throws IOException {
 		Writer writer = null;
 		try {

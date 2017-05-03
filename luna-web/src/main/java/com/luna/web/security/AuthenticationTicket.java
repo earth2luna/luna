@@ -23,7 +23,7 @@ public class AuthenticationTicket {
 		this._userName = _userName;
 		this._userData = _userData;
 		this._appPath = LangUtils.defaultValue(_appPath, "/");
-		this._expires = new Date(System.currentTimeMillis() + SecurityConstants.LOGIN_STAY_TIME_MILLIS);
+		this._expires = new Date(System.currentTimeMillis() + SecurityCusor.LOGIN_STAY_TIME_MILLIS);
 	}
 
 	public AuthenticationTicket() {

@@ -4,17 +4,21 @@
 package com.luna.web.security;
 
 import java.security.Key;
+import java.security.KeyPair;
+
+import org.apache.commons.codec.binary.Base64;
 
 import com.alibaba.fastjson.JSON;
 import com.luna.utils.ClassLoaderUtils;
 import com.luna.utils.FilePropertyUtils;
+import com.luna.utils.IOUtils;
 
 /**
  * @author laulyl
  * @date 2017年5月2日 下午3:46:10
  * @description
  */
-public class SecurityConstants {
+public class SecurityCusor {
 
 	public static final int LOGIN_STAY_TIME_SECONDS = 1800;
 
@@ -26,15 +30,15 @@ public class SecurityConstants {
 
 	public static final String SECURITY_PUBLIC_RAS = "Security.public.rsa";
 
-	public static final String PIN_KEY = SecurityConstants.class.getName() + ".PIN.KEY";
+	public static final String PIN_KEY = SecurityCusor.class.getName() + ".PIN.KEY";
 
 	public static final String NO_LOGIN_OBJECT = "{\"code\":\"0\",\"message\":\"NotLogin\"}";
 
 	public static final String SECURITY_PRIVATE_RAS_PATH = FilePropertyUtils
-			.appendPath(ClassLoaderUtils.getLocation(LoginInterceptor.class), SecurityConstants.SECURITY_PRIVATE_RAS);
+			.appendPath(ClassLoaderUtils.getLocation(LoginInterceptor.class), SecurityCusor.SECURITY_PRIVATE_RAS);
 
 	public static final String SECURITY_PUBLIC_RAS_PATH = FilePropertyUtils
-			.appendPath(ClassLoaderUtils.getLocation(LoginInterceptor.class), SecurityConstants.SECURITY_PUBLIC_RAS);
+			.appendPath(ClassLoaderUtils.getLocation(LoginInterceptor.class), SecurityCusor.SECURITY_PUBLIC_RAS);
 
 	private static Key publicKey;
 
@@ -44,7 +48,7 @@ public class SecurityConstants {
 		if (null == publicKey) {
 			synchronized (SECURITY_PUBLIC_RAS) {
 				if (null == publicKey) {
-					publicKey = RSACoder.getKeyBase64(SecurityConstants.SECURITY_PUBLIC_RAS_PATH, true);
+					publicKey = RSACoder.getKeyBase64(SecurityCusor.SECURITY_PUBLIC_RAS_PATH, true);
 				}
 			}
 		}
@@ -55,7 +59,7 @@ public class SecurityConstants {
 		if (null == privateKey) {
 			synchronized (SECURITY_PRIVATE_RAS) {
 				if (null == privateKey) {
-					privateKey = RSACoder.getKeyBase64(SecurityConstants.SECURITY_PRIVATE_RAS_PATH, false);
+					privateKey = RSACoder.getKeyBase64(SecurityCusor.SECURITY_PRIVATE_RAS_PATH, false);
 				}
 			}
 		}
@@ -69,6 +73,18 @@ public class SecurityConstants {
 
 	public static String getBase64String(AuthenticationTicket input) throws Exception {
 		return RSACoder.encryptBase64String(JSON.toJSONString(input), getPublicKey());
+	}
+
+	public static void overrideKeyPair() {
+		try {
+			KeyPair keyPair = RSACoder.generateKeyPair();
+			IOUtils.write(SecurityCusor.SECURITY_PUBLIC_RAS_PATH,
+					Base64.encodeBase64String(keyPair.getPublic().getEncoded()));
+			IOUtils.write(SecurityCusor.SECURITY_PRIVATE_RAS_PATH,
+					Base64.encodeBase64String(keyPair.getPrivate().getEncoded()));
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }
