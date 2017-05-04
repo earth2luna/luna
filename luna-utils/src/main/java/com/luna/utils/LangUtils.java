@@ -278,7 +278,8 @@ public class LangUtils {
 		return number.doubleValue() > 0;
 	}
 
-	public static <I, O> void joins2Collection(Collection<O> collection, List<I> list, IInputOutput<I, O> inputOutput) {
+	public static <I, O> void joins2Collection(Collection<O> collection, Collection<I> list,
+			IInputOutput<I, O> inputOutput) {
 		Validate.notNull(inputOutput);
 		if (CollectionUtils.isNotEmpty(list)) {
 			for (I i : list) {

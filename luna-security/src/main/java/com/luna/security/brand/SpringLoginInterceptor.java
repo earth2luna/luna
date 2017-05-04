@@ -1,24 +1,27 @@
 /**
  * COPYRIGHT@LAULYL
  */
-package com.luna.security;
+package com.luna.security.brand;
 
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.luna.security.FilterHandler;
 
 /**
  * @author laulyl
  * @date 2017年5月2日 下午2:24:51
  * @description
  */
-public class SpringLoginInterceptor extends SecurityHandler implements HandlerInterceptor {
+public class SpringLoginInterceptor extends FilterHandler implements HandlerInterceptor {
 
 	private static final PathMatcher MATCHER = new AntPathMatcher();
 
@@ -42,9 +45,11 @@ public class SpringLoginInterceptor extends SecurityHandler implements HandlerIn
 	 */
 	@Override
 	protected boolean hasUnLoginPaths(String halfPath, Set<String> unLoginPaths) {
-		for (String perPath : unLoginPaths) {
-			if (MATCHER.match(perPath, halfPath)) {
-				return true;
+		if (CollectionUtils.isNotEmpty(unLoginPaths)) {
+			for (String perPath : unLoginPaths) {
+				if (MATCHER.match(perPath, halfPath)) {
+					return true;
+				}
 			}
 		}
 		return false;

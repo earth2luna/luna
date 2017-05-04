@@ -12,6 +12,12 @@ import java.util.Set;
  */
 public class Configuration {
 
+	public static final String URL_HELLO = "/hello";
+
+	public static final String URL_SSO = "/sso";
+
+	public static final String NEED_PASSPORT_NODE_DOMAINS = "NEED_PASSPORT_NODE_DOMAINS";
+
 	public static final String SIGN_IN_COOKIES_NAME = "SIGN_IN_COOKIES_NAME";
 
 	public static final String LOGIN_PAGE_URL = "LOGIN_PAGE_URL";
@@ -21,9 +27,11 @@ public class Configuration {
 	public static final String LOGIN_INIT_KEY = "LOGIN_INIT_KEY";
 
 	public static final String UN_LOGIN_PATHS = "UN_LOGIN_PATHS";
-	
+
+	public static final String EVER_LOGIN_PATHS = "EVER_LOGIN_PATHS";
+
 	public static final String RSA_KEY_PAIR_PATH = "RSA_KEY_PAIR_PATH";
-	
+
 	public static final String IS_NEED_GENERATE_RSA = "IS_NEED_GENERATE_RSA";
 
 	public static String signInCookiesNamePlaintext;
@@ -39,4 +47,9 @@ public class Configuration {
 	public static String rsaKeyPairPath;
 
 	public static Set<String> unLoginPaths;
+
+	public static Set<String> everLoginPaths;
+	
+	public static Set<String> needPassportNodeDomains;
+
 }

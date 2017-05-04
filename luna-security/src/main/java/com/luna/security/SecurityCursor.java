@@ -7,6 +7,7 @@ import java.security.Key;
 import java.security.KeyPair;
 
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.luna.utils.ClassLoaderUtils;
@@ -19,7 +20,7 @@ import com.luna.utils.LangUtils;
  * @date 2017年5月2日 下午3:46:10
  * @description
  */
-public class SecurityCusor {
+public class SecurityCursor {
 
 	public static final int LOGIN_STAY_TIME_SECONDS = 1800;
 
@@ -31,7 +32,7 @@ public class SecurityCusor {
 
 	public static final String SECURITY_PUBLIC_RAS = "Security.public.rsa";
 
-	public static final String PIN_KEY = SecurityCusor.class.getName() + ".PIN.KEY";
+	public static final String PIN_KEY = SecurityCursor.class.getName() + ".PIN.KEY";
 
 	public static final String NO_LOGIN_OBJECT = "{\"code\":\"0\",\"message\":\"NotLogin\"}";
 
@@ -50,7 +51,7 @@ public class SecurityCusor {
 		if (null == publicKey) {
 			synchronized (SECURITY_PUBLIC_RAS) {
 				if (null == publicKey) {
-					String keyPath = getKeyPath(SecurityCusor.SECURITY_PUBLIC_RAS);
+					String keyPath = getKeyPath(SecurityCursor.SECURITY_PUBLIC_RAS);
 					publicKey = RSACoder.getKeyBase64(keyPath, true);
 				}
 			}
@@ -62,7 +63,7 @@ public class SecurityCusor {
 		if (null == privateKey) {
 			synchronized (SECURITY_PRIVATE_RAS) {
 				if (null == privateKey) {
-					String keyPath = getKeyPath(SecurityCusor.SECURITY_PRIVATE_RAS);
+					String keyPath = getKeyPath(SecurityCursor.SECURITY_PRIVATE_RAS);
 					privateKey = RSACoder.getKeyBase64(keyPath, false);
 				}
 			}
@@ -70,22 +71,24 @@ public class SecurityCusor {
 		return privateKey;
 	}
 
-	public static AuthenticationTicket getAuthenticationTicket(String input) throws Exception {
+	public static SecurityTicket getAuthenticationTicket(String input) throws Exception {
+		if (StringUtils.isEmpty(input))
+			return null;
 		String text = RSACoder.decryptByPrivateKey(input, getPrivateKey());
-		return JSON.parseObject(text, AuthenticationTicket.class);
+		return JSON.parseObject(text, SecurityTicket.class);
 	}
 
-	public static String getBase64String(AuthenticationTicket input) throws Exception {
+	public static String getBase64String(SecurityTicket input) throws Exception {
 		return RSACoder.encryptBase64String(JSON.toJSONString(input), getPublicKey());
 	}
 
 	public static void overrideKeyPair() {
 		try {
 			KeyPair keyPair = RSACoder.generateKeyPair();
-			IOUtils.write(getKeyPath(SecurityCusor.SECURITY_PUBLIC_RAS),
+			IOUtils.write(getKeyPath(SecurityCursor.SECURITY_PUBLIC_RAS),
 					Base64.encodeBase64String(keyPair.getPublic().getEncoded()));
 
-			IOUtils.write(getKeyPath(SecurityCusor.SECURITY_PRIVATE_RAS),
+			IOUtils.write(getKeyPath(SecurityCursor.SECURITY_PRIVATE_RAS),
 					Base64.encodeBase64String(keyPair.getPrivate().getEncoded()));
 		} catch (Exception e) {
 			throw new RuntimeException(e);

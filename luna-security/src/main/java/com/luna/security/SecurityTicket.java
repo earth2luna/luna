@@ -6,7 +6,7 @@ import org.apache.commons.lang.Validate;
 
 import com.luna.utils.LangUtils;
 
-public class AuthenticationTicket {
+public class SecurityTicket {
 
 	private String _userName;
 	private String _userData;
@@ -17,16 +17,16 @@ public class AuthenticationTicket {
 		return System.currentTimeMillis() > this._expires.getTime();
 	}
 
-	public AuthenticationTicket(String _userName, String _userData, String _appPath) {
+	public SecurityTicket(String _userName, String _userData, String _appPath) {
 		super();
 		Validate.notNull(_userName);
 		this._userName = _userName;
 		this._userData = _userData;
 		this._appPath = LangUtils.defaultValue(_appPath, "/");
-		this._expires = new Date(System.currentTimeMillis() + SecurityCusor.LOGIN_STAY_TIME_MILLIS);
+		this._expires = new Date(System.currentTimeMillis() + SecurityCursor.LOGIN_STAY_TIME_MILLIS);
 	}
 
-	public AuthenticationTicket() {
+	public SecurityTicket() {
 	}
 
 	/**

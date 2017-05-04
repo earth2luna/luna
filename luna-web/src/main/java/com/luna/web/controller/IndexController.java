@@ -4,7 +4,6 @@
 package com.luna.web.controller;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.luna.security.SignIn;
 import com.luna.service.ResourcesSolrService;
 import com.luna.service.data.utils.Constants;
 
@@ -51,9 +49,5 @@ public class IndexController extends ParentController {
 		return "front/page_login";
 	}
 
-	@RequestMapping("/signin")
-	public void signIn(Model model, String key, String userName, String password, HttpServletResponse response) {
-		SignIn.simpleSignIn(response, key, userName, password);
-	}
 
 }

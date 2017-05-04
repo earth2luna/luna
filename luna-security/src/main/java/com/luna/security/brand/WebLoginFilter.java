@@ -1,7 +1,7 @@
 /**
  * COPYRIGHT@LAULYL
  */
-package com.luna.security;
+package com.luna.security.brand;
 
 import java.io.IOException;
 
@@ -14,12 +14,14 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.luna.security.FilterHandler;
+
 /**
  * @author laulyl
  * @date 2017年5月3日 下午5:29:21
  * @description
  */
-public class WebLoginFilter extends SecurityHandler implements Filter {
+public class WebLoginFilter extends FilterHandler implements Filter {
 
 	/*
 	 * (non-Javadoc)
@@ -28,7 +30,7 @@ public class WebLoginFilter extends SecurityHandler implements Filter {
 	 */
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-
+		
 	}
 
 	/*

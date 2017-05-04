@@ -36,7 +36,7 @@ public class RSACoder {
 
 		Key key = null;
 		try {
-			KeyFactory keyFactory = KeyFactory.getInstance(SecurityCusor.KEY_ALGORITHM);
+			KeyFactory keyFactory = KeyFactory.getInstance(SecurityCursor.KEY_ALGORITHM);
 			byte[] bs = IOUtils.readBytes(derPath);
 			byte[] decodeBytes = Base64.decodeBase64(bs);
 			if (isPublic) {
@@ -62,7 +62,7 @@ public class RSACoder {
 
 	// 公钥加密
 	public static byte[] encryptByPublicKey(byte[] data, Key publicKey) throws Exception {
-		KeyFactory keyFactory = KeyFactory.getInstance(SecurityCusor.KEY_ALGORITHM);
+		KeyFactory keyFactory = KeyFactory.getInstance(SecurityCursor.KEY_ALGORITHM);
 		// 对数据加密
 		Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
 		cipher.init(Cipher.ENCRYPT_MODE, publicKey);
@@ -87,7 +87,7 @@ public class RSACoder {
 	}
 
 	public static byte[] decryptByPrivateKey(byte[] encryptedData, Key privateKey) throws Exception {
-		KeyFactory keyFactory = KeyFactory.getInstance(SecurityCusor.KEY_ALGORITHM);
+		KeyFactory keyFactory = KeyFactory.getInstance(SecurityCursor.KEY_ALGORITHM);
 		Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
 		cipher.init(Cipher.DECRYPT_MODE, privateKey);
 		int inputLen = encryptedData.length;
@@ -111,7 +111,7 @@ public class RSACoder {
 	}
 
 	public static KeyPair generateKeyPair() throws Exception {
-		KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(SecurityCusor.KEY_ALGORITHM);
+		KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(SecurityCursor.KEY_ALGORITHM);
 		keyPairGenerator.initialize(1024);
 		KeyPair keyPair = keyPairGenerator.generateKeyPair();
 		return keyPair;

@@ -1,11 +1,13 @@
 /**
  * COPYRIGHT@LAULYL
  */
-package com.luna.security;
+package com.luna.security.brand;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import com.luna.security.Configuration;
+import com.luna.security.SecurityCursor;
 import com.luna.utils.LangUtils;
 import com.luna.utils.VerificationUtils;
 
@@ -42,9 +44,15 @@ public class SecurityListener implements ServletContextListener {
 
 		Configuration.unLoginPaths = LangUtils
 				.split2HashSetString(sce.getServletContext().getInitParameter(Configuration.UN_LOGIN_PATHS), ",");
+
+		Configuration.everLoginPaths = LangUtils
+				.split2HashSetString(sce.getServletContext().getInitParameter(Configuration.EVER_LOGIN_PATHS), ",");
+
+		Configuration.needPassportNodeDomains = LangUtils
+				.split2HashSetString(sce.getServletContext().getInitParameter(Configuration.NEED_PASSPORT_NODE_DOMAINS), ",");
 		
 		if ("true".equals(sce.getServletContext().getInitParameter(Configuration.IS_NEED_GENERATE_RSA)))
-			SecurityCusor.overrideKeyPair();
+			SecurityCursor.overrideKeyPair();
 	}
 
 	/*
