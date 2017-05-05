@@ -21,7 +21,7 @@ import com.luna.security.FilterHandler;
  * @date 2017年5月3日 下午5:29:21
  * @description
  */
-public class WebLoginFilter extends FilterHandler implements Filter {
+public class WebTicketFilter extends FilterHandler implements Filter {
 
 	/*
 	 * (non-Javadoc)

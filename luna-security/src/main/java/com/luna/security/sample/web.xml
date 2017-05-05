@@ -25,11 +25,6 @@
 	</context-param>
 
 	<context-param>
-		<param-name>LOGIN_SUCCESS_URL</param-name>
-		<param-value>//apoollo.com:8080/solr/index.html</param-value>
-	</context-param>
-
-	<context-param>
 		<param-name>LOGIN_INIT_KEY</param-name>
 		<param-value>69ba1c09e383ea646b6fffe6d3388dc</param-value>
 	</context-param>
@@ -45,7 +40,7 @@
 
 	<filter>
 		<filter-name>loginFilter</filter-name>
-		<filter-class>com.luna.security.brand.WebLoginFilter</filter-class>
+		<filter-class>com.luna.security.brand.WebTicketFilter</filter-class>
 	</filter>
 
 	<filter-mapping>

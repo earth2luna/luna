@@ -12,21 +12,21 @@ import java.util.Set;
  */
 public class Passport {
 
-	private String ticket;
+	private String ret;
 	private Set<String> nodeDomains;
 
-	public Passport(String ticket, Set<String> nodeDomains) {
+	public Passport(String ret, Set<String> nodeDomains) {
 		super();
-		this.ticket = ticket;
+		this.ret = ret;
 		this.nodeDomains = nodeDomains;
 	}
 
-	public String getTicket() {
-		return ticket;
+	public String getRet() {
+		return ret;
 	}
 
-	public void setTicket(String ticket) {
-		this.ticket = ticket;
+	public void setRet(String ret) {
+		this.ret = ret;
 	}
 
 	public Set<String> getNodeDomains() {

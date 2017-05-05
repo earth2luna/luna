@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.luna.security.LoginUtils;
 import com.luna.utils.IOUtils;
 import com.luna.utils.enm.CharsetEnum;
@@ -21,6 +24,8 @@ import com.luna.utils.enm.CharsetEnum;
  * @description
  */
 public class HelloServlet extends HttpServlet {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(HelloServlet.class);
 
 	private static final long serialVersionUID = -1697096738521308992L;
 
@@ -46,9 +51,12 @@ public class HelloServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ServletOutputStream outputStream = null;
 		try {
+			String passort = LoginUtils.getJSONPassport(req, req.getParameter("u"), req.getParameter("p"));
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug(passort);
+			}
 			outputStream = resp.getOutputStream();
-			outputStream.write(LoginUtils.getJSONPassport(req.getParameter("u"), req.getParameter("p"))
-					.getBytes(CharsetEnum.UTF8.getCharsetName()));
+			outputStream.write(passort.getBytes(CharsetEnum.UTF8.getCharsetName()));
 			outputStream.flush();
 		} finally {
 			IOUtils.close(outputStream);

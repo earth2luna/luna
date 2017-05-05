@@ -3,11 +3,9 @@
  */
 package com.luna.utils;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
+import java.util.Base64;
 
-import com.luna.utils.enm.CharsetEnum;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * @author laulyl
@@ -17,22 +15,25 @@ import com.luna.utils.enm.CharsetEnum;
 public class UrlUtils {
 
 	public static String encode(String input) {
-		if (null == input)
+		if (StringUtils.isEmpty(input))
 			return null;
-		try {
-			return URLEncoder.encode(input, CharsetEnum.GBK.getCharsetName());
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
-		}
+		return Base64.getUrlEncoder().encodeToString(input.getBytes());
 	}
 
 	public static String decode(String input) {
-		if (null == input)
+		if (StringUtils.isEmpty(input))
 			return null;
-		try {
-			return URLDecoder.decode(input, CharsetEnum.GBK.getCharsetName());
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
-		}
+		return new String(Base64.getDecoder().decode(input));
+	}
+
+	public static void main(String[] args) {
+		String input = "oxHVdfcNZNZthihV/riYsX/dskfsv+MvSE/OogCvEgOvPcytpGn73hAz/+tzFtMV6aSHUdr70rrzn9/GFMUQlWW4+yg8vtDar+bsjEO27arBP0jFp7HdK6HtSJKdJvY7no+bhYXL4720C8G3SuhN1gYGDRW2Iz0yOVK7NoHXaiQOac/CxPffHLeBNxCO2Cfl3LdsHMvLD6a/XdFs/fdG872sAGwouEPeteq8fKFdyGXpZ45Urwn/VcDAf8KXiApfTp/nzkGsmHgxBamGkQIZ5d/Vh2VSQr1auSZZ0J1xwRylWEOkL9n3Siu/KFPVWOEuAOaD9rX+Sj//+vbEFjaY1w==";
+		String encode = Base64.getUrlEncoder().encodeToString(input.getBytes());
+		String decode = new String(Base64.getDecoder().decode(encode));
+		System.out.println(input);
+		System.out.println(encode);
+		System.out.println(decode);
+		System.out.println(
+				Base64.getEncoder().encodeToString("0 union select 1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7".getBytes()));
 	}
 }

@@ -21,7 +21,7 @@ import com.luna.security.FilterHandler;
  * @date 2017年5月2日 下午2:24:51
  * @description
  */
-public class SpringLoginInterceptor extends FilterHandler implements HandlerInterceptor {
+public class SpringTicketInterceptor extends FilterHandler implements HandlerInterceptor {
 
 	private static final PathMatcher MATCHER = new AntPathMatcher();
 

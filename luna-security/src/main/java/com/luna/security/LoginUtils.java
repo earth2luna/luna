@@ -74,7 +74,7 @@ public class LoginUtils {
 		return null != getUserString(userName, password);
 	}
 
-	public static InvokeVo getPassort(String userName, String password) {
+	public static InvokeVo getPassort(HttpServletRequest req, String userName, String password) {
 		InvokeVo invokeVo = null;
 		try {
 			if (verificationUser(userName, password)) {
@@ -95,7 +95,11 @@ public class LoginUtils {
 							}
 
 						});
-				invokeVo = new InvokeVo("verification success!", domains, 1);
+				String ret = RequestUtils.getUrlFormQueryBase64("ret", req, "/");
+				if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug(ret);
+				}
+				invokeVo = new InvokeVo("verification success!", new Passport(ret, domains), 1);
 			} else {
 				invokeVo = new InvokeVo("verification failed!", null, 0);
 			}
@@ -106,21 +110,19 @@ public class LoginUtils {
 		return invokeVo;
 	}
 
-	public static String getJSONPassport(String userName, String password) {
-		return JSON.toJSONString(getPassort(userName, password));
+	public static String getJSONPassport(HttpServletRequest req, String userName, String password) {
+		return JSON.toJSONString(getPassort(req, userName, password));
 	}
 
-	public static InvokeVo getPassort(String passport) {
+	public static String getJSONPPassport(String ticket, HttpServletResponse resp) {
 		InvokeVo invokeVo = null;
-		if (verificationTicket(passport)) {
-			invokeVo = new InvokeVo("verification success!", passport, 0);
+		if (verificationTicket(ticket)) {
+			invokeVo = new InvokeVo("verification success!", null, 1);
+			LoginUtils.addCookie(resp, Configuration.signInCookiesNamePlaintext, ticket,
+					SecurityCursor.LOGIN_STAY_TIME_SECONDS);
 		} else {
 			invokeVo = new InvokeVo("verification failed!", null, 0);
 		}
-		return invokeVo;
-	}
-
-	public static String getJSONPPassport(InvokeVo invokeVo) {
 		return LangUtils.append("c(", JSON.toJSONString(invokeVo), ")");
 	}
 

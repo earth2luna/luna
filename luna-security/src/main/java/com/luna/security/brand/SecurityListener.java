@@ -32,11 +32,11 @@ public class SecurityListener implements ServletContextListener {
 
 		Configuration.loginSuccessUrl = sce.getServletContext().getInitParameter(Configuration.LOGIN_SUCCESS_URL);
 
-		Configuration.signInCookiesNameCiphertext = sce.getServletContext()
+		Configuration.signInCookiesNamePlaintext = sce.getServletContext()
 				.getInitParameter(Configuration.SIGN_IN_COOKIES_NAME);
 
-		Configuration.signInCookiesNamePlaintext = VerificationUtils
-				.getMD5Encode(Configuration.signInCookiesNameCiphertext);
+		Configuration.signInCookiesNameCiphertext = VerificationUtils
+				.getMD5Encode(Configuration.signInCookiesNamePlaintext);
 
 		Configuration.loginInitKey = sce.getServletContext().getInitParameter(Configuration.LOGIN_INIT_KEY);
 
@@ -48,9 +48,9 @@ public class SecurityListener implements ServletContextListener {
 		Configuration.everLoginPaths = LangUtils
 				.split2HashSetString(sce.getServletContext().getInitParameter(Configuration.EVER_LOGIN_PATHS), ",");
 
-		Configuration.needPassportNodeDomains = LangUtils
-				.split2HashSetString(sce.getServletContext().getInitParameter(Configuration.NEED_PASSPORT_NODE_DOMAINS), ",");
-		
+		Configuration.needPassportNodeDomains = LangUtils.split2HashSetString(
+				sce.getServletContext().getInitParameter(Configuration.NEED_PASSPORT_NODE_DOMAINS), ",");
+
 		if ("true".equals(sce.getServletContext().getInitParameter(Configuration.IS_NEED_GENERATE_RSA)))
 			SecurityCursor.overrideKeyPair();
 	}

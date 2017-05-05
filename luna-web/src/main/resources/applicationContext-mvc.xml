@@ -42,7 +42,7 @@
 			<mvc:mapping path="/resources/**" />
 			<mvc:mapping path="/content/**" />
 			<mvc:mapping path="/super/**" />
-			<bean class="com.luna.security.brand.SpringLoginInterceptor" />
+			<bean class="com.luna.security.brand.SpringTicketInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
 	

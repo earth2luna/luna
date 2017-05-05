@@ -11,12 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.luna.security.Configuration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.luna.security.LoginUtils;
-import com.luna.security.SecurityCursor;
 import com.luna.utils.IOUtils;
-import com.luna.utils.LangUtils;
-import com.luna.utils.classes.InvokeVo;
 import com.luna.utils.enm.CharsetEnum;
 
 /**
@@ -25,6 +24,8 @@ import com.luna.utils.enm.CharsetEnum;
  * @description
  */
 public class SSOServlet extends HttpServlet {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(SSOServlet.class);
 
 	private static final long serialVersionUID = 6745372349060671962L;
 
@@ -50,13 +51,12 @@ public class SSOServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ServletOutputStream outputStream = null;
 		try {
-			InvokeVo invokeVo = LoginUtils.getPassort(req.getParameter("t"));
-			if (1 == invokeVo.getCode()) {
-				LoginUtils.addCookie(resp, Configuration.signInCookiesNamePlaintext,
-						LangUtils.toString(invokeVo.getData()), SecurityCursor.LOGIN_STAY_TIME_SECONDS);
+			String passort = LoginUtils.getJSONPPassport(req.getParameter("t"), resp);
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug(passort);
 			}
 			outputStream = resp.getOutputStream();
-			outputStream.write(LoginUtils.getJSONPPassport(invokeVo).getBytes(CharsetEnum.UTF8.getCharsetName()));
+			outputStream.write(passort.getBytes(CharsetEnum.UTF8.getCharsetName()));
 			outputStream.flush();
 		} finally {
 			IOUtils.close(outputStream);

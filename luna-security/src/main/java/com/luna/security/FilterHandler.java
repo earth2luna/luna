@@ -109,11 +109,14 @@ public class FilterHandler {
 			ajaxResponse(response);
 		} else {
 			try {
+				String ret = RequestUtils.geBase64RequestUrl(request);
+				if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug(ret);
+				}
 				response.setHeader("Pragma", "No-cache");
 				response.setHeader("Cache-Control", "no-cache");
 				response.setDateHeader("Expires", 0L);
-				response.sendRedirect(LangUtils.append(Configuration.loginPageUrl, "?key=",
-						Configuration.signInCookiesNameCiphertext));
+				response.sendRedirect(LangUtils.append(Configuration.loginPageUrl, "?ret=", ret));
 			} catch (IOException e) {
 				LOGGER.error("send redirect response error:", e);
 			}
