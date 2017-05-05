@@ -33,6 +33,7 @@ public class ResourcesCasecade implements Serializable {
 	private Integer resourcesContentSortCode;// 资源内容排序编码
 	private Integer resourcesContentHandlerCode;// 资源内容处理编码
 	private String resourcesContentPath;//资源内容路径
+	private Integer websiteCode;//网站编码
 
 	/**
 	 * @return the resourcesId
@@ -315,5 +316,19 @@ public class ResourcesCasecade implements Serializable {
 	 */
 	public void setResourcesContentPath(String resourcesContentPath) {
 		this.resourcesContentPath = resourcesContentPath;
+	}
+
+	/**
+	 * @return the websiteCode
+	 */
+	public Integer getWebsiteCode() {
+		return websiteCode;
+	}
+
+	/**
+	 * @param websiteCode the websiteCode to set
+	 */
+	public void setWebsiteCode(Integer websiteCode) {
+		this.websiteCode = websiteCode;
 	}
 }

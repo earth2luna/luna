@@ -19,7 +19,8 @@
 				thumbnail thumbnail,
 				page_view pageView,
 				user_view userView,
-				status status
+				status status,
+				websiteCode websiteCode
 			FROM l_resources
 	    ]]>
 	</sql>
@@ -49,7 +50,8 @@
 				thumbnail=#{prop.thumbnail},
 				page_view=#{prop.pageView},
 				user_view=#{prop.userView},
-				status=#{prop.status}
+				status=#{prop.status},
+				websiteCode=#{prop.websiteCode}
 			</trim>
 	</sql>
 
@@ -69,6 +71,7 @@
 			<if test="null!=pageView">and page_view=#{pageView}</if>
 			<if test="null!=userView">and user_view=#{userView}</if>
 			<if test="null!=status">and status=#{status}</if>
+			<if test="null!=websiteCode">and websiteCode=#{websiteCode}</if>
 			<if test="null!=statusIn">and status IN <foreach item="sts" collection="statusIn" open="(" separator="," close=")">#{sts}</foreach></if>
 			<if test="null!=id">and id=#{id}</if>
 			<if test="null!=keys">id IN <foreach item="id" collection="keys" open="(" separator="," close=")">#{id}</foreach></if>
@@ -91,8 +94,8 @@
 
 	<insert id="insert" parameterType="resources" useGeneratedKeys="true" keyProperty="id">
 	    <![CDATA[
-	    	INSERT INTO l_resources(create_time,source_site_name,source_site_link,creator_id,category_id,title,source_author,source_date,thumbnail,page_view,user_view,status)
-			VALUES(#{createTime},#{sourceSiteName},#{sourceSiteLink},#{creatorId},#{categoryId},#{title},#{sourceAuthor},#{sourceDate},#{thumbnail},#{pageView},#{userView},#{status})
+	    	INSERT INTO l_resources(create_time,source_site_name,source_site_link,creator_id,category_id,title,source_author,source_date,thumbnail,page_view,user_view,status,websiteCode)
+			VALUES(#{createTime},#{sourceSiteName},#{sourceSiteLink},#{creatorId},#{categoryId},#{title},#{sourceAuthor},#{sourceDate},#{thumbnail},#{pageView},#{userView},#{status},#{websiteCode})
 	     ]]>
 	</insert>
 
@@ -147,6 +150,7 @@
 		    lr.thumbnail resourcesThumbnail,
 		    lr.page_view resourcesPageView,
 		    lr.user_view resourcesUserView,
+		    lr.websiteCode websiteCode,
 		    lrc.id recourcesContentId,
 		    lrc.title resourcesContentTitle,
 		    lrc.content resourcesContent,
@@ -167,7 +171,8 @@
 		            source_date,
 		            thumbnail,
 		            page_view,
-		            user_view
+		            user_view,
+		            websiteCode
 		    FROM
 		        l_resources
 		    <include refid="whereAllSQL"/>

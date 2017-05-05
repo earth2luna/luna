@@ -67,6 +67,18 @@ public class FilePropertyUtils {
 		return ret;
 	}
 
+	public static String getSuffix(String input) {
+		String ret = null;
+		if (StringUtils.isNotEmpty(input)) {
+			int suffixSpitorIndex = input.lastIndexOf(SPLITOR_SUFFIX);
+			if (-1 != suffixSpitorIndex) {
+				ret = input.substring(suffixSpitorIndex + 1, input.length());
+			}
+		}
+		return ret;
+	}
+	
+
 	/**
 	 * get path file name and assign suffix
 	 * 

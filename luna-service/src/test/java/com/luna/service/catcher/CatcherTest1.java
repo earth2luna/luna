@@ -38,6 +38,9 @@ public class CatcherTest1 extends ParentTest {
 		catcherModel.setResourceDateCatchRulers(evalueCatchRulers(
 				"//article[@class='hentry']/div[@class='asset-meta']/p//abbr[@class='published']/text()"));
 		catcherModel.setResourceDateFormat("yyyy年MM月dd日");
+		catcherModel.setCatcherWebsiteCode(1);
+		catcherModel.setAttachementPath("C:/Users/Administrator/Desktop/404");
+		catcherModel.setResourceCategoryCode(1);
 
 		List<CatcherIteratorRuler> iteratorRulers = new ArrayList<CatcherIteratorRuler>();
 		CatcherIteratorRuler iteratorRulerBefore = new CatcherIteratorRuler();

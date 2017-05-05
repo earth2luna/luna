@@ -3,7 +3,11 @@
  */
 package com.luna.service.node;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.luna.dao.vo.ResourcesCasecade;
+import com.luna.service.data.utils.Configure;
+import com.luna.utils.FilePropertyUtils;
 import com.luna.utils.infce.IInputOutput;
 import com.luna.utils.node.INode;
 
@@ -39,7 +43,11 @@ public class InputResourceOutputINode implements IInputOutput<ResourcesCasecade,
 		output.setResourcesContentParentId(input.getResourcesContentParentId());
 		output.setResourcesContentSortCode(input.getResourcesContentSortCode());
 		output.setResourcesContentHandlerCode(input.getResourcesContentHandlerCode());
-		output.setResourcesContentPath(input.getResourcesContentPath());
+		if (StringUtils.isNotEmpty(input.getResourcesContentPath())) {
+			output.setResourcesContentPath(FilePropertyUtils.appendPath(Configure.getThisWebDomain(),
+					Configure.getAttachementPath(), input.getResourcesContentPath()));
+		}
+		output.setWebsiteCode(input.getWebsiteCode());
 		return output;
 	}
 

@@ -14,6 +14,8 @@ public class CatcherModel {
 
 	private String catcherWebUrl;
 	private String catcherWebName;
+	private Integer catcherWebsiteCode;
+	private String attachementPath;
 	private List<CatchRuler> resourceTitleCatchRulers;// 文章标题
 	private List<CatchRuler> resourceAuthorCatchRulers;// 作者
 	private List<CatchRuler> resourceDateCatchRulers;// 发布日期
@@ -173,6 +175,34 @@ public class CatcherModel {
 	 */
 	public void setIteratorRulers(List<CatcherIteratorRuler> iteratorRulers) {
 		this.iteratorRulers = iteratorRulers;
+	}
+
+	/**
+	 * @return the catcherWebsiteCode
+	 */
+	public Integer getCatcherWebsiteCode() {
+		return catcherWebsiteCode;
+	}
+
+	/**
+	 * @param catcherWebsiteCode the catcherWebsiteCode to set
+	 */
+	public void setCatcherWebsiteCode(Integer catcherWebsiteCode) {
+		this.catcherWebsiteCode = catcherWebsiteCode;
+	}
+
+	/**
+	 * @return the attachementPath
+	 */
+	public String getAttachementPath() {
+		return attachementPath;
+	}
+
+	/**
+	 * @param attachementPath the attachementPath to set
+	 */
+	public void setAttachementPath(String attachementPath) {
+		this.attachementPath = attachementPath;
 	}
 
 }

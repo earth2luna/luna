@@ -19,7 +19,9 @@ import com.luna.service.enumer.resource.CreatorEnum;
 import com.luna.service.enumer.resource.StatusEnum;
 import com.luna.service.enumer.service.HtmlMarcherEnum;
 import com.luna.utils.DateUtils;
+import com.luna.utils.FilePropertyUtils;
 import com.luna.utils.LangUtils;
+import com.luna.utils.UrlUtils;
 import com.luna.utils.classes.KV;
 
 import us.codecraft.webmagic.Page;
@@ -60,6 +62,7 @@ public class CatcherProcessor implements PageProcessor {
 		resources.setStatus(LangUtils.intValueOfNumber(StatusEnum.INIT.getCode()));
 		resources.setSourceSiteLink(catcherModel.getCatcherWebUrl());
 		resources.setSourceSiteName(catcherModel.getCatcherWebName());
+		resources.setWebsiteCode(catcherModel.getCatcherWebsiteCode());
 
 		KV<String, Integer> resourceTitleKv = handler(catcherModel.getResourceTitleCatchRulers(), page.getHtml());
 		if (null != resourceTitleKv) {
@@ -142,14 +145,21 @@ public class CatcherProcessor implements PageProcessor {
 								currentLevel, " oneLevelId:", oneLevelId, " twoLevelId:", twoLevelId));
 						break;
 					}
-					
+
 					// 获取路径
 					KV<String, Integer> contentPathKv = handler(iteratorRuler.getContentPathCatchRulers(), tempHtml);
 					if (null != contentPathKv) {
-						rc.setPath(contentPathKv.getK());
-						rc.setHandlerCode(contentPathKv.getV());
-						rc.setParentLevelId(currentLevelId);
-						rcs.add(rc);
+						String endPath = FilePropertyUtils.appendPath(catcherModel.getCatcherWebsiteCode().toString(),
+								catcherModel.getResourceCategoryCode().toString(),
+								LangUtils.toString(System.currentTimeMillis()));
+						String outputPath = FilePropertyUtils.appendPath(catcherModel.getAttachementPath(), endPath);
+						KV<String, Boolean> storeValue = UrlUtils.storeImage(contentPathKv.getK(), outputPath);
+						if (storeValue.getV()) {
+							rc.setPath(endPath + FilePropertyUtils.SPLITOR_SUFFIX + storeValue.getK());
+							rc.setHandlerCode(contentPathKv.getV());
+							rc.setParentLevelId(currentLevelId);
+							rcs.add(rc);
+						}
 						continue;
 					}
 
@@ -163,7 +173,6 @@ public class CatcherProcessor implements PageProcessor {
 						continue;
 					}
 
-					
 				}
 			}
 		}
@@ -175,13 +184,13 @@ public class CatcherProcessor implements PageProcessor {
 	}
 
 	private Long getCurrentParentId(Long currentLevel, Long oneLevelId, Long twoLevelId) {
-//		Long ret = null;
-//		if (LangUtils.equals(1, currentLevel)) {
-//			ret = oneLevelId;
-//		} else if (LangUtils.equals(2, currentLevel)) {
-//			ret = twoLevelId;
-//		}
-//		return ret;
+		// Long ret = null;
+		// if (LangUtils.equals(1, currentLevel)) {
+		// ret = oneLevelId;
+		// } else if (LangUtils.equals(2, currentLevel)) {
+		// ret = twoLevelId;
+		// }
+		// return ret;
 		return oneLevelId;
 	}
 

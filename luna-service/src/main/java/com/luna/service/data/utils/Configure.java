@@ -16,10 +16,25 @@ public class Configure implements InitializingBean {
 
 	@Value("${resources.generate.path}")
 	private String resourceRelativePath;
+	
+	@Value("${luna.web.domain}")
+	private String thisWebDomain;
+	
+	@Value("${luna.attachement.path}")
+	private String attachementPath;
 
 	public static String getResourceRelativePath() {
 		return configure.resourceRelativePath;
 	}
+	
+	public static String getThisWebDomain() {
+		return configure.thisWebDomain;
+	}
+	
+	public static String getAttachementPath() {
+		return configure.attachementPath;
+	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -30,6 +45,8 @@ public class Configure implements InitializingBean {
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		configure.resourceRelativePath = resourceRelativePath;
+		configure.thisWebDomain = thisWebDomain;
+		configure.attachementPath = attachementPath;
 
 	}
 

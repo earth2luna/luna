@@ -26,6 +26,7 @@ public class Resources implements Serializable {
 	private Long pageView;// pv
 	private Long userView;// uv
 	private Integer status;//状态
+	private Integer websiteCode;//网站编码
 	private static final long serialVersionUID = 1488017661183L;
 
 	public void setId(Long id) {
@@ -132,14 +133,19 @@ public class Resources implements Serializable {
 		this.status = status;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	/**
+	 * @return the websiteCode
 	 */
-	@Override
-	public String toString() {
-		return "[id=" + id + ", createTime=" + createTime + ", sourceSiteName=" + sourceSiteName
-				+ ", sourceSiteLink=" + sourceSiteLink + ", creatorId=" + creatorId + ", categoryId=" + categoryId
-				+ ", title=" + title + ", sourceAuthor=" + sourceAuthor + ", sourceDate=" + sourceDate + ", thumbnail="
-				+ thumbnail + ", pageView=" + pageView + ", userView=" + userView + ", status=" + status + "]";
+	public Integer getWebsiteCode() {
+		return websiteCode;
 	}
+
+	/**
+	 * @param websiteCode the websiteCode to set
+	 */
+	public void setWebsiteCode(Integer websiteCode) {
+		this.websiteCode = websiteCode;
+	}
+
+	
 }
