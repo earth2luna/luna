@@ -1,6 +1,5 @@
 jQuery(function() {
 
-	$.ajaxSettings.async = false;
 
 	var selector_form = jQuery(".script-login-form");
 
@@ -13,6 +12,7 @@ jQuery(function() {
 			var ii = layer.load();
 			signIning(selector_submit);
 			var data = jc.serializeObject(selector_form);
+			$.ajaxSettings.async = false;
 			jQuery.post(getHelloUrl(), data, function(ret) {
 				layer.close(ii);
 				if (1 == ret.code) {

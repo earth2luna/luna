@@ -11,7 +11,7 @@
 	
 	<context-param>
 		<param-name>NEED_PASSPORT_NODE_DOMAINS</param-name>
-		<param-value>apoollo.com</param-value>
+		<param-value>apoollo.com,solr.apoollo.com</param-value>
 	</context-param>
 
 	<context-param>
