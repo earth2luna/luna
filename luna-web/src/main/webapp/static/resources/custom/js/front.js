@@ -7,7 +7,7 @@ jQuery(function() {
 	function scrollToElem(selecotr) {
 		$('html, body').animate({
 			scrollTop : $(selecotr).offset().top
-		}, 500);
+		}, 100);
 	}
 
 	function refreshPageIterator(query, pageInfo) {

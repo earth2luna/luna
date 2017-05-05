@@ -16,7 +16,7 @@
 
 	<context-param>
 		<param-name>SIGN_IN_COOKIES_NAME</param-name>
-		<param-value>_apoollo_s_</param-value>
+		<param-value>_apoollo_w_</param-value>
 	</context-param>
 
 	<context-param>
@@ -35,7 +35,7 @@
 	</context-param>
 
 	<listener>
-		<listener-class>com.luna.security.SecurityListener</listener-class>
+		<listener-class>com.luna.security.brand.SecurityListener</listener-class>
 	</listener>
 
 	<filter>
