@@ -95,3 +95,11 @@ article.page .post-content {
 	opacity: .8;
 	bottom: 100px;
 }
+
+.padding-px-1 {
+	padding: 1px;
+}
+
+.padding-px-2 {
+	padding: 2px;
+}

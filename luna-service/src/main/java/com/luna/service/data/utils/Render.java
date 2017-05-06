@@ -76,7 +76,7 @@ public class Render {
 			List<INode> nodes = NodeUtils.sort(casecades, inputOutput, variable);
 			ResourcesCasecadeNode node = (ResourcesCasecadeNode) nodes.get(0);
 			// 执行渲染
-			format(nodes,node);
+			format(nodes, node);
 			// 数据库上线
 			ResourcesUtils.online(resourcesMapper, node.getResourcesId());
 			// 再次获取
@@ -88,12 +88,13 @@ public class Render {
 	private void format(List<INode> nodes, ResourcesCasecadeNode node) {
 		Writer out = null;
 		try {
-			String resourcesGeneratePath = renderParameter.getResourcesGeneratePath();
-			String freemarkerTemplateName = renderParameter.getFreemarkerTemplateName();
+			String resourcesGeneratePath = Configure.getResourceRelativePath();
+			String freemarkerTemplateName = Configure.getFreeMarkerViewName();
 			Configuration configuration = renderParameter.getConfiguration();
 			Map<String, Object> dataModel = new HashMap<String, Object>();
 			dataModel.put("node", node);
 			dataModel.put("nodes", nodes);
+			dataModel.put(Constants.PAGE_HEADER_SAY_KEY, Constants.getPageHeaderSayVo());
 			File origin = ResourcesUtils.getResourcesFile(resourcesGeneratePath, node.getResourcesId());
 			FilePropertyUtils.touchFile(origin);
 			out = new FileWriter(origin);

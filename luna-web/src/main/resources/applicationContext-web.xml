@@ -36,7 +36,7 @@
 	<bean id="freeMarkerConfigurationFactoryBean"
 		class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
 		<property name="defaultEncoding" value="UTF-8"></property>
-		<property name="templateLoaderPath" value="classpath:com/luna/web/freemarker/"></property>
+		<property name="templateLoaderPath" value="${luna.template.freemarker.path}"></property>
 		<property name="freemarkerSettings" ref="freeMarkerProperties"></property>
 	</bean>
 	

@@ -133,29 +133,51 @@ public class LangUtils {
 		return null;
 	}
 
+	public static String deleteFirstSplitor(String input, String firstSplitor) {
+		AssertUtils.isTrue(StringUtils.isNotBlank(firstSplitor));
+		if (StringUtils.isBlank(input))
+			return Constants.EMPTY_STRING;
+		if (firstSplitor.equals(toString(input.charAt(0)))) {
+			return input.substring(1, input.length());
+		}
+		return input;
+	}
+
 	public static String deleteLastSplitor(String input, String lastSplitor) {
 		AssertUtils.isTrue(StringUtils.isNotBlank(lastSplitor));
 		if (StringUtils.isBlank(input))
 			return Constants.EMPTY_STRING;
-		if (lastSplitor.equals(input.charAt(input.length() - 1))) {
+		if (lastSplitor.equals(toString(input.charAt(input.length() - 1)))) {
 			return input.substring(0, input.length() - 1);
 		}
 		return input;
 	}
 
+	public static String deleteFBSplitor(String input, String splitor) {
+		return deleteLastSplitor(deleteFirstSplitor(input, splitor), splitor);
+	}
+
+
 	public static String appendFragment(String splitor, String... fragments) {
 		if (null == fragments || 0 == fragments.length)
 			return Constants.EMPTY_STRING;
 		StringBuilder builder = new StringBuilder();
-		for (String fgt : fragments) {
+		for (int i = 0; i < fragments.length; i++) {
+			String fgt = fragments[i];
 			if (StringUtils.isBlank(fgt))
 				continue;
-			builder.append(LangUtils.deleteLastSplitor(fgt, splitor)).append(splitor);
+			if (0 == i) {
+				builder.append(LangUtils.deleteLastSplitor(fgt, splitor));
+			} else {
+				builder.append(LangUtils.deleteFBSplitor(fgt, splitor));
+			}
+			if (i != fragments.length - 1) {
+				builder.append(splitor);
+			}
 		}
-		if (0 == builder.length())
-			return Constants.EMPTY_STRING;
-		return builder.deleteCharAt(builder.length() - 1).toString();
+		return builder.toString();
 	}
+	
 
 	public static <T> Collection<T> merge(@SuppressWarnings("unchecked") Collection<T>... collections) {
 		if (null == collections || 0 == collections.length)

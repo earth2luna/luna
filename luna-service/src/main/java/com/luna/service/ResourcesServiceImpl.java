@@ -9,7 +9,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 
@@ -47,8 +46,6 @@ public class ResourcesServiceImpl implements ResourcesService {
 	private IResourcesContentMarkMapper contentMarkMapper;
 	@Autowired
 	private FreeMarkerConfigurationFactoryBean factoryBean;
-	@Value("${freemarker.template.name}")
-	private String freemarkerTemplateName;
 
 	/*
 	 * (non-Javadoc)
@@ -77,8 +74,8 @@ public class ResourcesServiceImpl implements ResourcesService {
 			if (LangUtils.equals(2, op)) {
 				// 上线
 				AssertUtils.isTrue(LangUtils.booleanValueOfNumber(rsId), "无效的资源key值");
-				new Render(new RenderParameter(resourcesMapper, contentMarkMapper, factoryBean.getObject(),
-						resourcesRelativePath, freemarkerTemplateName, null, rsId)).render();
+				new Render(new RenderParameter(resourcesMapper, contentMarkMapper, factoryBean.getObject(), null, rsId))
+						.render();
 			} else if (LangUtils.equals(3, op)) {
 				// 资源删除
 				AssertUtils.isTrue(LangUtils.booleanValueOfNumber(rsId), "无效的资源key值");
@@ -105,12 +102,11 @@ public class ResourcesServiceImpl implements ResourcesService {
 			} else if (LangUtils.equals(9, op)) {
 				// 待上线状态的全部上线全
 				new Render(new RenderParameter(resourcesMapper, contentMarkMapper, factoryBean.getObject(),
-						resourcesRelativePath, freemarkerTemplateName, String.valueOf(StatusEnum.INIT.getCode()), null))
-								.render();
+						String.valueOf(StatusEnum.INIT.getCode()), null)).render();
 			} else if (LangUtils.equals(10, op)) {
 				// 全部上线
-				new Render(new RenderParameter(resourcesMapper, contentMarkMapper, factoryBean.getObject(),
-						resourcesRelativePath, freemarkerTemplateName, null, null)).render();
+				new Render(new RenderParameter(resourcesMapper, contentMarkMapper, factoryBean.getObject(), null, null))
+						.render();
 			} else {
 				// 无效的权限操作
 				throw new AppException("无效的权限操作");

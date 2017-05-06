@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<#include "front/layout_header.html"/>
+<body>
+    <a id="skippy" class="sr-only sr-only-focusable" href="//apoollo.com">
+		<div class="container">
+		<span class="skiplink-text">Skip to main content</span>
+		</div>
+	</a>
+    <#include "front/layout_body_header.html"/>
+	<#include "front/layout_body_banner.html"/>
+    <div class="container bs-docs-container">
+      <div class="row">
+	      <div class="col-md-9" role="main">
+	      	<#list nodes as rootNode>
+		      	<div class="bs-docs-section">
+		      		<h1 id="${rootNode.recourcesContentId}" class="page-header">${rootNode.resourcesContentTitle}</h1>
+		      		<#if rootNode.resourcesContent??>
+  						<p class="lead">${rootNode.resourcesContent}</p>
+  					</#if>
+  					<#list rootNode.childrens as subNode>
+  						 <#switch subNode.resourcesContentHandlerCode>  
+						    <#case 1>
+						    	<#include "render/languge-html.html"/>	
+						        <#break>  
+						    <#case 2>
+						    	<#include "render/languge-html.html"/>	
+						        <#break>
+						     <#case 3>
+						     	<#include "render/tag-image.html"/>	
+						     	<#break>  
+						     <#case 4>
+						     	<#include "render/tag-p.html"/>	
+						     	<#break>  
+						     <#case 5>
+						     	<#include "render/tag-pre.html"/>		
+						     	<#break>  
+						    <#default>  
+						    	<#include "render/tag-p.html"/>	
+						        <#break>  
+						    </#switch> 
+  					</#list>
+		      	</div>
+	      	</#list>
+	      </div>
+	      <div class="col-md-3" role="complementary">
+	      	<nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix-top">
+				<ul class="nav bs-docs-sidenav">
+					<#list nodes as rootNode>
+						<li class="active">
+							<a href="#${rootNode.recourcesContentId}">${rootNode.resourcesContentTitle}</a>
+							<ul class="nav">
+								<#list rootNode.childrens as subNode>
+									<#if subNode.resourcesContentTitle??>
+										<li>
+											<a href="#${subNode.recourcesContentId}">${subNode.resourcesContentTitle}</a>
+										</li>
+									</#if>
+								</#list>
+							</ul>
+						</li>
+					</#list>
+				</ul>
+            	<a class="back-to-top" href="#top">返回顶部</a>
+            	<#--<a href="#" class="bs-docs-theme-toggle" role="button">主题预览</a>-->
+          	</nav>
+	      </div>
+      </div>
+    </div>
+    <#include "front/layout_body_footer.html"/>
+	<svg xmlns="http://www.w3.org/2000/svg" width="140" height="140" viewBox="0 0 140 140" preserveAspectRatio="none" style="display: none; visibility: hidden; position: absolute; top: -100%; left: -100%;"><defs><style type="text/css"></style></defs><text x="0" y="10" style="font-weight:bold;font-size:10pt;font-family:Arial, Helvetica, Open Sans, sans-serif">140x140</text></svg>
+ </body>
+</html>
