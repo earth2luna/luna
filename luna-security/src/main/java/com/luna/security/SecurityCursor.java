@@ -22,9 +22,14 @@ import com.luna.utils.LangUtils;
  */
 public class SecurityCursor {
 
+	// 30分钟=1800秒
 	public static final int LOGIN_STAY_TIME_SECONDS = 1800;
 
+	// 30分钟=1800秒*1000
 	public static final long LOGIN_STAY_TIME_MILLIS = LOGIN_STAY_TIME_SECONDS * 1000;
+
+	// 3年=30分钟*2*24*365*3
+	public static final long LOGIN_STAY_TIME_YEAR = LOGIN_STAY_TIME_MILLIS * 2 * 24 * 365 * 3;
 
 	public static final String KEY_ALGORITHM = "RSA";
 

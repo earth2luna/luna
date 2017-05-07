@@ -49,6 +49,20 @@
 		<url-pattern>/index.html</url-pattern>
 	</filter-mapping>
 	
+	<filter-mapping>
+		<filter-name>cookiesFilter</filter-name>
+		<url-pattern>/admin/cores</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>cookiesFilter</filter-name>
+		<url-pattern>/admin/info/system</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>cookiesFilter</filter-name>
+		<url-pattern>/browse</url-pattern>
+	</filter-mapping>
 	
 	
 	<filter>

@@ -112,7 +112,7 @@ public class FilterHandler {
 			try {
 				String ret = RequestUtils.geBase64RequestUrl(request);
 				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug(ret);
+					LOGGER.debug("base 64 url is :" + ret);
 				}
 				response.setHeader("Pragma", "No-cache");
 				response.setHeader("Cache-Control", "no-cache");

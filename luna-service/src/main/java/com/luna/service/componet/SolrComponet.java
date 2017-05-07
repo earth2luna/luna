@@ -15,10 +15,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.client.solrj.request.UpdateRequest;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.SuggesterResponse;
 import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrDocumentList;
+import org.apache.solr.common.params.ModifiableSolrParams;
 import org.springframework.beans.factory.InitializingBean;
 
 import com.luna.security.Configuration;
@@ -46,13 +48,48 @@ public abstract class SolrComponet implements InitializingBean {
 		client = new HttpSolrClient.Builder(getConnectUrl()).build();
 	}
 
+	private void setCiphertext(UpdateRequest req) {
+		req.setParam(Configuration.parameterTicketKey, Configuration.parameterTicketValueCipertext);
+	}
+
+	private void setCiphertext(ModifiableSolrParams query) {
+		query.set(Configuration.parameterTicketKey, Configuration.parameterTicketValueCipertext);
+	}
+
 	public SolrClient getSolrClient() {
 		return client;
 	}
 
 	public void commit() {
+//		try {
+//			UpdateRequest req = new UpdateRequest();
+//			setCiphertext(req);
+//			req.setAction(UpdateRequest.ACTION.COMMIT, true, true);
+//			req.process(client, null);
+//		} catch (Exception e) {
+//			throw new RuntimeException(e);
+//		}
+	}
+
+	public UpdateResponse deleteByQuery(String query) {
 		try {
-			client.commit();
+			UpdateRequest req = new UpdateRequest();
+			req.deleteByQuery(query);
+			req.setCommitWithin(-1);
+			setCiphertext(req);
+			return req.process(client, null);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public UpdateResponse addBean(Object bean) {
+		try {
+			UpdateRequest req = new UpdateRequest();
+			req.add(client.getBinder().toSolrInputDocument(bean));
+			req.setCommitWithin(-1);
+			setCiphertext(req);
+			return req.process(client, null);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -60,9 +97,9 @@ public abstract class SolrComponet implements InitializingBean {
 
 	public void persistenceWhile(Object bean, long currentCount, long limitCount) {
 		try {
-			client.addBean(bean);
+			addBean(bean);
 			if (0 == currentCount % limitCount) {
-				client.commit();
+				commit();
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -73,10 +110,6 @@ public abstract class SolrComponet implements InitializingBean {
 		if (0 != currentCount % limitCount) {
 			commit();
 		}
-	}
-
-	private void setCiphertext(SolrQuery query) {
-		query.set(Configuration.parameterTicketKey, Configuration.parameterTicketValueCipertext);
 	}
 
 	public List<SuggetVo> querySugget(String input) {
@@ -116,7 +149,7 @@ public abstract class SolrComponet implements InitializingBean {
 
 	public UpdateResponse deleteAll() {
 		try {
-			return client.deleteByQuery("*:*");
+			return deleteByQuery("*:*");
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -124,7 +157,11 @@ public abstract class SolrComponet implements InitializingBean {
 
 	public UpdateResponse deleteById(String deletedIds) {
 		try {
-			return client.deleteById(LangUtils.split2ArrayListString(deletedIds, ","));
+			UpdateRequest req = new UpdateRequest();
+			setCiphertext(req);
+			req.deleteById(LangUtils.split2ArrayListString(deletedIds, ","));
+			req.setCommitWithin(-1);
+			return req.process(client, null);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

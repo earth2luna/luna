@@ -146,7 +146,8 @@ public class LoginUtils {
 
 	public static String getParameterTicket() {
 		try {
-			return CoderUtils.encode(SecurityCursor.getBase64String(new SecurityTicket(Configuration.loginInitKey, null)));
+			return CoderUtils.encode(SecurityCursor.getBase64String(
+					new SecurityTicket(Configuration.loginInitKey, SecurityCursor.LOGIN_STAY_TIME_YEAR)));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

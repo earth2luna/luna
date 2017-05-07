@@ -27,18 +27,15 @@ function doIt() {
 	var data = {
 		op : selector.val()
 	};
-	selector.siblings(".script-super_select-parameter").find(":input").each(function() {
-		var value = jQuery(this).val();
-		var name = jQuery(this).attr("name");
-		if (name && value) {
-			data[name] = value;
-		}
-	});
-	jQuery.post("/super/doIt", data, function(data) {
-		if (data.code == "1" || data.code == 1) {
-			selector_show.html("同步完成!");
-		} else {
-			selector_show.html("同步过程出现错误!");
-		}
-	});
+	selector.siblings(".script-super_select-parameter").find(":input").each(
+			function() {
+				var value = jQuery(this).val();
+				var name = jQuery(this).attr("name");
+				if (name && value) {
+					data[name] = value;
+				}
+			});
+	jc.sPost("/super/doIt", data, function(data) {
+		selector_show.html("同步完成!");
+	}, "json");
 }

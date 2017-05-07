@@ -17,16 +17,17 @@ public class SecurityTicket {
 		return System.currentTimeMillis() > this._expires.getTime();
 	}
 
-	public SecurityTicket(String _userData, String _appPath) {
+	public SecurityTicket(String _userData, long timeout) {
 		this._userData = _userData;
-		this._appPath = LangUtils.defaultValue(_appPath, "/");
-		this._expires = new Date(System.currentTimeMillis() + SecurityCursor.LOGIN_STAY_TIME_MILLIS);
+		this._expires = new Date(System.currentTimeMillis() + timeout);
 	}
 
 	public SecurityTicket(String _userName, String _userData, String _appPath) {
-		this(_userData, _appPath);
 		Validate.notNull(_userName);
 		this._userName = _userName;
+		this._appPath = LangUtils.defaultValue(_appPath, "/");
+		this._userData = _userData;
+		this._expires = new Date(System.currentTimeMillis() + SecurityCursor.LOGIN_STAY_TIME_MILLIS);
 	}
 
 	public SecurityTicket() {
