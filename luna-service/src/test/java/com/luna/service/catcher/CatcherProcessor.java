@@ -19,9 +19,9 @@ import com.luna.service.enumer.resource.CreatorEnum;
 import com.luna.service.enumer.resource.StatusEnum;
 import com.luna.service.enumer.service.HtmlMarcherEnum;
 import com.luna.utils.DateUtils;
+import com.luna.utils.DowloadUtils;
 import com.luna.utils.FilePropertyUtils;
 import com.luna.utils.LangUtils;
-import com.luna.utils.UrlUtils;
 import com.luna.utils.classes.KV;
 
 import us.codecraft.webmagic.Page;
@@ -153,7 +153,7 @@ public class CatcherProcessor implements PageProcessor {
 								catcherModel.getResourceCategoryCode().toString(),
 								LangUtils.toString(System.currentTimeMillis()));
 						String outputPath = FilePropertyUtils.appendPath(catcherModel.getAttachementPath(), endPath);
-						KV<String, Boolean> storeValue = UrlUtils.storeImage(contentPathKv.getK(), outputPath);
+						KV<String, Boolean> storeValue = DowloadUtils.storeImage(contentPathKv.getK(), outputPath);
 						if (storeValue.getV()) {
 							rc.setPath(endPath + FilePropertyUtils.SPLITOR_SUFFIX + storeValue.getK());
 							rc.setHandlerCode(contentPathKv.getV());

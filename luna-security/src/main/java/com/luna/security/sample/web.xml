@@ -28,29 +28,54 @@
 		<param-name>LOGIN_INIT_KEY</param-name>
 		<param-value>69ba1c09e383ea646b6fffe6d3388dc</param-value>
 	</context-param>
-
+	
 	<context-param>
-		<param-name>UN_LOGIN_PATHS</param-name>
-		<param-value>/resource/select,/resource/suggest</param-value>
+		<param-name>PARAMETER_TICKET_KEY</param-name>
+		<param-value>ticket</param-value>
 	</context-param>
+
 
 	<listener>
 		<listener-class>com.luna.security.brand.SecurityListener</listener-class>
 	</listener>
 
 	<filter>
-		<filter-name>loginFilter</filter-name>
-		<filter-class>com.luna.security.brand.WebTicketFilter</filter-class>
+		<filter-name>cookiesFilter</filter-name>
+		<filter-class>com.luna.security.brand.CookiesTicketFilter</filter-class>
 	</filter>
 
 	<filter-mapping>
-		<filter-name>loginFilter</filter-name>
+		<filter-name>cookiesFilter</filter-name>
+		<url-pattern>/index.html</url-pattern>
+	</filter-mapping>
+	
+	
+	
+	<filter>
+		<filter-name>cookiesOrParameterFilter</filter-name>
+		<filter-class>com.luna.security.brand.CookiesOrParameterTicketFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>cookiesOrParameterFilter</filter-name>
 		<url-pattern>/resource/update</url-pattern>
 	</filter-mapping>
-
+	
 	<filter-mapping>
-		<filter-name>loginFilter</filter-name>
-		<url-pattern>/index.html</url-pattern>
+		<filter-name>cookiesOrParameterFilter</filter-name>
+		<url-pattern>/resource/select</url-pattern>
+	</filter-mapping>
+	
+	
+	
+	<filter>
+		<filter-name>parameterFilter</filter-name>
+		<filter-class>com.luna.security.brand.ParameterTicketFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>parameterFilter</filter-name>
+		<url-pattern>/resource/suggest</url-pattern>
 	</filter-mapping>
 
 

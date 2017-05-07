@@ -20,6 +20,8 @@ public class Configuration {
 
 	public static final String SIGN_IN_COOKIES_NAME = "SIGN_IN_COOKIES_NAME";
 
+	public static final String IF_RESTFULL_MODE = "IF_RESTFULL_MODE";
+
 	public static final String LOGIN_PAGE_URL = "LOGIN_PAGE_URL";
 
 	public static final String LOGIN_SUCCESS_URL = "LOGIN_SUCCESS_URL";
@@ -34,9 +36,13 @@ public class Configuration {
 
 	public static final String IS_NEED_GENERATE_RSA = "IS_NEED_GENERATE_RSA";
 
-	public static String signInCookiesNamePlaintext;
+	public static final String PARAMETER_TICKET_KEY = "PARAMETER_TICKET_KEY";
 
-	public static String signInCookiesNameCiphertext;
+	public static String parameterTicketKey;
+	
+	public static String parameterTicketValueCipertext;
+
+	public static String signInCookiesNamePlaintext;
 
 	public static String loginPageUrl;
 
@@ -49,7 +55,7 @@ public class Configuration {
 	public static Set<String> unLoginPaths;
 
 	public static Set<String> everLoginPaths;
-	
+
 	public static Set<String> needPassportNodeDomains;
 
 }

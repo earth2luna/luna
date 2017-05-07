@@ -21,6 +21,7 @@ import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrDocumentList;
 import org.springframework.beans.factory.InitializingBean;
 
+import com.luna.security.Configuration;
 import com.luna.utils.LangUtils;
 import com.luna.utils.classes.Page;
 
@@ -74,11 +75,16 @@ public abstract class SolrComponet implements InitializingBean {
 		}
 	}
 
+	private void setCiphertext(SolrQuery query) {
+		query.set(Configuration.parameterTicketKey, Configuration.parameterTicketValueCipertext);
+	}
+
 	public List<SuggetVo> querySugget(String input) {
 		List<SuggetVo> list = new ArrayList<SuggetVo>();
 		if (StringUtils.isNotEmpty(input)) {
 			try {
 				SolrQuery query = new SolrQuery();
+				setCiphertext(query);
 				query.set("suggest.q", input.toLowerCase());
 				query.setRequestHandler("/suggest");
 				QueryResponse queryResponse = client.query(query);
@@ -127,6 +133,7 @@ public abstract class SolrComponet implements InitializingBean {
 	public <T> Page<T> query(SolrQueryPage query, Class<T> type) {
 		Page<T> page = new Page<T>();
 		try {
+			setCiphertext(query);
 			QueryResponse queryResponse = client.query(query);
 			SolrDocumentList solrDocumentList = queryResponse.getResults();
 			page.setList(queryResponse.getBeans(type));

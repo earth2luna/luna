@@ -41,6 +41,8 @@ public class ResourceSolr {
 	private Date sourceDate;// 来源日期
 	@Field
 	private String thumbnail;// 缩略图
+	
+	private String ticket;
 
 	@Field
 	private List<String> titlePinyin;// 标题拼音
@@ -279,5 +281,17 @@ public class ResourceSolr {
 	public void setContent(String content) {
 		this.content = content;
 	}
+
+
+	public String getTicket() {
+		return ticket;
+	}
+
+
+	public void setTicket(String ticket) {
+		this.ticket = ticket;
+	}
+
+
 
 }

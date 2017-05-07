@@ -6,10 +6,12 @@ package com.luna.security.brand;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.luna.security.Configuration;
+import com.luna.security.LoginUtils;
 import com.luna.security.SecurityCursor;
 import com.luna.utils.LangUtils;
-import com.luna.utils.VerificationUtils;
 
 /**
  * @author laulyl
@@ -35,9 +37,6 @@ public class SecurityListener implements ServletContextListener {
 		Configuration.signInCookiesNamePlaintext = sce.getServletContext()
 				.getInitParameter(Configuration.SIGN_IN_COOKIES_NAME);
 
-		Configuration.signInCookiesNameCiphertext = VerificationUtils
-				.getMD5Encode(Configuration.signInCookiesNamePlaintext);
-
 		Configuration.loginInitKey = sce.getServletContext().getInitParameter(Configuration.LOGIN_INIT_KEY);
 
 		Configuration.rsaKeyPairPath = sce.getServletContext().getInitParameter(Configuration.RSA_KEY_PAIR_PATH);
@@ -51,8 +50,12 @@ public class SecurityListener implements ServletContextListener {
 		Configuration.needPassportNodeDomains = LangUtils.split2HashSetString(
 				sce.getServletContext().getInitParameter(Configuration.NEED_PASSPORT_NODE_DOMAINS), ",");
 
-		if ("true".equals(sce.getServletContext().getInitParameter(Configuration.IS_NEED_GENERATE_RSA)))
+		Configuration.parameterTicketKey = StringUtils.trim(sce.getServletContext().getInitParameter(Configuration.PARAMETER_TICKET_KEY));
+		
+		if ("true".equals(sce.getServletContext().getInitParameter(Configuration.IS_NEED_GENERATE_RSA))) {
 			SecurityCursor.overrideKeyPair();
+			Configuration.parameterTicketValueCipertext = LoginUtils.getParameterTicket();
+		}
 	}
 
 	/*

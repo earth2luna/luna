@@ -44,28 +44,11 @@
 		<param-value>true</param-value>
 	</context-param>
 	
+	<context-param>
+		<param-name>PARAMETER_TICKET_KEY</param-name>
+		<param-value>ticket</param-value>
+	</context-param>
 	
-	<!-- 
-	<filter>
-		<filter-name>loginFilter</filter-name>
-		<filter-class>com.luna.security.brand.WebLoginFilter</filter-class>
-	</filter>
-
-	<filter-mapping>
-		<filter-name>loginFilter</filter-name>
-		<url-pattern>/resources/*</url-pattern>
-	</filter-mapping>
-	
-	<filter-mapping>
-		<filter-name>loginFilter</filter-name>
-		<url-pattern>/content/*</url-pattern>
-	</filter-mapping>
-	
-	<filter-mapping>
-		<filter-name>loginFilter</filter-name>
-		<url-pattern>/super/*</url-pattern>
-	</filter-mapping>
-	 -->
 	 
 	<servlet>
 		<servlet-name>sso</servlet-name>

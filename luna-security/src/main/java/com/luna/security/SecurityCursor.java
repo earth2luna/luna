@@ -34,8 +34,6 @@ public class SecurityCursor {
 
 	public static final String PIN_KEY = SecurityCursor.class.getName() + ".PIN.KEY";
 
-	public static final String NO_LOGIN_OBJECT = "{\"code\":\"0\",\"message\":\"NotLogin\"}";
-
 	public static final String CLASS_PATH = FilePropertyUtils.filterPathAsWeb(ClassLoaderUtils.getLocation("."));
 
 	private static Key publicKey;

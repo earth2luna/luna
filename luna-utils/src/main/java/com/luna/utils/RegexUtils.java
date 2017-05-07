@@ -6,7 +6,10 @@ package com.luna.utils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 
 /**
@@ -30,8 +33,8 @@ public class RegexUtils {
 	public static final String REGX_DIG_COMMA = "^[0-9]+(,[0-9]+)*$";
 	// 数字
 	public static final String REGX_DIG = "^[0-9]+$";
-	
-	public static final String HTML_TAG="</?[^>]*>";
+
+	public static final String HTML_TAG = "</?[^>]*>";
 
 	// 验证是否是小数
 	// input:验证参数值,p:总长度,s:小数长度,isPositive:是否有正数限制,allowNull:是否允许为null
@@ -137,6 +140,18 @@ public class RegexUtils {
 
 	public static boolean isIdentifier(String identifier, boolean allowNull) {
 		return isIdentifier(identifier, false, allowNull);
+	}
+
+	public static String getMatches(String regex, String input) {
+		String ret = null;
+		if (StringUtils.isNotEmpty(input)) {
+			Pattern pattern = Pattern.compile(regex);
+			Matcher matcher = pattern.matcher(input);
+			if (matcher.find()) {
+				ret = matcher.group();
+			}
+		}
+		return ret;
 	}
 
 }

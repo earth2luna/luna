@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
 import com.luna.utils.LangUtils;
-import com.luna.utils.UrlUtils;
+import com.luna.utils.CoderUtils;
 import com.luna.utils.VerificationUtils;
 import com.luna.utils.classes.InvokeVo;
 import com.luna.utils.infce.IInputOutput;
@@ -31,9 +31,9 @@ public class LoginUtils {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(LoginUtils.class);
 
-	public static SecurityTicket getTicket(String passport) {
+	public static SecurityTicket getTicketFromString(String passport) {
 		try {
-			String ticketInput = UrlUtils.decode(passport);
+			String ticketInput = CoderUtils.decode(passport);
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug(ticketInput);
 			}
@@ -50,13 +50,17 @@ public class LoginUtils {
 	public static SecurityTicket getTicketFromCookie(HttpServletRequest request, String name) {
 		Cookie cookie = findCookie(request, name);
 		if (null != cookie) {
-			return getTicket(cookie.getValue());
+			return getTicketFromString(cookie.getValue());
+		} else {
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("cookies is can't find by name:" + name);
+			}
 		}
 		return null;
 	}
 
 	public static boolean verificationTicket(String passport) {
-		return null != getTicket(passport);
+		return null != getTicketFromString(passport);
 	}
 
 	public static String getUserString(String userName, String password) {
@@ -91,7 +95,7 @@ public class LoginUtils {
 							@Override
 							public String get(String i) {
 								return LangUtils.append("//", i, Configuration.URL_SSO,
-										"?c=?&t=" + UrlUtils.encode(ticket));
+										"?c=?&t=" + CoderUtils.encode(ticket));
 							}
 
 						});
@@ -140,39 +144,13 @@ public class LoginUtils {
 		return ret;
 	}
 
-	// public static void simpleSignIn(HttpServletResponse response, String key,
-	// String userName, String password) {
-	// String returnUrl = null;
-	// if (StringUtils.isEmpty(key)) {
-	// returnUrl = "/";
-	// } else if (StringUtils.isEmpty(userName) ||
-	// StringUtils.isEmpty(password)) {
-	// returnUrl = LangUtils.append(Configuration.loginPageUrl,
-	// "?w=a15byq897xxc&key=" + key);
-	// } else {
-	// String signIn = VerificationUtils.getMD5Encode(LangUtils.append(userName,
-	// ":", password));
-	// if (Configuration.loginInitKey.equals(signIn)) {
-	// try {
-	// addCookie(response, VerificationUtils.getMD5Encode(key),
-	// SecurityCursor.getBase64String(new SecurityTicket(userName, null, null)),
-	// SecurityCursor.LOGIN_STAY_TIME_SECONDS);
-	// } catch (Exception e) {
-	// throw new RuntimeException(e);
-	// }
-	// returnUrl = Configuration.loginSuccessUrl;
-	// } else {
-	// returnUrl = LangUtils.append(Configuration.loginPageUrl,
-	// "?w=a15byq897xxc&key=" + key);
-	// }
-	// }
-	//
-	// try {
-	// response.sendRedirect(returnUrl);
-	// } catch (IOException e) {
-	// throw new RuntimeException(e);
-	// }
-	// }
+	public static String getParameterTicket() {
+		try {
+			return CoderUtils.encode(SecurityCursor.getBase64String(new SecurityTicket(Configuration.loginInitKey, null)));
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	public static void addCookie(HttpServletResponse response, String key, String value, int maxAge) {
 		Cookie cookie = new Cookie(key, value);

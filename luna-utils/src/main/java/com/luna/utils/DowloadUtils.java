@@ -11,8 +11,6 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Base64;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
@@ -26,26 +24,14 @@ import com.luna.utils.classes.KV;
 
 /**
  * @author laulyl
- * @date 2017年5月4日 下午3:38:18
+ * @date 2017年5月7日 上午7:30:11
  * @description
  */
-public class UrlUtils {
+public class DowloadUtils {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(UrlUtils.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(DowloadUtils.class);
 
-	public static String encode(String input) {
-		if (StringUtils.isEmpty(input))
-			return null;
-		return Base64.getUrlEncoder().encodeToString(input.getBytes());
-	}
-
-	public static String decode(String input) {
-		if (StringUtils.isEmpty(input))
-			return null;
-		return new String(Base64.getDecoder().decode(input));
-	}
-
-	public static boolean download(String urlString, File outputPath) {
+	public static boolean downloadUrl(String urlString, File outputPath) {
 		boolean ret = false;
 		if (StringUtils.isNotEmpty(urlString)) {
 			InputStream is = null;
@@ -54,7 +40,7 @@ public class UrlUtils {
 				FilePropertyUtils.touchFile(outputPath);
 				URL url = new URL(urlString);
 				URLConnection con = url.openConnection();
-				con.setConnectTimeout(5 * 1000);
+				con.setConnectTimeout(10 * 1000);
 				is = con.getInputStream();
 				byte[] bs = new byte[1024];
 				int len = 0;
@@ -102,58 +88,6 @@ public class UrlUtils {
 		return ret;
 	}
 
-	public static KV<String, Boolean> storeImage(String input, String directoryAndName) {
-		boolean ret = false;
-		input = LangUtils.trim(input);
-		String suffix = null;
-		if (StringUtils.isNotEmpty(input)) {
-			String defaultSuffix = "jpeg";
-
-			if (input.startsWith("http")) {
-				suffix = LangUtils.defaultValue(FilePropertyUtils.getSuffix(input), defaultSuffix);
-				File outputFile = new File(
-						LangUtils.append(directoryAndName, FilePropertyUtils.SPLITOR_SUFFIX, suffix));
-				ret = download(input, outputFile);
-			} else {
-				if (-1 != input.indexOf("background")) {
-					// 如果有background 包裹，就提取整个base64
-					input = get("data:image/[a-zA-Z+]+;base64,.+(?='|&quot;)", input);
-				}
-				// 提取base64开头
-				String base64PrefixString = get("^data:image/[a-zA-Z+]+;base64,", input);
-				if (StringUtils.isNotBlank(base64PrefixString)) {
-					// 获取图片后缀
-					suffix = get("\\b(?<=data:image/)[a-zA-Z+]+(?=;base64,)", base64PrefixString);
-					Validate.notNull(suffix);
-					// 得到真正的base64
-					String base64String = input.replace(base64PrefixString, "");
-					if (-1 != suffix.indexOf("svg")) {
-						//svg base64
-						suffix = defaultSuffix;
-						ret = storeSvgImage(Base64.getDecoder().decode(base64String),
-								new File(LangUtils.append(directoryAndName, FilePropertyUtils.SPLITOR_SUFFIX, suffix)));
-					} else {
-						//二进制 base64
-						File outputFile = new File(
-								LangUtils.append(directoryAndName, FilePropertyUtils.SPLITOR_SUFFIX, suffix));
-						ret = storeBase64Image(base64String, outputFile);
-					}
-
-				}
-
-			}
-		}
-		return new KV<String, Boolean>(suffix, ret);
-	}
-
-	public static void main(String[] args) {
-		String base64 = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTcxIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE3MSAxODAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MTgwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTViZGI0ODM4ODUgdGV4dCB7IGZpbGw6I0FBQUFBQTtmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMHB0IH0gXV0+PC9zdHlsZT48L2RlZnM+PGcgaWQ9ImhvbGRlcl8xNWJkYjQ4Mzg4NSI+PHJlY3Qgd2lkdGg9IjE3MSIgaGVpZ2h0PSIxODAiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSI1OS41NjI1IiB5PSI5NC41NTYyNSI+MTcxeDE4MDwvdGV4dD48L2c+PC9nPjwvc3ZnPg==";
-		// String url =
-		// "http://img05.tooopen.com/images/20150531/tooopen_sy_127457023651.jpg";
-		storeImage(base64, "C:/Users/Administrator/Desktop/404/8999999");
-		// storeImage(url, "C:/Users/Administrator/Desktop/404/44444444444");
-	}
-
 	public static boolean storeSvgImage(byte[] svg, File outputPath) {
 		boolean ret = false;
 		if (null != svg) {
@@ -177,16 +111,56 @@ public class UrlUtils {
 		return ret;
 	}
 
-	public static String get(String regex, String input) {
-		String ret = null;
+	public static KV<String, Boolean> storeImage(String input, String directoryAndName) {
+		boolean ret = false;
+		input = LangUtils.trim(input);
+		String suffix = null;
 		if (StringUtils.isNotEmpty(input)) {
-			Pattern pattern = Pattern.compile(regex);
-			Matcher matcher = pattern.matcher(input);
-			if (matcher.find()) {
-				ret = matcher.group();
+			String defaultSuffix = "jpeg";
+
+			if (input.startsWith("http")) {
+				suffix = LangUtils.defaultValue(FilePropertyUtils.getSuffix(input), defaultSuffix);
+				File outputFile = new File(
+						LangUtils.append(directoryAndName, FilePropertyUtils.SPLITOR_SUFFIX, suffix));
+				ret = downloadUrl(input, outputFile);
+			} else {
+				if (-1 != input.indexOf("background")) {
+					// 如果有background 包裹，就提取整个base64
+					input = RegexUtils.getMatches("data:image/[a-zA-Z+]+;base64,.+(?='|&quot;)", input);
+				}
+				// 提取base64开头
+				String base64PrefixString = RegexUtils.getMatches("^data:image/[a-zA-Z+]+;base64,", input);
+				if (StringUtils.isNotBlank(base64PrefixString)) {
+					// 获取图片后缀
+					suffix = RegexUtils.getMatches("\\b(?<=data:image/)[a-zA-Z+]+(?=;base64,)", base64PrefixString);
+					Validate.notNull(suffix);
+					// 得到真正的base64
+					String base64String = input.replace(base64PrefixString, "");
+					if (-1 != suffix.indexOf("svg")) {
+						// svg base64
+						suffix = defaultSuffix;
+						ret = storeSvgImage(Base64.getDecoder().decode(base64String),
+								new File(LangUtils.append(directoryAndName, FilePropertyUtils.SPLITOR_SUFFIX, suffix)));
+					} else {
+						// 二进制 base64
+						File outputFile = new File(
+								LangUtils.append(directoryAndName, FilePropertyUtils.SPLITOR_SUFFIX, suffix));
+						ret = storeBase64Image(base64String, outputFile);
+					}
+
+				}
+
 			}
 		}
-		return ret;
+		return new KV<String, Boolean>(suffix, ret);
+	}
+
+	public static void main(String[] args) {
+		String base64 = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTcxIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE3MSAxODAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MTgwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTViZGI0ODM4ODUgdGV4dCB7IGZpbGw6I0FBQUFBQTtmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMHB0IH0gXV0+PC9zdHlsZT48L2RlZnM+PGcgaWQ9ImhvbGRlcl8xNWJkYjQ4Mzg4NSI+PHJlY3Qgd2lkdGg9IjE3MSIgaGVpZ2h0PSIxODAiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSI1OS41NjI1IiB5PSI5NC41NTYyNSI+MTcxeDE4MDwvdGV4dD48L2c+PC9nPjwvc3ZnPg==";
+		// String url =
+		// "http://img05.tooopen.com/images/20150531/tooopen_sy_127457023651.jpg";
+		storeImage(base64, "C:/Users/Administrator/Desktop/404/8999999");
+		// storeImage(url, "C:/Users/Administrator/Desktop/404/44444444444");
 	}
 
 }

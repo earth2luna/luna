@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import com.luna.dao.mapper.IResourcesMapper;
 import com.luna.dao.vo.ResourcesCasecade;
+import com.luna.security.Configuration;
 import com.luna.service.componet.ResourceSolr;
 import com.luna.service.componet.SolrComponet;
 import com.luna.service.data.utils.Constants;
@@ -173,7 +174,7 @@ public class SynchronizedResource extends AbstractListWhileDo<ResourceSolr> {
 	 */
 	@Override
 	public void doElement(ResourceSolr node, long count) {
-
+		node.setTicket(Configuration.parameterTicketValueCipertext);
 		solrComponet.persistenceWhile(node, count, COMMIT_LIMIT_COUNT);
 
 		LOGGER.info("current complete count is:" + count);

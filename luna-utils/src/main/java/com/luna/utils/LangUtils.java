@@ -179,7 +179,7 @@ public class LangUtils {
 	}
 	
 
-	public static <T> Collection<T> merge(@SuppressWarnings("unchecked") Collection<T>... collections) {
+	public static <T> Collection<T> merge(Collection<T>[] collections) {
 		if (null == collections || 0 == collections.length)
 			return null;
 		Collection<T> ret = null;
