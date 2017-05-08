@@ -29,10 +29,13 @@ public class Main implements PageProcessor {
 		for (String answer : answers) {
 //			String vote = new Html(answer).xpath("//p/tidyText()").toString();
 //			String vote = new Html(answer).xpath("//blockquote/pre/code/tidyText()").toString();
-			String vote1 = new Html(answer).xpath("//blockquote/pre/code/allText()").toString();
+//			String vote = new Html(answer).xpath("//blockquote/pre/code/text()").toString();
+//			String vote = new Html(answer).xpath("//blockquote/pre/code/allText()").toString();
+//			String vote = new Html(answer).xpath("//blockquote/pre/code/html()").toString();
+			String vote = new Html(answer).xpath("//p/html()").toString();
 //			System.out.println(vote);
 			System.out.println("*********************************");
-			System.out.println(vote1);
+			System.out.println(vote);
 		}
 	}
 
@@ -42,7 +45,9 @@ public class Main implements PageProcessor {
 	}
 
 	public static void main(String[] args) {
-		Spider.create(new Main()).addUrl("http://www.ruanyifeng.com/blog/2016/08/http.html").thread(5)
+//		Spider.create(new Main()).addUrl("http://www.ruanyifeng.com/blog/2016/08/http.html").thread(5)
+//		.run();
+		Spider.create(new Main()).addUrl("http://www.ruanyifeng.com/blog/2017/04/css_in_js.html").thread(5)
 				.run();
 	}
 }

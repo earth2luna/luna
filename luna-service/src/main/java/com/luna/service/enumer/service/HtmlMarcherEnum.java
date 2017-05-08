@@ -61,7 +61,7 @@ public enum HtmlMarcherEnum {
 	// 标签属性
 	private static String tagAttributeRegex(String... tagNames) {
 		String regx = getTagNameRegex(tagNames);
-		return LangUtils.append("(?<=<", regx, ")[^>]*");
+		return LangUtils.append("(?<=<", regx, "\\s)[^>]*");
 	}
 
 	// 标签名称

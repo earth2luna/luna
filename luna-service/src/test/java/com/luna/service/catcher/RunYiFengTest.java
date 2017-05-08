@@ -20,12 +20,13 @@ import us.codecraft.webmagic.Spider;
  * @date 2017年4月4日 下午2:26:18
  * @description
  */
-public class CatcherTest1 extends ParentTest {
+public class RunYiFengTest extends ParentTest {
 
 	@Test
 	public void main() {
-//		String catcherWebUrl = "http://www.ruanyifeng.com/blog/2016/08/http.html";
-		String catcherWebUrl = "http://www.ruanyifeng.com/blog/2017/04/css_in_js.html";
+		String catcherWebUrl = "http://www.ruanyifeng.com/blog/2016/08/http.html";
+		// String catcherWebUrl =
+		// "http://www.ruanyifeng.com/blog/2017/04/css_in_js.html";
 
 		String catcherWebName = "阮一峰个人网站";
 		CatcherModel catcherModel = new CatcherModel();
@@ -39,7 +40,8 @@ public class CatcherTest1 extends ParentTest {
 				"//article[@class='hentry']/div[@class='asset-meta']/p//abbr[@class='published']/text()"));
 		catcherModel.setResourceDateFormat("yyyy年MM月dd日");
 		catcherModel.setCatcherWebsiteCode(1);
-		catcherModel.setAttachementPath("C:/Users/Administrator/Desktop/404");
+		catcherModel.setAttachementPath(
+				"D:/workspaces/eclipse_20170116/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/luna-web/static/attachement");
 		catcherModel.setResourceCategoryCode(1);
 
 		List<CatcherIteratorRuler> iteratorRulers = new ArrayList<CatcherIteratorRuler>();
@@ -51,7 +53,7 @@ public class CatcherTest1 extends ParentTest {
 
 		iteratorRulerBefore.setOneLevelContentTitleCatchRulers(
 				evalueCatchRulers(null, null, "//article[@class='hentry']/h1[@id='page-title']/text()", null, null,
-						null, HandlerMethodEnum.P.getCode()));
+						null, HandlerMethodEnum.P.getCode(), null));
 		iteratorRulerBefore.setIfMark(true);
 
 		// 中间path
@@ -59,29 +61,41 @@ public class CatcherTest1 extends ParentTest {
 
 		// 内容
 		List<CatchRuler> contentCatchRulers = evalueCatchRulers(null, "//p/a/strong/text()", "//p/html()",
-				HtmlMarcherEnum.TAG.getCode(), new String[] { "a" }, null, HandlerMethodEnum.P.getCode());
+				HtmlMarcherEnum.TAG.getCode(), new String[] { "a" }, null, HandlerMethodEnum.P.getCode(), null);
+
+		evalueCatchRulers(contentCatchRulers, null, "//p/text()", null, null, null, null, "==========");
+
+		evalueCatchRulers(contentCatchRulers, "//p/a/text()", "//p/html()", HtmlMarcherEnum.TAG.getCode(),
+				new String[] { "a" }, null, HandlerMethodEnum.P.getCode(), null);
 
 		evalueCatchRulers(contentCatchRulers, "//p/code/text()", "//p/html()", null, null, null,
-				HandlerMethodEnum.P.getCode());
+				HandlerMethodEnum.P.getCode(), null);
 		evalueCatchRulers(contentCatchRulers, "//p/strong/text()", "//p/html()", null, null, null,
-				HandlerMethodEnum.P.getCode());
-		evalueCatchRulers(contentCatchRulers, null, "//blockquote/ul", null, null, null, HandlerMethodEnum.P.getCode());
+				HandlerMethodEnum.P.getCode(), null);
+		evalueCatchRulers(contentCatchRulers, null, "//blockquote/ul", null, null, null, HandlerMethodEnum.P.getCode(),
+				null);
 		evalueCatchRulers(contentCatchRulers, null, "//blockquote/pre/code/allText()", null, null, null,
-				HandlerMethodEnum.PRE.getCode());
-		evalueCatchRulers(contentCatchRulers, null, "//p/html()", null, null, null, HandlerMethodEnum.P.getCode());
+				HandlerMethodEnum.PRE.getCode(), null);
+		
+		evalueCatchRulers(contentCatchRulers, "//ul/li/a/html()", "//ul",  HtmlMarcherEnum.TAG.getCode(), new String[] { "a" },null,
+				HandlerMethodEnum.P.getCode(), null);
+		
+		evalueCatchRulers(contentCatchRulers, null, "//p/allText()", null, null, null, HandlerMethodEnum.P.getCode(),
+				null);
+
 		iteratorRuler.setContentCatchRulers(contentCatchRulers);
 		// 内容标题
 		List<CatchRuler> oneLevelContentTitleCatchRulers = evalueCatchRulers(null, null, "//h2/text()", null, null,
-				null, HandlerMethodEnum.P.getCode());
+				null, HandlerMethodEnum.P.getCode(), null);
 
 		List<CatchRuler> twoLevelContentTitleCatchRulers = evalueCatchRulers(null, null, "//h3/text()", null, null,
-				null, HandlerMethodEnum.P.getCode());
+				null, HandlerMethodEnum.P.getCode(), null);
 		iteratorRuler.setOneLevelContentTitleCatchRulers(oneLevelContentTitleCatchRulers);
 		iteratorRuler.setTwoLevelContentTitleCatchRulers(twoLevelContentTitleCatchRulers);
 
 		// 路径
 		List<CatchRuler> contentPathCatchRulers = evalueCatchRulers(null, null, "//p/img/@src", null, null, null,
-				HandlerMethodEnum.IMAGE.getCode());
+				HandlerMethodEnum.IMAGE.getCode(), null);
 		iteratorRuler.setContentPathCatchRulers(contentPathCatchRulers);
 
 		Spider.create(
@@ -95,18 +109,18 @@ public class CatcherTest1 extends ParentTest {
 	}
 
 	public static List<CatchRuler> evalueCatchRulers(List<CatchRuler> catchRulers, String tryXPath, String getXPath,
-			Integer replaceCode, String[] replaceTagNames, String replacement, Integer handlerCode) {
+			Integer replaceCode, String[] replaceTagNames, String replacement, Integer handlerCode, String breakValue) {
 		if (null == catchRulers) {
 			catchRulers = new ArrayList<CatchRuler>();
 		}
 		CatchRuler catchRuler = new CatchRuler(tryXPath, getXPath, replaceCode, replaceTagNames, replacement,
-				handlerCode);
+				handlerCode, breakValue);
 		catchRulers.add(catchRuler);
 		return catchRulers;
 	}
 
 	public static List<CatchRuler> evalueCatchRulers(String getXPath) {
-		return evalueCatchRulers(null, null, getXPath, null, null, null, null);
+		return evalueCatchRulers(null, null, getXPath, null, null, null, null, null);
 	}
 
 	public static List<String> evalueXPath(String xpath) {

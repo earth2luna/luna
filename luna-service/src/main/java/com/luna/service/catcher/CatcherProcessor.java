@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,17 +65,17 @@ public class CatcherProcessor implements PageProcessor {
 		resources.setSourceSiteName(catcherModel.getCatcherWebName());
 		resources.setWebsiteCode(catcherModel.getCatcherWebsiteCode());
 
-		KV<String, Integer> resourceTitleKv = handler(catcherModel.getResourceTitleCatchRulers(), page.getHtml());
+		CatcherSubModel resourceTitleKv = handler(catcherModel.getResourceTitleCatchRulers(), page.getHtml());
 		if (null != resourceTitleKv) {
-			resources.setTitle(resourceTitleKv.getK());
+			resources.setTitle(resourceTitleKv.getValue());
 		}
-		KV<String, Integer> resourceDateKv = handler(catcherModel.getResourceDateCatchRulers(), page.getHtml());
+		CatcherSubModel resourceDateKv = handler(catcherModel.getResourceDateCatchRulers(), page.getHtml());
 		if (null != resourceDateKv) {
-			resources.setSourceDate(DateUtils.parse(resourceDateKv.getK(), catcherModel.getResourceDateFormat()));
+			resources.setSourceDate(DateUtils.parse(resourceDateKv.getValue(), catcherModel.getResourceDateFormat()));
 		}
-		KV<String, Integer> resourceAuthorKv = handler(catcherModel.getResourceAuthorCatchRulers(), page.getHtml());
+		CatcherSubModel resourceAuthorKv = handler(catcherModel.getResourceAuthorCatchRulers(), page.getHtml());
 		if (null != resourceAuthorKv) {
-			resources.setSourceAuthor(resourceAuthorKv.getK());
+			resources.setSourceAuthor(resourceAuthorKv.getValue());
 		}
 
 		List<CatcherContent> rcs = new ArrayList<CatcherContent>();
@@ -90,12 +91,12 @@ public class CatcherProcessor implements PageProcessor {
 			CatcherIteratorRuler iteratorRuler = iterator.next();
 			if (iteratorRuler.isIfMark()) {
 				// 获取一级内容标题
-				KV<String, Integer> oneLevelContentTitleKv = handler(iteratorRuler.getOneLevelContentTitleCatchRulers(),
+				CatcherSubModel oneLevelContentTitleKv = handler(iteratorRuler.getOneLevelContentTitleCatchRulers(),
 						page.getHtml());
 				if (null != oneLevelContentTitleKv) {
 					CatcherContent rc = new CatcherContent();
-					rc.setTitle(oneLevelContentTitleKv.getK());
-					rc.setHandlerCode(oneLevelContentTitleKv.getV());
+					rc.setTitle(oneLevelContentTitleKv.getValue());
+					rc.setHandlerCode(oneLevelContentTitleKv.getHandlerCode());
 					rcs.add(rc);
 					oneLevelId = ++levelId;
 					rc.setLevelId(oneLevelId);
@@ -108,28 +109,37 @@ public class CatcherProcessor implements PageProcessor {
 					Html tempHtml = Html.create(content);
 					CatcherContent rc = new CatcherContent();
 					// 获取一级内容标题
-					KV<String, Integer> oneLevelContentTitleKv = handler(
-							iteratorRuler.getOneLevelContentTitleCatchRulers(), tempHtml);
+					CatcherSubModel oneLevelContentTitleKv = handler(iteratorRuler.getOneLevelContentTitleCatchRulers(),
+							tempHtml);
 					if (null != oneLevelContentTitleKv) {
-						rc.setTitle(oneLevelContentTitleKv.getK());
-						rc.setHandlerCode(oneLevelContentTitleKv.getV());
+						if (oneLevelContentTitleKv.isIfBreak()) {
+							break;
+						}
+						rc.setTitle(oneLevelContentTitleKv.getValue());
+						rc.setHandlerCode(oneLevelContentTitleKv.getHandlerCode());
 						rcs.add(rc);
 						oneLevelId = ++levelId;
 						rc.setLevelId(oneLevelId);
 						currentLevel = 1L;
 						continue;
 					}
+
 					if (null == oneLevelId) {
 						ifSkip = true;
 						LOGGER.error("[one level key is null]");
 						break;
 					}
+
 					// 获取二级内容标题
-					KV<String, Integer> twoLevelContentTitleKv = handler(
-							iteratorRuler.getTwoLevelContentTitleCatchRulers(), tempHtml);
+					CatcherSubModel twoLevelContentTitleKv = handler(iteratorRuler.getTwoLevelContentTitleCatchRulers(),
+							tempHtml);
 					if (null != twoLevelContentTitleKv) {
-						rc.setTitle(twoLevelContentTitleKv.getK());
-						rc.setHandlerCode(twoLevelContentTitleKv.getV());
+
+						if (twoLevelContentTitleKv.isIfBreak()) {
+							break;
+						}
+						rc.setTitle(twoLevelContentTitleKv.getValue());
+						rc.setHandlerCode(twoLevelContentTitleKv.getHandlerCode());
 						rc.setParentLevelId(oneLevelId);
 						rcs.add(rc);
 						twoLevelId = ++levelId;
@@ -147,16 +157,22 @@ public class CatcherProcessor implements PageProcessor {
 					}
 
 					// 获取路径
-					KV<String, Integer> contentPathKv = handler(iteratorRuler.getContentPathCatchRulers(), tempHtml);
+					CatcherSubModel contentPathKv = handler(iteratorRuler.getContentPathCatchRulers(), tempHtml);
 					if (null != contentPathKv) {
+						if (contentPathKv.isIfBreak()) {
+							break;
+						}
+						// web site code + category code + system time
 						String endPath = FilePropertyUtils.appendPath(catcherModel.getCatcherWebsiteCode().toString(),
 								catcherModel.getResourceCategoryCode().toString(),
 								LangUtils.toString(System.currentTimeMillis()));
+						// attachment path + web site code + category
+						// code+system time
 						String outputPath = FilePropertyUtils.appendPath(catcherModel.getAttachementPath(), endPath);
-						KV<String, Boolean> storeValue = DowloadUtils.storeImage(contentPathKv.getK(), outputPath);
+						KV<String, Boolean> storeValue = DowloadUtils.storeImage(contentPathKv.getValue(), outputPath);
 						if (storeValue.getV()) {
 							rc.setPath(endPath + FilePropertyUtils.SPLITOR_SUFFIX + storeValue.getK());
-							rc.setHandlerCode(contentPathKv.getV());
+							rc.setHandlerCode(contentPathKv.getHandlerCode());
 							rc.setParentLevelId(currentLevelId);
 							rcs.add(rc);
 						}
@@ -164,10 +180,13 @@ public class CatcherProcessor implements PageProcessor {
 					}
 
 					// 获取内容
-					KV<String, Integer> contentKv = handler(iteratorRuler.getContentCatchRulers(), tempHtml);
+					CatcherSubModel contentKv = handler(iteratorRuler.getContentCatchRulers(), tempHtml);
 					if (null != contentKv) {
-						rc.setContent(contentKv.getK());
-						rc.setHandlerCode(contentKv.getV());
+						if (contentKv.isIfBreak()) {
+							break;
+						}
+						rc.setContent(contentKv.getValue());
+						rc.setHandlerCode(contentKv.getHandlerCode());
 						rc.setParentLevelId(currentLevelId);
 						rcs.add(rc);
 						continue;
@@ -194,10 +213,10 @@ public class CatcherProcessor implements PageProcessor {
 		return oneLevelId;
 	}
 
-	private static KV<String, Integer> handler(List<CatchRuler> rulers, Html relative) {
+	private static CatcherSubModel handler(List<CatchRuler> rulers, Html relative) {
 		if (CollectionUtils.isEmpty(rulers))
 			return null;
-		KV<String, Integer> kv = null;
+		CatcherSubModel model = null;
 		Iterator<CatchRuler> iterator = rulers.iterator();
 		while (iterator.hasNext()) {
 			CatchRuler ruler = iterator.next();
@@ -230,12 +249,64 @@ public class CatcherProcessor implements PageProcessor {
 				continue;
 			}
 
-			kv = new KV<String, Integer>(value, ruler.getHandlerCode());
+			if (StringUtils.isNotEmpty(ruler.getBreakValue())) {
+				if (!StringUtils.equals(value, ruler.getBreakValue())) {
+					continue;
+				}else{
+					System.out.println(value);
+				}
+			}
 
+			model = new CatcherSubModel(value, ruler.getHandlerCode(),
+					StringUtils.equals(value, ruler.getBreakValue()));
 			break;
 		}
-		return kv;
+		return model;
 	}
+	// private static KV<String, Integer> handler(List<CatchRuler> rulers, Html
+	// relative) {
+	// if (CollectionUtils.isEmpty(rulers))
+	// return null;
+	// KV<String, Integer> kv = null;
+	// Iterator<CatchRuler> iterator = rulers.iterator();
+	// while (iterator.hasNext()) {
+	// CatchRuler ruler = iterator.next();
+	// Html html = relative;
+	// if (LangUtils.isBlank(ruler.getGetXPath())) {
+	// continue;
+	// }
+	// String value = null;
+	//
+	// // 探测拦截
+	// if (LangUtils.isNotBlank(ruler.getTryXPath())) {
+	// value = LangUtils.trim(html.xpath(ruler.getTryXPath()));
+	//
+	// if (LangUtils.isBlank(value)) {
+	// continue;
+	// }
+	// }
+	//
+	// // 真正获取
+	// HtmlMarcherEnum marcherEnum =
+	// HtmlMarcherEnum.get(ruler.getReplaceCode());
+	// if (null == marcherEnum) {
+	// value = LangUtils.trim(html.xpath(ruler.getGetXPath()));
+	// } else {
+	// String replacement = LangUtils.defaultValue(ruler.getReplacement(), "");
+	// value = LangUtils.trim(html.xpath(ruler.getGetXPath())
+	// .replace(marcherEnum.getRegex(ruler.getReplaceTagNames()), replacement));
+	// }
+	//
+	// if (LangUtils.isBlank(value)) {
+	// continue;
+	// }
+	//
+	// kv = new KV<String, Integer>(value, ruler.getHandlerCode());
+	//
+	// break;
+	// }
+	// return kv;
+	// }
 
 	/*
 	 * (non-Javadoc)
