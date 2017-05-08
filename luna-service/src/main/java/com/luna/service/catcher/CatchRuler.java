@@ -3,6 +3,8 @@
  */
 package com.luna.service.catcher;
 
+import java.util.List;
+
 /**
  * @author laulyl
  * @date 2017年4月6日 下午12:03:18
@@ -12,24 +14,37 @@ public class CatchRuler {
 
 	private String tryXPath;// 测试节点是否有效的xpath表达式
 	private String getXPath;// 真正获取内容的xpath表达式
-	private Integer replaceCode;// 替换规则编码
-	private String[] replaceTagNames;// 要替换的标签名称
-	private String replacement;// 替换内容
+	private List<CatcherReplaceModel> replaceModels;
 	private Integer handlerCode;// 处理编码
 	private String breakValue;// 规则取到的值与此值相同则停止抓取
-	private String indexOfFilter;//index of 过滤条件
-	public CatchRuler(String tryXPath, String getXPath, Integer replaceCode, String[] replaceTagNames,
-			String replacement, Integer handlerCode, String breakValue,String indexOfFilter) {
+	private String indexOfFilter;// index of 过滤条件
+
+//	public CatchRuler(String tryXPath, String getXPath, Integer replaceCode, String[] replaceTagNames,
+//			String replacement, Integer handlerCode, String breakValue, String indexOfFilter) {
+//		super();
+//		this.tryXPath = tryXPath;
+//		this.getXPath = getXPath;
+//		this.handlerCode = handlerCode;
+//		this.breakValue = breakValue;
+//		this.indexOfFilter = indexOfFilter;
+//		replaceModels = new ArrayList<CatcherReplaceModel>();
+//		replaceModels.add(new CatcherReplaceModel(replaceCode, replaceTagNames, replacement));
+//	}
+	
+	
+
+	public CatchRuler(String tryXPath, String getXPath, List<CatcherReplaceModel> replaceModels, Integer handlerCode,
+			String breakValue, String indexOfFilter) {
 		super();
 		this.tryXPath = tryXPath;
 		this.getXPath = getXPath;
-		this.replaceCode = replaceCode;
-		this.replaceTagNames = replaceTagNames;
-		this.replacement = replacement;
+		this.replaceModels = replaceModels;
 		this.handlerCode = handlerCode;
 		this.breakValue = breakValue;
-		this.indexOfFilter=indexOfFilter;
+		this.indexOfFilter = indexOfFilter;
 	}
+
+
 
 	/**
 	 * @return the tryXPath
@@ -61,49 +76,12 @@ public class CatchRuler {
 		this.getXPath = getXPath;
 	}
 
-	/**
-	 * @return the replaceCode
-	 */
-	public Integer getReplaceCode() {
-		return replaceCode;
+	public List<CatcherReplaceModel> getReplaceModels() {
+		return replaceModels;
 	}
 
-	/**
-	 * @param replaceCode
-	 *            the replaceCode to set
-	 */
-	public void setReplaceCode(Integer replaceCode) {
-		this.replaceCode = replaceCode;
-	}
-
-	/**
-	 * @return the replaceTagNames
-	 */
-	public String[] getReplaceTagNames() {
-		return replaceTagNames;
-	}
-
-	/**
-	 * @param replaceTagNames
-	 *            the replaceTagNames to set
-	 */
-	public void setReplaceTagNames(String[] replaceTagNames) {
-		this.replaceTagNames = replaceTagNames;
-	}
-
-	/**
-	 * @return the replacement
-	 */
-	public String getReplacement() {
-		return replacement;
-	}
-
-	/**
-	 * @param replacement
-	 *            the replacement to set
-	 */
-	public void setReplacement(String replacement) {
-		this.replacement = replacement;
+	public void setReplaceModels(List<CatcherReplaceModel> replaceModels) {
+		this.replaceModels = replaceModels;
 	}
 
 	/**

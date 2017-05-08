@@ -43,8 +43,13 @@ public class RunYiFengTest extends ParentTest {
 		list.add("http://www.ruanyifeng.com/blog/2014/05/restful_api.html");
 		list.add("http://www.ruanyifeng.com/blog/2011/09/restful.html");
 		list.add("http://www.ruanyifeng.com/blog/2017/04/memory-leak.html");
+		list.add("http://www.ruanyifeng.com/blog/2017/03/pointfree.html");
+		list.add("http://www.ruanyifeng.com/blog/2017/03/ramda.html");
+		list.add("http://www.ruanyifeng.com/blog/2017/03/reduce_transduce.html");
+		list.add("http://www.ruanyifeng.com/blog/2017/03/gartner-hype-cycle.html");
+		list.add("http://www.ruanyifeng.com/blog/2016/04/cors.html");
 
-		String catcherWebUrl = "http://www.ruanyifeng.com/blog/2017/04/memory-leak.html";
+		String catcherWebUrl = "http://www.ruanyifeng.com/blog/2016/04/cors.html";
 
 		catcher(catcherWebUrl);
 	}
@@ -87,11 +92,18 @@ public class RunYiFengTest extends ParentTest {
 
 		evalueCatchRulers(contentCatchRulers, null, "//p/allText()", null, null, null, null, null, "上一篇文章我介绍了");
 		evalueCatchRulers(contentCatchRulers, null, "//p/text()", null, null, null, null, "==========", null);
-		evalueCatchRulers(contentCatchRulers, null, "//p/text()", null, null, null, null, "=====================================================", null);
+		evalueCatchRulers(contentCatchRulers, null, "//p/text()", null, null, null, null,
+				"=====================================================", null);
+
+		List<CatcherReplaceModel> replaceModels = new ArrayList<CatcherReplaceModel>();
+		replaceModels.add(new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(), new String[] { "p", "a", "div" }, ""));
+		replaceModels.add(new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(), new String[] { "br" }, "\r\n"));
+		evalueCatchRulers(contentCatchRulers, "//blockquote/p/br", "//blockquote/html()", replaceModels,
+				HandlerMethodEnum.PRE.getCode(), null, null);
 
 		evalueCatchRulers(contentCatchRulers, "//blockquote/p/strong/allText()", "//blockquote/html()",
-				HtmlMarcherEnum.TAG.getCode(), new String[] { "p", "a","div" }, null, HandlerMethodEnum.P.getCode(), null,
-				null);
+				HtmlMarcherEnum.TAG.getCode(), new String[] { "p", "a", "div" }, null, HandlerMethodEnum.P.getCode(),
+				null, null);
 		evalueCatchRulers(contentCatchRulers, "//blockquote/div/p/allText()", "//blockquote/div/html()",
 				HtmlMarcherEnum.TAG.getCode(), new String[] { "p", "a" }, null, HandlerMethodEnum.PRE.getCode(), null,
 				null);
@@ -136,13 +148,13 @@ public class RunYiFengTest extends ParentTest {
 
 		// 路径
 		List<CatchRuler> contentPathCatchRulers = new ArrayList<CatchRuler>();
-		
+
 		evalueCatchRulers(contentPathCatchRulers, null, "//p/a/img/@src", null, null, null,
 				HandlerMethodEnum.IMAGE.getCode(), null, null);
-		
+
 		evalueCatchRulers(contentPathCatchRulers, null, "//p/img/@src", null, null, null,
 				HandlerMethodEnum.IMAGE.getCode(), null, null);
-		
+
 		iteratorRuler.setContentPathCatchRulers(contentPathCatchRulers);
 
 		Spider.create(
@@ -162,10 +174,31 @@ public class RunYiFengTest extends ParentTest {
 		if (null == catchRulers) {
 			catchRulers = new ArrayList<CatchRuler>();
 		}
-		CatchRuler catchRuler = new CatchRuler(tryXPath, getXPath, replaceCode, replaceTagNames, replacement,
-				handlerCode, breakValue, indexOfFilter);
+		List<CatcherReplaceModel> replaceModels = new ArrayList<CatcherReplaceModel>();
+		replaceModels.add(new CatcherReplaceModel(replaceCode, replaceTagNames, replacement));
+		CatchRuler catchRuler = new CatchRuler(tryXPath, getXPath, replaceModels, handlerCode, breakValue,
+				indexOfFilter);
 		catchRulers.add(catchRuler);
 		return catchRulers;
+	}
+
+	public static List<CatchRuler> evalueCatchRulers(List<CatchRuler> catchRulers, String tryXPath, String getXPath,
+			List<CatcherReplaceModel> replaceModels, Integer handlerCode, String breakValue, String indexOfFilter) {
+		if (null == catchRulers) {
+			catchRulers = new ArrayList<CatchRuler>();
+		}
+		CatchRuler catchRuler = new CatchRuler(tryXPath, getXPath, replaceModels, handlerCode, breakValue,
+				indexOfFilter);
+		catchRulers.add(catchRuler);
+		return catchRulers;
+	}
+
+	public void addCatcherReplaceModels(List<CatcherReplaceModel> replaceModels, Integer replaceCode,
+			String[] replaceTagNames, String replacement) {
+		if (null == replaceModels) {
+			replaceModels = new ArrayList<CatcherReplaceModel>();
+		}
+		replaceModels.add(new CatcherReplaceModel(replaceCode, replaceTagNames, replacement));
 	}
 
 	public static List<CatchRuler> evalueCatchRulers(String getXPath) {

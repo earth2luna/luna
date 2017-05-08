@@ -157,7 +157,6 @@ public class LangUtils {
 		return deleteLastSplitor(deleteFirstSplitor(input, splitor), splitor);
 	}
 
-
 	public static String appendFragment(String splitor, String... fragments) {
 		if (null == fragments || 0 == fragments.length)
 			return Constants.EMPTY_STRING;
@@ -177,7 +176,6 @@ public class LangUtils {
 		}
 		return builder.toString();
 	}
-	
 
 	public static <T> Collection<T> merge(Collection<T>[] collections) {
 		if (null == collections || 0 == collections.length)
@@ -386,8 +384,11 @@ public class LangUtils {
 		String ret = null;
 		if (null != input) {
 			ret = input.toString();
+			if (null != ret) {
+				ret = ret.trim();
+			}
 		}
-		return null == ret ? null : ret.trim();
+		return ret;
 	}
 
 	public static String subtringDefaultAppender(String input, int length) {

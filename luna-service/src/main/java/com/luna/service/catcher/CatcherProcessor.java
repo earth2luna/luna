@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -254,18 +255,46 @@ public class CatcherProcessor implements PageProcessor {
 			}
 
 			// 真正获取
-			HtmlMarcherEnum marcherEnum = HtmlMarcherEnum.get(ruler.getReplaceCode());
-			if (null == marcherEnum) {
-				originValue = html.xpath(ruler.getGetXPath());
-				value = LangUtils.trim(originValue);
-			} else {
-				String replacement = LangUtils.defaultValue(ruler.getReplacement(), "");
 
-				originValue = html.xpath(ruler.getGetXPath()).replace(marcherEnum.getRegex(ruler.getReplaceTagNames()),
-						replacement);
+			originValue = html.xpath(ruler.getGetXPath());
 
-				value = LangUtils.trim(originValue);
+			if (null == originValue) {
+				continue;
 			}
+
+			if (CollectionUtils.isNotEmpty(ruler.getReplaceModels())) {
+				for (CatcherReplaceModel catchReplaceModel : ruler.getReplaceModels()) {
+					String[] tagNames = catchReplaceModel.getReplaceTagNames();
+					HtmlMarcherEnum marcherEnum = HtmlMarcherEnum.get(catchReplaceModel.getReplaceCode());
+					if (ArrayUtils.isEmpty(tagNames) || null == marcherEnum) {
+						continue;
+					}
+					
+					String replacement = LangUtils.defaultValue(catchReplaceModel.getReplacement(), "");
+
+					String regex = marcherEnum.getRegex(tagNames);
+					originValue = originValue.replace(regex, replacement);
+
+				}
+			}
+
+			value = LangUtils.trim(originValue);
+
+			// HtmlMarcherEnum marcherEnum =
+			// HtmlMarcherEnum.get(ruler.getReplaceCode());
+			// if (null == marcherEnum) {
+			// originValue = html.xpath(ruler.getGetXPath());
+			// value = LangUtils.trim(originValue);
+			// } else {
+			// String replacement =
+			// LangUtils.defaultValue(ruler.getReplacement(), "");
+			//
+			// originValue =
+			// html.xpath(ruler.getGetXPath()).replace(marcherEnum.getRegex(ruler.getReplaceTagNames()),
+			// replacement);
+			//
+			// value = LangUtils.trim(originValue);
+			// }
 
 			// 过滤空串
 			if (LangUtils.isBlank(value)) {
@@ -285,6 +314,11 @@ public class CatcherProcessor implements PageProcessor {
 					continue;
 				}
 			}
+			
+//			if(-1!=value.indexOf("每一个URI代表一种资源")){
+//				System.out.println();
+//			}
+//			value=LangUtils.trim(value);
 
 			// pre 不去除空格
 

@@ -33,7 +33,7 @@ public class Main implements PageProcessor {
 //			String vote = new Html(answer).xpath("//blockquote/pre/code/allText()").toString();
 //			String vote = new Html(answer).xpath("//blockquote/pre/code/html()").toString();
 //			String vote = new Html(answer).xpath("//blockquote/html()").toString();
-			String vote = new Html(answer).xpath("//blockquote/p/br/html()").toString();
+			String vote = new Html(answer).xpath("//blockquote/p/br").toString();
 //			System.out.println(vote);
 			System.out.println("*********************************");
 			System.out.println(vote);
