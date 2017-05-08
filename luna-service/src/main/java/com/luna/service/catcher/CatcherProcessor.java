@@ -176,12 +176,13 @@ public class CatcherProcessor implements PageProcessor {
 						if (contentPathKv.isIfFilter()) {
 							continue;
 						}
-						// web site code + category code + system time
+						// web site code+category code+current date+system time
 						String endPath = FilePropertyUtils.appendPath(catcherModel.getCatcherWebsiteCode().toString(),
 								catcherModel.getResourceCategoryCode().toString(),
+								DateUtils.getCurrentDateFormat(DateUtils.DATE_PATTERN_3),
 								LangUtils.toString(System.currentTimeMillis()));
-						// attachment path + web site code + category
-						// code+system time
+						// attachment path+web site code+category code+system
+						// time
 						String outputPath = FilePropertyUtils.appendPath(catcherModel.getAttachementPath(), endPath);
 						KV<String, Boolean> storeValue = DowloadUtils.storeImage(contentPathKv.getValue(), outputPath);
 						if (storeValue.getV()) {
@@ -269,7 +270,7 @@ public class CatcherProcessor implements PageProcessor {
 					if (ArrayUtils.isEmpty(tagNames) || null == marcherEnum) {
 						continue;
 					}
-					
+
 					String replacement = LangUtils.defaultValue(catchReplaceModel.getReplacement(), "");
 
 					String regex = marcherEnum.getRegex(tagNames);
@@ -279,22 +280,6 @@ public class CatcherProcessor implements PageProcessor {
 			}
 
 			value = LangUtils.trim(originValue);
-
-			// HtmlMarcherEnum marcherEnum =
-			// HtmlMarcherEnum.get(ruler.getReplaceCode());
-			// if (null == marcherEnum) {
-			// originValue = html.xpath(ruler.getGetXPath());
-			// value = LangUtils.trim(originValue);
-			// } else {
-			// String replacement =
-			// LangUtils.defaultValue(ruler.getReplacement(), "");
-			//
-			// originValue =
-			// html.xpath(ruler.getGetXPath()).replace(marcherEnum.getRegex(ruler.getReplaceTagNames()),
-			// replacement);
-			//
-			// value = LangUtils.trim(originValue);
-			// }
 
 			// 过滤空串
 			if (LangUtils.isBlank(value)) {
@@ -314,11 +299,6 @@ public class CatcherProcessor implements PageProcessor {
 					continue;
 				}
 			}
-			
-//			if(-1!=value.indexOf("每一个URI代表一种资源")){
-//				System.out.println();
-//			}
-//			value=LangUtils.trim(value);
 
 			// pre 不去除空格
 

@@ -49,9 +49,12 @@ public class RunYiFengTest extends ParentTest {
 		list.add("http://www.ruanyifeng.com/blog/2017/03/gartner-hype-cycle.html");
 		list.add("http://www.ruanyifeng.com/blog/2016/04/cors.html");
 
-		String catcherWebUrl = "http://www.ruanyifeng.com/blog/2016/04/cors.html";
-
-		catcher(catcherWebUrl);
+		//String catcherWebUrl = "http://www.ruanyifeng.com/blog/2016/04/cors.html";
+		for (String url : list) {
+			catcher(url);
+		}
+//		catcher("http://www.ruanyifeng.com/blog/2014/09/information-entropy.html");
+		
 	}
 
 	public void catcher(String catcherWebUrl) {
@@ -96,24 +99,24 @@ public class RunYiFengTest extends ParentTest {
 				"=====================================================", null);
 
 		List<CatcherReplaceModel> replaceModels = new ArrayList<CatcherReplaceModel>();
-		replaceModels.add(new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(), new String[] { "p", "a", "div" }, ""));
+		replaceModels.add(new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(), new String[] { "p", "a", "div" ,"sub"}, ""));
 		replaceModels.add(new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(), new String[] { "br" }, "\r\n"));
 		evalueCatchRulers(contentCatchRulers, "//blockquote/p/br", "//blockquote/html()", replaceModels,
 				HandlerMethodEnum.PRE.getCode(), null, null);
 
 		evalueCatchRulers(contentCatchRulers, "//blockquote/ul", "//blockquote/html()",
-				HtmlMarcherEnum.TAG.getCode(), new String[] { "p", "a", "div" }, null, HandlerMethodEnum.P.getCode(),
+				HtmlMarcherEnum.TAG.getCode(), new String[] { "p", "a", "div","sub" }, null, HandlerMethodEnum.P.getCode(),
 				null, null);
 		
 		evalueCatchRulers(contentCatchRulers, "//blockquote/p/strong/allText()", "//blockquote/html()",
-				HtmlMarcherEnum.TAG.getCode(), new String[] { "p", "a", "div" }, null, HandlerMethodEnum.P.getCode(),
+				HtmlMarcherEnum.TAG.getCode(), new String[] { "p", "a", "div","sub" }, null, HandlerMethodEnum.P.getCode(),
 				null, null);
 		
 		evalueCatchRulers(contentCatchRulers, "//blockquote/div/p/allText()", "//blockquote/div/html()",
-				HtmlMarcherEnum.TAG.getCode(), new String[] { "p", "a" }, null, HandlerMethodEnum.PRE.getCode(), null,
+				HtmlMarcherEnum.TAG.getCode(), new String[] { "p", "a" ,"sub"}, null, HandlerMethodEnum.PRE.getCode(), null,
 				null);
 		evalueCatchRulers(contentCatchRulers, "//blockquote/p/allText()", "//blockquote/html()",
-				HtmlMarcherEnum.TAG.getCode(), new String[] { "p", "a" }, null, HandlerMethodEnum.PRE.getCode(), null,
+				HtmlMarcherEnum.TAG.getCode(), new String[] { "p", "a" ,"sub"}, null, HandlerMethodEnum.PRE.getCode(), null,
 				null);
 
 		evalueCatchRulers(contentCatchRulers, "//blockquote/ul/li/a/html()", "//blockquote/ul",

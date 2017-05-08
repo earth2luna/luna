@@ -25,6 +25,8 @@ public class DateUtils {
 	public static final String DATE_PATTERN_1 = "yyyy-MM-dd HH:mm:ss";
 
 	public static final String DATE_PATTERN_2 = "yyyy-MM-dd";
+	
+	public static final String DATE_PATTERN_3 = "yyyyMMdd";
 
 	public static String getCurrentDateFormat(String pattern) {
 		return getDateFormat(new Date(), pattern);
