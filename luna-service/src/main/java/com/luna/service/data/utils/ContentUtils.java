@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.luna.dao.mapper.IResourcesContentMapper;
 import com.luna.dao.po.ResourcesContent;
@@ -23,6 +25,8 @@ import com.luna.utils.classes.Page;
  * @description
  */
 public class ContentUtils {
+	
+	private static final Logger LOGGER=LoggerFactory.getLogger(ContentUtils.class);
 
 	public static Page<ResourcesContent> selectResourcesContents(IResourcesContentMapper resourcesContentMapper,
 			Long rsId, Integer pageNow) {
@@ -101,7 +105,11 @@ public class ContentUtils {
 				content.setSortCode(sortCode);
 				content.setResourcesId(resourcesId);
 				content.setPId(parentId);
-				mapper.insert(content);
+				try {
+					mapper.insert(content);
+				} catch (Exception e) {
+					LOGGER.error(content.toString(),e);
+				}
 			}
 		}
 	}

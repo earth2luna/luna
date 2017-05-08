@@ -15,6 +15,7 @@ import com.luna.dao.mapper.IResourcesMapper;
 import com.luna.dao.po.Resources;
 import com.luna.service.data.utils.ContentUtils;
 import com.luna.service.dto.CatcherContent;
+import com.luna.service.enumer.content.HandlerMethodEnum;
 import com.luna.service.enumer.resource.CategoryEnum;
 import com.luna.service.enumer.resource.CreatorEnum;
 import com.luna.service.enumer.resource.StatusEnum;
@@ -29,6 +30,7 @@ import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Html;
+import us.codecraft.webmagic.selector.Selectable;
 
 public class CatcherProcessor implements PageProcessor {
 
@@ -115,6 +117,9 @@ public class CatcherProcessor implements PageProcessor {
 						if (oneLevelContentTitleKv.isIfBreak()) {
 							break;
 						}
+						if (oneLevelContentTitleKv.isIfFilter()) {
+							continue;
+						}
 						rc.setTitle(oneLevelContentTitleKv.getValue());
 						rc.setHandlerCode(oneLevelContentTitleKv.getHandlerCode());
 						rcs.add(rc);
@@ -137,6 +142,10 @@ public class CatcherProcessor implements PageProcessor {
 
 						if (twoLevelContentTitleKv.isIfBreak()) {
 							break;
+						}
+
+						if (twoLevelContentTitleKv.isIfFilter()) {
+							continue;
 						}
 						rc.setTitle(twoLevelContentTitleKv.getValue());
 						rc.setHandlerCode(twoLevelContentTitleKv.getHandlerCode());
@@ -162,6 +171,10 @@ public class CatcherProcessor implements PageProcessor {
 						if (contentPathKv.isIfBreak()) {
 							break;
 						}
+
+						if (contentPathKv.isIfFilter()) {
+							continue;
+						}
 						// web site code + category code + system time
 						String endPath = FilePropertyUtils.appendPath(catcherModel.getCatcherWebsiteCode().toString(),
 								catcherModel.getResourceCategoryCode().toString(),
@@ -184,6 +197,10 @@ public class CatcherProcessor implements PageProcessor {
 					if (null != contentKv) {
 						if (contentKv.isIfBreak()) {
 							break;
+						}
+
+						if (contentKv.isIfFilter()) {
+							continue;
 						}
 						rc.setContent(contentKv.getValue());
 						rc.setHandlerCode(contentKv.getHandlerCode());
@@ -225,6 +242,7 @@ public class CatcherProcessor implements PageProcessor {
 				continue;
 			}
 			String value = null;
+			Selectable originValue = null;
 
 			// 探测拦截
 			if (LangUtils.isNotBlank(ruler.getTryXPath())) {
@@ -238,75 +256,48 @@ public class CatcherProcessor implements PageProcessor {
 			// 真正获取
 			HtmlMarcherEnum marcherEnum = HtmlMarcherEnum.get(ruler.getReplaceCode());
 			if (null == marcherEnum) {
-				value = LangUtils.trim(html.xpath(ruler.getGetXPath()));
+				originValue = html.xpath(ruler.getGetXPath());
+				value = LangUtils.trim(originValue);
 			} else {
 				String replacement = LangUtils.defaultValue(ruler.getReplacement(), "");
-				value = LangUtils.trim(html.xpath(ruler.getGetXPath())
-						.replace(marcherEnum.getRegex(ruler.getReplaceTagNames()), replacement));
+
+				originValue = html.xpath(ruler.getGetXPath()).replace(marcherEnum.getRegex(ruler.getReplaceTagNames()),
+						replacement);
+
+				value = LangUtils.trim(originValue);
 			}
 
+			// 过滤空串
 			if (LangUtils.isBlank(value)) {
 				continue;
 			}
 
-			if (StringUtils.isNotEmpty(ruler.getBreakValue())) {
-				if (!StringUtils.equals(value, ruler.getBreakValue())) {
+			// 过滤文本
+			if (StringUtils.isNotEmpty(ruler.getIndexOfFilter())) {
+				if (-1 == value.indexOf(ruler.getIndexOfFilter())) {
 					continue;
-				}else{
-					System.out.println(value);
 				}
 			}
 
-			model = new CatcherSubModel(value, ruler.getHandlerCode(),
-					StringUtils.equals(value, ruler.getBreakValue()));
+			// 结束抓取
+			if (StringUtils.isNotEmpty(ruler.getBreakValue())) {
+				if (!StringUtils.equals(value, ruler.getBreakValue())) {
+					continue;
+				}
+			}
+
+			// pre 不去除空格
+
+			String outputValue = HandlerMethodEnum.PRE == HandlerMethodEnum.get(ruler.getHandlerCode())
+					? LangUtils.toString(originValue) : value;
+
+			model = new CatcherSubModel(outputValue, ruler.getHandlerCode(),
+					StringUtils.equals(value, ruler.getBreakValue()),
+					StringUtils.isNotEmpty(ruler.getIndexOfFilter()) && -1 != value.indexOf(ruler.getIndexOfFilter()));
 			break;
 		}
 		return model;
 	}
-	// private static KV<String, Integer> handler(List<CatchRuler> rulers, Html
-	// relative) {
-	// if (CollectionUtils.isEmpty(rulers))
-	// return null;
-	// KV<String, Integer> kv = null;
-	// Iterator<CatchRuler> iterator = rulers.iterator();
-	// while (iterator.hasNext()) {
-	// CatchRuler ruler = iterator.next();
-	// Html html = relative;
-	// if (LangUtils.isBlank(ruler.getGetXPath())) {
-	// continue;
-	// }
-	// String value = null;
-	//
-	// // 探测拦截
-	// if (LangUtils.isNotBlank(ruler.getTryXPath())) {
-	// value = LangUtils.trim(html.xpath(ruler.getTryXPath()));
-	//
-	// if (LangUtils.isBlank(value)) {
-	// continue;
-	// }
-	// }
-	//
-	// // 真正获取
-	// HtmlMarcherEnum marcherEnum =
-	// HtmlMarcherEnum.get(ruler.getReplaceCode());
-	// if (null == marcherEnum) {
-	// value = LangUtils.trim(html.xpath(ruler.getGetXPath()));
-	// } else {
-	// String replacement = LangUtils.defaultValue(ruler.getReplacement(), "");
-	// value = LangUtils.trim(html.xpath(ruler.getGetXPath())
-	// .replace(marcherEnum.getRegex(ruler.getReplaceTagNames()), replacement));
-	// }
-	//
-	// if (LangUtils.isBlank(value)) {
-	// continue;
-	// }
-	//
-	// kv = new KV<String, Integer>(value, ruler.getHandlerCode());
-	//
-	// break;
-	// }
-	// return kv;
-	// }
 
 	/*
 	 * (non-Javadoc)

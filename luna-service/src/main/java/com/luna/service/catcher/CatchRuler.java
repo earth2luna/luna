@@ -17,9 +17,9 @@ public class CatchRuler {
 	private String replacement;// 替换内容
 	private Integer handlerCode;// 处理编码
 	private String breakValue;// 规则取到的值与此值相同则停止抓取
-
+	private String indexOfFilter;//index of 过滤条件
 	public CatchRuler(String tryXPath, String getXPath, Integer replaceCode, String[] replaceTagNames,
-			String replacement, Integer handlerCode, String breakValue) {
+			String replacement, Integer handlerCode, String breakValue,String indexOfFilter) {
 		super();
 		this.tryXPath = tryXPath;
 		this.getXPath = getXPath;
@@ -28,6 +28,7 @@ public class CatchRuler {
 		this.replacement = replacement;
 		this.handlerCode = handlerCode;
 		this.breakValue = breakValue;
+		this.indexOfFilter=indexOfFilter;
 	}
 
 	/**
@@ -126,6 +127,14 @@ public class CatchRuler {
 
 	public void setBreakValue(String breakValue) {
 		this.breakValue = breakValue;
+	}
+
+	public String getIndexOfFilter() {
+		return indexOfFilter;
+	}
+
+	public void setIndexOfFilter(String indexOfFilter) {
+		this.indexOfFilter = indexOfFilter;
 	}
 
 }
