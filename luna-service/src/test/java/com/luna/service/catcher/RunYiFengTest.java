@@ -101,9 +101,14 @@ public class RunYiFengTest extends ParentTest {
 		evalueCatchRulers(contentCatchRulers, "//blockquote/p/br", "//blockquote/html()", replaceModels,
 				HandlerMethodEnum.PRE.getCode(), null, null);
 
+		evalueCatchRulers(contentCatchRulers, "//blockquote/ul", "//blockquote/html()",
+				HtmlMarcherEnum.TAG.getCode(), new String[] { "p", "a", "div" }, null, HandlerMethodEnum.P.getCode(),
+				null, null);
+		
 		evalueCatchRulers(contentCatchRulers, "//blockquote/p/strong/allText()", "//blockquote/html()",
 				HtmlMarcherEnum.TAG.getCode(), new String[] { "p", "a", "div" }, null, HandlerMethodEnum.P.getCode(),
 				null, null);
+		
 		evalueCatchRulers(contentCatchRulers, "//blockquote/div/p/allText()", "//blockquote/div/html()",
 				HtmlMarcherEnum.TAG.getCode(), new String[] { "p", "a" }, null, HandlerMethodEnum.PRE.getCode(), null,
 				null);
@@ -113,8 +118,10 @@ public class RunYiFengTest extends ParentTest {
 
 		evalueCatchRulers(contentCatchRulers, "//blockquote/ul/li/a/html()", "//blockquote/ul",
 				HtmlMarcherEnum.TAG.getCode(), new String[] { "a" }, null, HandlerMethodEnum.P.getCode(), null, null);
+		
 		evalueCatchRulers(contentCatchRulers, null, "//blockquote/ul", null, null, null, HandlerMethodEnum.P.getCode(),
 				null, null);
+		
 		evalueCatchRulers(contentCatchRulers, null, "//blockquote/pre/code/allText()", null, null, null,
 				HandlerMethodEnum.PRE.getCode(), null, null);
 

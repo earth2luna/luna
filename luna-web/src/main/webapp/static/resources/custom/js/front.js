@@ -90,5 +90,8 @@ jQuery(function() {
 		animationOutSpeed : 200,
 		scrollText : '<i class="fa fa-angle-up"></i>',
 		activeOverlay : !1
-	})
+	});
+	
+	jQuery('.thumbnail-origin').zoom();
+	
 });
