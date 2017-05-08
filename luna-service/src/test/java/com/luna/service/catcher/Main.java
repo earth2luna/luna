@@ -33,7 +33,7 @@ public class Main implements PageProcessor {
 //			String vote = new Html(answer).xpath("//blockquote/pre/code/allText()").toString();
 //			String vote = new Html(answer).xpath("//blockquote/pre/code/html()").toString();
 //			String vote = new Html(answer).xpath("//blockquote/html()").toString();
-			String vote = new Html(answer).xpath("//blockquote/html()").toString();
+			String vote = new Html(answer).xpath("//blockquote/p/br/html()").toString();
 //			System.out.println(vote);
 			System.out.println("*********************************");
 			System.out.println(vote);
@@ -52,7 +52,9 @@ public class Main implements PageProcessor {
 //		.run();
 //		Spider.create(new Main()).addUrl("http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html").thread(5)
 //		.run();
-		Spider.create(new Main()).addUrl("http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html").thread(5)
+//		Spider.create(new Main()).addUrl("http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html").thread(5)
+//		.run();
+		Spider.create(new Main()).addUrl("http://www.ruanyifeng.com/blog/2011/09/restful.html").thread(5)
 				.run();
 	}
 }

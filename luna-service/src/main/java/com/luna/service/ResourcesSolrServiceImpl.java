@@ -108,6 +108,7 @@ public class ResourcesSolrServiceImpl implements ResourcesSolrService {
 				SolrQueryPage solrQuery = new SolrQueryPage(queryField + ":*"
 						+ LangUtils.subtring(LangUtils.trim(query), Constants.QUERY_STRING_MAX_LENGTH) + "*", pageNow,
 						null);
+				resourceSolrComponet.setCiphertext(solrQuery);
 				// set highlight
 				solrQuery.setHighlight(true);
 				solrQuery.addHighlightField(queryField);

@@ -42,8 +42,9 @@ public class RunYiFengTest extends ParentTest {
 		list.add("http://www.ruanyifeng.com/blog/2014/05/oauth_2_0.html");
 		list.add("http://www.ruanyifeng.com/blog/2014/05/restful_api.html");
 		list.add("http://www.ruanyifeng.com/blog/2011/09/restful.html");
+		list.add("http://www.ruanyifeng.com/blog/2017/04/memory-leak.html");
 
-		String catcherWebUrl = "http://www.ruanyifeng.com/blog/2011/09/restful.html";
+		String catcherWebUrl = "http://www.ruanyifeng.com/blog/2017/04/memory-leak.html";
 
 		catcher(catcherWebUrl);
 	}

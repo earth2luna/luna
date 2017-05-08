@@ -48,11 +48,11 @@ public abstract class SolrComponet implements InitializingBean {
 		client = new HttpSolrClient.Builder(getConnectUrl()).build();
 	}
 
-	private void setCiphertext(UpdateRequest req) {
+	public void setCiphertext(UpdateRequest req) {
 		req.setParam(Configuration.parameterTicketKey, Configuration.parameterTicketValueCipertext);
 	}
 
-	private void setCiphertext(ModifiableSolrParams query) {
+	public void setCiphertext(ModifiableSolrParams query) {
 		query.set(Configuration.parameterTicketKey, Configuration.parameterTicketValueCipertext);
 	}
 
