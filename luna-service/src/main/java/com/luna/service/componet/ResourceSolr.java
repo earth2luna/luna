@@ -41,6 +41,8 @@ public class ResourceSolr {
 	private Date sourceDate;// 来源日期
 	@Field
 	private String thumbnail;// 缩略图
+	@Field
+	private Integer websiteCode;//网站编码
 	
 	private String ticket;
 
@@ -280,6 +282,16 @@ public class ResourceSolr {
 	 */
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+
+	public Integer getWebsiteCode() {
+		return websiteCode;
+	}
+
+
+	public void setWebsiteCode(Integer websiteCode) {
+		this.websiteCode = websiteCode;
 	}
 
 

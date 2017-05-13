@@ -12,11 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 
+import com.luna.dao.mapper.IResourcesContentMapper;
 import com.luna.dao.mapper.IResourcesContentMarkMapper;
 import com.luna.dao.mapper.IResourcesMapper;
 import com.luna.dao.po.Resources;
 import com.luna.service.data.utils.ConditionUtils;
 import com.luna.service.data.utils.Configure;
+import com.luna.service.data.utils.ContentUtils;
 import com.luna.service.data.utils.Render;
 import com.luna.service.data.utils.ResourcesUtils;
 import com.luna.service.dto.RenderParameter;
@@ -42,6 +44,8 @@ public class ResourcesServiceImpl implements ResourcesService {
 
 	@Autowired
 	private IResourcesMapper resourcesMapper;
+	@Autowired
+	private IResourcesContentMapper resourcesContentMapper;
 	@Autowired
 	private IResourcesContentMarkMapper contentMarkMapper;
 	@Autowired
@@ -70,6 +74,7 @@ public class ResourcesServiceImpl implements ResourcesService {
 		try {
 
 			Object data = null;
+			Resources resources = resourcesMapper.selectById(rsId);
 			String resourcesRelativePath = Configure.getResourceRelativePath();
 			if (LangUtils.equals(2, op)) {
 				// 上线
@@ -80,7 +85,7 @@ public class ResourcesServiceImpl implements ResourcesService {
 				// 资源删除
 				AssertUtils.isTrue(LangUtils.booleanValueOfNumber(rsId), "无效的资源key值");
 				ResourcesUtils.resourcesDeletion(resourcesMapper, rsId);
-				ResourcesUtils.deleteResourcesFile(resourcesRelativePath, rsId);
+				ResourcesUtils.deleteResourcesFile(resourcesRelativePath, resources);
 			} else if (LangUtils.equals(4, op)) {
 				// 表标记删除
 				AssertUtils.isTrue(LangUtils.booleanValueOfNumber(rsId), "无效的资源key值");
@@ -89,16 +94,17 @@ public class ResourcesServiceImpl implements ResourcesService {
 				// 逻辑删除
 				AssertUtils.isTrue(LangUtils.booleanValueOfNumber(rsId), "无效的资源key值");
 				ResourcesUtils.logicalDeletion(resourcesMapper, rsId);
-				ResourcesUtils.deleteResourcesFile(resourcesRelativePath, rsId);
+				ResourcesUtils.deleteResourcesFile(resourcesRelativePath, resources);
 			} else if (LangUtils.equals(6, op)) {
 				// 获取访问路径
 				AssertUtils.isTrue(LangUtils.booleanValueOfNumber(rsId), "无效的资源key值");
-				data = ResourcesUtils.getWebResourcesPath(resourcesRelativePath, rsId);
+				data = ResourcesUtils.getWebResourcesPath(resourcesRelativePath, resources);
 			} else if (LangUtils.equals(7, op)) {
 				// 数据删除
 				AssertUtils.isTrue(LangUtils.booleanValueOfNumber(rsId), "无效的资源key值");
 				resourcesMapper.deleteById(rsId);
-				ResourcesUtils.deleteResourcesFile(resourcesRelativePath, rsId);
+				ContentUtils.deleteContentByResourceId(resourcesContentMapper, rsId);
+				ResourcesUtils.deleteResourcesFile(resourcesRelativePath, resources);
 			} else if (LangUtils.equals(9, op)) {
 				// 待上线状态的全部上线全
 				new Render(new RenderParameter(resourcesMapper, contentMarkMapper, factoryBean.getObject(),

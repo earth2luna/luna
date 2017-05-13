@@ -112,7 +112,7 @@ public class SynchronizedResource extends AbstractListWhileDo<ResourceSolr> {
 				t.getResourcesSourceAuthor(), t.getResourcesSourceDate(), t.getResourcesThumbnail(), titlePinyin);
 		// set content
 		resourceSolr.setContent(LangUtils.subtringDefaultAppender(content.toString(), solrContentMaxLength));
-
+		resourceSolr.setWebsiteCode(t.getWebsiteCode());
 		List<ResourceSolr> list = new ArrayList<ResourceSolr>() {
 
 			private static final long serialVersionUID = 3013883866990547963L;

@@ -3,7 +3,9 @@
  */
 package com.luna.service.data.utils;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +17,9 @@ import org.slf4j.LoggerFactory;
 import com.luna.dao.mapper.IResourcesContentMapper;
 import com.luna.dao.po.ResourcesContent;
 import com.luna.dao.vo.ResourcesCasecade;
+import com.luna.service.common.impl.IInputContentOutputAttachement;
 import com.luna.service.dto.CatcherContent;
+import com.luna.utils.FilePropertyUtils;
 import com.luna.utils.LangUtils;
 import com.luna.utils.classes.Page;
 
@@ -25,8 +29,8 @@ import com.luna.utils.classes.Page;
  * @description
  */
 public class ContentUtils {
-	
-	private static final Logger LOGGER=LoggerFactory.getLogger(ContentUtils.class);
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(ContentUtils.class);
 
 	public static Page<ResourcesContent> selectResourcesContents(IResourcesContentMapper resourcesContentMapper,
 			Long rsId, Integer pageNow) {
@@ -59,11 +63,11 @@ public class ContentUtils {
 		return resourcesContentMapper.selectList(map);
 	}
 
-	public static void insertCatchers(IResourcesContentMapper mapper,
-			List<CatcherContent> catcherContent, long resourcesId) {
+	public static void insertCatchers(IResourcesContentMapper mapper, List<CatcherContent> catcherContent,
+			long resourcesId) {
 		if (CollectionUtils.isNotEmpty(catcherContent)) {
 			Iterator<CatcherContent> iterator = catcherContent.iterator();
-			int sortCode=0;
+			int sortCode = 0;
 			while (iterator.hasNext()) {
 				CatcherContent content = iterator.next();
 				if (null == content.getParentLevelId()) {
@@ -71,16 +75,36 @@ public class ContentUtils {
 					content.setSortCode(sortCode);
 					content.setResourcesId(resourcesId);
 					mapper.insert(content);
-					List<ResourcesContent> contents = getContentsByLevleId(catcherContent,
-							content.getLevelId());
+					List<ResourcesContent> contents = getContentsByLevleId(catcherContent, content.getLevelId());
 					insert(mapper, contents, resourcesId, content.getId());
 				}
 			}
 		}
 	}
 
-	public static List<ResourcesContent> getContentsByLevleId(List<CatcherContent> catcherContent,
-			Long levelId) {
+	public static void deleteContentByResourceId(IResourcesContentMapper resourcesContentMapper, Long rsId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("resourcesId", rsId);
+		List<ResourcesContent> contents = resourcesContentMapper.selectList(map);
+		if (CollectionUtils.isNotEmpty(contents)) {
+			resourcesContentMapper.delete(map);
+			List<String> attahements = LangUtils.joins2ArrayList(contents, new IInputContentOutputAttachement());
+			if (CollectionUtils.isNotEmpty(attahements)) {
+				Iterator<String> iterator = attahements.iterator();
+				while (iterator.hasNext()) {
+					String absoluteGeneratePath = FilePropertyUtils.appendPath(
+							FilePropertyUtils.getWebAppFile().getAbsolutePath(), Configure.getAttachementPath(),
+							iterator.next());
+					File file = new File(absoluteGeneratePath);
+					if (file.exists()) {
+						file.delete();
+					}
+				}
+			}
+		}
+	}
+
+	public static List<ResourcesContent> getContentsByLevleId(List<CatcherContent> catcherContent, Long levelId) {
 		List<ResourcesContent> contents = new ArrayList<ResourcesContent>();
 		if (CollectionUtils.isNotEmpty(catcherContent)) {
 			Iterator<CatcherContent> iterator = catcherContent.iterator();
@@ -98,7 +122,7 @@ public class ContentUtils {
 			long resourcesId, Long parentId) {
 		if (CollectionUtils.isNotEmpty(resourcesContents)) {
 			Iterator<ResourcesContent> iterator = resourcesContents.iterator();
-			int sortCode=0;
+			int sortCode = 0;
 			while (iterator.hasNext()) {
 				++sortCode;
 				ResourcesContent content = iterator.next();
@@ -108,7 +132,7 @@ public class ContentUtils {
 				try {
 					mapper.insert(content);
 				} catch (Exception e) {
-					LOGGER.error(content.toString(),e);
+					LOGGER.error(content.toString(), e);
 				}
 			}
 		}

@@ -84,8 +84,7 @@ public class ResourcesSolrServiceImpl implements ResourcesSolrService {
 			Iterator<ResourceSolrVo> iterator = page.getList().iterator();
 			while (iterator.hasNext()) {
 				ResourceSolrVo solrVo = iterator.next();
-				solrVo.setRequestUrl(
-						ResourcesUtils.getWebResourcesPath(Configure.getResourceRelativePath(), solrVo.getId()));
+				solrVo.setRequestUrl(ResourcesUtils.getWebResourcesPath(Configure.getResourceRelativePath(), solrVo));
 				solrVo.setHighlight(solrVo.getSummary());
 			}
 		}
@@ -134,7 +133,7 @@ public class ResourcesSolrServiceImpl implements ResourcesSolrService {
 							.getBean(ResourceSolrVo.class, doc);
 					// set request url
 					solrVo.setRequestUrl(
-							ResourcesUtils.getWebResourcesPath(Configure.getResourceRelativePath(), solrVo.getId()));
+							ResourcesUtils.getWebResourcesPath(Configure.getResourceRelativePath(), solrVo));
 					// set highlight
 					List<String> summarys = highlightMap.get(doc.getFieldValue(primaryField).toString())
 							.get(queryField);
@@ -145,7 +144,7 @@ public class ResourcesSolrServiceImpl implements ResourcesSolrService {
 								LangUtils.append(highlight, " - ", solrVo.getSummary()),
 								Constants.SOLR_RESULT_SUMMARY_MAX_LENGTH));
 					} else {
-						solrVo.setHighlight(highlight+"...");
+						solrVo.setHighlight(highlight + "...");
 					}
 
 					page.addList(solrVo);

@@ -19,7 +19,9 @@ import com.luna.dao.po.Resources;
 import com.luna.dao.po.ResourcesContentMark;
 import com.luna.dao.vo.ResourcesCasecade;
 import com.luna.service.common.impl.InputResourcesCasecadeOutputId;
+import com.luna.service.componet.ResourceSolr;
 import com.luna.service.enumer.resource.StatusEnum;
+import com.luna.service.node.ResourcesCasecadeNode;
 import com.luna.utils.AssertUtils;
 import com.luna.utils.FilePropertyUtils;
 import com.luna.utils.LangUtils;
@@ -130,53 +132,62 @@ public class ResourcesUtils {
 		markStatus(resourcesMapper, id, StatusEnum.LOGICAL_DELETION);
 	}
 
-	public static File getResourcesFile(String resourcesPath, Long resourcesId) {
-		String absoluteGeneratePath = getAbsoluteGeneratePath(resourcesPath);
-		return new File(absoluteGeneratePath, getResourcesFileName(resourcesId));
+	public static long insertResources(IMapper<Resources> resourcesMapper, Resources resources) {
+		return resourcesMapper.insert(resources);
 	}
 
-	public static String getWebResourcesPath(String resourcesPath, String resourcesId) {
-		String webPath = FilePropertyUtils.filterPathAsWeb(resourcesPath);
+	public static File getResourcesFile(String resourcesPath, ResourcesCasecadeNode node) {
+		String absoluteGeneratePath = FilePropertyUtils.appendPath(FilePropertyUtils.getWebAppFile().getAbsolutePath(),
+				resourcesPath, getResourcesFileName(node));
+		return new File(absoluteGeneratePath);
+	}
+
+	public static File getResourcesFile(String resourcesPath, Resources resource) {
+		String absoluteGeneratePath = FilePropertyUtils.appendPath(FilePropertyUtils.getWebAppFile().getAbsolutePath(),
+				resourcesPath, getResourcesFileName(resource));
+		return new File(absoluteGeneratePath);
+	}
+
+	public static String getWebResourcesPath(String resourceGeneratePathPrefix, ResourceSolr resourceSolr) {
+		return FilePropertyUtils.appendPath(filterResourceGeneratePathPrefix(resourceGeneratePathPrefix),
+				getResourcesFileName(resourceSolr));
+	}
+
+	public static String getWebResourcesPath(String resourceGeneratePathPrefix, Resources resource) {
+		return FilePropertyUtils.appendPath(filterResourceGeneratePathPrefix(resourceGeneratePathPrefix),
+				getResourcesFileName(resource));
+	}
+
+	private static String filterResourceGeneratePathPrefix(String resourceGeneratePathPrefix) {
 		String ret = null;
-		if (!webPath.startsWith(FilePropertyUtils.WEB_URL_SPLITOR)) {
-			ret = LangUtils.append(FilePropertyUtils.WEB_URL_SPLITOR, webPath);
+		if (!resourceGeneratePathPrefix.startsWith(FilePropertyUtils.WEB_URL_SPLITOR)) {
+			ret = LangUtils.append(FilePropertyUtils.WEB_URL_SPLITOR, resourceGeneratePathPrefix);
+		} else {
+			ret = resourceGeneratePathPrefix;
 		}
-		if (!webPath.endsWith(FilePropertyUtils.WEB_URL_SPLITOR)) {
-			ret = LangUtils.append(webPath, FilePropertyUtils.WEB_URL_SPLITOR);
-		}
-		return LangUtils.append(ret, getResourcesFileName(resourcesId));
+		return ret;
 	}
 
-	public static String getWebResourcesPath(String resourcesPath, Long resourcesId) {
-		return getWebResourcesPath(resourcesPath, resourcesId.toString());
+	public static String getResourcesFileName(Resources resource) {
+		return LangUtils.append(resource.getCategoryId(), "-", resource.getWebsiteCode(), "-", resource.getId(),
+				".html");
 	}
 
-	public static String getResourcesFileName(String resourcesId) {
-		return LangUtils.append(resourcesId, ".html");
+	public static String getResourcesFileName(ResourcesCasecadeNode node) {
+		return LangUtils.append(node.getResourcesCategroyId(), "-", node.getWebsiteCode(), "-", node.getResourcesId(),
+				".html");
 	}
 
-	public static String getResourcesFileName(Long resourcesId) {
-		return getResourcesFileName(resourcesId.toString());
+	public static String getResourcesFileName(ResourceSolr resourceSolr) {
+		return LangUtils.append(resourceSolr.getCategoryId(), "-", resourceSolr.getWebsiteCode(), "-",
+				resourceSolr.getId(), ".html");
 	}
 
-	public static void deleteResourcesFile(String resourcesGeneratePath, Long resourcesId) {
-		File file = getResourcesFile(resourcesGeneratePath, resourcesId);
+	public static void deleteResourcesFile(String resourcesGeneratePath, Resources resource) {
+		File file = getResourcesFile(resourcesGeneratePath, resource);
 		if (file.exists()) {
 			file.delete();
 		}
-	}
-
-	public static String getAbsoluteGeneratePath(String appender) {
-		File root = FilePropertyUtils.getWebAppFile();
-		String absoluteRootPath = root.getAbsolutePath();
-		if (LangUtils.isBlank(appender)) {
-			return absoluteRootPath;
-		}
-		return new File(absoluteRootPath, appender).getAbsolutePath();
-	}
-
-	public static long insertResources(IMapper<Resources> resourcesMapper, Resources resources) {
-		return resourcesMapper.insert(resources);
 	}
 
 }

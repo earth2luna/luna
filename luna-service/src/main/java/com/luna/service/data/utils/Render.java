@@ -95,7 +95,7 @@ public class Render {
 			dataModel.put("node", node);
 			dataModel.put("nodes", nodes);
 			dataModel.put(Constants.PAGE_HEADER_SAY_KEY, Constants.getPageHeaderSayVo());
-			File origin = ResourcesUtils.getResourcesFile(resourcesGeneratePath, node.getResourcesId());
+			File origin = ResourcesUtils.getResourcesFile(resourcesGeneratePath,node);
 			FilePropertyUtils.touchFile(origin);
 			out = new FileWriter(origin);
 			Template template = configuration.getTemplate(freemarkerTemplateName);
