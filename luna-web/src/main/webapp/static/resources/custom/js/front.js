@@ -75,7 +75,7 @@ jQuery(function() {
 					}
 				}
 			});
-	
+
 	jQuery(document).on("click", ".alert-danger .alert-link", function() {
 		selector_input.val("");
 		selector_input.trigger('focus');
@@ -91,6 +91,10 @@ jQuery(function() {
 		scrollText : '<i class="fa fa-angle-up"></i>',
 		activeOverlay : !1
 	});
-	
-	jQuery('.thumbnail-origin').zoom();
+
+	// jQuery('.thumbnail-origin').zoom();
+	jQuery('.thumbnail-origin').parent("div").click(function() {
+		jQuery(this).toggleClass("col-md-12 col-md-4");
+		jQuery(this).find("a").toggleClass("border-px-0 pull-left");
+	});
 });

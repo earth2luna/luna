@@ -103,3 +103,7 @@ article.page .post-content {
 .padding-px-2 {
 	padding: 2px;
 }
+
+.border-px-0 {
+	border: 0px;
+}
