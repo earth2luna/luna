@@ -93,5 +93,4 @@ jQuery(function() {
 	});
 	
 	jQuery('.thumbnail-origin').zoom();
-	
 });
