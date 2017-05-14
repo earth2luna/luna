@@ -107,3 +107,8 @@ article.page .post-content {
 .border-px-0 {
 	border: 0px;
 }
+
+body {
+	border-top: 3px solid #30add1;
+	background: white url(../images/body.png) repeat;
+}
