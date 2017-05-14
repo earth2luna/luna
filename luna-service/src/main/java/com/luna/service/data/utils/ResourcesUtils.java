@@ -53,7 +53,26 @@ public class ResourcesUtils {
 		ConditionUtils.evalIdEqMap(map, id);
 		ConditionUtils.evalPageMap(map, pageNow, 1);
 		ConditionUtils.evalStatusInMap(map, sts);
+		ConditionUtils.evalSortOrderMap(map, "id", "asc");
 		return resourcesMapper.selectResourcesCasecade(map);
+	}
+
+	public static List<Resources> selectPreviousResourcesCasecades(IResourcesMapper resourcesMapper, Long currentId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("ltId", currentId);
+		ConditionUtils.evalStatusInMap(map, String.valueOf(StatusEnum.ONLINE.getCode()));
+		ConditionUtils.evalPageMap(map, 1, 1);
+		ConditionUtils.evalSortOrderMap(map, "id", "desc");
+		return resourcesMapper.selectList(map);
+	}
+
+	public static List<Resources> selectNextResourcesCasecades(IResourcesMapper resourcesMapper, Long currentId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("gtId", currentId);
+		ConditionUtils.evalStatusInMap(map, String.valueOf(StatusEnum.ONLINE.getCode()));
+		ConditionUtils.evalPageMap(map, 1, 1);
+		ConditionUtils.evalSortOrderMap(map, "id", "asc");
+		return resourcesMapper.selectList(map);
 	}
 
 	public static List<ResourcesContentMark> selectResourcesContentMarks(IResourcesContentMarkMapper contentMarkMapper,
@@ -149,24 +168,33 @@ public class ResourcesUtils {
 	}
 
 	public static String getWebResourcesPath(String resourceGeneratePathPrefix, ResourceSolr resourceSolr) {
-		return FilePropertyUtils.appendPath(filterResourceGeneratePathPrefix(resourceGeneratePathPrefix),
+		return FilePropertyUtils.appendPath(Configure.getThisWebDomain(), resourceGeneratePathPrefix,
 				getResourcesFileName(resourceSolr));
 	}
 
 	public static String getWebResourcesPath(String resourceGeneratePathPrefix, Resources resource) {
-		return FilePropertyUtils.appendPath(filterResourceGeneratePathPrefix(resourceGeneratePathPrefix),
+		return FilePropertyUtils.appendPath(Configure.getThisWebDomain(), resourceGeneratePathPrefix,
 				getResourcesFileName(resource));
 	}
 
-	private static String filterResourceGeneratePathPrefix(String resourceGeneratePathPrefix) {
-		String ret = null;
-		if (!resourceGeneratePathPrefix.startsWith(FilePropertyUtils.WEB_URL_SPLITOR)) {
-			ret = LangUtils.append(FilePropertyUtils.WEB_URL_SPLITOR, resourceGeneratePathPrefix);
-		} else {
-			ret = resourceGeneratePathPrefix;
-		}
-		return ret;
+	public static String getWebResourcesPath(String resourceGeneratePathPrefix, ResourcesCasecadeNode casecadeNode) {
+		return FilePropertyUtils.appendPath(Configure.getThisWebDomain(), resourceGeneratePathPrefix,
+				getResourcesFileName(casecadeNode));
 	}
+
+	// private static String filterResourceGeneratePathPrefix(String
+	// resourceGeneratePathPrefix) {
+	// String ret = null;
+	// if
+	// (!resourceGeneratePathPrefix.startsWith(FilePropertyUtils.WEB_URL_SPLITOR))
+	// {
+	// ret = LangUtils.append(FilePropertyUtils.WEB_URL_SPLITOR,
+	// resourceGeneratePathPrefix);
+	// } else {
+	// ret = resourceGeneratePathPrefix;
+	// }
+	// return ret;
+	// }
 
 	public static String getResourcesFileName(Resources resource) {
 		return LangUtils.append(resource.getCategoryId(), "-", resource.getWebsiteCode(), "-", resource.getId(),

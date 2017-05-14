@@ -12,9 +12,10 @@
     <div class="container bs-docs-container">
       <div class="row">
 	      <div class="col-md-9" role="main">
+	      	<#include "render/relative-link.html"/>
 	      	<#list nodes as rootNode>
 		      	<div class="bs-docs-section">
-		      		<h1 id="${rootNode.recourcesContentId}" class="page-header">${rootNode.resourcesContentTitle}</h1>
+		      		<h1 id="a${rootNode.recourcesContentId}" class="page-header">${rootNode.resourcesContentTitle}</h1>
 		      		<#if rootNode.resourcesContent??>
   						<p class="lead">${rootNode.resourcesContent}</p>
   					</#if>
@@ -42,18 +43,19 @@
   					</#list>
 		      	</div>
 	      	</#list>
+	      	<#include "render/relative-link.html"/>
 	      </div>
 	      <div class="col-md-3" role="complementary">
 	      	<nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix-top">
 				<ul class="nav bs-docs-sidenav">
 					<#list nodes as rootNode>
-						<li class="active">
-							<a href="#${rootNode.recourcesContentId}">${rootNode.resourcesContentTitle}</a>
+						<li>
+							<a href="#a${rootNode.recourcesContentId}">${rootNode.resourcesContentTitle}</a>
 							<ul class="nav">
 								<#list rootNode.childrens as subNode>
 									<#if subNode.resourcesContentTitle??>
 										<li>
-											<a href="#${subNode.recourcesContentId}">${subNode.resourcesContentTitle}</a>
+											<a href="#a${subNode.recourcesContentId}">${subNode.resourcesContentTitle}</a>
 										</li>
 									</#if>
 								</#list>

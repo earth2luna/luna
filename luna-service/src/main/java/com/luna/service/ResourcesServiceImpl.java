@@ -80,7 +80,7 @@ public class ResourcesServiceImpl implements ResourcesService {
 				// 上线
 				AssertUtils.isTrue(LangUtils.booleanValueOfNumber(rsId), "无效的资源key值");
 				new Render(new RenderParameter(resourcesMapper, contentMarkMapper, factoryBean.getObject(), null, rsId))
-						.render();
+						.renderSingle();
 			} else if (LangUtils.equals(3, op)) {
 				// 资源删除
 				AssertUtils.isTrue(LangUtils.booleanValueOfNumber(rsId), "无效的资源key值");

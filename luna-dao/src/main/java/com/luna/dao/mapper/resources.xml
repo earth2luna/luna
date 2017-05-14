@@ -74,6 +74,8 @@
 			<if test="null!=websiteCode">and websiteCode=#{websiteCode}</if>
 			<if test="null!=statusIn">and status IN <foreach item="sts" collection="statusIn" open="(" separator="," close=")">#{sts}</foreach></if>
 			<if test="null!=id">and id=#{id}</if>
+			<if test="null!=gtId"><![CDATA[ and id>#{gtId}]]></if>
+			<if test="null!=ltId"><![CDATA[ and id<#{ltId}]]></if>
 			<if test="null!=keys">id IN <foreach item="id" collection="keys" open="(" separator="," close=")">#{id}</foreach></if>
 		</trim>
 	</sql>
