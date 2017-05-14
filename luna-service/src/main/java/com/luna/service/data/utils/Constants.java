@@ -27,8 +27,19 @@ public class Constants {
 	public static final int SOLR_STORE_CONTENT_MAX_LENGTH = 5000;
 
 	// 首页查询每页条数
-	public static final int HOME_SEARCH_ITEMS_PAGE_SIZE = 10;
+	public static final int HOME_SEARCH_ITEMS_PAGE_SIZE = 20;
 
+	// 页面相关文章查询每页条数
+	public static final int RELATIVE_SEARCH_ITEMS_PAGE_SIZE = 5;
+
+	// header info
+	public static final String HEADER_TITLE = "title";
+	public static final String HEADER_KEYWORDS = "keywords";
+	public static final String HEADER_DESCRIPTION = "description";
+	public static final String HEADER_AUTHOR = "author";
+	public static final int HEADER_DESCRIPTION_LENGHT = 100;
+
+	// 寄语
 	public static final String PAGE_HEADER_SAY_KEY = "PAGE_HEADER_SAY";
 
 	private static final List<PageHeaderSayVo> PAGE_HEADER_SAY = new ArrayList<PageHeaderSayVo>() {
@@ -40,7 +51,8 @@ public class Constants {
 			add(new PageHeaderSayVo("生如夏花", "惊鸿一般短暂，像夏花一样绚烂；我从远方赶来，赴你一面之约；我为你来看我不顾一切；我将熄灭永不能再回来。——朴树"));
 			add(new PageHeaderSayVo("青春", "人生有一首诗,当我们拥有它的时候,往往并没有读懂它;而当我们能够读懂它的时候,它却早已远去。这首诗的名字,就叫青春。——董卿"));
 			add(new PageHeaderSayVo("青春", "年轻的时候，每件事情你都想明白，因为老觉得，有些事情不明白，就是生活的慌张。后来等老了才发现，那慌张就是青春。你不慌张了，青春就没了。——高晓松"));
-			add(new PageHeaderSayVo("青春", "青春是用来奋斗的，不是用来挥霍的。只有这样，当有一天我们回首来时路，和那个站在最绚烂的骄阳下曾经青春的自己告别的时候，我们才可能说：谢谢你。——董卿"));
+			add(new PageHeaderSayVo("青春",
+					"青春是用来奋斗的，不是用来挥霍的。只有这样，当有一天我们回首来时路，和那个站在最绚烂的骄阳下曾经青春的自己告别的时候，我们才可能说：谢谢你。——董卿"));
 		}
 	};
 

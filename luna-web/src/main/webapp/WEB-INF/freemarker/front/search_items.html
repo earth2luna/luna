@@ -2,32 +2,10 @@
 	<div class="alert alert-success" role="alert">
 	   <strong>Well done!</strong> You successfully query ${page.count} items.
 	</div>
-	<#list page.list as item>
-		<#if (item.imageUrl)??>
-			<span class="list-group-item">
-				<h4 class="list-group-item-heading"><a href="${item.requestUrl}" target="_blank">${item.title}</a></h4>
-				<div class="media">
-				  <div class="media-left media-middle">
-				   	<a href="${item.requestUrl}" target="_blank" class="thumbnail fornt-search-list-image" title="${item.title}">
-				      <img class="media-object" src="${item.imageUrl}" alt="${item.title}">
-				    </a>
-				  </div>
-				  <div class="media-body">
-				    <p title="${item.title?html}">${item.sourceDate?string("yyyy年MM月dd日")} - ${item.highlight}<a href="${item.requestUrl}" target="_blank">详情</a></p>
-				  </div>
-				</div>
-			</span>
-		<#else>
-			<span class="list-group-item">
-				<h4 class="list-group-item-heading"><a href="${item.requestUrl}" target="_blank" title="${item.title}">${item.title}</a></h4>
-				<p title="${item.title?html}" class="list-group-item-text">${item.sourceDate?string("yyyy年MM月dd日")} - ${item.highlight}<a href="${item.requestUrl}" target="_blank">详情</a></p>
-			</span>
-		</#if>
-	</#list>
+	<#include "front/search_iterator.html"/>
 <#else>
 	<div class="alert alert-danger" role="alert">
 	  <strong>Oh snap!</strong> <a href="javascript:void(0);" class="alert-link">Change a few things up</a> and try submitting again.
 	</div>
 </#if>
 <input type="hidden" value="{page:${page.pageNow!'1'},pageSize:${page.pageSize!'20'},total:${page.count!'0'}}" />
-

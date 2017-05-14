@@ -32,22 +32,24 @@ public class IndexController extends ParentController {
 
 	@RequestMapping("/")
 	public String home(Model model) {
+		addHeader(model, null);
 		model.addAttribute("QUERY_STRING_MAX_LENGTH", Constants.QUERY_STRING_MAX_LENGTH);
-		model.addAttribute("page", resourcesSolrService.query(null, 1));
+		model.addAttribute("page", resourcesSolrService.query(null, 1, Constants.HOME_SEARCH_ITEMS_PAGE_SIZE));
 		return "front/page_home";
 	}
 
 	@RequestMapping("/about")
 	public String about(Model model) {
+		addHeader(model, "关于我们-Apoollo");
 		return "front/page_about";
 	}
 
 	@RequestMapping("/login")
 	public String login(Model model, HttpServletRequest request) {
+		addHeader(model, "登陆-Apoollo");
 		model.addAttribute("w", request.getParameter("w"));
 		model.addAttribute("key", request.getParameter("key"));
 		return "front/page_login";
 	}
-
 
 }

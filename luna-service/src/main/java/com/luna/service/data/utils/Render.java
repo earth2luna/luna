@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +28,8 @@ import com.luna.service.node.InputNodeOutputNode;
 import com.luna.service.node.InputResourceOutputINode;
 import com.luna.service.node.ResourcesCasecadeNode;
 import com.luna.utils.FilePropertyUtils;
+import com.luna.utils.LangUtils;
+import com.luna.utils.RegexUtils;
 import com.luna.utils.node.INode;
 import com.luna.utils.node.NodeUtils;
 import com.luna.utils.node.NodeVariable;
@@ -142,6 +145,7 @@ public class Render {
 			dataModel.put("previous", previous);
 			dataModel.put("next", next);
 			dataModel.put(Constants.PAGE_HEADER_SAY_KEY, Constants.getPageHeaderSayVo());
+			addHeader(dataModel, node, nodes);
 			File origin = ResourcesUtils.getResourcesFile(resourcesGeneratePath, node);
 			FilePropertyUtils.touchFile(origin);
 			out = new FileWriter(origin);
@@ -162,6 +166,49 @@ public class Render {
 			LOGGER.error("[format error]", e);
 		} finally {
 			IOUtils.closeQuietly(out);
+		}
+	}
+
+	private void addHeader(Map<String, Object> model, ResourcesCasecadeNode node, List<INode> nodes) {
+		model.put(Constants.HEADER_TITLE, node.getResourcesTitle());
+		model.put(Constants.HEADER_KEYWORDS,
+				LangUtils.append(node.getResourcesTitle(), ",阿波罗,Apoollo,专业文章,计算机技术,编程,旅行,情怀,高质量,青春,教程，知识点"));
+		model.put(Constants.HEADER_DESCRIPTION, getSummary(nodes));
+		model.put(Constants.HEADER_AUTHOR, "作者：刘玉龙 &lt;673348317@qq.com&gt;");
+	}
+
+	private String getSummary(List<INode> nodes) {
+		StringBuffer buffer = new StringBuffer();
+		int length = Constants.HEADER_DESCRIPTION_LENGHT;
+		evalSummary(nodes, buffer, length);
+		return LangUtils.subtringDefaultAppender(buffer.toString(), length);
+	}
+
+	private void evalSummary(List<INode> nodes, StringBuffer buffer, int length) {
+		if (CollectionUtils.isNotEmpty(nodes)) {
+			Iterator<INode> iterator = nodes.iterator();
+			while (iterator.hasNext() && buffer.length() < length) {
+				INode node = iterator.next();
+				ResourcesCasecadeNode casecade = (ResourcesCasecadeNode) node;
+				evalueSummary(buffer, casecade);
+				evalSummary(casecade.getChildrens(), buffer, length);
+			}
+		}
+
+	}
+
+	private void evalueSummary(StringBuffer buffer, ResourcesCasecadeNode t) {
+		String title = LangUtils.replaceAll(t.getResourcesContentTitle(), RegexUtils.HTML_TAG, "");
+		title = LangUtils.replaceAll(title, "\"", "");
+		String content = LangUtils.replaceAll(t.getResourcesContent(), RegexUtils.HTML_TAG, "");
+		content = LangUtils.replaceAll(content, "\"", "");
+		if (!LangUtils.isBlank(title)) {
+			buffer.append(title);
+			buffer.append("-");
+		}
+		if (!LangUtils.isBlank(content)) {
+			buffer.append(content);
+			buffer.append(" ");
 		}
 	}
 

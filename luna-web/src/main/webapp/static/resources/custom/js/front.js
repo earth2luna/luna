@@ -92,9 +92,24 @@ jQuery(function() {
 		activeOverlay : !1
 	});
 
+	// view
+
+	simpleSearch();
+
 	// jQuery('.thumbnail-origin').zoom();
 	jQuery('.thumbnail-origin').parent("div").click(function() {
 		jQuery(this).toggleClass("col-xs-6 col-xs-12 col-md-12 col-md-4");
 		jQuery(this).find("a").toggleClass("border-px-0 pull-left");
 	});
+
+	function simpleSearch() {
+		var query = jQuery(".bs-docs-section:eq(0) h1:eq(0)").text();
+		if (query) {
+			jQuery.post("/front/simpleItems", {
+				query : query
+			}, function(data) {
+				jQuery(".relative-articles").html(data);
+			});
+		}
+	}
 });

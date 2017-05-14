@@ -22,6 +22,7 @@ public interface ResourcesSolrService {
 
 	public List<SuggetVo> sugget(String query);
 
-	public Page<ResourceSolrVo> query(String query, Integer pageNo);
-
+	public Page<ResourceSolrVo> query(String query, Integer pageNo,Integer pageSize);
+	
+	public Page<ResourceSolrVo> SimpleQuery(String query, Integer pageNow, Integer pageSize);
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.luna.service.ResourcesSolrService;
 import com.luna.service.componet.SuggetVo;
+import com.luna.service.data.utils.Constants;
 
 /**
  * @author laulyl
@@ -26,7 +27,6 @@ public class FrontController extends ParentController {
 	@Autowired
 	private ResourcesSolrService resourcesSolrService;
 
-
 	@RequestMapping("/sugget")
 	@ResponseBody
 	public List<SuggetVo> sugget(String query) {
@@ -35,7 +35,14 @@ public class FrontController extends ParentController {
 
 	@RequestMapping("/items")
 	public String searchItems(Model model, String query, Integer pageNow) {
-		model.addAttribute("page", resourcesSolrService.query(query, pageNow));
+		model.addAttribute("page", resourcesSolrService.query(query, pageNow, Constants.HOME_SEARCH_ITEMS_PAGE_SIZE));
 		return "front/search_items";
+	}
+
+	@RequestMapping("/simpleItems")
+	public String searchSimpleItems(Model model, String query) {
+		model.addAttribute("page",
+				resourcesSolrService.SimpleQuery(query, 1, Constants.RELATIVE_SEARCH_ITEMS_PAGE_SIZE));
+		return "render/relative-article";
 	}
 }

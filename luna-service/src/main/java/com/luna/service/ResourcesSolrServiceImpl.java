@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -96,7 +97,7 @@ public class ResourcesSolrServiceImpl implements ResourcesSolrService {
 	 * @see com.luna.service.ResourcesSolrService#search(java.lang.String)
 	 */
 	@Override
-	public Page<ResourceSolrVo> query(String query, Integer pageNow) {
+	public Page<ResourceSolrVo> query(String query, Integer pageNow, Integer pageSize) {
 		if (!(StringUtils.isEmpty(query) || query.matches("[\\*\\:]*"))) {
 			try {
 				// fields
@@ -104,9 +105,10 @@ public class ResourcesSolrServiceImpl implements ResourcesSolrService {
 				String queryField = "suggest";
 
 				// set sorl query
-				SolrQueryPage solrQuery = new SolrQueryPage(queryField + ":*"
-						+ LangUtils.subtring(LangUtils.trim(query), Constants.QUERY_STRING_MAX_LENGTH) + "*", pageNow,
-						null);
+				SolrQueryPage solrQuery = new SolrQueryPage(
+						queryField + ":(*"
+								+ LangUtils.subtring(LangUtils.trim(query), Constants.QUERY_STRING_MAX_LENGTH) + "*)",
+						pageNow, pageSize);
 				resourceSolrComponet.setCiphertext(solrQuery);
 				// set highlight
 				solrQuery.setHighlight(true);
@@ -154,12 +156,12 @@ public class ResourcesSolrServiceImpl implements ResourcesSolrService {
 				LOGGER.error("query error:", e);
 			}
 		}
-		return query(pageNow);
+		return query(pageNow, pageSize);
 	}
 
-	public Page<ResourceSolrVo> query(Integer pageNow) {
+	public Page<ResourceSolrVo> query(Integer pageNow, Integer pageSize) {
 		try {
-			SolrQueryPage solrQuery = new SolrQueryPage("*:*", pageNow, null);
+			SolrQueryPage solrQuery = new SolrQueryPage("*:*", pageNow, pageSize);
 			solrQuery.addSort("sourceDate", ORDER.desc);
 			solrQuery.addSort("createTime", ORDER.desc);
 			Page<ResourceSolrVo> page = resourceSolrComponet.query(solrQuery, ResourceSolrVo.class);
@@ -171,4 +173,34 @@ public class ResourcesSolrServiceImpl implements ResourcesSolrService {
 		return null;
 	}
 
+	public Page<ResourceSolrVo> SimpleQuery(String query, Integer pageNow, Integer pageSize) {
+		try {
+
+			SolrQueryPage solrQuery = getQuery(query, pageNow, pageSize);
+			solrQuery.addSort("sourceDate", ORDER.desc);
+			solrQuery.addSort("createTime", ORDER.desc);
+			Page<ResourceSolrVo> page = resourceSolrComponet.query(solrQuery, ResourceSolrVo.class);
+			if (CollectionUtils.isEmpty(page.getList())) {
+				solrQuery.setQuery("*");
+				page = resourceSolrComponet.query(solrQuery, ResourceSolrVo.class);
+			}
+			evalResource(page);
+			return page;
+		} catch (Exception e) {
+			LOGGER.error("query error:", e);
+		}
+		return null;
+	}
+
+	private SolrQueryPage getQuery(String query, Integer pageNow, Integer pageSize) {
+		SolrQueryPage solrQuery = null;
+		if (!(StringUtils.isEmpty(query) || query.matches("[\\*\\:]*"))) {
+			solrQuery = new SolrQueryPage(
+					"suggest:(*" + LangUtils.subtring(LangUtils.trim(query), Constants.QUERY_STRING_MAX_LENGTH) + "*)",
+					pageNow, pageSize);
+		} else {
+			solrQuery = new SolrQueryPage("*", pageNow, pageSize);
+		}
+		return solrQuery;
+	}
 }
