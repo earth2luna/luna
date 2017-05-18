@@ -1,0 +1,11 @@
+<div class="row bs-examples">
+	<div class="col-xs-6 col-md-4">
+		<#if node.resourcesContentTitle??>
+			<h2 id="a${node.recourcesContentId}">${node.resourcesContentTitle}</h2>
+		</#if> 
+		<#if node.resourcesContent??>
+			<p>${node.resourcesContent}</p>
+		</#if> 
+		<a class="thumbnail thumbnail-origin padding-px-2" href="javascript:void(0);"><img src="${node.resourcesContentPath}" alt="${node.resourcesContentTitle}"></a>
+	</div>
+</div>

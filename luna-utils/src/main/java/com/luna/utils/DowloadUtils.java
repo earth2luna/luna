@@ -11,6 +11,8 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Base64;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
@@ -30,6 +32,32 @@ import com.luna.utils.classes.KV;
 public class DowloadUtils {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DowloadUtils.class);
+
+	private static final Set<String> IMAGES_SUFFIX = new HashSet<String>() {
+		private static final long serialVersionUID = 8201062973841609315L;
+
+		{
+			add("bmp");
+			add("jpg");
+			add("jpeg");
+			add("png");
+			add("gif");
+			add("tiff");
+			add("psd");
+			add("tga");
+		}
+	};
+
+	public static String getDefaultSuffix(String input) {
+		String suffix = FilePropertyUtils.getSuffix(input);
+		if (null != suffix) {
+			suffix = suffix.toLowerCase().trim();
+		}
+		if (null == suffix || !IMAGES_SUFFIX.contains(suffix)) {
+			suffix = "jpeg";
+		}
+		return suffix;
+	}
 
 	public static boolean downloadUrl(String urlString, File outputPath) {
 		boolean ret = false;
@@ -119,7 +147,7 @@ public class DowloadUtils {
 			String defaultSuffix = "jpeg";
 
 			if (input.startsWith("http")) {
-				suffix = LangUtils.defaultValue(FilePropertyUtils.getSuffix(input), defaultSuffix);
+				suffix = getDefaultSuffix(input);
 				File outputFile = new File(
 						LangUtils.append(directoryAndName, FilePropertyUtils.SPLITOR_SUFFIX, suffix));
 				ret = downloadUrl(input, outputFile);

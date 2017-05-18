@@ -25,7 +25,8 @@ public class Main implements PageProcessor {
 
 	@Override
 	public void process(Page page) {
-		List<String> answers = page.getHtml().xpath("//article[@class='hentry']/div[@class='asset-content']/*").all();
+//		List<String> answers = page.getHtml().xpath("//article[@class='hentry']/div[@class='asset-content']/*").all();
+		List<String> answers = page.getHtml().xpath("//div[@class='article_content']/*").all();
 		for (String answer : answers) {
 //			String vote = new Html(answer).xpath("//p/tidyText()").toString();
 //			String vote = new Html(answer).xpath("//blockquote/pre/code/tidyText()").toString();
@@ -33,7 +34,7 @@ public class Main implements PageProcessor {
 //			String vote = new Html(answer).xpath("//blockquote/pre/code/allText()").toString();
 //			String vote = new Html(answer).xpath("//blockquote/pre/code/html()").toString();
 //			String vote = new Html(answer).xpath("//blockquote/html()").toString();
-			String vote = new Html(answer).xpath("//blockquote/allText()").toString();
+			String vote = new Html(answer).xpath("//p/allText()").toString();
 //			System.out.println(vote);
 			System.out.println("*********************************");
 			System.out.println(vote);
@@ -58,7 +59,7 @@ public class Main implements PageProcessor {
 //		.run();
 //		Spider.create(new Main()).addUrl("http://www.ruanyifeng.com/blog/2016/09/csp.html").thread(5)
 //		.run();
-		Spider.create(new Main()).addUrl("http://www.ruanyifeng.com/blog/2013/06/html_email.html").thread(5)
+		Spider.create(new Main()).addUrl("http://blog.csdn.net/ebay/article/details/46549481").thread(5)
 				.run();
 	}
 }

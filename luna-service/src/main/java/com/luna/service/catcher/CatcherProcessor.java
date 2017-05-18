@@ -8,8 +8,6 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.luna.dao.mapper.IResourcesContentMapper;
 import com.luna.dao.mapper.IResourcesMapper;
@@ -35,7 +33,8 @@ import us.codecraft.webmagic.selector.Selectable;
 
 public class CatcherProcessor implements PageProcessor {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(CatcherProcessor.class);
+	// private static final Logger LOGGER =
+	// LoggerFactory.getLogger(CatcherProcessor.class);
 
 	private Site site = Site.me().setRetryTimes(3).setSleepTime(5000);
 
@@ -68,28 +67,44 @@ public class CatcherProcessor implements PageProcessor {
 		resources.setSourceSiteName(catcherModel.getCatcherWebName());
 		resources.setWebsiteCode(catcherModel.getCatcherWebsiteCode());
 
-		CatcherSubModel resourceTitleKv = handler(catcherModel.getResourceTitleCatchRulers(), page.getHtml());
-		if (null != resourceTitleKv) {
-			resources.setTitle(resourceTitleKv.getValue());
+		if (StringUtils.isEmpty(catcherModel.getResourceTitle())) {
+			CatcherSubModel resourceTitleKv = handler(catcherModel.getResourceTitleCatchRulers(), page.getHtml());
+			if (null != resourceTitleKv) {
+				resources.setTitle(resourceTitleKv.getValue());
+			}
+		} else {
+			resources.setTitle(catcherModel.getResourceTitle());
 		}
-		CatcherSubModel resourceDateKv = handler(catcherModel.getResourceDateCatchRulers(), page.getHtml());
-		if (null != resourceDateKv) {
-			resources.setSourceDate(DateUtils.parse(resourceDateKv.getValue(), catcherModel.getResourceDateFormat()));
+
+		if (StringUtils.isEmpty(catcherModel.getResourceDate())) {
+			CatcherSubModel resourceDateKv = handler(catcherModel.getResourceDateCatchRulers(), page.getHtml());
+			if (null != resourceDateKv) {
+				resources.setSourceDate(
+						DateUtils.parse(resourceDateKv.getValue(), catcherModel.getResourceDateFormat()));
+			}
+		} else {
+			resources.setSourceDate(
+					DateUtils.parse(catcherModel.getResourceDate(), catcherModel.getResourceDateFormat()));
 		}
-		CatcherSubModel resourceAuthorKv = handler(catcherModel.getResourceAuthorCatchRulers(), page.getHtml());
-		if (null != resourceAuthorKv) {
-			resources.setSourceAuthor(resourceAuthorKv.getValue());
+
+		if (StringUtils.isEmpty(catcherModel.getResourceAuthor())) {
+			CatcherSubModel resourceAuthorKv = handler(catcherModel.getResourceAuthorCatchRulers(), page.getHtml());
+			if (null != resourceAuthorKv) {
+				resources.setSourceAuthor(resourceAuthorKv.getValue());
+			}
+		} else {
+			resources.setSourceAuthor(catcherModel.getResourceAuthor());
 		}
 
 		List<CatcherContent> rcs = new ArrayList<CatcherContent>();
 		List<CatcherIteratorRuler> xpaths = catcherModel.getIteratorRulers();
 		Iterator<CatcherIteratorRuler> iterator = xpaths.iterator();
 
-		Long currentLevel = null;// 当前级别
+		// Long currentLevel = null;// 当前级别
 		Long oneLevelId = null;// 一级别id
 		Long twoLevelId = null;// 二级别id
 		Long levelId = 0L;// 当前levelId
-		boolean ifSkip = false;// 是否终止
+		// boolean ifSkip = false;// 是否终止
 		while (iterator.hasNext()) {
 			CatcherIteratorRuler iteratorRuler = iterator.next();
 			if (iteratorRuler.isIfMark()) {
@@ -103,14 +118,14 @@ public class CatcherProcessor implements PageProcessor {
 					rcs.add(rc);
 					oneLevelId = ++levelId;
 					rc.setLevelId(oneLevelId);
-					currentLevel = 1L;
+					// currentLevel = 1L;
 				}
 			} else {
 				List<String> transit = page.getHtml().xpath(iteratorRuler.getContentXPath()).all();
+				CatcherContent rc = null;
 				for (int i = 0; i < transit.size(); i++) {
 					String content = transit.get(i);
 					Html tempHtml = Html.create(content);
-					CatcherContent rc = new CatcherContent();
 					// 获取一级内容标题
 					CatcherSubModel oneLevelContentTitleKv = handler(iteratorRuler.getOneLevelContentTitleCatchRulers(),
 							tempHtml);
@@ -121,19 +136,22 @@ public class CatcherProcessor implements PageProcessor {
 						if (oneLevelContentTitleKv.isIfFilter()) {
 							continue;
 						}
+						// 如果当前是一或者二级级标题，并且找到了一级标题
+						if (null != rc) {
+							rcs.add(rc);
+						}
+						// 重新开启一个一级标题
+						rc = new CatcherContent();
 						rc.setTitle(oneLevelContentTitleKv.getValue());
 						rc.setHandlerCode(oneLevelContentTitleKv.getHandlerCode());
-						rcs.add(rc);
 						oneLevelId = ++levelId;
 						rc.setLevelId(oneLevelId);
-						currentLevel = 1L;
+						// currentLevel = 1L;
 						continue;
 					}
-
+					// 直到找到第一个一级标题
 					if (null == oneLevelId) {
-						ifSkip = true;
-						LOGGER.error("[one level key is null]");
-						break;
+						continue;
 					}
 
 					// 获取二级内容标题
@@ -148,23 +166,36 @@ public class CatcherProcessor implements PageProcessor {
 						if (twoLevelContentTitleKv.isIfFilter()) {
 							continue;
 						}
+						// 如果当前是一或者二级级标题，并且第二次找到了二级标题，则先放入当前标题，则先放入当前标题
+						if (null != rc) {
+							rcs.add(rc);
+						}
+						// 重新开启一个二级标题
+						rc = new CatcherContent();
 						rc.setTitle(twoLevelContentTitleKv.getValue());
 						rc.setHandlerCode(twoLevelContentTitleKv.getHandlerCode());
 						rc.setParentLevelId(oneLevelId);
-						rcs.add(rc);
+
 						twoLevelId = ++levelId;
 						rc.setLevelId(twoLevelId);
-						currentLevel = 2L;
+						// currentLevel = 2L;
 						continue;
 					}
+
 					// 获取当前内容属于哪个标题下
-					Long currentLevelId = getCurrentParentId(currentLevel, oneLevelId, twoLevelId);
-					if (null == currentLevelId) {
-						ifSkip = true;
-						LOGGER.error(LangUtils.append("[current level key is null] :", levelId, " currentLevel:",
-								currentLevel, " oneLevelId:", oneLevelId, " twoLevelId:", twoLevelId));
-						break;
-					}
+					// Long currentLevelId = getCurrentParentId(currentLevel,
+					// oneLevelId, twoLevelId);
+
+					Long currentLevelId = oneLevelId;
+
+					// if (null == currentLevelId) {
+					// ifSkip = true;
+					// LOGGER.error(LangUtils.append("[current level key is
+					// null] :", levelId, " currentLevel:",
+					// currentLevel, " oneLevelId:", oneLevelId, " twoLevelId:",
+					// twoLevelId));
+					// break;
+					// }
 
 					// 获取路径
 					CatcherSubModel contentPathKv = handler(iteratorRuler.getContentPathCatchRulers(), tempHtml);
@@ -176,22 +207,32 @@ public class CatcherProcessor implements PageProcessor {
 						if (contentPathKv.isIfFilter()) {
 							continue;
 						}
-						// web site code+category code+current date+system time
+						// 网站编码+类目编码+当前日期+系统毫秒时间
 						String endPath = FilePropertyUtils.appendPath(catcherModel.getCatcherWebsiteCode().toString(),
 								catcherModel.getResourceCategoryCode().toString(),
 								DateUtils.getCurrentDateFormat(DateUtils.DATE_PATTERN_3),
 								LangUtils.toString(System.currentTimeMillis()));
-						// attachment path+web site code+category code+system
-						// time
+						// 附件路径+网站编码+类目编码+系统毫秒时间
 						String outputPath = FilePropertyUtils.appendPath(catcherModel.getAttachementPath(), endPath);
 						KV<String, Boolean> storeValue = DowloadUtils.storeImage(contentPathKv.getValue(), outputPath);
 						if (storeValue.getV()) {
+							if (null == rc) {
+								rc = new CatcherContent();
+								rc.setParentLevelId(currentLevelId);
+							} else {
+								if (StringUtils.isNotEmpty(rc.getPath())) {
+									rcs.add(rc);
+									rc = new CatcherContent();
+									rc.setParentLevelId(currentLevelId);
+								}
+							}
 							rc.setPath(endPath + FilePropertyUtils.SPLITOR_SUFFIX + storeValue.getK());
 							rc.setHandlerCode(contentPathKv.getHandlerCode());
-							rc.setParentLevelId(currentLevelId);
 							rcs.add(rc);
+							rc = null;
+							continue;
 						}
-						continue;
+
 					}
 
 					// 获取内容
@@ -204,38 +245,53 @@ public class CatcherProcessor implements PageProcessor {
 						if (contentKv.isIfFilter()) {
 							continue;
 						}
+						if (null == rc) {
+							rc = new CatcherContent();
+							rc.setParentLevelId(currentLevelId);
+						} else {
+							if (StringUtils.isNotEmpty(rc.getContent())) {
+								rcs.add(rc);
+								rc = new CatcherContent();
+								rc.setParentLevelId(currentLevelId);
+							}
+						}
 						rc.setContent(contentKv.getValue());
 						rc.setHandlerCode(contentKv.getHandlerCode());
-						rc.setParentLevelId(currentLevelId);
 						rcs.add(rc);
+						rc = null;
 						continue;
 					}
 
 				}
+
+				if (null != rc) {
+
+				}
 			}
 		}
-		if (!ifSkip) {
-			resourcesMapper.insert(resources);
-			ContentUtils.insertCatchers(contentMapper, rcs, resources.getId());
-		}
-		page.setSkip(ifSkip);
+		resourcesMapper.insert(resources);
+		ContentUtils.insertCatchers(contentMapper, rcs, resources.getId());
+		// if (!ifSkip) {
+		//
+		// }
+		// page.setSkip(ifSkip);
 	}
 
-	private Long getCurrentParentId(Long currentLevel, Long oneLevelId, Long twoLevelId) {
-		// Long ret = null;
-		// if (LangUtils.equals(1, currentLevel)) {
-		// ret = oneLevelId;
-		// } else if (LangUtils.equals(2, currentLevel)) {
-		// ret = twoLevelId;
-		// }
-		// return ret;
-		return oneLevelId;
-	}
+	// private Long getCurrentParentId(Long currentLevel, Long oneLevelId, Long
+	// twoLevelId) {
+	// Long ret = null;
+	// if (LangUtils.equals(1, currentLevel)) {
+	// ret = oneLevelId;
+	// } else if (LangUtils.equals(2, currentLevel)) {
+	// ret = twoLevelId;
+	// }
+	// return ret;
+	// return oneLevelId;
+	// }
 
 	private static CatcherSubModel handler(List<CatchRuler> rulers, Html relative) {
 		if (CollectionUtils.isEmpty(rulers))
 			return null;
-		CatcherSubModel model = null;
 		Iterator<CatchRuler> iterator = rulers.iterator();
 		while (iterator.hasNext()) {
 			CatchRuler ruler = iterator.next();
@@ -263,6 +319,7 @@ public class CatcherProcessor implements PageProcessor {
 				continue;
 			}
 
+			// 替换内容
 			if (CollectionUtils.isNotEmpty(ruler.getReplaceModels())) {
 				for (CatcherReplaceModel catchReplaceModel : ruler.getReplaceModels()) {
 					String[] tagNames = catchReplaceModel.getReplaceTagNames();
@@ -285,18 +342,27 @@ public class CatcherProcessor implements PageProcessor {
 			if (LangUtils.isBlank(value)) {
 				continue;
 			}
-
-			// 过滤文本
+			
+			// index of 过滤文本
 			if (StringUtils.isNotEmpty(ruler.getIndexOfFilter())) {
-				if (-1 == value.indexOf(ruler.getIndexOfFilter())) {
-					continue;
+				if (-1 != value.indexOf(ruler.getIndexOfFilter())) {
+					return new CatcherSubModel(null, null, false, true);
+				}
+			}
+
+			// equals 过滤文本
+			if (CollectionUtils.isNotEmpty(ruler.getEqualsFilters())) {
+				for (String eqFilter : ruler.getEqualsFilters()) {
+					if (StringUtils.equals(value, eqFilter)) {
+						return new CatcherSubModel(null, null, false, true);
+					}
 				}
 			}
 
 			// 结束抓取
 			if (StringUtils.isNotEmpty(ruler.getBreakValue())) {
-				if (!StringUtils.equals(value, ruler.getBreakValue())) {
-					continue;
+				if (StringUtils.equals(value, ruler.getBreakValue())) {
+					return new CatcherSubModel(null, null, true, false);
 				}
 			}
 
@@ -305,12 +371,10 @@ public class CatcherProcessor implements PageProcessor {
 			String outputValue = HandlerMethodEnum.PRE == HandlerMethodEnum.get(ruler.getHandlerCode())
 					? LangUtils.toString(originValue) : value;
 
-			model = new CatcherSubModel(outputValue, ruler.getHandlerCode(),
-					StringUtils.equals(value, ruler.getBreakValue()),
-					StringUtils.isNotEmpty(ruler.getIndexOfFilter()) && -1 != value.indexOf(ruler.getIndexOfFilter()));
-			break;
+			return new CatcherSubModel(outputValue, ruler.getHandlerCode(), false, false);
 		}
-		return model;
+
+		return null;
 	}
 
 	/*

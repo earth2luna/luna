@@ -14,25 +14,12 @@ public class CatchRuler {
 
 	private String tryXPath;// 测试节点是否有效的xpath表达式
 	private String getXPath;// 真正获取内容的xpath表达式
-	private List<CatcherReplaceModel> replaceModels;
+	private List<CatcherReplaceModel> replaceModels;//替换规则
 	private Integer handlerCode;// 处理编码
 	private String breakValue;// 规则取到的值与此值相同则停止抓取
 	private String indexOfFilter;// index of 过滤条件
-
-//	public CatchRuler(String tryXPath, String getXPath, Integer replaceCode, String[] replaceTagNames,
-//			String replacement, Integer handlerCode, String breakValue, String indexOfFilter) {
-//		super();
-//		this.tryXPath = tryXPath;
-//		this.getXPath = getXPath;
-//		this.handlerCode = handlerCode;
-//		this.breakValue = breakValue;
-//		this.indexOfFilter = indexOfFilter;
-//		replaceModels = new ArrayList<CatcherReplaceModel>();
-//		replaceModels.add(new CatcherReplaceModel(replaceCode, replaceTagNames, replacement));
-//	}
+	private List<String> equalsFilters;//equals时过滤
 	
-	
-
 	public CatchRuler(String tryXPath, String getXPath, List<CatcherReplaceModel> replaceModels, Integer handlerCode,
 			String breakValue, String indexOfFilter) {
 		super();
@@ -113,6 +100,14 @@ public class CatchRuler {
 
 	public void setIndexOfFilter(String indexOfFilter) {
 		this.indexOfFilter = indexOfFilter;
+	}
+
+	public List<String> getEqualsFilters() {
+		return equalsFilters;
+	}
+
+	public void setEqualsFilters(List<String> equalsFilters) {
+		this.equalsFilters = equalsFilters;
 	}
 
 }

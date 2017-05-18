@@ -31,7 +31,17 @@ import com.luna.utils.infce.InputStringOutputLong;
 public class LangUtils {
 
 	public static boolean isBlank(String input) {
-		return StringUtils.isBlank(input) || "null".equals(input);
+		int strLen;
+		if (input == null || (strLen = input.length()) == 0 || "null".equals(input)) {
+			return true;
+		}
+		for (int i = 0; i < strLen; i++) {
+			char c = input.charAt(i);
+			if (!(Character.isWhitespace(c) || 160 == ((int) c))) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public static boolean isNotBlank(String input) {
