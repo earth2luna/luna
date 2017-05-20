@@ -16,12 +16,9 @@
 	      	<#include "render/relative-link.html"/>
 	      	<#list nodes as rootNode>
 		      	<div class="bs-docs-section">
-		      		<h1 id="a${rootNode.recourcesContentId}" class="page-header">${rootNode.resourcesContentTitle}</h1>
-		      		<#if rootNode.resourcesContent??>
-  						<p class="lead">${rootNode.resourcesContent}</p>
-  					</#if>
+		      		<@view.renderNode1 node=rootNode/>
   					<#list rootNode.childrens as subNode>
-  						 <@view.renderNode node=subNode/>
+  						 <@view.renderNode2 node=subNode/>
   					</#list>
 		      	</div>
 	      	</#list>
@@ -34,14 +31,12 @@
 					<#list nodes as rootNode>
 						<li>
 							<a href="#a${rootNode.recourcesContentId}">${rootNode.resourcesContentTitle}</a>
-							<#if rootNode.childrens??&&(rootNode.childrens?size>0)>
+							<#if rootNode.metaDatas??&&(rootNode.metaDatas?size>0)>
 								<ul class="nav">
-									<#list rootNode.childrens as subNode>
-										<#if subNode.resourcesContentTitle??>
-											<li>
-												<a href="#a${subNode.recourcesContentId}">${subNode.resourcesContentTitle}</a>
-											</li>
-										</#if>
+									<#list rootNode.metaDatas as metaData>
+										<li>
+											<a href="#a${metaData.id}">${metaData.name}</a>
+										</li>
 									</#list>
 								</ul>
 							</#if>

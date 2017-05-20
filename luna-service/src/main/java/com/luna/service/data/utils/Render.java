@@ -133,9 +133,18 @@ public class Render {
 		return ret;
 	}
 
+	private void initMetaDatas(List<INode> nodes) {
+		if (CollectionUtils.isNotEmpty(nodes)) {
+			for (INode node : nodes) {
+				((ResourcesCasecadeNode) node).initMetaDatas();
+			}
+		}
+	}
+
 	private void format(List<INode> nodes, ResourcesCasecadeNode node, ResourceLinkVo previous, ResourceLinkVo next) {
 		Writer out = null;
 		try {
+			initMetaDatas(nodes);
 			String resourcesGeneratePath = Configure.getResourceRelativePath();
 			String freemarkerTemplateName = Configure.getFreeMarkerViewName();
 			Configuration configuration = renderParameter.getConfiguration();

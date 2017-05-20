@@ -1,22 +1,45 @@
-<#macro renderNode  node>
+<#macro renderNode1  node>
   <#switch node.resourcesContentHandlerCode>  
 	    <#case 1>
-	    	<#include "layout/layout_node_languge-html.html"/>	
+	    	<#include "layout/layout_node_1_languge-html.html"/>	
 	        <#break>  
 	    <#case 2>
-	    	<#include "layout/layout_node_languge-html.html"/>	
+	    	<#include "layout/layout_node_1_languge-html.html"/>	
 	        <#break>
 	     <#case 3>
-	     	<#include "layout/layout_node_tag-image.html"/>	
+	     	<#include "layout/layout_node_1_tag-image.html"/>	
 	     	<#break>  
 	     <#case 4>
-	     	<#include "layout/layout_node_tag-p.html"/>	
+	     	<#include "layout/layout_node_1_tag-p.html"/>	
 	     	<#break>  
 	     <#case 5>
-	     	<#include "layout/layout_node_tag-pre.html"/>		
+	     	<#include "layout/layout_node_1_tag-pre.html"/>		
 	     	<#break>  
 	    <#default>  
-	    	<#include "layout/layout_node_tag-p.html"/>	
+	    	<#include "layout/layout_node_1_tag-p.html"/>	
+	        <#break>  
+	</#switch>
+</#macro>
+
+<#macro renderNode2  node>
+  <#switch node.resourcesContentHandlerCode>  
+	    <#case 1>
+	    	<#include "layout/layout_node_2_languge-html.html"/>	
+	        <#break>  
+	    <#case 2>
+	    	<#include "layout/layout_node_2_languge-html.html"/>	
+	        <#break>
+	     <#case 3>
+	     	<#include "layout/layout_node_2_tag-image.html"/>	
+	     	<#break>  
+	     <#case 4>
+	     	<#include "layout/layout_node_2_tag-p.html"/>	
+	     	<#break>  
+	     <#case 5>
+	     	<#include "layout/layout_node_2_tag-pre.html"/>		
+	     	<#break>  
+	    <#default>  
+	    	<#include "layout/layout_node_2_tag-p.html"/>	
 	        <#break>  
 	</#switch>
 </#macro>

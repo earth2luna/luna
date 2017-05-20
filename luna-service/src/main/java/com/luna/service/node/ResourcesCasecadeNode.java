@@ -3,9 +3,15 @@
  */
 package com.luna.service.node;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import com.luna.dao.vo.ResourcesCasecade;
+import com.luna.service.dto.RenderMetaData;
 import com.luna.utils.node.INode;
 
 /**
@@ -20,6 +26,7 @@ public class ResourcesCasecadeNode extends ResourcesCasecade implements INode {
 	private boolean hasSiblingsAnother;
 	private List<INode> childrens;
 	private INode parentNode;
+	private List<RenderMetaData> metaDatas;
 
 	/*
 	 * (non-Javadoc)
@@ -29,6 +36,19 @@ public class ResourcesCasecadeNode extends ResourcesCasecade implements INode {
 	public int compareTo(INode o) {
 		ResourcesCasecadeNode that = (ResourcesCasecadeNode) o;
 		return this.getResourcesContentSortCode().compareTo(that.getResourcesContentSortCode());
+	}
+
+	public void initMetaDatas() {
+		if (CollectionUtils.isNotEmpty(childrens)) {
+			this.metaDatas = new ArrayList<RenderMetaData>();
+			Iterator<INode> iterator = childrens.iterator();
+			while (iterator.hasNext()) {
+				ResourcesCasecadeNode that = (ResourcesCasecadeNode) iterator.next();
+				if (StringUtils.isNotBlank(that.getResourcesContentTitle())) {
+					metaDatas.add(new RenderMetaData(that.getId(), that.getResourcesContentTitle()));
+				}
+			}
+		}
 	}
 
 	/*
@@ -104,6 +124,14 @@ public class ResourcesCasecadeNode extends ResourcesCasecade implements INode {
 	 */
 	public INode getParentNode() {
 		return parentNode;
+	}
+
+	public List<RenderMetaData> getMetaDatas() {
+		return metaDatas;
+	}
+
+	public void setMetaDatas(List<RenderMetaData> metaDatas) {
+		this.metaDatas = metaDatas;
 	}
 
 }
