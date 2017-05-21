@@ -35,7 +35,8 @@ public class Main5 implements PageProcessor {
 		String date=DateUtils.getDateFormat(DateUtils.parse(dateContent, "yyyy-MM-dd'T'HH:mm:ss'Z'"),DateUtils.DATE_PATTERN_2);
 		
 		System.out.println(date);
-		System.out.println(page.getHtml().xpath("//div[@class='js-discussion']/div[@class='timeline-comment-wrapper'][1]/div[@class='comment']/div[@class='edit-comment-hide']/table/tbody/tr/td[@class='d-block']/*").all());
+//		System.out.println(page.getHtml().xpath("//div[@class='js-discussion']/div[@class='timeline-comment-wrapper'][1]/div[@class='comment']/div[@class='edit-comment-hide']/table/tbody/tr/td[@class='d-block']/*").all());
+		System.out.println(page.getHtml().xpath("//blockquote/html()").all());
 		System.out.println("结束");
 	}
 
@@ -45,6 +46,6 @@ public class Main5 implements PageProcessor {
 	}
 
 	public static void main(String[] args) {
-		Spider.create(new Main5()).addUrl("https://github.com/xufei/blog/issues/21").thread(5).run();
+		Spider.create(new Main5()).addUrl("https://github.com/xufei/blog/issues/16").thread(5).run();
 	}
 }

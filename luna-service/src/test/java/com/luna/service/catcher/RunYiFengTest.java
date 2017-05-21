@@ -24,80 +24,80 @@ public class RunYiFengTest extends ParentTest {
 
 	@Test
 	public void main() {
-//		List<String> list = new ArrayList<String>();
-//		list.add("http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html");
-//		list.add("http://www.ruanyifeng.com/blog/2016/08/http.html");
-//		list.add("http://www.ruanyifeng.com/blog/2017/04/css_in_js.html");
-//		list.add("http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html");
-//		list.add("http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html");
-//		list.add("http://www.ruanyifeng.com/blog/2011/02/seven_myths_about_https.html");
-//		list.add("http://www.ruanyifeng.com/blog/2014/09/ssl-latency.html");
-//		list.add("http://www.ruanyifeng.com/blog/2014/09/package-management.html");
-//		list.add("http://www.ruanyifeng.com/blog/2014/09/information-entropy.html");
-//		list.add("http://www.ruanyifeng.com/blog/2014/07/chinese_fonts.html");
-//		list.add("http://www.ruanyifeng.com/blog/2014/07/database_implementation.html");
-//		list.add("http://www.ruanyifeng.com/blog/2014/06/airbnb.html");
-//		list.add("http://www.ruanyifeng.com/blog/2008/12/a_visual_guide_to_version_control.html");
-//		list.add("http://www.ruanyifeng.com/blog/2014/06/git_remote.html");
-//		list.add("http://www.ruanyifeng.com/blog/2014/05/oauth_2_0.html");
-//		list.add("http://www.ruanyifeng.com/blog/2014/05/restful_api.html");
-//		list.add("http://www.ruanyifeng.com/blog/2011/09/restful.html");
-//		list.add("http://www.ruanyifeng.com/blog/2017/04/memory-leak.html");
-//		list.add("http://www.ruanyifeng.com/blog/2017/03/pointfree.html");
-//		list.add("http://www.ruanyifeng.com/blog/2017/03/ramda.html");
-//		list.add("http://www.ruanyifeng.com/blog/2017/03/reduce_transduce.html");
-//		list.add("http://www.ruanyifeng.com/blog/2017/03/gartner-hype-cycle.html");
-//		list.add("http://www.ruanyifeng.com/blog/2016/04/cors.html");
-//		list.add("http://www.ruanyifeng.com/blog/2017/05/fish_shell.html");
-//		list.add("http://www.ruanyifeng.com/blog/2017/05/css-variables.html");
-//		list.add("http://www.ruanyifeng.com/blog/2017/02/filename-should-be-lowercase.html");
-//		list.add("http://www.ruanyifeng.com/blog/2016/09/csp.html");
-//		list.add("http://www.ruanyifeng.com/blog/2016/09/how_amazon_take_soa.html");
-//		list.add("http://www.ruanyifeng.com/blog/2016/09/conservative_vs_liberal_programmer.html");
-//		list.add("http://www.ruanyifeng.com/blog/2016/09/software-architecture.html");
-//		list.add("http://www.ruanyifeng.com/blog/2016/07/yaml.html");
-//		list.add("http://www.ruanyifeng.com/blog/2016/07/google-monolithic-source-repository.html");
-//		list.add("http://www.ruanyifeng.com/blog/2016/06/css_modules.html");
-//		list.add("http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-part-two.html");
-//		list.add("http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-commands.html");
-//		list.add("http://www.ruanyifeng.com/blog/2016/02/linux-daemon.html");
-//		list.add("http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html");
-//		list.add("http://www.ruanyifeng.com/blog/2015/12/git-workflow.html");
-//		list.add("http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html");
-//		list.add("http://www.ruanyifeng.com/blog/2015/09/git-bitmap.html");
-//		list.add("http://www.ruanyifeng.com/blog/2015/08/git-use-process.html");
-//		list.add("http://www.ruanyifeng.com/blog/2012/07/git.html");
-//		list.add("http://www.ruanyifeng.com/blog/2015/09/web-page-performance-in-depth.html");
-//		list.add("http://www.ruanyifeng.com/blog/2015/07/flex-examples.html");
-//		list.add("http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html");
-//		list.add("http://www.ruanyifeng.com/blog/2015/04/fortune.html");
-//		list.add("http://www.ruanyifeng.com/blog/2015/03/build-website-with-make.html");
-//		list.add("http://www.ruanyifeng.com/blog/2015/02/make.html");
-//		list.add("http://www.ruanyifeng.com/blog/2015/02/mvcmvp_mvvm.html");
-//		list.add("http://www.ruanyifeng.com/blog/2014/11/basic-charts.html");
-//		list.add("http://www.ruanyifeng.com/blog/2014/03/server_setup.html");
-//		list.add("http://www.ruanyifeng.com/blog/2014/02/css_transition_and_animation.html");
-//		list.add("http://www.ruanyifeng.com/blog/2013/12/getting_started_with_postgresql.html");
-//		list.add("http://www.ruanyifeng.com/blog/2013/07/how_to_make_search_engines_find_ajax_content.html");
-//		list.add("http://www.ruanyifeng.com/blog/2013/06/rsa_algorithm_part_one.html");
-//		list.add("http://www.ruanyifeng.com/blog/2013/07/rsa_algorithm_part_two.html");
-//		list.add("http://www.ruanyifeng.com/blog/2013/07/gpg.html");
-//		list.add("http://www.ruanyifeng.com/blog/2013/06/emmet_and_haml.html");
-//		list.add("http://www.ruanyifeng.com/blog/2016/01/website-obesity-crisis.html");
-//		list.add("http://www.ruanyifeng.com/blog/2013/01/secure_boot.html");
-//		list.add("http://www.ruanyifeng.com/blog/2004/06/gpl.html");
-//		list.add("http://www.ruanyifeng.com/blog/2005/03/post_112.html");
-//		list.add("http://www.ruanyifeng.com/blog/2006/03/programming_language_evaluations.html");
-//		list.add("http://www.ruanyifeng.com/blog/2006/05/laziness_impatience_and_hubris.html");
-//		list.add("http://www.ruanyifeng.com/blog/2006/08/minimalism_of_web_design.html");
-//		list.add("http://www.ruanyifeng.com/blog/2007/04/principles_of_providing_a_tool.html");
-//		list.add("http://www.ruanyifeng.com/blog/2007/06/camelcase.html");
-//		list.add("http://www.ruanyifeng.com/blog/2007/11/mvc.html");
-//		list.add("http://www.ruanyifeng.com/blog/2007/12/google_s_software_principles.html");
-//		list.add("http://www.ruanyifeng.com/blog/2009/10/5_ways_to_search_for_files_using_the_terminal.html");
-//		list.add("http://www.ruanyifeng.com/blog/2016/09/csp.html");
-		
-		 catcher("http://www.ruanyifeng.com/blog/2016/09/csp.html");
+		// List<String> list = new ArrayList<String>();
+		// list.add("http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html");
+		// list.add("http://www.ruanyifeng.com/blog/2016/08/http.html");
+		// list.add("http://www.ruanyifeng.com/blog/2017/04/css_in_js.html");
+		// list.add("http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html");
+		// list.add("http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html");
+		// list.add("http://www.ruanyifeng.com/blog/2011/02/seven_myths_about_https.html");
+		// list.add("http://www.ruanyifeng.com/blog/2014/09/ssl-latency.html");
+		// list.add("http://www.ruanyifeng.com/blog/2014/09/package-management.html");
+		// list.add("http://www.ruanyifeng.com/blog/2014/09/information-entropy.html");
+		// list.add("http://www.ruanyifeng.com/blog/2014/07/chinese_fonts.html");
+		// list.add("http://www.ruanyifeng.com/blog/2014/07/database_implementation.html");
+		// list.add("http://www.ruanyifeng.com/blog/2014/06/airbnb.html");
+		// list.add("http://www.ruanyifeng.com/blog/2008/12/a_visual_guide_to_version_control.html");
+		// list.add("http://www.ruanyifeng.com/blog/2014/06/git_remote.html");
+		// list.add("http://www.ruanyifeng.com/blog/2014/05/oauth_2_0.html");
+		// list.add("http://www.ruanyifeng.com/blog/2014/05/restful_api.html");
+		// list.add("http://www.ruanyifeng.com/blog/2011/09/restful.html");
+		// list.add("http://www.ruanyifeng.com/blog/2017/04/memory-leak.html");
+		// list.add("http://www.ruanyifeng.com/blog/2017/03/pointfree.html");
+		// list.add("http://www.ruanyifeng.com/blog/2017/03/ramda.html");
+		// list.add("http://www.ruanyifeng.com/blog/2017/03/reduce_transduce.html");
+		// list.add("http://www.ruanyifeng.com/blog/2017/03/gartner-hype-cycle.html");
+		// list.add("http://www.ruanyifeng.com/blog/2016/04/cors.html");
+		// list.add("http://www.ruanyifeng.com/blog/2017/05/fish_shell.html");
+		// list.add("http://www.ruanyifeng.com/blog/2017/05/css-variables.html");
+		// list.add("http://www.ruanyifeng.com/blog/2017/02/filename-should-be-lowercase.html");
+		// list.add("http://www.ruanyifeng.com/blog/2016/09/csp.html");
+		// list.add("http://www.ruanyifeng.com/blog/2016/09/how_amazon_take_soa.html");
+		// list.add("http://www.ruanyifeng.com/blog/2016/09/conservative_vs_liberal_programmer.html");
+		// list.add("http://www.ruanyifeng.com/blog/2016/09/software-architecture.html");
+		// list.add("http://www.ruanyifeng.com/blog/2016/07/yaml.html");
+		// list.add("http://www.ruanyifeng.com/blog/2016/07/google-monolithic-source-repository.html");
+		// list.add("http://www.ruanyifeng.com/blog/2016/06/css_modules.html");
+		// list.add("http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-part-two.html");
+		// list.add("http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-commands.html");
+		// list.add("http://www.ruanyifeng.com/blog/2016/02/linux-daemon.html");
+		// list.add("http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html");
+		// list.add("http://www.ruanyifeng.com/blog/2015/12/git-workflow.html");
+		// list.add("http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html");
+		// list.add("http://www.ruanyifeng.com/blog/2015/09/git-bitmap.html");
+		// list.add("http://www.ruanyifeng.com/blog/2015/08/git-use-process.html");
+		// list.add("http://www.ruanyifeng.com/blog/2012/07/git.html");
+		// list.add("http://www.ruanyifeng.com/blog/2015/09/web-page-performance-in-depth.html");
+		// list.add("http://www.ruanyifeng.com/blog/2015/07/flex-examples.html");
+		// list.add("http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html");
+		// list.add("http://www.ruanyifeng.com/blog/2015/04/fortune.html");
+		// list.add("http://www.ruanyifeng.com/blog/2015/03/build-website-with-make.html");
+		// list.add("http://www.ruanyifeng.com/blog/2015/02/make.html");
+		// list.add("http://www.ruanyifeng.com/blog/2015/02/mvcmvp_mvvm.html");
+		// list.add("http://www.ruanyifeng.com/blog/2014/11/basic-charts.html");
+		// list.add("http://www.ruanyifeng.com/blog/2014/03/server_setup.html");
+		// list.add("http://www.ruanyifeng.com/blog/2014/02/css_transition_and_animation.html");
+		// list.add("http://www.ruanyifeng.com/blog/2013/12/getting_started_with_postgresql.html");
+		// list.add("http://www.ruanyifeng.com/blog/2013/07/how_to_make_search_engines_find_ajax_content.html");
+		// list.add("http://www.ruanyifeng.com/blog/2013/06/rsa_algorithm_part_one.html");
+		// list.add("http://www.ruanyifeng.com/blog/2013/07/rsa_algorithm_part_two.html");
+		// list.add("http://www.ruanyifeng.com/blog/2013/07/gpg.html");
+		// list.add("http://www.ruanyifeng.com/blog/2013/06/emmet_and_haml.html");
+		// list.add("http://www.ruanyifeng.com/blog/2016/01/website-obesity-crisis.html");
+		// list.add("http://www.ruanyifeng.com/blog/2013/01/secure_boot.html");
+		// list.add("http://www.ruanyifeng.com/blog/2004/06/gpl.html");
+		// list.add("http://www.ruanyifeng.com/blog/2005/03/post_112.html");
+		// list.add("http://www.ruanyifeng.com/blog/2006/03/programming_language_evaluations.html");
+		// list.add("http://www.ruanyifeng.com/blog/2006/05/laziness_impatience_and_hubris.html");
+		// list.add("http://www.ruanyifeng.com/blog/2006/08/minimalism_of_web_design.html");
+		// list.add("http://www.ruanyifeng.com/blog/2007/04/principles_of_providing_a_tool.html");
+		// list.add("http://www.ruanyifeng.com/blog/2007/06/camelcase.html");
+		// list.add("http://www.ruanyifeng.com/blog/2007/11/mvc.html");
+		// list.add("http://www.ruanyifeng.com/blog/2007/12/google_s_software_principles.html");
+		// list.add("http://www.ruanyifeng.com/blog/2009/10/5_ways_to_search_for_files_using_the_terminal.html");
+		// list.add("http://www.ruanyifeng.com/blog/2016/09/csp.html");
+
+		catcher("http://www.ruanyifeng.com/blog/2016/09/csp.html");
 
 	}
 
@@ -246,8 +246,13 @@ public class RunYiFengTest extends ParentTest {
 		}
 		List<CatcherReplaceModel> replaceModels = new ArrayList<CatcherReplaceModel>();
 		replaceModels.add(new CatcherReplaceModel(replaceCode, replaceTagNames, replacement));
+
+		List<String> indexOfFilters = new ArrayList<String>();
+		if (null != indexOfFilter) {
+			indexOfFilters.add(indexOfFilter);
+		}
 		CatchRuler catchRuler = new CatchRuler(tryXPath, getXPath, replaceModels, handlerCode, breakValue,
-				indexOfFilter);
+				indexOfFilters);
 		catchRulers.add(catchRuler);
 		return catchRulers;
 	}
@@ -257,8 +262,13 @@ public class RunYiFengTest extends ParentTest {
 		if (null == catchRulers) {
 			catchRulers = new ArrayList<CatchRuler>();
 		}
+
+		List<String> indexOfFilters = new ArrayList<String>();
+		if (null != indexOfFilter) {
+			indexOfFilters.add(indexOfFilter);
+		}
 		CatchRuler catchRuler = new CatchRuler(tryXPath, getXPath, replaceModels, handlerCode, breakValue,
-				indexOfFilter);
+				indexOfFilters);
 		catchRulers.add(catchRuler);
 		return catchRulers;
 	}

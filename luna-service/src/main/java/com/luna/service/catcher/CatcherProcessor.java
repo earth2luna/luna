@@ -149,7 +149,7 @@ public class CatcherProcessor implements PageProcessor {
 						// currentLevel = 1L;
 						continue;
 					}
-					//如果第一个不是一级标题，则把文章看作一级标题
+					// 如果第一个不是一级标题，则把文章看作一级标题
 					if (null == oneLevelId) {
 						rc = new CatcherContent();
 						rc.setTitle(resources.getTitle());
@@ -348,9 +348,11 @@ public class CatcherProcessor implements PageProcessor {
 			}
 
 			// index of 过滤文本
-			if (StringUtils.isNotEmpty(ruler.getIndexOfFilter())) {
-				if (-1 != value.indexOf(ruler.getIndexOfFilter())) {
-					return new CatcherSubModel(null, null, false, true);
+			if (CollectionUtils.isNotEmpty(ruler.getIndexOfFilters())) {
+				for (String indexFilter : ruler.getIndexOfFilters()) {
+					if (-1 != value.indexOf(indexFilter)) {
+						return new CatcherSubModel(null, null, false, true);
+					}
 				}
 			}
 
@@ -387,12 +389,15 @@ public class CatcherProcessor implements PageProcessor {
 	private static Integer getHandlerCode(CatchRuler ruler, Html html) {
 		Integer handlerCode = null;
 		if (null == ruler.getHandlerCode()) {
-//			String codeAssertContent = LangUtils.trim(html.xpath(ruler.getHandlerCodeXPath()));
-//			if (StringUtils.isBlank(codeAssertContent)
-//					|| -1 == codeAssertContent.indexOf(ruler.getIndexOfAssertHandlerContent())) {
-//				throw new Error("can't find code handler");
-//			}
-//			handlerCode = ruler.getIndexOfAssertHandlerCode();
+			// String codeAssertContent =
+			// LangUtils.trim(html.xpath(ruler.getHandlerCodeXPath()));
+			// if (StringUtils.isBlank(codeAssertContent)
+			// || -1 ==
+			// codeAssertContent.indexOf(ruler.getIndexOfAssertHandlerContent()))
+			// {
+			// throw new Error("can't find code handler");
+			// }
+			// handlerCode = ruler.getIndexOfAssertHandlerCode();
 		} else {
 			handlerCode = ruler.getHandlerCode();
 		}

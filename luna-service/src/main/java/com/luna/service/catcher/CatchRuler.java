@@ -22,18 +22,18 @@ public class CatchRuler {
 	private Integer indexOfAssertHandlerCode;
 
 	private String breakValue;// 规则取到的值与此值相同则停止抓取
-	private String indexOfFilter;// index of 过滤条件
+	private List<String> indexOfFilters;// index of 过滤条件
 	private List<String> equalsFilters;// equals时过滤
 
 	public CatchRuler(String tryXPath, String getXPath, List<CatcherReplaceModel> replaceModels, Integer handlerCode,
-			String breakValue, String indexOfFilter) {
+			String breakValue, List<String> indexOfFilters) {
 		super();
 		this.tryXPath = tryXPath;
 		this.getXPath = getXPath;
 		this.replaceModels = replaceModels;
 		this.handlerCode = handlerCode;
 		this.breakValue = breakValue;
-		this.indexOfFilter = indexOfFilter;
+		this.indexOfFilters = indexOfFilters;
 	}
 
 	/**
@@ -97,13 +97,6 @@ public class CatchRuler {
 		this.breakValue = breakValue;
 	}
 
-	public String getIndexOfFilter() {
-		return indexOfFilter;
-	}
-
-	public void setIndexOfFilter(String indexOfFilter) {
-		this.indexOfFilter = indexOfFilter;
-	}
 
 	public List<String> getEqualsFilters() {
 		return equalsFilters;
@@ -135,6 +128,14 @@ public class CatchRuler {
 
 	public void setIndexOfAssertHandlerCode(Integer indexOfAssertHandlerCode) {
 		this.indexOfAssertHandlerCode = indexOfAssertHandlerCode;
+	}
+
+	public List<String> getIndexOfFilters() {
+		return indexOfFilters;
+	}
+
+	public void setIndexOfFilters(List<String> indexOfFilters) {
+		this.indexOfFilters = indexOfFilters;
 	}
 
 }

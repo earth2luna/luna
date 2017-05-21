@@ -24,7 +24,6 @@ public class GitHubTest extends ParentTest {
 	@Test
 	public void main() {
 		List<String> list = new ArrayList<String>();
-		list.add("https://github.com/xufei/blog/issues/21");
 		list.add("https://github.com/xufei/blog/issues/47");
 		list.add("https://github.com/xufei/blog/issues/44");
 		list.add("https://github.com/xufei/blog/issues/42");
@@ -34,8 +33,32 @@ public class GitHubTest extends ParentTest {
 		list.add("https://github.com/xufei/blog/issues/36");
 		list.add("https://github.com/xufei/blog/issues/35");
 		list.add("https://github.com/xufei/blog/issues/33");
-
-		catcher("https://github.com/xufei/blog/issues/33");
+		list.add("https://github.com/xufei/blog/issues/29");
+		list.add("https://github.com/xufei/blog/issues/28");
+		list.add("https://github.com/xufei/blog/issues/25");
+		list.add("https://github.com/xufei/blog/issues/24");
+		list.add("https://github.com/xufei/blog/issues/23");
+		list.add("https://github.com/xufei/blog/issues/22");
+		list.add("https://github.com/xufei/blog/issues/21");
+		list.add("https://github.com/xufei/blog/issues/19");
+		list.add("https://github.com/xufei/blog/issues/18");
+		list.add("https://github.com/xufei/blog/issues/17");
+		list.add("https://github.com/xufei/blog/issues/16");
+		list.add("https://github.com/xufei/blog/issues/15");
+		list.add("https://github.com/xufei/blog/issues/14");
+		list.add("https://github.com/xufei/blog/issues/13");
+		list.add("https://github.com/xufei/blog/issues/12");
+		list.add("https://github.com/xufei/blog/issues/11");
+		list.add("https://github.com/xufei/blog/issues/10");
+		list.add("https://github.com/xufei/blog/issues/9");
+		list.add("https://github.com/xufei/blog/issues/8");
+		list.add("https://github.com/xufei/blog/issues/7");
+		list.add("https://github.com/xufei/blog/issues/6");
+		list.add("https://github.com/xufei/blog/issues/5");
+		list.add("https://github.com/xufei/blog/issues/4");
+		list.add("https://github.com/xufei/blog/issues/3");
+		
+		catcher("https://github.com/xufei/blog/issues/3");
 
 	}
 
@@ -104,21 +127,27 @@ public class GitHubTest extends ParentTest {
 
 		evalueCatchRulers(contentCatchRulers, null, "//div[@class='highlight-text-html-basic']/pre/allText()", null,
 				null, null, HandlerMethodEnum.LANGUGE_HTML.getCode(), null, null);
+		
+		evalueCatchRulers(contentCatchRulers, null, "//div[@class='highlight-text-xml']/pre/allText()", null,
+				null, null, HandlerMethodEnum.LANGUGE_HTML.getCode(), null, null);
 
 		evalueCatchRulers(contentCatchRulers, null, "//div[@class='highlight-source-json']/pre/allText()", null, null,
 				null, HandlerMethodEnum.LANGUGE_JSON.getCode(), null, null);
+		
+		evalueCatchRulers(contentCatchRulers, null, "//div[@class='highlight-source-coffee']/pre/allText()", null, null,
+				null, HandlerMethodEnum.PRE.getCode(), null, null);
 
 		evalueCatchRulers(contentCatchRulers, null, "//pre/code/allText()", null, null, null,
 				HandlerMethodEnum.PRE.getCode(), null, null);
 
-		evalueCatchRulers(contentCatchRulers, "//blockquote/p/allText()", "//blockquote/p", null, null, null,
+		evalueCatchRulers(contentCatchRulers, "//blockquote/p/allText()", "//blockquote/html()", null, null, null,
 				HandlerMethodEnum.CALLOUT_INFO.getCode(), null, null);
 
-		evalueCatchRulers(contentCatchRulers, null, "//p/html()", null, null, null, HandlerMethodEnum.P.getCode(), null,
-				"这是对知乎上一个问题的回答");
-
-		evalueCatchRulers(contentCatchRulers, null, "//p/html()", null, null, null, HandlerMethodEnum.P.getCode(), null,
-				"codepen.io/xufei");
+		List<String> indexOfFilters = new ArrayList<String>();
+		indexOfFilters.add("这是对知乎上一个问题的回答");
+		indexOfFilters.add("codepen.io/xufei");
+		evalueCatchRulers(contentCatchRulers, null, "//p/html()", null, HandlerMethodEnum.P.getCode(), null, null,
+				indexOfFilters);
 
 		Spider.create(
 				new CatcherProcessor(get(IResourcesMapper.class), get(IResourcesContentMapper.class), catcherModel))
@@ -138,20 +167,24 @@ public class GitHubTest extends ParentTest {
 		}
 		List<CatcherReplaceModel> replaceModels = new ArrayList<CatcherReplaceModel>();
 		replaceModels.add(new CatcherReplaceModel(replaceCode, replaceTagNames, replacement));
+		List<String> indexOfFilters = new ArrayList<String>();
+		if (null != indexOfFilter) {
+			indexOfFilters.add(indexOfFilter);
+		}
 		CatchRuler catchRuler = new CatchRuler(tryXPath, getXPath, replaceModels, handlerCode, breakValue,
-				indexOfFilter);
+				indexOfFilters);
 		catchRulers.add(catchRuler);
 		return catchRulers;
 	}
 
 	public static List<CatchRuler> evalueCatchRulers(List<CatchRuler> catchRulers, String tryXPath, String getXPath,
-			List<CatcherReplaceModel> replaceModels, Integer handlerCode, String breakValue, String indexOfFilter,
-			List<String> equalsFilters) {
+			List<CatcherReplaceModel> replaceModels, Integer handlerCode, String breakValue, List<String> equalsFilters,
+			List<String> indexOfFilters) {
 		if (null == catchRulers) {
 			catchRulers = new ArrayList<CatchRuler>();
 		}
 		CatchRuler catchRuler = new CatchRuler(tryXPath, getXPath, replaceModels, handlerCode, breakValue,
-				indexOfFilter);
+				indexOfFilters);
 		catchRuler.setEqualsFilters(equalsFilters);
 		catchRulers.add(catchRuler);
 		return catchRulers;
@@ -166,7 +199,9 @@ public class GitHubTest extends ParentTest {
 	}
 
 	public static List<CatchRuler> evalueCatchRulers(String getXPath) {
-		return evalueCatchRulers(null, null, getXPath, null, null, null, null, null, null);
+		List<CatchRuler> catchRulers = new ArrayList<CatchRuler>();
+		catchRulers.add(new CatchRuler(null, getXPath, null, null, null, null));
+		return catchRulers;
 	}
 
 	public static List<String> evalueXPath(String xpath) {

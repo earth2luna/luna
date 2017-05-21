@@ -100,8 +100,13 @@ public class NormalTest extends ParentTest {
 		}
 		List<CatcherReplaceModel> replaceModels = new ArrayList<CatcherReplaceModel>();
 		replaceModels.add(new CatcherReplaceModel(replaceCode, replaceTagNames, replacement));
+
+		List<String> indexOfFilters = new ArrayList<String>();
+		if (null != indexOfFilter) {
+			indexOfFilters.add(indexOfFilter);
+		}
 		CatchRuler catchRuler = new CatchRuler(tryXPath, getXPath, replaceModels, handlerCode, breakValue,
-				indexOfFilter);
+				indexOfFilters);
 		catchRulers.add(catchRuler);
 		return catchRulers;
 	}
@@ -112,8 +117,12 @@ public class NormalTest extends ParentTest {
 		if (null == catchRulers) {
 			catchRulers = new ArrayList<CatchRuler>();
 		}
+		List<String> indexOfFilters = new ArrayList<String>();
+		if (null != indexOfFilter) {
+			indexOfFilters.add(indexOfFilter);
+		}
 		CatchRuler catchRuler = new CatchRuler(tryXPath, getXPath, replaceModels, handlerCode, breakValue,
-				indexOfFilter);
+				indexOfFilters);
 		catchRuler.setEqualsFilters(equalsFilters);
 		catchRulers.add(catchRuler);
 		return catchRulers;
