@@ -12,7 +12,9 @@ import com.luna.utils.LangUtils;
  */
 public enum HandlerMethodEnum {
 
-	P(4, "段落"),HTML(1, "完整的THML代码"), HTML_SEGMENT(2, "HTML代码片段"), IMAGE(3, "图片"), PRE(5, "原样输出");
+	LANGUGE_JAVA(1, "java语言"), LANGUGE_JS(2, "javascript语言"), IMAGE(3, "图片"), P(4, "段落"), PRE(5, "预编译"), ORIGIN(6,
+			"原样输出"), CALLOUT_INFO(7, "信息插图"), WARNING_INFO(8,
+					"警告插图"), CALLOUT_DANGER(9, "危险插图"), LANGUGE_HTML(10, "HTML语言"), LANGUGE_BASH(11, "bash语言"), LANGUGE_JSON(12, "JSON语言");
 
 	public static HandlerMethodEnum get(Integer code) {
 		if (null == code)

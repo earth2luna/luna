@@ -1,7 +1,7 @@
 /**
  * COPYRIGHT@LAULYL
  */
-package com.luna.service.catcher;
+package com.luna.service.main;
 
 import com.luna.service.enumer.service.HtmlMarcherEnum;
 
@@ -10,7 +10,7 @@ import com.luna.service.enumer.service.HtmlMarcherEnum;
  * @date 2017年5月7日 下午10:45:41
  * @description
  */
-public class Main1 {
+public class Main2 {
 
 	/**
 	 * @param args

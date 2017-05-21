@@ -17,14 +17,11 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.luna.dao.mapper.IResourcesContentMarkMapper;
 import com.luna.dao.mapper.IResourcesMapper;
 import com.luna.dao.po.Resources;
-import com.luna.dao.po.ResourcesContentMark;
 import com.luna.dao.vo.ResourcesCasecade;
 import com.luna.service.dto.RenderParameter;
 import com.luna.service.dto.ResourceLinkVo;
-import com.luna.service.node.InputNodeOutputNode;
 import com.luna.service.node.InputResourceOutputINode;
 import com.luna.service.node.ResourcesCasecadeNode;
 import com.luna.utils.FilePropertyUtils;
@@ -66,7 +63,8 @@ public class Render {
 		NodeVariable variable = new NodeVariable();
 		int pageNow = 1;
 		IResourcesMapper resourcesMapper = renderParameter.getResourcesMapper();
-		IResourcesContentMarkMapper contentMarkMapper = renderParameter.getContentMarkMapper();
+		// IResourcesContentMarkMapper contentMarkMapper =
+		// renderParameter.getContentMarkMapper();
 		String status = renderParameter.getSts();
 		Long resourcesId = renderParameter.getId();
 
@@ -79,9 +77,12 @@ public class Render {
 			List<ResourcesCasecade> next = ResourcesUtils.selectResourcesCasecades(resourcesMapper, ++pageNow, null,
 					resourcesId);
 			// 获取资源内容标记列表
-			Map<Long, List<ResourcesContentMark>> resourcesContentMarkMap = ResourcesUtils
-					.selectResourcesContentMarkMapAsCasecades(contentMarkMapper, current);
-			variable.setInputOutput(new InputNodeOutputNode(resourcesContentMarkMap));
+			// Map<Long, List<ResourcesContentMark>> resourcesContentMarkMap =
+			// ResourcesUtils
+			// .selectResourcesContentMarkMapAsCasecades(contentMarkMapper,
+			// current);
+			// variable.setInputOutput(new
+			// InputNodeOutputNode(resourcesContentMarkMap));
 			// 划分等级
 			List<INode> nodes = NodeUtils.sort(current, inputOutput, variable);
 			ResourcesCasecadeNode node = (ResourcesCasecadeNode) nodes.get(0);

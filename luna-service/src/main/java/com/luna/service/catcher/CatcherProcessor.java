@@ -149,9 +149,13 @@ public class CatcherProcessor implements PageProcessor {
 						// currentLevel = 1L;
 						continue;
 					}
-					// 直到找到第一个一级标题
+					//如果第一个不是一级标题，则把文章看作一级标题
 					if (null == oneLevelId) {
-						continue;
+						rc = new CatcherContent();
+						rc.setTitle(resources.getTitle());
+						rc.setHandlerCode(HandlerMethodEnum.P.getCode());
+						oneLevelId = ++levelId;
+						rc.setLevelId(oneLevelId);
 					}
 
 					// 获取二级内容标题
@@ -342,7 +346,7 @@ public class CatcherProcessor implements PageProcessor {
 			if (LangUtils.isBlank(value)) {
 				continue;
 			}
-			
+
 			// index of 过滤文本
 			if (StringUtils.isNotEmpty(ruler.getIndexOfFilter())) {
 				if (-1 != value.indexOf(ruler.getIndexOfFilter())) {
@@ -367,14 +371,32 @@ public class CatcherProcessor implements PageProcessor {
 			}
 
 			// pre 不去除空格
+			Integer code = getHandlerCode(ruler, html);
 
-			String outputValue = HandlerMethodEnum.PRE == HandlerMethodEnum.get(ruler.getHandlerCode())
-					? LangUtils.toString(originValue) : value;
+			HandlerMethodEnum methodEnum = HandlerMethodEnum.get(code);
 
-			return new CatcherSubModel(outputValue, ruler.getHandlerCode(), false, false);
+			String outputValue = HandlerMethodEnum.P == methodEnum || HandlerMethodEnum.IMAGE == methodEnum ? value
+					: LangUtils.toString(originValue);
+
+			return new CatcherSubModel(outputValue, code, false, false);
 		}
 
 		return null;
+	}
+
+	private static Integer getHandlerCode(CatchRuler ruler, Html html) {
+		Integer handlerCode = null;
+		if (null == ruler.getHandlerCode()) {
+//			String codeAssertContent = LangUtils.trim(html.xpath(ruler.getHandlerCodeXPath()));
+//			if (StringUtils.isBlank(codeAssertContent)
+//					|| -1 == codeAssertContent.indexOf(ruler.getIndexOfAssertHandlerContent())) {
+//				throw new Error("can't find code handler");
+//			}
+//			handlerCode = ruler.getIndexOfAssertHandlerCode();
+		} else {
+			handlerCode = ruler.getHandlerCode();
+		}
+		return handlerCode;
 	}
 
 	/*

@@ -24,10 +24,10 @@
 <#macro renderNode2  node>
   <#switch node.resourcesContentHandlerCode>  
 	    <#case 1>
-	    	<#include "layout/layout_node_2_languge-html.html"/>	
+	    	<#include "layout/layout_node_2_languge-java.html"/>	
 	        <#break>  
 	    <#case 2>
-	    	<#include "layout/layout_node_2_languge-html.html"/>	
+	    	<#include "layout/layout_node_2_languge-js.html"/>	
 	        <#break>
 	     <#case 3>
 	     	<#include "layout/layout_node_2_tag-image.html"/>	
@@ -37,6 +37,27 @@
 	     	<#break>  
 	     <#case 5>
 	     	<#include "layout/layout_node_2_tag-pre.html"/>		
+	     	<#break>  
+	     <#case 6>
+	     	<#include "layout/layout_node_2_languge-origin.html"/>		
+	     	<#break>  
+	     <#case 7>
+	     	<#include "layout/layout_node_2_callout-info.html"/>		
+	     	<#break>  
+	     <#case 8>
+	     	<#include "layout/layout_node_2_callout-info.html"/>		
+	     	<#break>  
+	     <#case 9>
+	     	<#include "layout/layout_node_2_callout-info.html"/>		
+	     	<#break>  
+	     <#case 10>
+	     	<#include "layout/layout_node_2_languge-html.html"/>		
+	     	<#break>  
+	     <#case 11>
+	     	<#include "layout/layout_node_2_languge-bash.html"/>		
+	     	<#break>  
+	     <#case 12>
+	     	<#include "layout/layout_node_2_languge-json.html"/>		
 	     	<#break>  
 	    <#default>  
 	    	<#include "layout/layout_node_2_tag-p.html"/>	

@@ -1,7 +1,7 @@
 /**
  * COPYRIGHT@LAULYL
  */
-package com.luna.service.catcher;
+package com.luna.service.main;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import us.codecraft.webmagic.selector.Html;
  * @date 2017年4月11日 下午10:30:00
  * @description
  */
-public class Main implements PageProcessor {
+public class Main3 implements PageProcessor {
 
 	private Site site = Site.me().setCycleRetryTimes(5).setRetryTimes(5).setSleepTime(500).setTimeOut(3 * 60 * 1000)
 			.setUserAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101 Firefox/38.0")
@@ -26,7 +26,7 @@ public class Main implements PageProcessor {
 	@Override
 	public void process(Page page) {
 //		List<String> answers = page.getHtml().xpath("//article[@class='hentry']/div[@class='asset-content']/*").all();
-		List<String> answers = page.getHtml().xpath("//div[@class='article_content']/*").all();
+		List<String> answers = page.getHtml().xpath("//tbody[@class='d-block']/tr[@class='d-block']/td/*").all();
 		for (String answer : answers) {
 //			String vote = new Html(answer).xpath("//p/tidyText()").toString();
 //			String vote = new Html(answer).xpath("//blockquote/pre/code/tidyText()").toString();
@@ -34,7 +34,7 @@ public class Main implements PageProcessor {
 //			String vote = new Html(answer).xpath("//blockquote/pre/code/allText()").toString();
 //			String vote = new Html(answer).xpath("//blockquote/pre/code/html()").toString();
 //			String vote = new Html(answer).xpath("//blockquote/html()").toString();
-			String vote = new Html(answer).xpath("//p/allText()").toString();
+			String vote = new Html(answer).xpath("//div[@class='timeline-comment']/div[@class='timeline-comment-header']/h3[@class='timeline-comment-header-text']/allText()").toString();
 //			System.out.println(vote);
 			System.out.println("*********************************");
 			System.out.println(vote);
@@ -59,7 +59,7 @@ public class Main implements PageProcessor {
 //		.run();
 //		Spider.create(new Main()).addUrl("http://www.ruanyifeng.com/blog/2016/09/csp.html").thread(5)
 //		.run();
-		Spider.create(new Main()).addUrl("http://blog.csdn.net/ebay/article/details/46549481").thread(5)
+		Spider.create(new Main3()).addUrl("https://github.com/xufei/blog/issues/21").thread(5)
 				.run();
 	}
 }

@@ -14,12 +14,17 @@ public class CatchRuler {
 
 	private String tryXPath;// 测试节点是否有效的xpath表达式
 	private String getXPath;// 真正获取内容的xpath表达式
-	private List<CatcherReplaceModel> replaceModels;//替换规则
+	private List<CatcherReplaceModel> replaceModels;// 替换规则
+
 	private Integer handlerCode;// 处理编码
+	private String handlerCodeXPath;
+	private String indexOfAssertHandlerContent;
+	private Integer indexOfAssertHandlerCode;
+
 	private String breakValue;// 规则取到的值与此值相同则停止抓取
 	private String indexOfFilter;// index of 过滤条件
-	private List<String> equalsFilters;//equals时过滤
-	
+	private List<String> equalsFilters;// equals时过滤
+
 	public CatchRuler(String tryXPath, String getXPath, List<CatcherReplaceModel> replaceModels, Integer handlerCode,
 			String breakValue, String indexOfFilter) {
 		super();
@@ -30,8 +35,6 @@ public class CatchRuler {
 		this.breakValue = breakValue;
 		this.indexOfFilter = indexOfFilter;
 	}
-
-
 
 	/**
 	 * @return the tryXPath
@@ -108,6 +111,30 @@ public class CatchRuler {
 
 	public void setEqualsFilters(List<String> equalsFilters) {
 		this.equalsFilters = equalsFilters;
+	}
+
+	public String getHandlerCodeXPath() {
+		return handlerCodeXPath;
+	}
+
+	public void setHandlerCodeXPath(String handlerCodeXPath) {
+		this.handlerCodeXPath = handlerCodeXPath;
+	}
+
+	public String getIndexOfAssertHandlerContent() {
+		return indexOfAssertHandlerContent;
+	}
+
+	public void setIndexOfAssertHandlerContent(String indexOfAssertHandlerContent) {
+		this.indexOfAssertHandlerContent = indexOfAssertHandlerContent;
+	}
+
+	public Integer getIndexOfAssertHandlerCode() {
+		return indexOfAssertHandlerCode;
+	}
+
+	public void setIndexOfAssertHandlerCode(Integer indexOfAssertHandlerCode) {
+		this.indexOfAssertHandlerCode = indexOfAssertHandlerCode;
 	}
 
 }

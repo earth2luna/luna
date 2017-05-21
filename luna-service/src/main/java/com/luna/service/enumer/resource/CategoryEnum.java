@@ -12,7 +12,7 @@ import com.luna.utils.LangUtils;
  */
 public enum CategoryEnum {
 
-	TECHNOLOGY(1, "技术"), SENTIMENT(2, "感悟");
+	TECHNOLOGY(1, "计算机技术"), SENTIMENT(2, "感悟");
 
 	public static CategoryEnum get(Long code) {
 		if (null == code)
