@@ -20,7 +20,7 @@ import us.codecraft.webmagic.Spider;
  * @date 2017年4月4日 下午2:26:18
  * @description
  */
-public class RunYiFengTest extends ParentTest {
+public class RunYiFengTestNew extends ParentTest {
 
 	@Test
 	public void main() {
@@ -120,16 +120,9 @@ public class RunYiFengTest extends ParentTest {
 		catcherModel.setResourceCategoryCode(1);
 
 		List<CatcherIteratorRuler> iteratorRulers = new ArrayList<CatcherIteratorRuler>();
-		CatcherIteratorRuler iteratorRulerBefore = new CatcherIteratorRuler();
-		CatcherIteratorRuler iteratorRuler = new CatcherIteratorRuler();
-		iteratorRulers.add(iteratorRulerBefore);
-		iteratorRulers.add(iteratorRuler);
 		catcherModel.setIteratorRulers(iteratorRulers);
-
-		iteratorRulerBefore.setOneLevelContentTitleCatchRulers(
-				evalueCatchRulers(null, null, "//article[@class='hentry']/h1[@id='page-title']/text()", null, null,
-						null, HandlerMethodEnum.P.getCode(), null, null));
-		iteratorRulerBefore.setIfMark(true);
+		CatcherIteratorRuler iteratorRuler = new CatcherIteratorRuler();
+		iteratorRulers.add(iteratorRuler);
 
 		// 中间path
 		iteratorRuler.setContentXPath("//article[@class='hentry']/div[@class='asset-content']/*");
