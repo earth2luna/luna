@@ -1,4 +1,4 @@
 <#if node.resourcesContentTitle??>
 	<h2 id="a${node.recourcesContentId}">${node.resourcesContentTitle}</h2>
 </#if>
-<script type="text/syntaxhighlighter" class="brush:js"><![CDATA[${node.resourcesContent}]]></script>
+<script type="text/syntaxhighlighter" class="brush:js"><![CDATA[${(node.resourcesContent)?html}]]></script>

@@ -57,7 +57,7 @@ public class GitHubTest extends ParentTest {
 		list.add("https://github.com/xufei/blog/issues/5");
 		list.add("https://github.com/xufei/blog/issues/4");
 		list.add("https://github.com/xufei/blog/issues/3");
-		
+
 		catcher("https://github.com/xufei/blog/issues/3");
 
 	}
@@ -127,13 +127,13 @@ public class GitHubTest extends ParentTest {
 
 		evalueCatchRulers(contentCatchRulers, null, "//div[@class='highlight-text-html-basic']/pre/allText()", null,
 				null, null, HandlerMethodEnum.LANGUGE_HTML.getCode(), null, null);
-		
-		evalueCatchRulers(contentCatchRulers, null, "//div[@class='highlight-text-xml']/pre/allText()", null,
-				null, null, HandlerMethodEnum.LANGUGE_HTML.getCode(), null, null);
+
+		evalueCatchRulers(contentCatchRulers, null, "//div[@class='highlight-text-xml']/pre/allText()", null, null,
+				null, HandlerMethodEnum.LANGUGE_HTML.getCode(), null, null);
 
 		evalueCatchRulers(contentCatchRulers, null, "//div[@class='highlight-source-json']/pre/allText()", null, null,
 				null, HandlerMethodEnum.LANGUGE_JSON.getCode(), null, null);
-		
+
 		evalueCatchRulers(contentCatchRulers, null, "//div[@class='highlight-source-coffee']/pre/allText()", null, null,
 				null, HandlerMethodEnum.PRE.getCode(), null, null);
 
@@ -160,8 +160,8 @@ public class GitHubTest extends ParentTest {
 	}
 
 	public static List<CatchRuler> evalueCatchRulers(List<CatchRuler> catchRulers, String tryXPath, String getXPath,
-			Integer replaceCode, String[] replaceTagNames, String replacement, Integer handlerCode, String breakValue,
-			String indexOfFilter) {
+			Integer replaceCode, String[] replaceTagNames, String replacement, Integer handlerCode,
+			List<String> breakValues, String indexOfFilter) {
 		if (null == catchRulers) {
 			catchRulers = new ArrayList<CatchRuler>();
 		}
@@ -171,19 +171,19 @@ public class GitHubTest extends ParentTest {
 		if (null != indexOfFilter) {
 			indexOfFilters.add(indexOfFilter);
 		}
-		CatchRuler catchRuler = new CatchRuler(tryXPath, getXPath, replaceModels, handlerCode, breakValue,
+		CatchRuler catchRuler = new CatchRuler(tryXPath, getXPath, replaceModels, handlerCode, breakValues,
 				indexOfFilters);
 		catchRulers.add(catchRuler);
 		return catchRulers;
 	}
 
 	public static List<CatchRuler> evalueCatchRulers(List<CatchRuler> catchRulers, String tryXPath, String getXPath,
-			List<CatcherReplaceModel> replaceModels, Integer handlerCode, String breakValue, List<String> equalsFilters,
-			List<String> indexOfFilters) {
+			List<CatcherReplaceModel> replaceModels, Integer handlerCode, List<String> breakValues,
+			List<String> equalsFilters, List<String> indexOfFilters) {
 		if (null == catchRulers) {
 			catchRulers = new ArrayList<CatchRuler>();
 		}
-		CatchRuler catchRuler = new CatchRuler(tryXPath, getXPath, replaceModels, handlerCode, breakValue,
+		CatchRuler catchRuler = new CatchRuler(tryXPath, getXPath, replaceModels, handlerCode, breakValues,
 				indexOfFilters);
 		catchRuler.setEqualsFilters(equalsFilters);
 		catchRulers.add(catchRuler);

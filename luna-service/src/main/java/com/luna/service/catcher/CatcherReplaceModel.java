@@ -13,6 +13,7 @@ public class CatcherReplaceModel {
 	private Integer replaceCode;// 替换规则编码
 	private String[] replaceTagNames;// 要替换的标签名称
 	private String replacement;// 替换内容
+	private String indexOfcondition;// 替换条件
 
 	public CatcherReplaceModel(Integer replaceCode, String[] replaceTagNames, String replacement) {
 		super();
@@ -44,5 +45,15 @@ public class CatcherReplaceModel {
 	public void setReplacement(String replacement) {
 		this.replacement = replacement;
 	}
+
+	public String getIndexOfcondition() {
+		return indexOfcondition;
+	}
+
+	public void setIndexOfcondition(String indexOfcondition) {
+		this.indexOfcondition = indexOfcondition;
+	}
+
+	
 
 }

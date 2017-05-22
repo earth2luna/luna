@@ -68,12 +68,16 @@ public class NormalTest extends ParentTest {
 		List<CatchRuler> contentCatchRulers = new ArrayList<>();
 		iteratorRuler.setContentCatchRulers(contentCatchRulers);
 
+		List<String> breakValues = new ArrayList<String>();
+
+		breakValues.add("参考资料：");
+
 		evalueCatchRulers(contentCatchRulers, null, "//p/allText()", null, null, null, HandlerMethodEnum.P.getCode(),
 				null, "作者");
 		evalueCatchRulers(contentCatchRulers, null, "//p/allText()", null, null, null, HandlerMethodEnum.P.getCode(),
 				null, "<br>");
 		evalueCatchRulers(contentCatchRulers, null, "//p/allText()", null, null, null, HandlerMethodEnum.P.getCode(),
-				"参考资料：", null);
+				breakValues, null);
 		List<String> equalsFilters = new ArrayList<String>();
 		equalsFilters.add("&nbsp;");
 		evalueCatchRulers(contentCatchRulers, null, "//p/allText()", null, HandlerMethodEnum.P.getCode(), null, null,
@@ -93,8 +97,8 @@ public class NormalTest extends ParentTest {
 	}
 
 	public static List<CatchRuler> evalueCatchRulers(List<CatchRuler> catchRulers, String tryXPath, String getXPath,
-			Integer replaceCode, String[] replaceTagNames, String replacement, Integer handlerCode, String breakValue,
-			String indexOfFilter) {
+			Integer replaceCode, String[] replaceTagNames, String replacement, Integer handlerCode,
+			List<String> breakValues, String indexOfFilter) {
 		if (null == catchRulers) {
 			catchRulers = new ArrayList<CatchRuler>();
 		}
@@ -105,15 +109,15 @@ public class NormalTest extends ParentTest {
 		if (null != indexOfFilter) {
 			indexOfFilters.add(indexOfFilter);
 		}
-		CatchRuler catchRuler = new CatchRuler(tryXPath, getXPath, replaceModels, handlerCode, breakValue,
+		CatchRuler catchRuler = new CatchRuler(tryXPath, getXPath, replaceModels, handlerCode, breakValues,
 				indexOfFilters);
 		catchRulers.add(catchRuler);
 		return catchRulers;
 	}
 
 	public static List<CatchRuler> evalueCatchRulers(List<CatchRuler> catchRulers, String tryXPath, String getXPath,
-			List<CatcherReplaceModel> replaceModels, Integer handlerCode, String breakValue, String indexOfFilter,
-			List<String> equalsFilters) {
+			List<CatcherReplaceModel> replaceModels, Integer handlerCode, List<String> breakValues,
+			String indexOfFilter, List<String> equalsFilters) {
 		if (null == catchRulers) {
 			catchRulers = new ArrayList<CatchRuler>();
 		}
@@ -121,7 +125,7 @@ public class NormalTest extends ParentTest {
 		if (null != indexOfFilter) {
 			indexOfFilters.add(indexOfFilter);
 		}
-		CatchRuler catchRuler = new CatchRuler(tryXPath, getXPath, replaceModels, handlerCode, breakValue,
+		CatchRuler catchRuler = new CatchRuler(tryXPath, getXPath, replaceModels, handlerCode, breakValues,
 				indexOfFilters);
 		catchRuler.setEqualsFilters(equalsFilters);
 		catchRulers.add(catchRuler);

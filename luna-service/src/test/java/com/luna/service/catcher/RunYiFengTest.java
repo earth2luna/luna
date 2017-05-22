@@ -6,6 +6,7 @@ package com.luna.service.catcher;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import com.luna.dao.mapper.IResourcesContentMapper;
@@ -251,7 +252,11 @@ public class RunYiFengTest extends ParentTest {
 		if (null != indexOfFilter) {
 			indexOfFilters.add(indexOfFilter);
 		}
-		CatchRuler catchRuler = new CatchRuler(tryXPath, getXPath, replaceModels, handlerCode, breakValue,
+		List<String> breakValues = new ArrayList<String>();
+		if (StringUtils.isNotBlank(breakValue)) {
+			breakValues.add(breakValue);
+		}
+		CatchRuler catchRuler = new CatchRuler(tryXPath, getXPath, replaceModels, handlerCode, breakValues,
 				indexOfFilters);
 		catchRulers.add(catchRuler);
 		return catchRulers;
@@ -267,7 +272,11 @@ public class RunYiFengTest extends ParentTest {
 		if (null != indexOfFilter) {
 			indexOfFilters.add(indexOfFilter);
 		}
-		CatchRuler catchRuler = new CatchRuler(tryXPath, getXPath, replaceModels, handlerCode, breakValue,
+		List<String> breakValues = new ArrayList<String>();
+		if (StringUtils.isNotBlank(breakValue)) {
+			breakValues.add(breakValue);
+		}
+		CatchRuler catchRuler = new CatchRuler(tryXPath, getXPath, replaceModels, handlerCode, breakValues,
 				indexOfFilters);
 		catchRulers.add(catchRuler);
 		return catchRulers;

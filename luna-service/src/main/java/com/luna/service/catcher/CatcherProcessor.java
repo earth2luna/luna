@@ -322,6 +322,11 @@ public class CatcherProcessor implements PageProcessor {
 			if (null == originValue) {
 				continue;
 			}
+			value = LangUtils.trim(originValue);
+			// 过滤空串
+			if (LangUtils.isBlank(value)) {
+				continue;
+			}
 
 			// 替换内容
 			if (CollectionUtils.isNotEmpty(ruler.getReplaceModels())) {
@@ -332,17 +337,21 @@ public class CatcherProcessor implements PageProcessor {
 						continue;
 					}
 
-					String replacement = LangUtils.defaultValue(catchReplaceModel.getReplacement(), "");
+					if (StringUtils.isEmpty(catchReplaceModel.getIndexOfcondition())
+							|| -1 != value.indexOf(catchReplaceModel.getIndexOfcondition())) {
+						String replacement = LangUtils.defaultValue(catchReplaceModel.getReplacement(), "");
 
-					String regex = marcherEnum.getRegex(tagNames);
-					originValue = originValue.replace(regex, replacement);
+						String regex = marcherEnum.getRegex(tagNames);
+						originValue = originValue.replace(regex, replacement);
+					}
 
 				}
 			}
 
+			// 再trim
 			value = LangUtils.trim(originValue);
 
-			// 过滤空串
+			// 再过滤空串
 			if (LangUtils.isBlank(value)) {
 				continue;
 			}
@@ -366,9 +375,11 @@ public class CatcherProcessor implements PageProcessor {
 			}
 
 			// 结束抓取
-			if (StringUtils.isNotEmpty(ruler.getBreakValue())) {
-				if (StringUtils.equals(value, ruler.getBreakValue())) {
-					return new CatcherSubModel(null, null, true, false);
+			if (CollectionUtils.isNotEmpty(ruler.getBreakValues())) {
+				for (String breakValue : ruler.getBreakValues()) {
+					if (StringUtils.equals(value, breakValue)) {
+						return new CatcherSubModel(null, null, true, false);
+					}
 				}
 			}
 
