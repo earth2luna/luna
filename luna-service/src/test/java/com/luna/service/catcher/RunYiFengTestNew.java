@@ -106,8 +106,12 @@ public class RunYiFengTestNew extends ParentTest {
 		// list.add("http://www.ruanyifeng.com/blog/2008/01/javascript_book_recommendation.html");
 		// list.add("http://www.ruanyifeng.com/blog/2008/02/notes_on_the_cathedral_and_the_bazaar.html");
 		// list.add("http://www.ruanyifeng.com/blog/2008/02/codes_for_language_names.html");
+		
+		// list.add("http://www.ruanyifeng.com/blog/2017/05/websocket.html");
+		// list.add("http://www.ruanyifeng.com/blog/2017/05/technology-is-future.html");
+		// list.add("http://www.ruanyifeng.com/blog/2008/02/rdf.html");
 
-		catcher("http://www.ruanyifeng.com/blog/2008/02/codes_for_language_names.html");
+		catcher("http://www.ruanyifeng.com/blog/2013/07/gpg.html");
 
 	}
 
@@ -148,6 +152,7 @@ public class RunYiFengTestNew extends ParentTest {
 		indexOfFilters.add("阮一峰 / 2005-03-31");
 		indexOfFilters.add("今天，就接着来看，现实中怎么使用这个算法，对信息加密和解密");
 		indexOfFilters.add("Redux 的基本用法就介绍到这里");
+		indexOfFilters.add("本文选自我正在写的新书《未来世界的幸存者》");
 		indexOfFilters.add("=================");
 
 		List<String> breakValues = new ArrayList<String>();
@@ -167,6 +172,9 @@ public class RunYiFengTestNew extends ParentTest {
 				HandlerMethodEnum.ORIGIN.getCode(), null, null);
 		
 		evalueCatchRulers(contentCatchRulers, "//ol/li/allText()", "//ol", replaceModelsA,
+				HandlerMethodEnum.ORIGIN.getCode(), null, null);
+		
+		evalueCatchRulers(contentCatchRulers, "//ul/li/allText()", "//ul", replaceModelsA,
 				HandlerMethodEnum.ORIGIN.getCode(), null, null);
 		
 		evalueCatchRulers(contentCatchRulers, "//blockquote/ul/li/allText()", "//blockquote/html()", replaceModelsA,
