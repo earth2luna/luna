@@ -110,8 +110,9 @@ public class RunYiFengTestNew extends ParentTest {
 		// list.add("http://www.ruanyifeng.com/blog/2017/05/websocket.html");
 		// list.add("http://www.ruanyifeng.com/blog/2017/05/technology-is-future.html");
 		// list.add("http://www.ruanyifeng.com/blog/2008/02/rdf.html");
+		// list.add("http://www.ruanyifeng.com/blog/2017/05/server-sent_events.html");
 
-		catcher("http://www.ruanyifeng.com/blog/2013/07/gpg.html");
+		catcher("http://www.ruanyifeng.com/blog/2017/05/server-sent_events.html");
 
 	}
 

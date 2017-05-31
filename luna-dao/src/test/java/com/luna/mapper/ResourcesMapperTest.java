@@ -18,7 +18,7 @@ import com.luna.dao.po.Resources;
  * @date 2016-11-23 上午11:13:43
  * @desc
  */
-public class MapperTest {
+public class ResourcesMapperTest {
 
 	private static ApplicationContext applicationContext;
 	private static IResourcesMapper mapper;
