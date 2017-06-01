@@ -3,6 +3,8 @@
  */
 package com.luna.web.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;
@@ -22,6 +24,7 @@ import freemarker.template.TemplateModelException;
  * @description
  */
 public class ParentController {
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(ParentController.class);
 
 	protected static void setDefaultStaticModel(Model model, Class<?>... classes) {
@@ -53,8 +56,7 @@ public class ParentController {
 	}
 
 	@ModelAttribute
-	public void anywhere(Model model) {
-
+	public void anywhere(Model model, HttpServletRequest request) {
 	}
 
 }

@@ -82,6 +82,10 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	
+	<listener>
+		<listener-class>com.luna.web.listener.CacheListener</listener-class>
+	</listener>
 
 	<filter>
 		<filter-name>encodingFilter</filter-name>

@@ -67,5 +67,7 @@ public class Constants {
 	public static PageHeaderSayVo getPageHeaderSayVo() {
 		return PAGE_HEADER_SAY.get(RandomUtils.nextInt(PAGE_HEADER_SAY.size()));
 	}
+	
+	public static final String CATEGORY_LIST_KEY="category_list";
 
 }
