@@ -103,12 +103,11 @@ public class ResourcesSolrServiceImpl implements ResourcesSolrService {
 				// fields
 				String primaryField = "id";
 				String queryField = "suggest";
+				String keywords = resourceSolrComponet.getSeggetText(
+						LangUtils.subtring(LangUtils.trim(query), Constants.QUERY_STRING_MAX_LENGTH), true);
 
 				// set sorl query
-				SolrQueryPage solrQuery = new SolrQueryPage(
-						queryField + ":(*"
-								+ LangUtils.subtring(LangUtils.trim(query), Constants.QUERY_STRING_MAX_LENGTH) + "*)",
-						pageNow, pageSize);
+				SolrQueryPage solrQuery = new SolrQueryPage(queryField + ":" + keywords, pageNow, pageSize);
 				resourceSolrComponet.setCiphertext(solrQuery);
 				// set highlight
 				solrQuery.setHighlight(true);
@@ -118,6 +117,7 @@ public class ResourcesSolrServiceImpl implements ResourcesSolrService {
 				solrQuery.setHighlightSimplePost("</span>");
 				solrQuery.set("hl.preserveMulti", true);
 				// set sort
+				solrQuery.addSort("score", ORDER.desc);
 				solrQuery.addSort("sourceDate", ORDER.desc);
 				solrQuery.addSort("createTime", ORDER.desc);
 				// get response
@@ -195,9 +195,9 @@ public class ResourcesSolrServiceImpl implements ResourcesSolrService {
 	private SolrQueryPage getQuery(String query, Integer pageNow, Integer pageSize) {
 		SolrQueryPage solrQuery = null;
 		if (!(StringUtils.isEmpty(query) || query.matches("[\\*\\:]*"))) {
-			solrQuery = new SolrQueryPage(
-					"suggest:(*" + LangUtils.subtring(LangUtils.trim(query), Constants.QUERY_STRING_MAX_LENGTH) + "*)",
-					pageNow, pageSize);
+			String keywords = resourceSolrComponet
+					.getSeggetText(LangUtils.subtring(LangUtils.trim(query), Constants.QUERY_STRING_MAX_LENGTH), true);
+			solrQuery = new SolrQueryPage("suggest:" + keywords, pageNow, pageSize);
 		} else {
 			solrQuery = new SolrQueryPage("*", pageNow, pageSize);
 		}

@@ -6,9 +6,8 @@ package com.luna.web.listener;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import com.luna.service.CategoryService;
+import com.luna.service.data.utils.ApplicationGetUtils;
 import com.luna.service.data.utils.Constants;
-import com.luna.web.configure.ApplicationContextHolder;
 
 /**
  * @author laulyl
@@ -26,8 +25,7 @@ public class CacheListener implements ServletContextListener {
 	 */
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
-		sce.getServletContext().setAttribute(Constants.CATEGORY_LIST_KEY,
-				ApplicationContextHolder.getBean(CategoryService.class).getCategories());
+		Constants.CATEGORY_LIST=ApplicationGetUtils.getCategories();
 	}
 
 	/*

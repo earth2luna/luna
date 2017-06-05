@@ -3,6 +3,7 @@
  */
 package com.luna.service.componet;
 
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -22,6 +23,8 @@ import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.springframework.beans.factory.InitializingBean;
+import org.wltea.analyzer.core.IKSegmenter;
+import org.wltea.analyzer.core.Lexeme;
 
 import com.luna.security.Configuration;
 import com.luna.utils.LangUtils;
@@ -61,14 +64,14 @@ public abstract class SolrComponet implements InitializingBean {
 	}
 
 	public void commit() {
-//		try {
-//			UpdateRequest req = new UpdateRequest();
-//			setCiphertext(req);
-//			req.setAction(UpdateRequest.ACTION.COMMIT, true, true);
-//			req.process(client, null);
-//		} catch (Exception e) {
-//			throw new RuntimeException(e);
-//		}
+		// try {
+		// UpdateRequest req = new UpdateRequest();
+		// setCiphertext(req);
+		// req.setAction(UpdateRequest.ACTION.COMMIT, true, true);
+		// req.process(client, null);
+		// } catch (Exception e) {
+		// throw new RuntimeException(e);
+		// }
 	}
 
 	public UpdateResponse deleteByQuery(String query) {
@@ -181,6 +184,22 @@ public abstract class SolrComponet implements InitializingBean {
 			throw new RuntimeException(e);
 		}
 		return page;
+	}
+
+	public String getSeggetText(String text, boolean useSmart) {
+		StringBuilder result = new StringBuilder();
+		result.append("(");
+		IKSegmenter ik = new IKSegmenter(new StringReader(text), useSmart);
+		try {
+			Lexeme word = null;
+			while ((word = ik.next()) != null) {
+				result.append(word.getLexemeText()).append(" ");
+			}
+			result.append(")");
+		} catch (Exception ex) {
+			throw new RuntimeException(ex);
+		}
+		return result.toString();
 	}
 
 	public abstract String getConnectUrl();

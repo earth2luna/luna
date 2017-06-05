@@ -1,7 +1,7 @@
 /**
  * COPYRIGHT@LAULYL
  */
-package com.luna.web.configure;
+package com.luna.service.data.utils;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

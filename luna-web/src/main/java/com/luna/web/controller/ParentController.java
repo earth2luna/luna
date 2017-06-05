@@ -57,6 +57,7 @@ public class ParentController {
 
 	@ModelAttribute
 	public void anywhere(Model model, HttpServletRequest request) {
+		model.addAttribute(Constants.APPLICATION_CATEGORY_LIST_KEY, Constants.CATEGORY_LIST);
 	}
 
 }

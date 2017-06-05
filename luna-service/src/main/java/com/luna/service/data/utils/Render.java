@@ -154,6 +154,7 @@ public class Render {
 			dataModel.put("node", node);
 			dataModel.put("previous", previous);
 			dataModel.put("next", next);
+			dataModel.put(Constants.APPLICATION_CATEGORY_LIST_KEY, Constants.CATEGORY_LIST);
 			dataModel.put(Constants.PAGE_HEADER_SAY_KEY, Constants.getPageHeaderSayVo());
 			addHeader(dataModel, node, nodes);
 			File origin = ResourcesUtils.getResourcesFile(resourcesGeneratePath, node);

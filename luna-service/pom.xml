@@ -21,6 +21,7 @@
 		<webmagic.version>0.6.1</webmagic.version>
 		<solrj.version>6.5.0</solrj.version>
 		<pinyin.version>1.1.8</pinyin.version>
+		<ik.version>5.1.0</ik.version>
 	</properties>
 
 	<dependencies>
@@ -43,7 +44,7 @@
 			<artifactId>luna-utils</artifactId>
 			<version>${luna.utils.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.luna</groupId>
 			<artifactId>luna-security</artifactId>
@@ -96,6 +97,12 @@
 			<groupId>com.github.stuxuhai</groupId>
 			<artifactId>jpinyin</artifactId>
 			<version>${pinyin.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>cn.bestwu</groupId>
+			<artifactId>ik-analyzers</artifactId>
+			<version>${ik.version}</version>
 		</dependency>
 
 	</dependencies>

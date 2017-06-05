@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.commons.lang.math.RandomUtils;
 
 import com.luna.service.dto.PageHeaderSayVo;
+import com.luna.utils.node.INode;
 
 /**
  * @author laulyl
@@ -55,7 +56,8 @@ public class Constants {
 					"青春是用来奋斗的，不是用来挥霍的。只有这样，当有一天我们回首来时路，和那个站在最绚烂的骄阳下曾经青春的自己告别的时候，我们才可能说：谢谢你。—— 董卿"));
 			add(new PageHeaderSayVo("青春", "如果你浪费了自己的年龄，那是挺可悲的。因为你的青春只能持续一点儿时间——很短的一点儿时间。 —— 王尔德"));
 			add(new PageHeaderSayVo("青春", "青春是没有经验和任性的。 —— 泰戈尔"));
-			add(new PageHeaderSayVo("青春", "生活赋予我们一种巨大的和无限高贵的礼品，这就是青春：充满着力量，充满着期待志愿，充满着求知和斗争的志向，充满着希望信心和青春。 —— 奥斯特洛夫斯基"));
+			add(new PageHeaderSayVo("青春",
+					"生活赋予我们一种巨大的和无限高贵的礼品，这就是青春：充满着力量，充满着期待志愿，充满着求知和斗争的志向，充满着希望信心和青春。 —— 奥斯特洛夫斯基"));
 			add(new PageHeaderSayVo("青春", "你不能同时又有青春又有关于青春的知识。因为青春忙于生活，而顾不得去了解；而知识为着要生活，而忙于自我寻求。 —— 纪伯伦"));
 			add(new PageHeaderSayVo("青春", "一个人只要他有纯洁的心灵，无愁无恨，他的青春时期，定可因此而延长。 —— 司汤达"));
 			add(new PageHeaderSayVo("青春", "青春是一种持续的陶醉，是理智的狂热。 —— 拉罗什富科"));
@@ -67,7 +69,9 @@ public class Constants {
 	public static PageHeaderSayVo getPageHeaderSayVo() {
 		return PAGE_HEADER_SAY.get(RandomUtils.nextInt(PAGE_HEADER_SAY.size()));
 	}
-	
-	public static final String CATEGORY_LIST_KEY="category_list";
+
+	public static final String APPLICATION_CATEGORY_LIST_KEY = "category_list";
+
+	public static List<INode> CATEGORY_LIST;
 
 }
