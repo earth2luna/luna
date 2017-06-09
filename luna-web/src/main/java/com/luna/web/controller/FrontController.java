@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.luna.service.CategoryService;
 import com.luna.service.ResourcesSolrService;
 import com.luna.service.componet.SuggetVo;
 import com.luna.service.data.utils.Constants;
@@ -26,6 +27,10 @@ public class FrontController extends ParentController {
 
 	@Autowired
 	private ResourcesSolrService resourcesSolrService;
+	
+	@Autowired
+	private CategoryService categoryService;
+	
 
 	@RequestMapping("/sugget")
 	@ResponseBody
@@ -45,4 +50,6 @@ public class FrontController extends ParentController {
 				resourcesSolrService.SimpleQuery(query, 1, Constants.RELATIVE_SEARCH_ITEMS_PAGE_SIZE));
 		return "render/relative-article";
 	}
+	
+	
 }
