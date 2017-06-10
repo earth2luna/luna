@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<#include "front/layout_header.html"/>
+<body>
+    <a id="skippy" class="sr-only sr-only-focusable" href="//apoollo.com">
+		<div class="container">
+		<span class="skiplink-text">Skip to main content</span>
+		</div>
+	</a>
+    <#include "front/layout_body_header.html"/>
+	<#include "front/layout_body_banner.html"/>
+    <div class="container bs-docs-container">
+      <div class="row">
+	      <div class="col-md-9" role="main">
+	      	<div class="bs-docs-section">
+	      		<h1 class="page-header">${categoryVo.category.name}</h1>
+	      	</div>
+	      	<#list categoryVo.resourcePage.list as item>
+	      		<p>${item.createTime?string("dd/MM/yyyy")} - <a href="${item.link}">${item.title}</a></p>
+	      	</#list>
+	      	${categoryVo.iteratorPage}
+	      </div>
+	      <div class="col-md-3" role="complementary">
+	      </div>
+	   </div>
+	 </div>
+	 <#include "front/layout_body_footer.html"/>
+</body>
+</html>

@@ -17,9 +17,11 @@ import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 @ComponentScan
 public class Aplication {
 
-	@Bean(name = "simpleMappingExceptionResolver")
+	@Bean(name = "handlerExceptionResolver")
 	public SimpleMappingExceptionResolver getSimpleMappingExceptionResolver() {
 		SimpleMappingExceptionResolver exceptionResolver = new SimpleMappingExceptionResolver();
+		exceptionResolver.setDefaultErrorView("404");
+		exceptionResolver.setDefaultStatusCode(500);
 		exceptionResolver.setWarnLogCategory("com.luna");
 		return exceptionResolver;
 	}

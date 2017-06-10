@@ -30,7 +30,7 @@ var PageObject = {
 		var selector = jQuery(currentSelector).siblings("span").find(":input");
 		var currentValue = parseInt(selector.val());
 		if (currentValue && currentValue > 0 && currentValue < pages) {
-			location.href = route + "-" + currentValue + ".html";
+			location.href = route + "/" + currentValue + "/";
 		}
 	}
 };

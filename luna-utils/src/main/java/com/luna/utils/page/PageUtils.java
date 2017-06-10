@@ -22,9 +22,9 @@ public class PageUtils {
 
 	// 默认路由输出
 	// 由v3.js支持
-	public static String evaluate(Long totalCount, Integer pageNow, Integer pageSize, String route) {
-		return evaluate(new PageInput(LangUtils.longValueOfNumber(totalCount), LangUtils.defaultValue(pageNow, 1),
-				LangUtils.defaultValue(pageSize, 10), 5), route);
+	public static String evaluate(Long totalCount, Long pageNow, Long pageSize, String route) {
+		return evaluate(new PageInput(LangUtils.longValueOfNumber(totalCount), LangUtils.defaultValue(pageNow, 1L),
+				LangUtils.defaultValue(pageSize, 10L), 5), route);
 	}
 
 }

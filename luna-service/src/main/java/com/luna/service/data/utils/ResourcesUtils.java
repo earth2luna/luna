@@ -20,6 +20,7 @@ import com.luna.dao.po.ResourcesContentMark;
 import com.luna.dao.vo.ResourcesCasecade;
 import com.luna.service.common.impl.InputResourcesCasecadeOutputId;
 import com.luna.service.componet.ResourceSolr;
+import com.luna.service.dto.ResourcesVo;
 import com.luna.service.enumer.resource.StatusEnum;
 import com.luna.service.node.ResourcesCasecadeNode;
 import com.luna.utils.AssertUtils;
@@ -121,6 +122,37 @@ public class ResourcesUtils {
 				defaultPageNow);
 	}
 
+	public static Page<Resources> selectResources(IResourcesMapper resourcesMapper, String sts, Long categoryId,
+			int pageSize, Integer pageNow) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		int defaultPageNow = LangUtils.defaultValue(!(null == pageNow || pageNow <= 0), pageNow, 1);
+		ConditionUtils.evalStatusInMap(map, sts);
+		ConditionUtils.evalPageMap(map, defaultPageNow, pageSize);
+		ConditionUtils.evalSortOrderMap(map, "createTime", ConditionUtils.DESC);
+		map.put("categoryId", categoryId);
+		return new Page<Resources>(resourcesMapper.selectList(map), resourcesMapper.selectCount(map), pageSize,
+				defaultPageNow);
+	}
+
+	public static Page<ResourcesVo> transferResourcesVo(Page<Resources> pageInput) {
+		Page<ResourcesVo> pageOuput = new Page<ResourcesVo>();
+		pageOuput.setCount(pageInput.getCount());
+		pageOuput.setPageNow(pageInput.getPageNow());
+		pageOuput.setPageSize(pageInput.getPageSize());
+		List<ResourcesVo> list = new ArrayList<ResourcesVo>();
+		pageOuput.setList(list);
+		if (CollectionUtils.isNotEmpty(pageInput.getList())) {
+			for (Resources resource : pageInput.getList()) {
+				ResourcesVo vo = new ResourcesVo();
+				vo.setTitle(resource.getTitle());
+				vo.setLink(ResourcesUtils.getWebResourcesPath(Configure.getResourceRelativePath(), resource));
+				vo.setCreateTime(resource.getCreateTime());
+				list.add(vo);
+			}
+		}
+		return pageOuput;
+	}
+
 	public static void markStatus(IMapper<Resources> resourcesMapper, Long id, StatusEnum statusEnum) {
 		AssertUtils.isTrueOfApp(LangUtils.booleanValueOfNumber(id), "无效的key值");
 		Map<String, Object> map = ConditionUtils.getHashMap();
@@ -181,20 +213,6 @@ public class ResourcesUtils {
 		return FilePropertyUtils.appendPath(Configure.getThisWebDomain(), resourceGeneratePathPrefix,
 				getResourcesFileName(casecadeNode));
 	}
-
-	// private static String filterResourceGeneratePathPrefix(String
-	// resourceGeneratePathPrefix) {
-	// String ret = null;
-	// if
-	// (!resourceGeneratePathPrefix.startsWith(FilePropertyUtils.WEB_URL_SPLITOR))
-	// {
-	// ret = LangUtils.append(FilePropertyUtils.WEB_URL_SPLITOR,
-	// resourceGeneratePathPrefix);
-	// } else {
-	// ret = resourceGeneratePathPrefix;
-	// }
-	// return ret;
-	// }
 
 	public static String getResourcesFileName(Resources resource) {
 		return LangUtils.append(resource.getCategoryId(), "-", resource.getWebsiteCode(), "-", resource.getId(),

@@ -5,6 +5,7 @@ package com.luna.service;
 
 import java.util.List;
 
+import com.luna.service.dto.CategoryResourceVo;
 import com.luna.utils.node.INode;
 
 /**
@@ -15,4 +16,6 @@ import com.luna.utils.node.INode;
 public interface CategoryService {
 
 	List<INode> getCategories();
+	
+	CategoryResourceVo selectCategoryResourceVo(Long categoryId,Long pageNow);
 }

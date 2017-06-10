@@ -25,7 +25,7 @@ public class PathRoutePageOuput extends AbstractRoutePageOutput {
 	 */
 	@Override
 	public String getRoute(Long pageNow) {
-		return LangUtils.append(route, "/", pageNow, "");
+		return LangUtils.append(route, "/", pageNow, "/");
 	}
 
 }

@@ -14,7 +14,7 @@ import com.luna.utils.classes.Page;
  * @description
  */
 public interface ResourcesService {
-
+	
 	Page<Resources> selectResources(String sts, Integer pageNow);
 
 	InvokeVo operation(Long rsId, Integer op);
