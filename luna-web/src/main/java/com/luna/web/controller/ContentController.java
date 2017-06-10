@@ -31,6 +31,7 @@ public class ContentController extends ParentController {
 
 	@RequestMapping("/query")
 	public String query(Model model, Long rsId) {
+		addPageHeaderSay(model);
 		model.addAttribute("rsId", rsId);
 		return "behind/content_list";
 	}

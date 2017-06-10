@@ -17,6 +17,7 @@ public class ResourcesForm {
 	private String sourceWebsiteLink;
 	private String sourceAuthor;
 	private String sourceDate;
+	private Integer websiteCode;
 
 	/**
 	 * @return the rsId
@@ -134,6 +135,14 @@ public class ResourcesForm {
 	 */
 	public void setSourceDate(String sourceDate) {
 		this.sourceDate = sourceDate;
+	}
+
+	public Integer getWebsiteCode() {
+		return websiteCode;
+	}
+
+	public void setWebsiteCode(Integer websiteCode) {
+		this.websiteCode = websiteCode;
 	}
 
 

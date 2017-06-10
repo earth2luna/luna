@@ -14,6 +14,7 @@ public class ResourcesVo extends Resources {
 
 	private static final long serialVersionUID = -3924920433574503775L;
 	private String link;
+	private String categoryName;
 
 	public String getLink() {
 		return link;
@@ -21,6 +22,14 @@ public class ResourcesVo extends Resources {
 
 	public void setLink(String link) {
 		this.link = link;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
 
 }

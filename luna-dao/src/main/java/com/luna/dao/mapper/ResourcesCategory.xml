@@ -39,6 +39,7 @@
 	<sql id="whereAllSQL">
 		<trim prefix="WHERE" prefixOverrides="AND|OR" suffixOverrides=",">
 			<if test="null!=parentId">and p_id=#{parentId}</if>
+			<if test="null!=parentIdNotNull">and p_id IS NOT NULL</if>
 			<if test="null!=name and ''!=name">and name like CONCAT('%','${name}','%')</if>
 			<if test="null!=handleCode">and handle_code=#{handleCode}</if>
 			<if test="null!=id">and id=#{id}</if>

@@ -178,6 +178,7 @@
 		    FROM
 		        l_resources
 		    <include refid="whereAllSQL"/>
+		    <include refid="orderBySQL"/>
 		    <include refid="limitSQL"/>
 		    ) lr
 		        INNER JOIN

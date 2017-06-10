@@ -22,11 +22,13 @@ import com.luna.service.common.impl.InputResourcesCasecadeOutputId;
 import com.luna.service.componet.ResourceSolr;
 import com.luna.service.dto.ResourcesVo;
 import com.luna.service.enumer.resource.StatusEnum;
+import com.luna.service.node.CategoryNode;
 import com.luna.service.node.ResourcesCasecadeNode;
 import com.luna.utils.AssertUtils;
 import com.luna.utils.FilePropertyUtils;
 import com.luna.utils.LangUtils;
 import com.luna.utils.classes.Page;
+import com.luna.utils.node.INode;
 
 /**
  * @author laulyl
@@ -54,7 +56,7 @@ public class ResourcesUtils {
 		ConditionUtils.evalIdEqMap(map, id);
 		ConditionUtils.evalPageMap(map, pageNow, 1);
 		ConditionUtils.evalStatusInMap(map, sts);
-		ConditionUtils.evalSortOrderMap(map, "id", "asc");
+		ConditionUtils.evalSortOrderMap(map, "category_id ASC,id", "ASC");
 		return resourcesMapper.selectResourcesCasecade(map);
 	}
 
@@ -63,7 +65,7 @@ public class ResourcesUtils {
 		map.put("ltId", currentId);
 		ConditionUtils.evalStatusInMap(map, String.valueOf(StatusEnum.ONLINE.getCode()));
 		ConditionUtils.evalPageMap(map, 1, 1);
-		ConditionUtils.evalSortOrderMap(map, "id", "desc");
+		ConditionUtils.evalSortOrderMap(map, "categoryId ASC,id", "DESC");
 		return resourcesMapper.selectList(map);
 	}
 
@@ -72,7 +74,7 @@ public class ResourcesUtils {
 		map.put("gtId", currentId);
 		ConditionUtils.evalStatusInMap(map, String.valueOf(StatusEnum.ONLINE.getCode()));
 		ConditionUtils.evalPageMap(map, 1, 1);
-		ConditionUtils.evalSortOrderMap(map, "id", "asc");
+		ConditionUtils.evalSortOrderMap(map, "categoryId ASC,id", "ASC");
 		return resourcesMapper.selectList(map);
 	}
 
@@ -117,7 +119,7 @@ public class ResourcesUtils {
 		int defaultPageNow = LangUtils.defaultValue(!(null == pageNow || pageNow <= 0), pageNow, 1);
 		ConditionUtils.evalStatusInMap(map, sts);
 		ConditionUtils.evalPageMap(map, defaultPageNow, pageSize);
-		ConditionUtils.evalSortOrderMap(map, "createTime", ConditionUtils.DESC);
+		ConditionUtils.evalSortOrderMap(map, "categoryId ASC,id", ConditionUtils.DESC);
 		return new Page<Resources>(resourcesMapper.selectList(map), resourcesMapper.selectCount(map), pageSize,
 				defaultPageNow);
 	}
@@ -128,7 +130,7 @@ public class ResourcesUtils {
 		int defaultPageNow = LangUtils.defaultValue(!(null == pageNow || pageNow <= 0), pageNow, 1);
 		ConditionUtils.evalStatusInMap(map, sts);
 		ConditionUtils.evalPageMap(map, defaultPageNow, pageSize);
-		ConditionUtils.evalSortOrderMap(map, "createTime", ConditionUtils.DESC);
+		ConditionUtils.evalSortOrderMap(map, "categoryId ASC,id", ConditionUtils.DESC);
 		map.put("categoryId", categoryId);
 		return new Page<Resources>(resourcesMapper.selectList(map), resourcesMapper.selectCount(map), pageSize,
 				defaultPageNow);
@@ -144,13 +146,60 @@ public class ResourcesUtils {
 		if (CollectionUtils.isNotEmpty(pageInput.getList())) {
 			for (Resources resource : pageInput.getList()) {
 				ResourcesVo vo = new ResourcesVo();
+				vo.setId(resource.getId());
 				vo.setTitle(resource.getTitle());
-				vo.setLink(ResourcesUtils.getWebResourcesPath(Configure.getResourceRelativePath(), resource));
 				vo.setCreateTime(resource.getCreateTime());
+				vo.setSourceSiteName(resource.getSourceSiteName());
+				vo.setSourceAuthor(resource.getSourceAuthor());
+				vo.setSourceDate(resource.getSourceDate());
+				vo.setSourceSiteLink(resource.getSourceSiteLink());
+				vo.setStatus(resource.getStatus());
+				vo.setCreatorId(resource.getCreatorId());
+				vo.setPageView(resource.getPageView());
+				vo.setThumbnail(resource.getThumbnail());
+				vo.setUserView(resource.getUserView());
+				vo.setWebsiteCode(resource.getWebsiteCode());
+				vo.setLink(ResourcesUtils.getWebResourcesPath(Configure.getResourceRelativePath(), resource));
+				vo.setCategoryId(resource.getCategoryId());
+				setResourceCategoryName(vo, Constants.CATEGORY_LIST);
 				list.add(vo);
 			}
 		}
 		return pageOuput;
+	}
+
+	public static boolean setResourceCategoryName(ResourcesVo vo, List<INode> nodes) {
+		if (CollectionUtils.isNotEmpty(nodes)) {
+			for (INode node : nodes) {
+				CategoryNode categoryNode = (CategoryNode) node;
+				if (LangUtils.equals(categoryNode.getId(), vo.getCategoryId())) {
+					vo.setCategoryName(categoryNode.getName());
+					return true;
+				} else {
+					boolean ret = setResourceCategoryName(vo, categoryNode.getChildrens());
+					if (ret)
+						return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public static boolean setResourceCategoryName(ResourceSolr vo, List<INode> nodes) {
+		if (CollectionUtils.isNotEmpty(nodes)) {
+			for (INode node : nodes) {
+				CategoryNode categoryNode = (CategoryNode) node;
+				if (LangUtils.equals(categoryNode.getId(), vo.getCategoryId())) {
+					vo.setCategoryName(categoryNode.getName());
+					return true;
+				} else {
+					boolean ret = setResourceCategoryName(vo, categoryNode.getChildrens());
+					if (ret)
+						return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	public static void markStatus(IMapper<Resources> resourcesMapper, Long id, StatusEnum statusEnum) {

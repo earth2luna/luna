@@ -19,7 +19,6 @@ import com.luna.service.componet.ResourceSolr;
 import com.luna.service.componet.SolrComponet;
 import com.luna.service.data.utils.Constants;
 import com.luna.service.data.utils.ResourcesUtils;
-import com.luna.service.enumer.resource.CategoryEnum;
 import com.luna.service.enumer.resource.CreatorEnum;
 import com.luna.service.enumer.resource.StatusEnum;
 import com.luna.service.node.InputResourceOutputINode;
@@ -108,11 +107,12 @@ public class SynchronizedResource extends AbstractListWhileDo<ResourceSolr> {
 		ResourceSolr resourceSolr = new ResourceSolr(t.getResourcesId().toString(), t.getResourcesTitle(), imageUrl,
 				LangUtils.subtringDefaultAppender(summary.toString(), solrSummaryMaxLength), t.getResourcesCreateTime(),
 				t.getResourcesCreatetorId(), CreatorEnum.getName(t.getResourcesCreatetorId()),
-				t.getResourcesCategroyId(), CategoryEnum.getName(t.getResourcesCategroyId()),
-				t.getResourcesSourceAuthor(), t.getResourcesSourceDate(), t.getResourcesThumbnail(), titlePinyin);
+				t.getResourcesCategroyId(), null, t.getResourcesSourceAuthor(), t.getResourcesSourceDate(),
+				t.getResourcesThumbnail(), titlePinyin);
 		// set content
 		resourceSolr.setContent(LangUtils.subtringDefaultAppender(content.toString(), solrContentMaxLength));
 		resourceSolr.setWebsiteCode(t.getWebsiteCode());
+		ResourcesUtils.setResourceCategoryName(resourceSolr, Constants.CATEGORY_LIST);
 		List<ResourceSolr> list = new ArrayList<ResourceSolr>() {
 
 			private static final long serialVersionUID = 3013883866990547963L;

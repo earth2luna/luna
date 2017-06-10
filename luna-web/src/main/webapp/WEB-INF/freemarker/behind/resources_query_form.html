@@ -12,11 +12,11 @@
 		<td class="text-right">
 		所属分类:</td><td>
 			<select name="categoryId" style="width: 160px;">
-			<#list category_list as category>
-				<#if category==resources.categoryId>
-					<option value="${category.getCode()}" checked="checked">${category.getName()}</option>
+			<#list childrenCategories as category>
+				<#if category.id==resources.categoryId>
+					<option value="${category.id}" checked="checked">${category.name}</option>
 				<#else>
-					<option value="${category.getCode()}">${category.getName()}</option>
+					<option value="${category.id}">${category.name}</option>
 				</#if>
 			</#list>
 			</select>
@@ -34,11 +34,13 @@
 			</#list>
 			</select>
 		</td>
+		<td class="text-right">网站编码:</td><td><input name="websiteCode" value="${resources.websiteCode}"/></td>
 		<td class="text-right">
 			<input type="button" value=" 执 行 " class="script-exe">
 			<input type="reset" value=" 重 置 ">
 			<input type="button" value=" 清 空 " class="script-clear">
 		</td>
+		</tr>
 	</table>
 </form>
 <script type="text/javascript">

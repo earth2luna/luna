@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.jsoup.helper.Validate;
 
 import com.luna.dao.mapper.IResourcesContentMapper;
 import com.luna.dao.mapper.IResourcesMapper;
@@ -15,7 +16,6 @@ import com.luna.dao.po.Resources;
 import com.luna.service.data.utils.ContentUtils;
 import com.luna.service.dto.CatcherContent;
 import com.luna.service.enumer.content.HandlerMethodEnum;
-import com.luna.service.enumer.resource.CategoryEnum;
 import com.luna.service.enumer.resource.CreatorEnum;
 import com.luna.service.enumer.resource.StatusEnum;
 import com.luna.service.enumer.service.HtmlMarcherEnum;
@@ -48,6 +48,7 @@ public class CatcherProcessor implements PageProcessor {
 		this.resourcesMapper = resourcesMapper;
 		this.contentMapper = contentMapper;
 		this.catcherModel = catcherModel;
+		Validate.notNull(catcherModel.getCategoryId(),"invalid category id");
 	}
 
 	/*
@@ -59,7 +60,7 @@ public class CatcherProcessor implements PageProcessor {
 	@Override
 	public void process(Page page) {
 		Resources resources = new Resources();
-		resources.setCategoryId(CategoryEnum.TECHNOLOGY.getCode());
+		resources.setCategoryId(catcherModel.getCategoryId());
 		resources.setCreateTime(new Date());
 		resources.setCreatorId(CreatorEnum.LAULYL.getCode());
 		resources.setStatus(LangUtils.intValueOfNumber(StatusEnum.INIT.getCode()));

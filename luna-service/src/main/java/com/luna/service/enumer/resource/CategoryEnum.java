@@ -10,6 +10,7 @@ import com.luna.utils.LangUtils;
  * @date 2017年3月14日 下午11:08:47
  * @description
  */
+@Deprecated
 public enum CategoryEnum {
 
 	TECHNOLOGY(1, "计算机技术"), SENTIMENT(2, "感悟");

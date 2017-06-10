@@ -23,6 +23,7 @@ import com.luna.service.data.utils.Render;
 import com.luna.service.data.utils.ResourcesUtils;
 import com.luna.service.dto.RenderParameter;
 import com.luna.service.dto.ResourcesForm;
+import com.luna.service.dto.ResourcesVo;
 import com.luna.service.enumer.resource.CreatorEnum;
 import com.luna.service.enumer.resource.StatusEnum;
 import com.luna.utils.AssertUtils;
@@ -58,8 +59,9 @@ public class ResourcesServiceImpl implements ResourcesService {
 	 * java.lang.Integer)
 	 */
 	@Override
-	public Page<Resources> selectResources(String sts, Integer pageNow) {
-		return ResourcesUtils.selectResources(resourcesMapper, sts, pageNow);
+	public Page<ResourcesVo> selectResources(String sts, Integer pageNow) {
+		Page<Resources> page = ResourcesUtils.selectResources(resourcesMapper, sts, pageNow);
+		return ResourcesUtils.transferResourcesVo(page);
 	}
 
 	/*
@@ -150,12 +152,12 @@ public class ResourcesServiceImpl implements ResourcesService {
 		InvokeVo invokeVo = null;
 		try {
 			AssertUtils.notNullOfApp(resourcesForm, "无效的参数");
-			AssertUtils.notNullOfApp(StatusEnum.get(resourcesForm.getCategoryId()), "无效的类目");
 			AssertUtils.notNullOfApp(CreatorEnum.get(resourcesForm.getCreatorId()), "无效的创建人");
 			AssertUtils.notNullOfApp(resourcesForm.getSourceWebsiteLink(), "无效的来源网站链接");
 			AssertUtils.notNullOfApp(resourcesForm.getSourceWebsiteName(), "无效的来源网站名称");
 			AssertUtils.notNullOfApp(resourcesForm.getSourceAuthor(), "无效的来源作者");
 			AssertUtils.notNullOfApp(resourcesForm.getTtl(), "无效的标题");
+			AssertUtils.notNullOfApp(resourcesForm.getWebsiteCode(), "无效的网站编码");
 			Date sourceDate = DateUtils.parse(resourcesForm.getSourceDate(), DateUtils.DATE_PATTERN_2);
 			if (LangUtils.booleanValueOfNumber(resourcesForm.getRsId())) {
 				Map<String, Object> map = ConditionUtils.getHashMap();
@@ -169,6 +171,7 @@ public class ResourcesServiceImpl implements ResourcesService {
 				ConditionUtils.evalPopProperty(map, "sourceAuthor", resourcesForm.getSourceAuthor());
 				ConditionUtils.evalPopProperty(map, "sourceDate", sourceDate);
 				ConditionUtils.evalPopProperty(map, "title", resourcesForm.getTtl());
+				ConditionUtils.evalPopProperty(map, "websiteCode", resourcesForm.getWebsiteCode());
 				resourcesMapper.update(map);
 			} else {
 				Resources r = new Resources();
@@ -181,6 +184,7 @@ public class ResourcesServiceImpl implements ResourcesService {
 				r.setSourceAuthor(resourcesForm.getSourceAuthor());
 				r.setSourceDate(sourceDate);
 				r.setTitle(resourcesForm.getTtl());
+				r.setWebsiteCode(resourcesForm.getWebsiteCode());
 				resourcesMapper.insert(r);
 			}
 			invokeVo = new InvokeVo("操作成功", null, 1);
