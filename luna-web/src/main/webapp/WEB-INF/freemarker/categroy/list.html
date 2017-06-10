@@ -16,11 +16,9 @@
 	      		<h1 class="page-header">${categoryVo.category.name}</h1>
 	      	</div>
 	      	<#list categoryVo.resourcePage.list as item>
-	      		<p>${item.createTime?string("dd/MM/yyyy")} - <a href="${item.link}">${item.title}</a></p>
+	      		<p><a href="${item.link}" target="_blank">${item.createTime?string("dd/MM/yyyy")} - ${item.title}</a></p>
 	      	</#list>
 	      	${categoryVo.iteratorPage}
-	      </div>
-	      <div class="col-md-3" role="complementary">
 	      </div>
 	   </div>
 	 </div>
