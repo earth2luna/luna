@@ -25,14 +25,22 @@ public class ZhangKaitaoIteyeTest extends ParentTest {
 	@Test
 	public void main() {
 
-//		catcher("http://jinnianshilongnian.iteye.com/blog/2232271");
-//		catcher("http://jinnianshilongnian.iteye.com/blog/2232357");
-//		catcher("http://jinnianshilongnian.iteye.com/blog/2235572");
-//		catcher("http://jinnianshilongnian.iteye.com/blog/2245925");
-//		catcher("http://jinnianshilongnian.iteye.com/blog/2247685");
-//		catcher("http://jinnianshilongnian.iteye.com/blog/2258111");
-//		catcher("http://jinnianshilongnian.iteye.com/blog/2259546");
-		catcher("http://jinnianshilongnian.iteye.com/blog/2280928");
+		// catcher("http://jinnianshilongnian.iteye.com/blog/2232271");
+		// catcher("http://jinnianshilongnian.iteye.com/blog/2232357");
+		// catcher("http://jinnianshilongnian.iteye.com/blog/2235572");
+		// catcher("http://jinnianshilongnian.iteye.com/blog/2245925");
+		// catcher("http://jinnianshilongnian.iteye.com/blog/2247685");
+		// catcher("http://jinnianshilongnian.iteye.com/blog/2258111");
+		// catcher("http://jinnianshilongnian.iteye.com/blog/2259546");
+		// catcher("http://jinnianshilongnian.iteye.com/blog/2280928");
+		// catcher("http://jinnianshilongnian.iteye.com/blog/2283670");
+		// catcher("http://jinnianshilongnian.iteye.com/blog/2289767");
+		// catcher("http://jinnianshilongnian.iteye.com/blog/2312284");
+		// catcher("http://jinnianshilongnian.iteye.com/blog/2319573");
+//		catcher("http://jinnianshilongnian.iteye.com/blog/2305117");
+//		catcher("http://jinnianshilongnian.iteye.com/blog/2306477");
+//		catcher("http://jinnianshilongnian.iteye.com/blog/2321715");
+		catcher("http://jinnianshilongnian.iteye.com/blog/2324025");
 
 	}
 
@@ -70,88 +78,112 @@ public class ZhangKaitaoIteyeTest extends ParentTest {
 		equalsFilters.add("<span>&nbsp;</span>");
 
 		List<String> breakValues = new ArrayList<String>();
-		breakValues.add("相关文章 ");
-		
+		breakValues.add("===========================");
+		breakValues.add("===========================");
+
 		List<CatcherReplaceModel> replaceModelsA = new ArrayList<CatcherReplaceModel>();
 		CatcherReplaceModel catcherReplaceModel = new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(),
-				new String[] { "a" ,"span"}, "");
+				new String[] { "a", "span" }, "");
 		catcherReplaceModel.setIndexOfcondition("jinnianshilongnian.iteye.com");
 		replaceModelsA.add(catcherReplaceModel);
-		replaceModelsA
-				.add(new CatcherReplaceModel(HtmlMarcherEnum.TAG_ATTRIBUTE.getCode(), new String[] { "strong","p" }, ""));
+		replaceModelsA.add(new CatcherReplaceModel(HtmlMarcherEnum.TAG_ATTRIBUTE.getCode(),
+				new String[] { "strong", "p", "span", "ul", "li" }, ""));
 
-//		evalueCatchRulers(contentCatchRulers, "//table/allText()", "//table", replaceModelsA,
-//				HandlerMethodEnum.ORIGIN.getCode(), null, null);
-//
-//		evalueCatchRulers(contentCatchRulers, "//ol/li/allText()", "//ol", replaceModelsA,
-//				HandlerMethodEnum.ORIGIN.getCode(), null, null);
-//
+		CatcherReplaceModel catcherReplaceModel1 = new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(),
+				new String[] { "a", "span" }, "");
+		catcherReplaceModel1.setIndexOfcondition("mp.weixin.qq.com");
+		replaceModelsA.add(catcherReplaceModel1);
+
+		// evalueCatchRulers(contentCatchRulers, "//table/allText()", "//table",
+		// replaceModelsA,
+		// HandlerMethodEnum.ORIGIN.getCode(), null, null);
+		//
+		// evalueCatchRulers(contentCatchRulers, "//ol/li/allText()", "//ol",
+		// replaceModelsA,
+		// HandlerMethodEnum.ORIGIN.getCode(), null, null);
+		//
 		evalueCatchRulers(contentCatchRulers, "//ul/li/allText()", "//ul", replaceModelsA,
 				HandlerMethodEnum.ORIGIN.getCode(), null, null);
 
-		evalueCatchRulers(contentCatchRulers, null, "//pre[@name='code']/allText()", replaceModelsA,
+		evalueCatchRulers(contentCatchRulers, null, "//pre/allText()", replaceModelsA,
 				HandlerMethodEnum.LANGUGE_JAVA.getCode(), null, null);
-//
-//		evalueCatchRulers(contentCatchRulers, null, "//blockquote/pre/code[@class='language-javascript']/allText()",
-//				null, HandlerMethodEnum.LANGUGE_JS.getCode(), null, null);
-//
-//		evalueCatchRulers(contentCatchRulers, null, "//blockquote/pre/code[@class='language-bash']/allText()", null,
-//				HandlerMethodEnum.LANGUGE_BASH.getCode(), null, null);
-//
-//		evalueCatchRulers(contentCatchRulers, null, "//blockquote/pre/code[@class='language-http']/allText()", null,
-//				HandlerMethodEnum.PRE.getCode(), null, null);
-//
-//		evalueCatchRulers(contentCatchRulers, null, "//blockquote/pre/code[@class='language-markup']/allText()", null,
-//				HandlerMethodEnum.PRE.getCode(), null, null);
-//
-//		List<CatcherReplaceModel> replaceModels = new ArrayList<CatcherReplaceModel>();
-//		replaceModels.add(new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(), new String[] { "p" }, ""));
-//		replaceModels.add(new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(), new String[] { "br" }, "\r\n"));
-//		evalueCatchRulers(contentCatchRulers, "//blockquote/p/allText()", "//blockquote/html()", replaceModels,
-//				HandlerMethodEnum.PRE.getCode(), null, null);
-//
-//		evalueCatchRulers(contentCatchRulers, "//blockquote/div/p/allText()", "//blockquote/html()", replaceModelsA,
-//				HandlerMethodEnum.CALLOUT_INFO.getCode(), null, null);
 
-		evalueCatchRulers(contentCatchRulers, "//p/a/allText()", "//p/html()", replaceModelsA, HandlerMethodEnum.P.getCode(),
-				breakValues, indexOfFilters, equalsFilters);
-		evalueCatchRulers(contentCatchRulers, "//p/strong/allText()", "//p/html()", replaceModelsA, HandlerMethodEnum.P.getCode(),
-				breakValues, indexOfFilters, equalsFilters);
+		evalueCatchRulers(contentCatchRulers, null, "//div[@class='quote_div']/allText()", null,
+				HandlerMethodEnum.LANGUGE_JAVA.getCode(), null, null);
+
+		// evalueCatchRulers(contentCatchRulers, null,
+		// "//blockquote/pre/code[@class='language-bash']/allText()", null,
+		// HandlerMethodEnum.LANGUGE_BASH.getCode(), null, null);
+		//
+		// evalueCatchRulers(contentCatchRulers, null,
+		// "//blockquote/pre/code[@class='language-http']/allText()", null,
+		// HandlerMethodEnum.PRE.getCode(), null, null);
+		//
+		// evalueCatchRulers(contentCatchRulers, null,
+		// "//blockquote/pre/code[@class='language-markup']/allText()", null,
+		// HandlerMethodEnum.PRE.getCode(), null, null);
+		//
+		// List<CatcherReplaceModel> replaceModels = new
+		// ArrayList<CatcherReplaceModel>();
+		// replaceModels.add(new
+		// CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(), new String[] { "p"
+		// }, ""));
+		// replaceModels.add(new
+		// CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(), new String[] {
+		// "br" }, "\r\n"));
+		// evalueCatchRulers(contentCatchRulers, "//blockquote/p/allText()",
+		// "//blockquote/html()", replaceModels,
+		// HandlerMethodEnum.PRE.getCode(), null, null);
+		//
+		// evalueCatchRulers(contentCatchRulers, "//blockquote/div/p/allText()",
+		// "//blockquote/html()", replaceModelsA,
+		// HandlerMethodEnum.CALLOUT_INFO.getCode(), null, null);
+
+		evalueCatchRulers(contentCatchRulers, "//p/a/allText()", "//p/html()", replaceModelsA,
+				HandlerMethodEnum.P.getCode(), breakValues, indexOfFilters, equalsFilters);
+		evalueCatchRulers(contentCatchRulers, "//p/strong/allText()", "//p/html()", replaceModelsA,
+				HandlerMethodEnum.P.getCode(), breakValues, indexOfFilters, equalsFilters);
+		evalueCatchRulers(contentCatchRulers, "//p/span/strong/allText()", "//p/html()", replaceModelsA,
+				HandlerMethodEnum.P.getCode(), breakValues, indexOfFilters, equalsFilters);
 		evalueCatchRulers(contentCatchRulers, null, "//p/allText()", replaceModelsA, HandlerMethodEnum.P.getCode(),
 				breakValues, indexOfFilters, equalsFilters);
 
 		iteratorRuler.setContentCatchRulers(contentCatchRulers);
 		// 内容标题
-		List<CatchRuler> oneLevelContentTitleCatchRulers = evalueCatchRulers(null, null, "//h1/text()", null, null,
-				null, HandlerMethodEnum.P.getCode(), null, null);
-		evalueCatchRulers(oneLevelContentTitleCatchRulers, null, "//h1/span/text()", null, null, null,
-				HandlerMethodEnum.P.getCode(), null, null);
-		evalueCatchRulers(oneLevelContentTitleCatchRulers, null, "//h1/strong/text()", null, null, null,
-				HandlerMethodEnum.P.getCode(), null, null);
-		evalueCatchRulers(oneLevelContentTitleCatchRulers, null, "//h2/text()", null, null, null,
-				HandlerMethodEnum.P.getCode(), null, null);
-		evalueCatchRulers(oneLevelContentTitleCatchRulers, null, "//h2/span/text()", null, null, null,
-				HandlerMethodEnum.P.getCode(), null, null);
-		evalueCatchRulers(oneLevelContentTitleCatchRulers, "//h2/strong/text()", "//h2/allText()", null, null, null,
-				HandlerMethodEnum.P.getCode(), null, null);
+		List<CatchRuler> oneLevelContentTitleCatchRulers = evalueCatchRulers(null, "//h1/span/text()", "//h1/allText()",
+				null, HandlerMethodEnum.P.getCode(), null, null, equalsFilters);
 
-		List<CatchRuler> twoLevelContentTitleCatchRulers = evalueCatchRulers(null, "//h3/a/text()", "//h3/allText()", null, null,
-				null, HandlerMethodEnum.P.getCode(), null, null);
-		evalueCatchRulers(twoLevelContentTitleCatchRulers, null, "//h3/span/text()", null, null,
-				null, HandlerMethodEnum.P.getCode(), null, null);
-		
-		evalueCatchRulers(twoLevelContentTitleCatchRulers, null, "//h3/strong/text()", null, null,
-				null, HandlerMethodEnum.P.getCode(), null, null);
-		
-		evalueCatchRulers(twoLevelContentTitleCatchRulers, null, "//h4/span/text()", null, null,
-				null, HandlerMethodEnum.P.getCode(), null, null);
-		evalueCatchRulers(twoLevelContentTitleCatchRulers, null, "//h4/strong/text()", null, null,
-				null, HandlerMethodEnum.P.getCode(), null, null);
-		evalueCatchRulers(twoLevelContentTitleCatchRulers, null, "//h3/text()", null, null,
-				null, HandlerMethodEnum.P.getCode(), null, null);
-		evalueCatchRulers(twoLevelContentTitleCatchRulers, null, "//h4/text()", null, null,
-				null, HandlerMethodEnum.P.getCode(), null, null);
-		
+		evalueCatchRulers(oneLevelContentTitleCatchRulers, "//h1/strong/text()", "//h1/allText()", null,
+				HandlerMethodEnum.P.getCode(), null, null, equalsFilters);
+
+		evalueCatchRulers(oneLevelContentTitleCatchRulers, "//h2/span/text()", "//h2/allText()", null,
+				HandlerMethodEnum.P.getCode(), null, null, equalsFilters);
+		evalueCatchRulers(oneLevelContentTitleCatchRulers, "//h2/strong/text()", "//h2/allText()", null,
+				HandlerMethodEnum.P.getCode(), null, null, equalsFilters);
+
+		evalueCatchRulers(oneLevelContentTitleCatchRulers, null, "//h1/allText()", null, HandlerMethodEnum.P.getCode(),
+				null, null, equalsFilters);
+
+		evalueCatchRulers(oneLevelContentTitleCatchRulers, null, "//h2/allText()", null, HandlerMethodEnum.P.getCode(),
+				null, null, equalsFilters);
+
+		List<CatchRuler> twoLevelContentTitleCatchRulers = evalueCatchRulers(null, "//h3/a/text()", "//h3/allText()",
+				null, HandlerMethodEnum.P.getCode(), null, null, equalsFilters);
+		evalueCatchRulers(twoLevelContentTitleCatchRulers, "//h3/span/text()", "//h3/allText()", null,
+				HandlerMethodEnum.P.getCode(), null, null, equalsFilters);
+
+		evalueCatchRulers(twoLevelContentTitleCatchRulers, "//h3/strong/text()", "//h3/allText()", null,
+				HandlerMethodEnum.P.getCode(), null, null, equalsFilters);
+
+		evalueCatchRulers(twoLevelContentTitleCatchRulers, "//h4/span/text()", "//h4/allText()", null,
+				HandlerMethodEnum.P.getCode(), null, null, equalsFilters);
+		evalueCatchRulers(twoLevelContentTitleCatchRulers, "//h4/strong/text()", "//h4/allText()", null,
+				HandlerMethodEnum.P.getCode(), null, null, equalsFilters);
+		evalueCatchRulers(twoLevelContentTitleCatchRulers, null, "//h3/allText()", null, HandlerMethodEnum.P.getCode(),
+				null, null, equalsFilters);
+		evalueCatchRulers(twoLevelContentTitleCatchRulers, null, "//h4/allText()", null, HandlerMethodEnum.P.getCode(),
+				null, null, equalsFilters);
+
 		iteratorRuler.setOneLevelContentTitleCatchRulers(oneLevelContentTitleCatchRulers);
 		iteratorRuler.setTwoLevelContentTitleCatchRulers(twoLevelContentTitleCatchRulers);
 
@@ -165,10 +197,10 @@ public class ZhangKaitaoIteyeTest extends ParentTest {
 
 		evalueCatchRulers(contentPathCatchRulers, null, "//p/img/@src", null, null, null,
 				HandlerMethodEnum.IMAGE.getCode(), null, null);
-		
+
 		evalueCatchRulers(contentPathCatchRulers, null, "//p/span/img/@src", null, null, null,
 				HandlerMethodEnum.IMAGE.getCode(), null, null);
-		
+
 		evalueCatchRulers(contentPathCatchRulers, null, "//p/strong/img/@src", null, null, null,
 				HandlerMethodEnum.IMAGE.getCode(), null, null);
 
