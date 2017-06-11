@@ -3,6 +3,8 @@
  */
 package com.luna.service.catcher;
 
+import java.util.List;
+
 /**
  * @author laulyl
  * @date 2017年5月7日 下午10:19:30
@@ -10,7 +12,9 @@ package com.luna.service.catcher;
  */
 public class CatcherSubModel {
 
-	private String value;
+	private List<String> values;
+
+	private String value;// 一个value 已经不能完成多个图片的问题
 
 	private Integer handlerCode;
 
@@ -24,6 +28,14 @@ public class CatcherSubModel {
 		this.handlerCode = handlerCode;
 		this.ifBreak = ifBreak;
 		this.ifFilter = ifFilter;
+	}
+
+	public List<String> getValues() {
+		return values;
+	}
+
+	public void setValues(List<String> values) {
+		this.values = values;
 	}
 
 	public String getValue() {

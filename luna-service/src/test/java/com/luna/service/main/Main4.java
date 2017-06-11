@@ -27,7 +27,7 @@ public class Main4 implements PageProcessor {
 	@Override
 	public void process(Page page) {
 		List<String> answers = page.getHtml()
-				.xpath("//div[@class='timeline-comment']/div[@class='timeline-comment-header']/h3[@class='timeline-comment-header-text']/allText()")
+				.xpath("//div[@id='main']/div[@class='blog_main']/div/div[@class='iteye-blog-content-contain']/*")
 				.all();
 		System.out.println("开始");
 		for (String answer : answers) {
@@ -46,6 +46,6 @@ public class Main4 implements PageProcessor {
 	}
 
 	public static void main(String[] args) {
-		Spider.create(new Main4()).addUrl("https://github.com/xufei/blog/issues/21").thread(5).run();
+		Spider.create(new Main4()).addUrl("http://jinnianshilongnian.iteye.com/blog/2235572").thread(5).run();
 	}
 }

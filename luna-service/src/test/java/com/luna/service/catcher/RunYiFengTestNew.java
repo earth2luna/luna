@@ -111,8 +111,19 @@ public class RunYiFengTestNew extends ParentTest {
 		// list.add("http://www.ruanyifeng.com/blog/2017/05/technology-is-future.html");
 		// list.add("http://www.ruanyifeng.com/blog/2008/02/rdf.html");
 		// list.add("http://www.ruanyifeng.com/blog/2017/05/server-sent_events.html");
+		// list.add("http://www.ruanyifeng.com/blog/2013/06/html_email.html");
+		// list.add("http://www.ruanyifeng.com/blog/2012/11/compass.html");
+		// list.add("http://www.ruanyifeng.com/blog/2012/10/google_calendar_lite_reloaded.html");
+		// list.add("http://www.ruanyifeng.com/blog/2012/10/password-less_login.html");
+		// list.add("http://www.ruanyifeng.com/blog/2012/08/how_to_read_diff.html");
+		// list.add("http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html");
+		// list.add("http://www.ruanyifeng.com/blog/2012/06/sass.html");
+		// list.add("http://www.ruanyifeng.com/blog/2012/05/responsive_web_design.html");
+		// list.add("http://www.ruanyifeng.com/blog/2012/01/how_to_synchronize_weibo_with_twitter.html");
+		// list.add("http://www.ruanyifeng.com/blog/2011/05/900-month_lifespan.html");
+		// list.add("http://www.ruanyifeng.com/blog/2011/09/c_programming_language_textbooks.html");
 
-		catcher("http://www.ruanyifeng.com/blog/2017/05/server-sent_events.html");
+		catcher("http://www.ruanyifeng.com/blog/2011/09/c_programming_language_textbooks.html");
 
 	}
 
@@ -120,6 +131,8 @@ public class RunYiFengTestNew extends ParentTest {
 
 		String catcherWebName = "阮一峰个人网站";
 		CatcherModel catcherModel = new CatcherModel();
+		catcherModel.setResourceCategoryCode(1);
+		catcherModel.setCatcherWebsiteCode(1);
 		catcherModel.setCatcherWebUrl(catcherWebUrl);
 		catcherModel.setCatcherWebName(catcherWebName);
 		catcherModel.setResourceTitleCatchRulers(
@@ -132,7 +145,7 @@ public class RunYiFengTestNew extends ParentTest {
 		catcherModel.setCatcherWebsiteCode(1);
 		catcherModel.setAttachementPath(
 				"D:/workspaces/eclipse_20170116/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/luna-web/static/attachement");
-		catcherModel.setResourceCategoryCode(1);
+		
 
 		List<CatcherIteratorRuler> iteratorRulers = new ArrayList<CatcherIteratorRuler>();
 		catcherModel.setIteratorRulers(iteratorRulers);
@@ -155,6 +168,8 @@ public class RunYiFengTestNew extends ParentTest {
 		indexOfFilters.add("Redux 的基本用法就介绍到这里");
 		indexOfFilters.add("本文选自我正在写的新书《未来世界的幸存者》");
 		indexOfFilters.add("=================");
+		indexOfFilters.add("========================================");
+		indexOfFilters.add("======================================");
 
 		List<String> breakValues = new ArrayList<String>();
 
@@ -193,11 +208,15 @@ public class RunYiFengTestNew extends ParentTest {
 		evalueCatchRulers(contentCatchRulers, null, "//blockquote/pre/code[@class='language-markup']/allText()",
 				null, HandlerMethodEnum.PRE.getCode(), null, null);
 
-		evalueCatchRulers(contentCatchRulers, "//blockquote/p/allText()", "//blockquote/html()", replaceModelsA,
-				HandlerMethodEnum.CALLOUT_INFO.getCode(), null, null);
+		List<CatcherReplaceModel> replaceModels = new ArrayList<CatcherReplaceModel>();
+		replaceModels.add(new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(), new String[] { "p" }, ""));
+		replaceModels.add(new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(), new String[] { "br" }, "\r\n"));
+		evalueCatchRulers(contentCatchRulers, "//blockquote/p/allText()", "//blockquote/html()", replaceModels,
+				HandlerMethodEnum.PRE.getCode(), null, null);
 		
 		evalueCatchRulers(contentCatchRulers, "//blockquote/div/p/allText()", "//blockquote/html()", replaceModelsA,
 				HandlerMethodEnum.CALLOUT_INFO.getCode(), null, null);
+		
 
 		evalueCatchRulers(contentCatchRulers, null, "//p/html()", replaceModelsA, HandlerMethodEnum.P.getCode(),
 				breakValues, indexOfFilters);

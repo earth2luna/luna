@@ -8,7 +8,6 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.jsoup.helper.Validate;
 
 import com.luna.dao.mapper.IResourcesContentMapper;
 import com.luna.dao.mapper.IResourcesMapper;
@@ -48,7 +47,6 @@ public class CatcherProcessor implements PageProcessor {
 		this.resourcesMapper = resourcesMapper;
 		this.contentMapper = contentMapper;
 		this.catcherModel = catcherModel;
-		Validate.notNull(catcherModel.getCategoryId(),"invalid category id");
 	}
 
 	/*
@@ -60,7 +58,7 @@ public class CatcherProcessor implements PageProcessor {
 	@Override
 	public void process(Page page) {
 		Resources resources = new Resources();
-		resources.setCategoryId(catcherModel.getCategoryId());
+		resources.setCategoryId(LangUtils.longValueOfNumber(catcherModel.getResourceCategoryCode()));
 		resources.setCreateTime(new Date());
 		resources.setCreatorId(CreatorEnum.LAULYL.getCode());
 		resources.setStatus(LangUtils.intValueOfNumber(StatusEnum.INIT.getCode()));
@@ -188,19 +186,8 @@ public class CatcherProcessor implements PageProcessor {
 					}
 
 					// 获取当前内容属于哪个标题下
-					// Long currentLevelId = getCurrentParentId(currentLevel,
-					// oneLevelId, twoLevelId);
 
 					Long currentLevelId = oneLevelId;
-
-					// if (null == currentLevelId) {
-					// ifSkip = true;
-					// LOGGER.error(LangUtils.append("[current level key is
-					// null] :", levelId, " currentLevel:",
-					// currentLevel, " oneLevelId:", oneLevelId, " twoLevelId:",
-					// twoLevelId));
-					// break;
-					// }
 
 					// 获取路径
 					CatcherSubModel contentPathKv = handler(iteratorRuler.getContentPathCatchRulers(), tempHtml);
@@ -212,30 +199,34 @@ public class CatcherProcessor implements PageProcessor {
 						if (contentPathKv.isIfFilter()) {
 							continue;
 						}
-						// 网站编码+类目编码+当前日期+系统毫秒时间
-						String endPath = FilePropertyUtils.appendPath(catcherModel.getCatcherWebsiteCode().toString(),
-								catcherModel.getResourceCategoryCode().toString(),
-								DateUtils.getCurrentDateFormat(DateUtils.DATE_PATTERN_3),
-								LangUtils.toString(System.currentTimeMillis()));
-						// 附件路径+网站编码+类目编码+系统毫秒时间
-						String outputPath = FilePropertyUtils.appendPath(catcherModel.getAttachementPath(), endPath);
-						KV<String, Boolean> storeValue = DowloadUtils.storeImage(contentPathKv.getValue(), outputPath);
-						if (storeValue.getV()) {
-							if (null == rc) {
-								rc = new CatcherContent();
-								rc.setParentLevelId(currentLevelId);
-							} else {
-								if (StringUtils.isNotEmpty(rc.getPath())) {
-									rcs.add(rc);
+						for (String path : contentPathKv.getValues()) {
+							// 网站编码+类目编码+当前日期+系统毫秒时间
+							String endPath = FilePropertyUtils.appendPath(
+									catcherModel.getCatcherWebsiteCode().toString(),
+									catcherModel.getResourceCategoryCode().toString(),
+									DateUtils.getCurrentDateFormat(DateUtils.DATE_PATTERN_3),
+									LangUtils.toString(System.currentTimeMillis()));
+							// 附件路径+网站编码+类目编码+系统毫秒时间
+							String outputPath = FilePropertyUtils.appendPath(catcherModel.getAttachementPath(),
+									endPath);
+							KV<String, Boolean> storeValue = DowloadUtils.storeImage(path, outputPath);
+							if (storeValue.getV()) {
+								if (null == rc) {
 									rc = new CatcherContent();
 									rc.setParentLevelId(currentLevelId);
+								} else {
+									if (StringUtils.isNotEmpty(rc.getPath())) {
+										rcs.add(rc);
+										rc = new CatcherContent();
+										rc.setParentLevelId(currentLevelId);
+									}
 								}
+								rc.setPath(endPath + FilePropertyUtils.SPLITOR_SUFFIX + storeValue.getK());
+								rc.setHandlerCode(contentPathKv.getHandlerCode());
+								rcs.add(rc);
+								rc = null;
+								continue;
 							}
-							rc.setPath(endPath + FilePropertyUtils.SPLITOR_SUFFIX + storeValue.getK());
-							rc.setHandlerCode(contentPathKv.getHandlerCode());
-							rcs.add(rc);
-							rc = null;
-							continue;
 						}
 
 					}
@@ -276,23 +267,7 @@ public class CatcherProcessor implements PageProcessor {
 		}
 		resourcesMapper.insert(resources);
 		ContentUtils.insertCatchers(contentMapper, rcs, resources.getId());
-		// if (!ifSkip) {
-		//
-		// }
-		// page.setSkip(ifSkip);
 	}
-
-	// private Long getCurrentParentId(Long currentLevel, Long oneLevelId, Long
-	// twoLevelId) {
-	// Long ret = null;
-	// if (LangUtils.equals(1, currentLevel)) {
-	// ret = oneLevelId;
-	// } else if (LangUtils.equals(2, currentLevel)) {
-	// ret = twoLevelId;
-	// }
-	// return ret;
-	// return oneLevelId;
-	// }
 
 	private static CatcherSubModel handler(List<CatchRuler> rulers, Html relative) {
 		if (CollectionUtils.isEmpty(rulers))
@@ -392,7 +367,10 @@ public class CatcherProcessor implements PageProcessor {
 			String outputValue = HandlerMethodEnum.P == methodEnum || HandlerMethodEnum.IMAGE == methodEnum ? value
 					: LangUtils.toString(originValue);
 
-			return new CatcherSubModel(outputValue, code, false, false);
+			CatcherSubModel model = new CatcherSubModel(outputValue, code, false, false);
+
+			model.setValues(originValue.all());
+			return model;
 		}
 
 		return null;

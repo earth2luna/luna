@@ -136,7 +136,7 @@ public class GitHubTest extends ParentTest {
 
 		evalueCatchRulers(contentCatchRulers, null, "//div[@class='highlight-source-coffee']/pre/allText()", null, null,
 				null, HandlerMethodEnum.PRE.getCode(), null, null);
-
+		
 		evalueCatchRulers(contentCatchRulers, null, "//pre/code/allText()", null, null, null,
 				HandlerMethodEnum.PRE.getCode(), null, null);
 

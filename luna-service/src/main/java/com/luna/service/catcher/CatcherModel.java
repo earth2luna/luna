@@ -16,7 +16,6 @@ public class CatcherModel {
 	private String catcherWebName;
 	private Integer catcherWebsiteCode;
 	private String attachementPath;
-	private Long categoryId;
 	
 	private String resourceTitle;// 文章标题
 	private String resourceAuthor;// 作者
@@ -237,14 +236,5 @@ public class CatcherModel {
 	public void setResourceDate(String resourceDate) {
 		this.resourceDate = resourceDate;
 	}
-
-	public Long getCategoryId() {
-		return categoryId;
-	}
-
-	public void setCategoryId(Long categoryId) {
-		this.categoryId = categoryId;
-	}
-
 
 }
