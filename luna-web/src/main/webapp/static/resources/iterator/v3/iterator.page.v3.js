@@ -26,11 +26,16 @@ var PageObject = {
 			jQuery(selector).val(currentValue - 1);
 		}
 	},
-	go : function(currentSelector, route, pages) {
+	go : function(currentSelector, route, appender, pages) {
 		var selector = jQuery(currentSelector).siblings("span").find(":input");
 		var currentValue = parseInt(selector.val());
 		if (currentValue && currentValue > 0 && currentValue < pages) {
-			location.href = route + "/" + currentValue + "/";
+			if (appender) {
+				location.href = route + "/" + currentValue + "/" + appender;
+			} else {
+				location.href = route + "/" + currentValue + "/";
+			}
+
 		}
 	}
 };

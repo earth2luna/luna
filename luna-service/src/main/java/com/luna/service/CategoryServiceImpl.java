@@ -81,7 +81,7 @@ public class CategoryServiceImpl implements CategoryService {
 				LangUtils.intValueOfNumber(LangUtils.defaultValue(pageNow, 1)));
 		// 获取分页迭代内容
 		String iteratorPage = PageUtils.evaluate(page.getCount(), pageNow, defaultPageSize,
-				LangUtils.append("/category/", categoryId));
+				LangUtils.append("/category/", categoryId), LangUtils.append("#", category.getName()));
 		return new CategoryResourceVo(category, ResourcesUtils.transferResourcesVo(page), iteratorPage);
 	}
 

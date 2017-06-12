@@ -40,7 +40,8 @@ public class ZhangKaitaoIteyeTest extends ParentTest {
 //		catcher("http://jinnianshilongnian.iteye.com/blog/2305117");
 //		catcher("http://jinnianshilongnian.iteye.com/blog/2306477");
 //		catcher("http://jinnianshilongnian.iteye.com/blog/2321715");
-		catcher("http://jinnianshilongnian.iteye.com/blog/2324025");
+//		catcher("http://jinnianshilongnian.iteye.com/blog/2324025");
+		catcher("http://jinnianshilongnian.iteye.com/blog/2202743");
 
 	}
 

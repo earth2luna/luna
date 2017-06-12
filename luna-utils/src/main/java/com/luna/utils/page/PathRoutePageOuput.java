@@ -9,11 +9,9 @@ import com.luna.utils.LangUtils;
  */
 public class PathRoutePageOuput extends AbstractRoutePageOutput {
 
-	/**
-	 * @param route
-	 */
-	public PathRoutePageOuput(String route) {
-		super(route);
+	
+	public PathRoutePageOuput(String route, String appender) {
+		super(route, appender);
 	}
 
 	/*
@@ -25,7 +23,7 @@ public class PathRoutePageOuput extends AbstractRoutePageOutput {
 	 */
 	@Override
 	public String getRoute(Long pageNow) {
-		return LangUtils.append(route, "/", pageNow, "/");
+		return LangUtils.append(route, "/", pageNow, "/", appender);
 	}
 
 }

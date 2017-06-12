@@ -1,4 +1,5 @@
 package com.luna.utils.page;
+
 import com.luna.utils.LangUtils;
 import com.luna.utils.infce.IInputOutput;
 
@@ -10,11 +11,14 @@ import com.luna.utils.infce.IInputOutput;
 public abstract class AbstractRoutePageOutput implements IInputOutput<PageOutput, String> {
 
 	protected String route;
+	protected String appender;
+
 	private String html;
 
-	public AbstractRoutePageOutput(String route) {
+	public AbstractRoutePageOutput(String route, String appender) {
 		super();
 		this.route = route;
+		this.appender = appender;
 	}
 
 	/*
@@ -108,7 +112,7 @@ public abstract class AbstractRoutePageOutput implements IInputOutput<PageOutput
 				+ ");\"></i><i class=\"reduce_v1\" onclick=\"PageObject.inputValueMinus(this)\"></i></span>");
 		ret.append("<span class=\"txt\">页&nbsp;</span>");
 		ret.append("<input value=\"go\" class=\"btn-vice script-go\" type=\"button\" onclick=\"PageObject.go(this,'"
-				+ route + "'," + i.getPages() + ")\">");
+				+ route + "," + appender + "'," + i.getPages() + ")\">");
 		return ret.toString();
 	}
 
