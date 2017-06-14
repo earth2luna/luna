@@ -14,6 +14,7 @@ import com.luna.service.ResourcesService;
 import com.luna.service.dto.ResourcesForm;
 import com.luna.service.enumer.resource.CreatorEnum;
 import com.luna.service.enumer.resource.StatusEnum;
+import com.luna.utils.LangUtils;
 import com.luna.utils.classes.InvokeVo;
 
 /**
@@ -39,7 +40,7 @@ public class ResourcesController extends ParentController {
 
 	@RequestMapping("/queryItems")
 	public String queryItems(Model model, String sts, Integer pageNow) {
-		setDefaultStaticModel(model, CreatorEnum.class, StatusEnum.class);
+		setDefaultStaticModel(model, CreatorEnum.class, StatusEnum.class,LangUtils.class);
 		model.addAttribute("page", resourcesService.selectResources(sts, pageNow));
 		return "behind/resources_query_items";
 	}

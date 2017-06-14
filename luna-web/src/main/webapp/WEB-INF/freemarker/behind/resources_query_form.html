@@ -14,7 +14,7 @@
 			<select name="categoryId" style="width: 160px;">
 			<#list childrenCategories as category>
 				<#if category.id==resources.categoryId>
-					<option value="${category.id}" checked="checked">${category.name}</option>
+					<option value="${category.id}" selected="selected">${category.name}</option>
 				<#else>
 					<option value="${category.id}">${category.name}</option>
 				</#if>

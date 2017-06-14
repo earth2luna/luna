@@ -2,7 +2,7 @@
 <tr>
 	<td>${item.id}</td>
 	<td>${item.sortCode}</td>
-	<td>${item.title}</td>
+	<td title="${item.title}">${LangUtils.subtringDefaultAppender(item.title,20)}</td>
 	<td>${(null==item.PId)?string('是','否')}</td>
 	<td>${(null==item.PId)?string('','${item.PId}')}</td>
 	<td>${HandlerMethodEnum.getName(item.handlerCode)}</td>
