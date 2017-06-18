@@ -6,7 +6,7 @@
 
 	<context-param>
 		<param-name>RSA_KEY_PAIR_PATH</param-name>
-		<param-value>C:/Users/Administrator/Desktop/build</param-value>
+		<param-value>/export/home</param-value>
 	</context-param>
 	
 	<context-param>
