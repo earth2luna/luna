@@ -7,6 +7,8 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.luna.security.Configuration;
 import com.luna.security.LoginUtils;
@@ -19,6 +21,8 @@ import com.luna.utils.LangUtils;
  * @description
  */
 public class SecurityListener implements ServletContextListener {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(SecurityListener.class);
 
 	/*
 	 * (non-Javadoc)
@@ -50,12 +54,16 @@ public class SecurityListener implements ServletContextListener {
 		Configuration.needPassportNodeDomains = LangUtils.split2HashSetString(
 				sce.getServletContext().getInitParameter(Configuration.NEED_PASSPORT_NODE_DOMAINS), ",");
 
-		Configuration.parameterTicketKey = StringUtils.trim(sce.getServletContext().getInitParameter(Configuration.PARAMETER_TICKET_KEY));
-		
-		if ("true".equals(sce.getServletContext().getInitParameter(Configuration.IS_NEED_GENERATE_RSA))) {
+		Configuration.parameterTicketKey = StringUtils
+				.trim(sce.getServletContext().getInitParameter(Configuration.PARAMETER_TICKET_KEY));
+
+		boolean ifOverride = "true"
+				.equals(sce.getServletContext().getInitParameter(Configuration.IS_NEED_GENERATE_RSA));
+		LOGGER.info("override key pair:" + ifOverride);
+		if (ifOverride) {
 			SecurityCursor.overrideKeyPair();
-			Configuration.parameterTicketValueCipertext = LoginUtils.getParameterTicket();
 		}
+		Configuration.parameterTicketValueCipertext = LoginUtils.getParameterTicket();
 	}
 
 	/*

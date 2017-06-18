@@ -41,7 +41,7 @@
 	
 	<context-param>
 		<param-name>IS_NEED_GENERATE_RSA</param-name>
-		<param-value>true</param-value>
+		<param-value>false</param-value>
 	</context-param>
 	
 	<context-param>
