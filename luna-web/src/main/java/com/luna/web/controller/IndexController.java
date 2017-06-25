@@ -36,11 +36,11 @@ public class IndexController extends ParentController {
 		addPageHeaderSay(model);
 	}
 
-	@RequestMapping(value={"/category/{categroyId}/{pageNow}/","/category/{categroyId}/{pageNow}"})
-	public String categoryList(Model model,@PathVariable Long categroyId,@PathVariable Long pageNow) {
+	@RequestMapping(value = { "/category/{categroyId}/{pageNow}/", "/category/{categroyId}/{pageNow}" })
+	public String categoryList(Model model, @PathVariable Long categroyId, @PathVariable Long pageNow) {
 		CategoryResourceVo categoryVo = categoryService.selectCategoryResourceVo(categroyId, pageNow);
 		model.addAttribute("categoryVo", categoryVo);
-		addHeader(model, null);
+		addHeader(model, categoryVo.getCategory().getName());
 		return "categroy/list";
 	}
 

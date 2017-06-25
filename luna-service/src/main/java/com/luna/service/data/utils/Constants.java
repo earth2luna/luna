@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.luna.service.dto.PageHeaderSayVo;
+import com.luna.utils.LangUtils;
 import com.luna.utils.node.INode;
 
 /**
@@ -71,5 +73,36 @@ public class Constants {
 	public static final String APPLICATION_CATEGORY_LIST_KEY = "category_list";
 
 	public static List<INode> CATEGORY_LIST;
+
+	public static String getTitle(String title) {
+		String defaultTitle = "Apoollo - 阿波罗高质量的触动！";
+		String ret = null;
+		if (StringUtils.isNotBlank(title)) {
+			ret = LangUtils.append(title, " - ", defaultTitle);
+		} else {
+			ret = defaultTitle;
+		}
+		return ret;
+	}
+
+	public static String getKeywords(String keywords) {
+		String defaultKeywords = "阿波罗,Apoollo,专业文章,计算机技术,编程,旅行,情怀,高质量,青春,教程，知识点";
+		String ret = null;
+		if (StringUtils.isNotBlank(keywords)) {
+			ret = LangUtils.append(keywords, ",", defaultKeywords);
+		} else {
+			ret = defaultKeywords;
+		}
+		return ret;
+	}
+
+	public static String getDescription(String description) {
+		String defaultDescription = "Apoollo ( www.apoollo.com ) 阿波罗只提供高质量的文章，涉及计算机编程、旅行、情怀、青春等各个主题领域，旨在帮助到您，对您有所触动！";
+		return LangUtils.defaultValue(description, defaultDescription);
+	}
+
+	public static String getAuthor() {
+		return "作者：刘玉龙 &lt;673348317@qq.com&gt;";
+	}
 
 }

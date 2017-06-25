@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.luna.service.data.utils.Constants;
-import com.luna.utils.LangUtils;
 
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.ext.beans.BeansWrapperBuilder;
@@ -43,12 +42,10 @@ public class ParentController {
 	}
 
 	protected void addHeader(Model model, String title, String keywords, String description) {
-		model.addAttribute(Constants.HEADER_TITLE, LangUtils.defaultValue(title, "Apoollo - 阿波罗高质量的触动！"));
-		model.addAttribute(Constants.HEADER_KEYWORDS,
-				LangUtils.defaultValue(keywords, "阿波罗,Apoollo,专业文章,计算机技术,编程,旅行,情怀,高质量,青春,教程，知识点"));
-		model.addAttribute(Constants.HEADER_DESCRIPTION, LangUtils.defaultValue(description,
-				"Apoollo ( www.apoollo.com ) 阿波罗只提供高质量的文章，涉及计算机编程、旅行、情怀、青春等各个主题领域，旨在帮助到您，对您有所触动！"));
-		model.addAttribute(Constants.HEADER_AUTHOR, "作者：刘玉龙 &lt;673348317@qq.com&gt;");
+		model.addAttribute(Constants.HEADER_TITLE, Constants.getTitle(title));
+		model.addAttribute(Constants.HEADER_KEYWORDS, Constants.getKeywords(keywords));
+		model.addAttribute(Constants.HEADER_DESCRIPTION, Constants.getDescription(description));
+		model.addAttribute(Constants.HEADER_AUTHOR, Constants.getAuthor());
 	}
 
 	protected void addHeader(Model model, String title) {

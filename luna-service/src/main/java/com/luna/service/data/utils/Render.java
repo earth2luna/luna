@@ -181,11 +181,10 @@ public class Render {
 	}
 
 	private void addHeader(Map<String, Object> model, ResourcesCasecadeNode node, List<INode> nodes) {
-		model.put(Constants.HEADER_TITLE,LangUtils.append( node.getResourcesTitle()," - Apoollo - 阿波罗高质量的触动！"));
-		model.put(Constants.HEADER_KEYWORDS,
-				LangUtils.append(node.getResourcesTitle(), ",阿波罗,Apoollo,专业文章,计算机技术,编程,旅行,情怀,高质量,青春,教程，知识点"));
-		model.put(Constants.HEADER_DESCRIPTION, getSummary(nodes));
-		model.put(Constants.HEADER_AUTHOR, "作者：刘玉龙 &lt;673348317@qq.com&gt;");
+		model.put(Constants.HEADER_TITLE, Constants.getTitle(node.getResourcesTitle()));
+		model.put(Constants.HEADER_KEYWORDS, Constants.getKeywords(node.getResourcesTitle()));
+		model.put(Constants.HEADER_DESCRIPTION, Constants.getDescription(getSummary(nodes)));
+		model.put(Constants.HEADER_AUTHOR, Constants.getAuthor());
 	}
 
 	private String getSummary(List<INode> nodes) {
