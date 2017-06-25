@@ -60,8 +60,8 @@ jQuery(function() {
 		},
 		split : ' '
 	});
-
-	jQuery(".search-wraper .input-group-btn .btn").off().on(
+	window.searchBtnSelector=".search-wraper .input-group-btn .btn"; 
+	jQuery(searchBtnSelector).off().on(
 			"click",
 			function() {
 				selector_input.trigger('focus');

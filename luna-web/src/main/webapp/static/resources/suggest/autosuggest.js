@@ -206,7 +206,7 @@
                             //enter
                             if (keyCode == 13) {
                                 //suggestion component is visible after the operation up and down arrows
-                                if (upDownOperate) {
+                                /*if (upDownOperate) {
                                     lock = true;
                                     lastText = getRealText($(".as-selected").data('value'));
                                     $(that).val(lastText);
@@ -226,7 +226,9 @@
                                         //防止多余请求
                                         xhr.abort();
                                     }
-                                }
+                                }*/
+                            	jQuery(searchBtnSelector).click();
+                            	closeComponent($(that).next('.' + settings.menuClass));
                             }
                         });
 
