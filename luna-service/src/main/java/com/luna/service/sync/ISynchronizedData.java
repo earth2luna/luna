@@ -7,5 +7,5 @@ package com.luna.service.sync;
  */
 public interface ISynchronizedData<T> {
 
-	public void synchronizedAll(int threadNunber);
+	public void synchronizedAll(int number);
 }

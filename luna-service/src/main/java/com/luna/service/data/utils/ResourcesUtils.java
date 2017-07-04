@@ -78,6 +78,23 @@ public class ResourcesUtils {
 		return resourcesMapper.selectList(map);
 	}
 
+	public static List<Resources> selectBetweenResource(IResourcesMapper resourcesMapper, Long gtId, Long ltId,
+			Integer pageNow, Integer pageSize) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("gtId", gtId);
+		map.put("ltId", ltId);
+		ConditionUtils.evalPageMap(map, pageNow, pageSize);
+		ConditionUtils.evalSortOrderMap(map, "id", "ASC");
+		return resourcesMapper.selectList(map);
+	}
+
+	public static int selectBetweenResourceCount(IResourcesMapper resourcesMapper, Long gtId, Long ltId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("gtId", gtId);
+		map.put("ltId", ltId);
+		return resourcesMapper.selectCount(map);
+	}
+
 	public static List<ResourcesContentMark> selectResourcesContentMarks(IResourcesContentMarkMapper contentMarkMapper,
 			List<Long> resourcesContentIds) {
 		if (CollectionUtils.isEmpty(resourcesContentIds))
@@ -184,7 +201,7 @@ public class ResourcesUtils {
 		}
 		return false;
 	}
-	
+
 	public static boolean setResourceCategoryName(ResourceSolr vo, List<INode> nodes) {
 		if (CollectionUtils.isNotEmpty(nodes)) {
 			for (INode node : nodes) {
