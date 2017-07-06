@@ -142,11 +142,7 @@ public class ExportData extends AbstractListWhileDoNormal<Map<String, Object>> {
 	 */
 	@Override
 	public void after(long count) {
-		try {
-			FileUtils.write(exportFile, "\\n", CharsetEnum.UTF8.getCharsetName(), true);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
 	}
 
 	private String getInsertTableFormat(Table table) {
