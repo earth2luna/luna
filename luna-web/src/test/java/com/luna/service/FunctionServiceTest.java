@@ -13,9 +13,16 @@ import org.junit.Test;
 public class FunctionServiceTest extends ParentTest {
 
 	@Test
+	public void testExportResourceData() {
+		FunctionService functionService = get(FunctionService.class);
+		functionService.exportResourceData(1L, 10L, "C:\\Users\\Administrator\\Desktop\\test\\resource.sql");
+	}
+
+	@Test
 	public void test() {
 		FunctionService functionService = get(FunctionService.class);
-		functionService.exportResourceData(1L, 10L,"C:\\Users\\Administrator\\Desktop\\test\\resource.sql");
+		functionService.exportResourceContentData(1L, 10L,
+				"C:\\Users\\Administrator\\Desktop\\test\\resource_content.sql");
 	}
 
 }

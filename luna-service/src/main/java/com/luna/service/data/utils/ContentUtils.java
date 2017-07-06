@@ -31,6 +31,14 @@ import com.luna.utils.classes.Page;
 public class ContentUtils {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ContentUtils.class);
+	
+	
+	public static int selectBetweenContentCount(IResourcesContentMapper resourcesContentMapper, Long gtId, Long ltId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("gtId", gtId);
+		map.put("ltId", ltId);
+		return resourcesContentMapper.selectCount(map);
+	}
 
 	public static Page<ResourcesContent> selectResourcesContents(IResourcesContentMapper resourcesContentMapper,
 			Long rsId, Integer pageNow) {

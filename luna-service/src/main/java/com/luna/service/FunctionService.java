@@ -10,5 +10,7 @@ package com.luna.service;
  */
 public interface FunctionService {
 
-	void exportResourceData(Long ltId, Long gtId, String filePath);
+	public void exportResourceData(Long ltId, Long gtId, String filePath);
+
+	public void exportResourceContentData(Long ltId, Long gtId, String filePath);
 }

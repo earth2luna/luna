@@ -77,7 +77,6 @@ public class FilePropertyUtils {
 		}
 		return ret;
 	}
-	
 
 	/**
 	 * get path file name and assign suffix
@@ -225,5 +224,13 @@ public class FilePropertyUtils {
 	public static void validateFilePath(File file, String endWidth) {
 		AssertUtils.notNullOfApp(file, "invalid file");
 		AssertUtils.isTrueOfApp(file.getAbsolutePath().endsWith(endWidth), "[validate file failed]");
+	}
+
+	public static void deleteFile(File file) {
+		if (null != file) {
+			if (file.isFile()) {
+				file.delete();
+			}
+		}
 	}
 }

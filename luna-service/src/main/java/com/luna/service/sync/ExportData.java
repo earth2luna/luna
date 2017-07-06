@@ -5,6 +5,7 @@ package com.luna.service.sync;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
@@ -14,33 +15,39 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.luna.service.db.Column;
+import com.luna.service.db.DataBaseHelpers;
 import com.luna.service.db.Table;
+import com.luna.service.db.TableMetaDataHandler;
 import com.luna.utils.DateUtils;
+import com.luna.utils.FilePropertyUtils;
 import com.luna.utils.LangUtils;
 import com.luna.utils.enm.CharsetEnum;
 
 /**
  * @author laulyl
- * @date 2017年7月2日 下午8:08:16
+ * @date 2017年7月6日 下午10:22:09
  * @desction
  */
-public class ExportResourceFile extends AbstractListWhileDoNormal<Map<String, Object>> {
+public class ExportData extends AbstractListWhileDoNormal<Map<String, Object>> {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ExportResourceFile.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ExportData.class);
 
 	private JdbcTemplate jdbcTemplate;
-	private Table table;
+	private String tableName;
 	private Integer pageSize;
 	private Long ltId;
 	private Long gtId;
-	private String insertTableFormat;
 	private String filePath;
 
-	public ExportResourceFile(JdbcTemplate jdbcTemplate, Table table, Integer pageSize, Long ltId, Long gtId,
+	private Table table;
+	private String insertTableFormat;
+	private File exportFile;
+
+	public ExportData(JdbcTemplate jdbcTemplate, String tableName, Integer pageSize, Long ltId, Long gtId,
 			String filePath) {
 		super();
 		this.jdbcTemplate = jdbcTemplate;
-		this.table = table;
+		this.tableName = tableName;
 		this.pageSize = pageSize;
 		this.ltId = ltId;
 		this.gtId = gtId;
@@ -54,8 +61,9 @@ public class ExportResourceFile extends AbstractListWhileDoNormal<Map<String, Ob
 	 */
 	@Override
 	public List<Map<String, Object>> getList(long count) {
-		return jdbcTemplate.queryForList("SELECT * FROM l_resources WHERE id BETWEEN ? AND ? ORDER BY id ASC LIMIT ?,?",
-				ltId, gtId, (count - 1) * pageSize, pageSize);
+		return jdbcTemplate.queryForList(
+				"SELECT * FROM " + tableName + " WHERE id BETWEEN ? AND ? ORDER BY id ASC LIMIT ?,?", ltId, gtId,
+				(count - 1) * pageSize, pageSize);
 	}
 
 	/*
@@ -94,11 +102,11 @@ public class ExportResourceFile extends AbstractListWhileDoNormal<Map<String, Ob
 		String insertData = String.format(insertTableFormat, builder);
 		LOGGER.info(insertData);
 		try {
-			FileUtils.write(new File(filePath), LangUtils.append(insertData, "\r\n"), CharsetEnum.UTF8.getCharsetName(),
-					true);
+			FileUtils.write(exportFile, LangUtils.append(insertData, "\r\n"), CharsetEnum.UTF8.getCharsetName(), true);
 		} catch (IOException e) {
 			LOGGER.error("file write error:", e);
 		}
+
 	}
 
 	/*
@@ -108,7 +116,23 @@ public class ExportResourceFile extends AbstractListWhileDoNormal<Map<String, Ob
 	 */
 	@Override
 	public void before() {
-		insertTableFormat = getInsertTableFormat(table);
+		//先删除
+		exportFile = new File(filePath);
+		FilePropertyUtils.deleteFile(exportFile);
+		
+		Connection connection = null;
+		try {
+			connection = jdbcTemplate.getDataSource().getConnection();
+			TableMetaDataHandler dataHandler = new TableMetaDataHandler();
+			dataHandler.handle(connection.getMetaData());
+			table = dataHandler.getTable(tableName);
+			insertTableFormat = getInsertTableFormat(table);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		} finally {
+			DataBaseHelpers.closeConnection(connection);
+		}
+
 	}
 
 	/*
@@ -118,7 +142,11 @@ public class ExportResourceFile extends AbstractListWhileDoNormal<Map<String, Ob
 	 */
 	@Override
 	public void after(long count) {
-
+		try {
+			FileUtils.write(exportFile, "\\n", CharsetEnum.UTF8.getCharsetName(), true);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private String getInsertTableFormat(Table table) {

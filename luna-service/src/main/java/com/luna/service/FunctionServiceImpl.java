@@ -3,18 +3,15 @@
  */
 package com.luna.service;
 
-import java.sql.Connection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import com.luna.dao.mapper.IResourcesContentMapper;
 import com.luna.dao.mapper.IResourcesMapper;
+import com.luna.service.data.utils.ContentUtils;
 import com.luna.service.data.utils.ResourcesUtils;
-import com.luna.service.db.DataBaseHelpers;
-import com.luna.service.db.Table;
-import com.luna.service.db.TableMetaDataHandler;
-import com.luna.service.sync.ExportResourceFile;
+import com.luna.service.sync.ExportData;
 import com.luna.utils.LangUtils;
 
 /**
@@ -29,6 +26,8 @@ public class FunctionServiceImpl implements FunctionService {
 	private JdbcTemplate jdbcTemplate;
 	@Autowired
 	private IResourcesMapper resourcesMapper;
+	@Autowired
+	IResourcesContentMapper resourcesContentMapper;
 
 	private Integer pageSize = 100;
 
@@ -38,28 +37,32 @@ public class FunctionServiceImpl implements FunctionService {
 	 * @see com.luna.service.FunctionService#exportResourceData()
 	 */
 	@Override
-	public void exportResourceData(Long ltId, Long gtId,String filePath) {
-		Connection connection = null;
-		try {
-			connection = jdbcTemplate.getDataSource().getConnection();
-			TableMetaDataHandler dataHandler = new TableMetaDataHandler();
-			dataHandler.handle(connection.getMetaData());
-			String tableName = "l_resources";
-			Table table = dataHandler.getTable(tableName);
-			int count = ResourcesUtils.selectBetweenResourceCount(resourcesMapper, ltId, gtId);
-			int divisor = count / pageSize;
-			int mod = count % pageSize;
-			if (LangUtils.booleanValueOfNumber(mod)) {
-				divisor += 1;
-			}
-			new ExportResourceFile(jdbcTemplate, table, pageSize, ltId, gtId,filePath)
-					.synchronizedAll(divisor);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		} finally {
-			DataBaseHelpers.closeConnection(connection);
-		}
+	public void exportResourceData(Long ltId, Long gtId, String filePath) {
+		String tableName = "l_resources";
+		int totalCount = ResourcesUtils.selectBetweenResourceCount(resourcesMapper, ltId, gtId);
+		export(tableName, totalCount, ltId, gtId, filePath);
 	}
 
-	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.luna.service.FunctionService#exportResourceContentData(java.lang.Long,
+	 * java.lang.Long, java.lang.String)
+	 */
+	@Override
+	public void exportResourceContentData(Long ltId, Long gtId, String filePath) {
+		String tableName = "l_resources_content";
+		int totalCount = ContentUtils.selectBetweenContentCount(resourcesContentMapper, ltId, gtId);
+		export(tableName, totalCount, ltId, gtId, filePath);
+	}
+
+	private void export(String tableName, int totalCount, Long ltId, Long gtId, String filePath) {
+		int divisor = totalCount / pageSize;
+		int mod = totalCount % pageSize;
+		if (LangUtils.booleanValueOfNumber(mod)) {
+			divisor += 1;
+		}
+		new ExportData(jdbcTemplate, tableName, pageSize, ltId, gtId, filePath).synchronizedAll(divisor);
+	}
 }
