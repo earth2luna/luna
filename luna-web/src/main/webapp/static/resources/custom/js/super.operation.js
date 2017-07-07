@@ -14,6 +14,12 @@ jQuery(function() {
 		var currentValue = jQuery(this).val();
 		if ('2' == currentValue) {
 			selector_parameter.append(getInput("DELETEDIDS", "输入DELETED IDS"));
+		}else if('3' == currentValue){
+			selector_parameter.append(getInput("ltId", "输入LESS THAN ID"));
+			selector_parameter.append(getInput("gtId", "输入GREAT THAN ID"));
+		}else if('4' == currentValue){
+			selector_parameter.append(getInput("ltId", "输入LESS THAN ID"));
+			selector_parameter.append(getInput("gtId", "输入GREAT THAN ID"));
 		}
 	});
 	jQuery(selector_select).trigger("change");

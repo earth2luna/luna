@@ -3,15 +3,18 @@
  */
 package com.luna.service;
 
+import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.luna.dao.mapper.IResourcesContentMapper;
 import com.luna.dao.mapper.IResourcesMapper;
+import com.luna.service.data.utils.Configure;
 import com.luna.service.data.utils.ContentUtils;
 import com.luna.service.data.utils.ResourcesUtils;
 import com.luna.service.sync.ExportData;
+import com.luna.utils.FilePropertyUtils;
 import com.luna.utils.LangUtils;
 
 /**
@@ -40,7 +43,8 @@ public class FunctionServiceImpl implements FunctionService {
 	public void exportResourceData(Long ltId, Long gtId, String filePath) {
 		String tableName = "l_resources";
 		int totalCount = ResourcesUtils.selectBetweenResourceCount(resourcesMapper, ltId, gtId);
-		export(tableName, totalCount, ltId, gtId, filePath);
+		String exportDefaultPath=FilePropertyUtils.appendPath(Configure.getExportDefaultPath(),"resource.sql");
+		export(tableName, totalCount, ltId, gtId, LangUtils.defaultValue(filePath, exportDefaultPath));
 	}
 
 	/*
@@ -54,10 +58,13 @@ public class FunctionServiceImpl implements FunctionService {
 	public void exportResourceContentData(Long ltId, Long gtId, String filePath) {
 		String tableName = "l_resources_content";
 		int totalCount = ContentUtils.selectBetweenContentCount(resourcesContentMapper, ltId, gtId);
-		export(tableName, totalCount, ltId, gtId, filePath);
+		String exportDefaultPath=FilePropertyUtils.appendPath(Configure.getExportDefaultPath(),"content.sql");
+		export(tableName, totalCount, ltId, gtId, LangUtils.defaultValue(filePath, exportDefaultPath));
 	}
 
 	private void export(String tableName, int totalCount, Long ltId, Long gtId, String filePath) {
+		Validate.notNull(ltId);
+		Validate.notNull(gtId);
 		int divisor = totalCount / pageSize;
 		int mod = totalCount % pageSize;
 		if (LangUtils.booleanValueOfNumber(mod)) {

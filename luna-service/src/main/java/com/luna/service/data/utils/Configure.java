@@ -29,6 +29,10 @@ public class Configure implements InitializingBean {
 	// free marker vew 页面渲染模板名称
 	@Value("${luna.template.freemarker.view.name}")
 	private String freeMarkerViewName;
+	
+	//默认导出路径
+	@Value("${luna.export.default.path}")
+	private String exportDefaultPath;
 
 	public static String getResourceRelativePath() {
 		return configure.resourceRelativePath;
@@ -45,6 +49,10 @@ public class Configure implements InitializingBean {
 	public static String getFreeMarkerViewName() {
 		return configure.freeMarkerViewName;
 	}
+	
+	public static String getExportDefaultPath() {
+		return configure.exportDefaultPath;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -58,6 +66,7 @@ public class Configure implements InitializingBean {
 		configure.thisWebDomain = thisWebDomain;
 		configure.attachementPath = attachementPath;
 		configure.freeMarkerViewName = freeMarkerViewName;
+		configure.exportDefaultPath = exportDefaultPath;
 
 	}
 

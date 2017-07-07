@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.luna.service.FunctionService;
 import com.luna.service.ResourcesSolrService;
 import com.luna.utils.LangUtils;
 import com.luna.utils.classes.InvokeVo;
@@ -30,6 +31,9 @@ public class SupperController extends ParentController {
 	@Autowired
 	private ResourcesSolrService resourcesSolrService;
 
+	@Autowired
+	private FunctionService functionService;
+
 	@RequestMapping("/doIt")
 	@ResponseBody
 	public InvokeVo doIt(String op, HttpServletRequest request) {
@@ -37,8 +41,14 @@ public class SupperController extends ParentController {
 		try {
 			if (LangUtils.equals("1", op)) {
 				resourcesSolrService.synchronizedAll();
-			}else if(LangUtils.equals("2", op)){
+			} else if (LangUtils.equals("2", op)) {
 				resourcesSolrService.delete(request.getParameter("DELETEDIDS"));
+			} else if (LangUtils.equals("3", op)) {
+				functionService.exportResourceData(Long.valueOf(request.getParameter("ltId")),
+						Long.valueOf(request.getParameter("gtId")), null);
+			} else if (LangUtils.equals("4", op)) {
+				functionService.exportResourceContentData(Long.valueOf(request.getParameter("ltId")),
+						Long.valueOf(request.getParameter("gtId")), null);
 			}
 		} catch (Exception e) {
 			invokeVo = new InvokeVo("执行失败", null, 0);
