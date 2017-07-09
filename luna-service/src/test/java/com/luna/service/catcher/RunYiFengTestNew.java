@@ -106,7 +106,7 @@ public class RunYiFengTestNew extends ParentTest {
 		// list.add("http://www.ruanyifeng.com/blog/2008/01/javascript_book_recommendation.html");
 		// list.add("http://www.ruanyifeng.com/blog/2008/02/notes_on_the_cathedral_and_the_bazaar.html");
 		// list.add("http://www.ruanyifeng.com/blog/2008/02/codes_for_language_names.html");
-		
+
 		// list.add("http://www.ruanyifeng.com/blog/2017/05/websocket.html");
 		// list.add("http://www.ruanyifeng.com/blog/2017/05/technology-is-future.html");
 		// list.add("http://www.ruanyifeng.com/blog/2008/02/rdf.html");
@@ -145,12 +145,13 @@ public class RunYiFengTestNew extends ParentTest {
 		catcherModel.setCatcherWebsiteCode(1);
 		catcherModel.setAttachementPath(
 				"D:/workspaces/eclipse_20170116/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/luna-web/static/attachement");
-		
 
-		List<CatcherIteratorRuler> iteratorRulers = new ArrayList<CatcherIteratorRuler>();
-		catcherModel.setIteratorRulers(iteratorRulers);
+		// List<CatcherIteratorRuler> iteratorRulers = new
+		// ArrayList<CatcherIteratorRuler>();
+		// catcherModel.setIteratorRulers(iteratorRulers);
 		CatcherIteratorRuler iteratorRuler = new CatcherIteratorRuler();
-		iteratorRulers.add(iteratorRuler);
+		// iteratorRulers.add(iteratorRuler);
+		catcherModel.setIteratorRuler(iteratorRuler);
 
 		// 中间path
 		iteratorRuler.setContentXPath("//article[@class='hentry']/div[@class='asset-content']/*");
@@ -179,44 +180,42 @@ public class RunYiFengTestNew extends ParentTest {
 		breakValues.add("==========");
 
 		List<CatcherReplaceModel> replaceModelsA = new ArrayList<CatcherReplaceModel>();
-		CatcherReplaceModel catcherReplaceModel = new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(),
-				new String[] { "a" }, "");
+		CatcherReplaceModel catcherReplaceModel = new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(), "a", "");
 		catcherReplaceModel.setIndexOfcondition("www.ruanyifeng.com");
 		replaceModelsA.add(catcherReplaceModel);
 
 		evalueCatchRulers(contentCatchRulers, "//table/allText()", "//table", replaceModelsA,
 				HandlerMethodEnum.ORIGIN.getCode(), null, null);
-		
+
 		evalueCatchRulers(contentCatchRulers, "//ol/li/allText()", "//ol", replaceModelsA,
 				HandlerMethodEnum.ORIGIN.getCode(), null, null);
-		
+
 		evalueCatchRulers(contentCatchRulers, "//ul/li/allText()", "//ul", replaceModelsA,
 				HandlerMethodEnum.ORIGIN.getCode(), null, null);
-		
+
 		evalueCatchRulers(contentCatchRulers, "//blockquote/ul/li/allText()", "//blockquote/html()", replaceModelsA,
 				HandlerMethodEnum.ORIGIN.getCode(), null, null);
 
 		evalueCatchRulers(contentCatchRulers, null, "//blockquote/pre/code[@class='language-javascript']/allText()",
 				null, HandlerMethodEnum.LANGUGE_JS.getCode(), null, null);
-		
-		evalueCatchRulers(contentCatchRulers, null, "//blockquote/pre/code[@class='language-bash']/allText()",
-				null, HandlerMethodEnum.LANGUGE_BASH.getCode(), null, null);
-		
-		evalueCatchRulers(contentCatchRulers, null, "//blockquote/pre/code[@class='language-http']/allText()",
-				null, HandlerMethodEnum.PRE.getCode(), null, null);
-		
-		evalueCatchRulers(contentCatchRulers, null, "//blockquote/pre/code[@class='language-markup']/allText()",
-				null, HandlerMethodEnum.PRE.getCode(), null, null);
+
+		evalueCatchRulers(contentCatchRulers, null, "//blockquote/pre/code[@class='language-bash']/allText()", null,
+				HandlerMethodEnum.LANGUGE_BASH.getCode(), null, null);
+
+		evalueCatchRulers(contentCatchRulers, null, "//blockquote/pre/code[@class='language-http']/allText()", null,
+				HandlerMethodEnum.PRE.getCode(), null, null);
+
+		evalueCatchRulers(contentCatchRulers, null, "//blockquote/pre/code[@class='language-markup']/allText()", null,
+				HandlerMethodEnum.PRE.getCode(), null, null);
 
 		List<CatcherReplaceModel> replaceModels = new ArrayList<CatcherReplaceModel>();
-		replaceModels.add(new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(), new String[] { "p" }, ""));
-		replaceModels.add(new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(), new String[] { "br" }, "\r\n"));
+		replaceModels.add(new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(), "p", ""));
+		replaceModels.add(new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(), "br", "\r\n"));
 		evalueCatchRulers(contentCatchRulers, "//blockquote/p/allText()", "//blockquote/html()", replaceModels,
 				HandlerMethodEnum.PRE.getCode(), null, null);
-		
+
 		evalueCatchRulers(contentCatchRulers, "//blockquote/div/p/allText()", "//blockquote/html()", replaceModelsA,
 				HandlerMethodEnum.CALLOUT_INFO.getCode(), null, null);
-		
 
 		evalueCatchRulers(contentCatchRulers, null, "//p/html()", replaceModelsA, HandlerMethodEnum.P.getCode(),
 				breakValues, indexOfFilters);
@@ -254,7 +253,7 @@ public class RunYiFengTestNew extends ParentTest {
 	}
 
 	public static List<CatchRuler> evalueCatchRulers(List<CatchRuler> catchRulers, String tryXPath, String getXPath,
-			Integer replaceCode, String[] replaceTagNames, String replacement, Integer handlerCode,
+			Integer replaceCode, String replaceTagNames, String replacement, Integer handlerCode,
 			List<String> breakValues, String indexOfFilter) {
 		if (null == catchRulers) {
 			catchRulers = new ArrayList<CatchRuler>();
@@ -285,7 +284,7 @@ public class RunYiFengTestNew extends ParentTest {
 	}
 
 	public void addCatcherReplaceModels(List<CatcherReplaceModel> replaceModels, Integer replaceCode,
-			String[] replaceTagNames, String replacement) {
+			String replaceTagNames, String replacement) {
 		if (null == replaceModels) {
 			replaceModels = new ArrayList<CatcherReplaceModel>();
 		}

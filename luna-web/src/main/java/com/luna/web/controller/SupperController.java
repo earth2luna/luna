@@ -56,7 +56,8 @@ public class SupperController extends ParentController {
 		}
 		return invokeVo;
 	}
-
+	
+	
 	@RequestMapping("/view")
 	public String view() {
 		return "super/view";

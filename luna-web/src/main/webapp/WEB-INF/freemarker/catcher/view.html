@@ -1,0 +1,207 @@
+<html lang="zh-CN">
+<head>
+<title>强势登陆月球计划</title>
+<!--  
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ -->
+<link href="/static/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+<script src="/static/resources/sources/jquery-1.12.4.min.js"></script>
+<script src="/static/resources/bootstrap/js/bootstrap.min.js"></script>
+
+<link href="/static/resources/syntaxhighlighter/syntaxhighlighter.css" rel="stylesheet">
+<script src="/static/resources/layer/layer.js"></script>
+<script src="/static/resources/sources/jquery.form.js"></script>
+<script src="/static/resources/custom/js/catcher.js"></script>
+<link rel="apple-touch-icon" href="/static/resources/custom/images/apple-touch-icon.png">
+<link rel="icon" href="/static/resources/custom/images/favicon.ico">
+</head>
+<body>
+	<#include "behind/luna_languge.html"/>
+	<hr>
+	 <div class="container bs-docs-container">
+	     <div class="row">
+		      <div class="col-md-9" role="main">
+				<form class="script-catcher-form" method="post" action="/catcher/add">
+				  <div class="form-group">
+				    <label for="catcherWebUrl">被抓取网站的URL</label>
+				    <input type="text" class="form-control" placeholder="被抓取的URL" id="catcherWebUrl" name="catcherWebUrl">
+				  </div>
+				  <div class="form-group">
+				    <label for="catcherWebName">被抓取网站的中文名称</label>
+				    <input type="text" class="form-control"  placeholder="被抓取网站的中文名称" id="catcherWebName" name="catcherWebName">
+				  </div>
+				  <div class="form-group">
+				    <label for="attachementPath">附件路径</label>
+				    <input type="text" class="form-control"  placeholder="附件路径" id="attachementPath" name="attachementPath">
+				  </div>
+				  <div class="form-group">
+				    <label for="catcherWebsiteCode">被抓取网站的数字编码</label>
+				    <input type="text" class="form-control"  placeholder="被抓取网站的数字编码" id="catcherWebsiteCode" name="catcherWebsiteCode">
+				  </div>
+				  <div class="form-group">
+				    <label for="resourceCategoryCode">被抓取资源所属类目</label>
+				    <select class="form-control"  id="resourceCategoryCode" name="resourceCategoryCode">
+						<#list childrenCategories as category>
+							<#if category.id==resources.categoryId>
+								<option value="${category.id}" selected="selected">${category.name}</option>
+							<#else>
+								<option value="${category.id}">${category.name}</option>
+							</#if>
+						</#list>
+					</select>
+				  </div>
+				  <div class="form-group">
+				  	<label>标题抓取规则</label>
+				  	<ol>
+				  		<li>
+				  			<div class="input-group script-p-m">
+				  				<input type="text" class="form-control" placeholder="标题抓取规则"  originName="resourceTitleCatchRulers[].getXPath">
+				  			</div>
+				  		</li>
+				  	</ol>
+				  </div>
+				  <div class="form-group">
+				  	<label>作者抓取规则</label>
+				  	<ol>
+				  		<li>
+				  			<div class="input-group script-p-m">
+				  				<input type="text" class="form-control" placeholder="作者抓取规则"  originName="resourceAuthorCatchRulers[].getXPath">
+				  			</div>
+				  		</li>
+				  	</ol>
+				  </div>
+				  <div class="form-group">
+				    <label for="resourceDateFormat">时间格式</label>
+				    <input type="text" class="form-control"  placeholder="时间格式" id="resourceDateFormat" name="resourceDateFormat">
+				  </div>
+				  <div class="form-group">
+				  	<label>时间抓取规则</label>
+				  	<ol>
+				  		<li>
+				  			<div class="input-group script-p-m">
+				  				<input type="text" class="form-control" placeholder="日期抓取规则"  originName="resourceDateCatchRulers[].getXPath">
+				  			</div>
+				  		</li>
+				  	</ol>
+				  </div>
+				  <div class="form-group">
+				    <label for="contentXPath">循环内容抓取规则</label>
+				    <input type="text" class="form-control"  placeholder="循环内容抓取规则" id="contentXPath" name="iteratorRuler.contentXPath">
+				  </div>
+				  <div class="form-group">
+				  	<label>一级内容标题抓取规则</label>
+				  	<ol>
+				  		<li>
+				  			<div class="input-group script-p-m">
+				  				<input type="text" class="form-control" placeholder="一级内容标题抓取规则"  originName="iteratorRuler.oneLevelContentTitleCatchRulers[].getXPath">
+				  			</div>
+				  		</li>
+				  	</ol>
+				  </div>
+				  <div class="form-group">
+				  	<label>二级内容标题抓取规则</label>
+				  	<ol>
+				  		<li>
+				  			<div class="input-group script-p-m">
+				  				<input type="text" class="form-control" placeholder="二级内容标题抓取规则"  originName="iteratorRuler.twoLevelContentTitleCatchRulers[].getXPath">
+				  			</div>
+				  		</li>
+				  	</ol>
+				  </div>
+				  <div class="form-group">
+				  	<label>内容附件抓取规则</label>
+				  	<ol>
+				  		<li>
+				  			<div class="input-group script-p-m">
+				  				<input type="text" class="form-control" placeholder="内容附件抓取规则"  originName="iteratorRuler.contentPathCatchRulers[].getXPath">
+				  			</div>
+				  		</li>
+				  	</ol>
+				  </div>
+				  <div class="form-group">
+				  	<label>正文抓取规则</label>
+				  	<ol>
+				  		<li>
+				  			<div class="input-group script-p-m">
+				  				<input type="text" class="form-control" placeholder="正文尝试抓取规则"  originName="iteratorRuler.contentCatchRulers[].tryXPath" >
+				  				<input type="text" class="form-control" placeholder="正文正式抓取规则"  originName="iteratorRuler.contentCatchRulers[].getXPath" >
+				  				<select class="form-control"  originName="iteratorRuler.contentCatchRulers[].handlerCode">
+									<#list handlers as handler>
+										<#if content?? && content.handlerCode==handler.getCode()>
+											<option value="${handler.getCode()}" selected="selected">${handler.getName()}</option>
+										<#else>
+											<option value="${handler.getCode()}">${handler.getName()}</option>
+										</#if>
+									</#list>
+								</select>
+				  			</div>
+				  		</li>
+				  	</ol>
+				  </div>
+				  <div class="form-group">
+				  	<label>全局替换规则</label>
+				  	<ol>
+				  		<li>
+				  			<div class="input-group script-p-m">
+				  				<input type="text" class="form-control" placeholder="替换条件"  originName="replaceModels[].indexOfcondition">
+				  				<select class="form-control" originName="replaceModels[].replaceCode">
+									<#list htmlMarchers as marcher>
+										<#if content?? && content.handlerCode==marcher.getCode()>
+											<option value="${marcher.getCode()}" selected="selected">${marcher.getName()}</option>
+										<#else>
+											<option value="${marcher.getCode()}">${marcher.getName()}</option>
+										</#if>
+									</#list>
+								</select>
+								<input type="text" class="form-control" placeholder="替换标签，多个以逗号分割"  originName="replaceModels[].replaceTagNames">
+								<input type="text" class="form-control" placeholder="替换内容" originName="replaceModels[].replacement">
+				  			</div>
+				  		</li>
+				  	</ol>
+				  </div>
+				  <div class="form-group">
+				  	<label>indexOfFilter</label>
+				  	<ol>
+				  		<li>
+				  			<div class="input-group script-p-m">
+				  				<input type="text" class="form-control" placeholder="indexOfFilter"  originName="indexOfFilters">
+				  			</div>
+				  		</li>
+				  	</ol>
+				  </div>
+				  <div class="form-group">
+				  	<label>equalsFilter</label>
+				  	<ol>
+				  		<li>
+				  			<div class="input-group script-p-m">
+				  				<input type="text" class="form-control" placeholder="equalsFilter"  originName="equalsFilters">
+				  			</div>
+				  		</li>
+				  	</ol>
+				  </div>
+				  <div class="form-group">
+				  	<label>breakValue</label>
+				  	<ol>
+				  		<li>
+				  			<div class="input-group script-p-m">
+				  				<input type="text" class="form-control" placeholder="breakValue" originName="breakValues">
+				  			</div>
+				  		</li>
+				  	</ol>
+				  </div>
+				  <div class="checkbox">
+				    <label>
+				      <input type="checkbox"> Check me out
+				    </label>
+				  </div>
+				  <button type="button" onclick="Catcher.submit();" class="btn btn-default">Submit</button>
+				</form>
+			 </div>
+		</div>
+	</div>
+</body>
+</html>

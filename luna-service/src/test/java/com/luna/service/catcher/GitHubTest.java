@@ -79,12 +79,15 @@ public class GitHubTest extends ParentTest {
 		catcherModel.setAttachementPath(
 				"D:/workspaces/eclipse_20170116/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/luna-web/static/attachement");
 
-		List<CatcherIteratorRuler> iteratorRulers = new ArrayList<CatcherIteratorRuler>();
-		catcherModel.setIteratorRulers(iteratorRulers);
+		// List<CatcherIteratorRuler> iteratorRulers = new
+		// ArrayList<CatcherIteratorRuler>();
+		// catcherModel.setIteratorRulers(iteratorRulers);
 
 		CatcherIteratorRuler iteratorRuler = new CatcherIteratorRuler();
 
-		iteratorRulers.add(iteratorRuler);
+		// iteratorRulers.add(iteratorRuler);
+
+		catcherModel.setIteratorRuler(iteratorRuler);
 
 		// 中间path
 		iteratorRuler.setContentXPath(
@@ -136,7 +139,7 @@ public class GitHubTest extends ParentTest {
 
 		evalueCatchRulers(contentCatchRulers, null, "//div[@class='highlight-source-coffee']/pre/allText()", null, null,
 				null, HandlerMethodEnum.PRE.getCode(), null, null);
-		
+
 		evalueCatchRulers(contentCatchRulers, null, "//pre/code/allText()", null, null, null,
 				HandlerMethodEnum.PRE.getCode(), null, null);
 
@@ -160,7 +163,7 @@ public class GitHubTest extends ParentTest {
 	}
 
 	public static List<CatchRuler> evalueCatchRulers(List<CatchRuler> catchRulers, String tryXPath, String getXPath,
-			Integer replaceCode, String[] replaceTagNames, String replacement, Integer handlerCode,
+			Integer replaceCode, String replaceTagNames, String replacement, Integer handlerCode,
 			List<String> breakValues, String indexOfFilter) {
 		if (null == catchRulers) {
 			catchRulers = new ArrayList<CatchRuler>();
@@ -191,7 +194,7 @@ public class GitHubTest extends ParentTest {
 	}
 
 	public void addCatcherReplaceModels(List<CatcherReplaceModel> replaceModels, Integer replaceCode,
-			String[] replaceTagNames, String replacement) {
+			String replaceTagNames, String replacement) {
 		if (null == replaceModels) {
 			replaceModels = new ArrayList<CatcherReplaceModel>();
 		}

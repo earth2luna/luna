@@ -120,17 +120,18 @@ public class RunYiFengTest extends ParentTest {
 				"D:/workspaces/eclipse_20170116/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/luna-web/static/attachement");
 		catcherModel.setResourceCategoryCode(1);
 
-		List<CatcherIteratorRuler> iteratorRulers = new ArrayList<CatcherIteratorRuler>();
+		// List<CatcherIteratorRuler> iteratorRulers = new
+		// ArrayList<CatcherIteratorRuler>();
 		CatcherIteratorRuler iteratorRulerBefore = new CatcherIteratorRuler();
 		CatcherIteratorRuler iteratorRuler = new CatcherIteratorRuler();
-		iteratorRulers.add(iteratorRulerBefore);
-		iteratorRulers.add(iteratorRuler);
-		catcherModel.setIteratorRulers(iteratorRulers);
-
+		// iteratorRulers.add(iteratorRulerBefore);
+		// iteratorRulers.add(iteratorRuler);
+		// catcherModel.setIteratorRulers(iteratorRulers);
+		catcherModel.setIteratorRuler(iteratorRuler);
 		iteratorRulerBefore.setOneLevelContentTitleCatchRulers(
 				evalueCatchRulers(null, null, "//article[@class='hentry']/h1[@id='page-title']/text()", null, null,
 						null, HandlerMethodEnum.P.getCode(), null, null));
-		iteratorRulerBefore.setIfMark(true);
+		// iteratorRulerBefore.setIfMark(true);
 
 		// 中间path
 		iteratorRuler.setContentXPath("//article[@class='hentry']/div[@class='asset-content']/*");
@@ -152,36 +153,30 @@ public class RunYiFengTest extends ParentTest {
 				"===================================", null);
 
 		List<CatcherReplaceModel> replaceModels = new ArrayList<CatcherReplaceModel>();
-		replaceModels.add(
-				new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(), new String[] { "p", "a", "div", "sub" }, ""));
-		replaceModels.add(new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(), new String[] { "br" }, "\r\n"));
+		replaceModels.add(new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(), "p,a,div,sub", ""));
+		replaceModels.add(new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(), "br", "\r\n"));
 		evalueCatchRulers(contentCatchRulers, "//blockquote/p/br", "//blockquote/html()", replaceModels,
 				HandlerMethodEnum.PRE.getCode(), null, null);
 
 		evalueCatchRulers(contentCatchRulers, "//blockquote/ul", "//blockquote/html()", HtmlMarcherEnum.TAG.getCode(),
-				new String[] { "p", "a", "div", "sub" }, null, HandlerMethodEnum.ORIGIN.getCode(), null, null);
+				"p,a,div,sub", null, HandlerMethodEnum.ORIGIN.getCode(), null, null);
 
 		evalueCatchRulers(contentCatchRulers, "//blockquote/p/code", "//blockquote/html()",
-				HtmlMarcherEnum.TAG.getCode(), new String[] { "p", "a", "div", "sub", "code" }, null,
-				HandlerMethodEnum.PRE.getCode(), null, null);
+				HtmlMarcherEnum.TAG.getCode(), "p,a,div,sub,code", null, HandlerMethodEnum.PRE.getCode(), null, null);
 
 		evalueCatchRulers(contentCatchRulers, "//blockquote/div/p/strong/allText()", "//blockquote/html()",
-				HtmlMarcherEnum.TAG.getCode(), new String[] { "p", "a", "div", "sub" }, null,
-				HandlerMethodEnum.P.getCode(), null, null);
+				HtmlMarcherEnum.TAG.getCode(), "p,a,div,sub", null, HandlerMethodEnum.P.getCode(), null, null);
 
 		evalueCatchRulers(contentCatchRulers, "//blockquote/p/strong/allText()", "//blockquote/html()",
-				HtmlMarcherEnum.TAG.getCode(), new String[] { "p", "a", "div", "sub" }, null,
-				HandlerMethodEnum.P.getCode(), null, null);
+				HtmlMarcherEnum.TAG.getCode(), "p,a,div,sub", null, HandlerMethodEnum.P.getCode(), null, null);
 
 		evalueCatchRulers(contentCatchRulers, "//blockquote/div/p/allText()", "//blockquote/div/html()",
-				HtmlMarcherEnum.TAG.getCode(), new String[] { "p", "a", "sub" }, null, HandlerMethodEnum.PRE.getCode(),
-				null, null);
+				HtmlMarcherEnum.TAG.getCode(), "p,a,sub", null, HandlerMethodEnum.PRE.getCode(), null, null);
 		evalueCatchRulers(contentCatchRulers, "//blockquote/p/allText()", "//blockquote/html()",
-				HtmlMarcherEnum.TAG.getCode(), new String[] { "p", "a", "sub" }, null, HandlerMethodEnum.PRE.getCode(),
-				null, null);
+				HtmlMarcherEnum.TAG.getCode(), "p,a,sub", null, HandlerMethodEnum.PRE.getCode(), null, null);
 
 		evalueCatchRulers(contentCatchRulers, "//blockquote/ul/li/a/html()", "//blockquote/ul",
-				HtmlMarcherEnum.TAG.getCode(), new String[] { "a" }, null, HandlerMethodEnum.P.getCode(), null, null);
+				HtmlMarcherEnum.TAG.getCode(), "a", null, HandlerMethodEnum.P.getCode(), null, null);
 
 		evalueCatchRulers(contentCatchRulers, null, "//blockquote/ul", null, null, null, HandlerMethodEnum.P.getCode(),
 				null, null);
@@ -189,14 +184,14 @@ public class RunYiFengTest extends ParentTest {
 		evalueCatchRulers(contentCatchRulers, null, "//blockquote/pre/code/allText()", null, null, null,
 				HandlerMethodEnum.PRE.getCode(), null, null);
 
-		evalueCatchRulers(contentCatchRulers, "//p/a/strong/text()", "//p/html()", HtmlMarcherEnum.TAG.getCode(),
-				new String[] { "a" }, null, HandlerMethodEnum.P.getCode(), null, null);
+		evalueCatchRulers(contentCatchRulers, "//p/a/strong/text()", "//p/html()", HtmlMarcherEnum.TAG.getCode(), "a",
+				null, HandlerMethodEnum.P.getCode(), null, null);
 
 		evalueCatchRulers(contentCatchRulers, "//ul/li/a/html()", "//ul", null, null, null,
 				HandlerMethodEnum.P.getCode(), null, null);
 
-		evalueCatchRulers(contentCatchRulers, "//p/a/text()", "//p/html()", HtmlMarcherEnum.TAG.getCode(),
-				new String[] { "a" }, null, HandlerMethodEnum.P.getCode(), null, null);
+		evalueCatchRulers(contentCatchRulers, "//p/a/text()", "//p/html()", HtmlMarcherEnum.TAG.getCode(), "a", null,
+				HandlerMethodEnum.P.getCode(), null, null);
 
 		evalueCatchRulers(contentCatchRulers, "//p/code/text()", "//p/html()", null, null, null,
 				HandlerMethodEnum.P.getCode(), null, null);
@@ -240,7 +235,7 @@ public class RunYiFengTest extends ParentTest {
 	}
 
 	public static List<CatchRuler> evalueCatchRulers(List<CatchRuler> catchRulers, String tryXPath, String getXPath,
-			Integer replaceCode, String[] replaceTagNames, String replacement, Integer handlerCode, String breakValue,
+			Integer replaceCode, String replaceTagNames, String replacement, Integer handlerCode, String breakValue,
 			String indexOfFilter) {
 		if (null == catchRulers) {
 			catchRulers = new ArrayList<CatchRuler>();
@@ -283,7 +278,7 @@ public class RunYiFengTest extends ParentTest {
 	}
 
 	public void addCatcherReplaceModels(List<CatcherReplaceModel> replaceModels, Integer replaceCode,
-			String[] replaceTagNames, String replacement) {
+			String replaceTagNames, String replacement) {
 		if (null == replaceModels) {
 			replaceModels = new ArrayList<CatcherReplaceModel>();
 		}

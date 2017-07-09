@@ -16,18 +16,18 @@ public class CatcherModel {
 	private String catcherWebName;
 	private Integer catcherWebsiteCode;
 	private String attachementPath;
-	
+
 	private String resourceTitle;// 文章标题
 	private String resourceAuthor;// 作者
 	private String resourceDate;// 发布日期
-	
+
 	private List<CatchRuler> resourceTitleCatchRulers;// 文章标题
 	private List<CatchRuler> resourceAuthorCatchRulers;// 作者
 	private List<CatchRuler> resourceDateCatchRulers;// 发布日期
 	private String resourceDateFormat;
 	private Integer resourceCategoryCode;
 	private Long resourceCreatorId;
-	private List<CatcherIteratorRuler> iteratorRulers;
+	private CatcherIteratorRuler iteratorRuler;
 
 	public CatcherModel() {
 	}
@@ -35,7 +35,7 @@ public class CatcherModel {
 	public CatcherModel(String catcherWebUrl, String catcherWebName, List<CatchRuler> resourceTitleCatchRulers,
 			List<CatchRuler> resourceAuthorCatchRulers, List<CatchRuler> resourceDateCatchRulers,
 			String resourceDateFormat, Integer resourceCategoryCode, Long resourceCreatorId,
-			List<CatcherIteratorRuler> iteratorRulers) {
+			CatcherIteratorRuler iteratorRuler) {
 		super();
 		this.catcherWebUrl = catcherWebUrl;
 		this.catcherWebName = catcherWebName;
@@ -45,7 +45,7 @@ public class CatcherModel {
 		this.resourceDateFormat = resourceDateFormat;
 		this.resourceCategoryCode = resourceCategoryCode;
 		this.resourceCreatorId = resourceCreatorId;
-		this.iteratorRulers = iteratorRulers;
+		this.iteratorRuler = iteratorRuler;
 	}
 
 	/**
@@ -169,18 +169,18 @@ public class CatcherModel {
 	}
 
 	/**
-	 * @return the iteratorRulers
+	 * @return the iteratorRuler
 	 */
-	public List<CatcherIteratorRuler> getIteratorRulers() {
-		return iteratorRulers;
+	public CatcherIteratorRuler getIteratorRuler() {
+		return iteratorRuler;
 	}
 
 	/**
-	 * @param iteratorRulers
-	 *            the iteratorRulers to set
+	 * @param iteratorRuler
+	 *            the iteratorRuler to set
 	 */
-	public void setIteratorRulers(List<CatcherIteratorRuler> iteratorRulers) {
-		this.iteratorRulers = iteratorRulers;
+	public void setIteratorRuler(CatcherIteratorRuler iteratorRuler) {
+		this.iteratorRuler = iteratorRuler;
 	}
 
 	/**

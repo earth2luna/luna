@@ -37,10 +37,10 @@ public class ZhangKaitaoIteyeTest extends ParentTest {
 		// catcher("http://jinnianshilongnian.iteye.com/blog/2289767");
 		// catcher("http://jinnianshilongnian.iteye.com/blog/2312284");
 		// catcher("http://jinnianshilongnian.iteye.com/blog/2319573");
-//		catcher("http://jinnianshilongnian.iteye.com/blog/2305117");
-//		catcher("http://jinnianshilongnian.iteye.com/blog/2306477");
-//		catcher("http://jinnianshilongnian.iteye.com/blog/2321715");
-//		catcher("http://jinnianshilongnian.iteye.com/blog/2324025");
+		// catcher("http://jinnianshilongnian.iteye.com/blog/2305117");
+		// catcher("http://jinnianshilongnian.iteye.com/blog/2306477");
+		// catcher("http://jinnianshilongnian.iteye.com/blog/2321715");
+		// catcher("http://jinnianshilongnian.iteye.com/blog/2324025");
 		catcher("http://jinnianshilongnian.iteye.com/blog/2202743");
 
 	}
@@ -61,11 +61,12 @@ public class ZhangKaitaoIteyeTest extends ParentTest {
 		catcherModel.setAttachementPath(
 				"D:/workspaces/eclipse_20170116/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/luna-web/static/attachement");
 
-		List<CatcherIteratorRuler> iteratorRulers = new ArrayList<CatcherIteratorRuler>();
-		catcherModel.setIteratorRulers(iteratorRulers);
+		// List<CatcherIteratorRuler> iteratorRulers = new
+		// ArrayList<CatcherIteratorRuler>();
+		// catcherModel.setIteratorRulers(iteratorRulers);
 		CatcherIteratorRuler iteratorRuler = new CatcherIteratorRuler();
-		iteratorRulers.add(iteratorRuler);
-
+		// iteratorRulers.add(iteratorRuler);
+		catcherModel.setIteratorRuler(iteratorRuler);
 		// 中间path
 		iteratorRuler.setContentXPath(
 				"//div[@id='main']/div[@class='blog_main']/div/div[@class='iteye-blog-content-contain']/*");
@@ -83,15 +84,12 @@ public class ZhangKaitaoIteyeTest extends ParentTest {
 		breakValues.add("===========================");
 
 		List<CatcherReplaceModel> replaceModelsA = new ArrayList<CatcherReplaceModel>();
-		CatcherReplaceModel catcherReplaceModel = new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(),
-				new String[] { "a", "span" }, "");
+		CatcherReplaceModel catcherReplaceModel = new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(), "a,span", "");
 		catcherReplaceModel.setIndexOfcondition("jinnianshilongnian.iteye.com");
 		replaceModelsA.add(catcherReplaceModel);
-		replaceModelsA.add(new CatcherReplaceModel(HtmlMarcherEnum.TAG_ATTRIBUTE.getCode(),
-				new String[] { "strong", "p", "span", "ul", "li" }, ""));
+		replaceModelsA.add(new CatcherReplaceModel(HtmlMarcherEnum.TAG_ATTRIBUTE.getCode(), "strong,p,span,ul,li", ""));
 
-		CatcherReplaceModel catcherReplaceModel1 = new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(),
-				new String[] { "a", "span" }, "");
+		CatcherReplaceModel catcherReplaceModel1 = new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(), "a,span", "");
 		catcherReplaceModel1.setIndexOfcondition("mp.weixin.qq.com");
 		replaceModelsA.add(catcherReplaceModel1);
 
@@ -219,7 +217,7 @@ public class ZhangKaitaoIteyeTest extends ParentTest {
 	}
 
 	public static List<CatchRuler> evalueCatchRulers(List<CatchRuler> catchRulers, String tryXPath, String getXPath,
-			Integer replaceCode, String[] replaceTagNames, String replacement, Integer handlerCode,
+			Integer replaceCode, String replaceTagNames, String replacement, Integer handlerCode,
 			List<String> breakValues, String indexOfFilter) {
 		if (null == catchRulers) {
 			catchRulers = new ArrayList<CatchRuler>();
@@ -263,7 +261,7 @@ public class ZhangKaitaoIteyeTest extends ParentTest {
 	}
 
 	public void addCatcherReplaceModels(List<CatcherReplaceModel> replaceModels, Integer replaceCode,
-			String[] replaceTagNames, String replacement) {
+			String replaceTagNames, String replacement) {
 		if (null == replaceModels) {
 			replaceModels = new ArrayList<CatcherReplaceModel>();
 		}

@@ -25,14 +25,14 @@ public class CSDNYinWenJie extends ParentTest {
 	@Test
 	public void main() {
 
-//		catcher("http://blog.csdn.net/yinwenjie/article/details/46605451");
-//		catcher("http://blog.csdn.net/yinwenjie/article/details/46620711");
-//		catcher("http://blog.csdn.net/yinwenjie/article/details/46742661");
-//		catcher("http://blog.csdn.net/yinwenjie/article/details/46845997");
-//		catcher("http://blog.csdn.net/yinwenjie/article/details/47010569");
-//		catcher("http://blog.csdn.net/yinwenjie/article/details/47130609");
-//		catcher("http://blog.csdn.net/yinwenjie/article/details/47211551");
-//		catcher("http://blog.csdn.net/yinwenjie/article/details/47211641");
+		// catcher("http://blog.csdn.net/yinwenjie/article/details/46605451");
+		// catcher("http://blog.csdn.net/yinwenjie/article/details/46620711");
+		// catcher("http://blog.csdn.net/yinwenjie/article/details/46742661");
+		// catcher("http://blog.csdn.net/yinwenjie/article/details/46845997");
+		// catcher("http://blog.csdn.net/yinwenjie/article/details/47010569");
+		// catcher("http://blog.csdn.net/yinwenjie/article/details/47130609");
+		// catcher("http://blog.csdn.net/yinwenjie/article/details/47211551");
+		// catcher("http://blog.csdn.net/yinwenjie/article/details/47211641");
 		catcher("http://blog.csdn.net/yinwenjie/article/details/48101869");
 
 	}
@@ -54,10 +54,12 @@ public class CSDNYinWenJie extends ParentTest {
 		catcherModel.setAttachementPath(
 				"D:/workspaces/eclipse_20170116/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/luna-web/static/attachement");
 
-		List<CatcherIteratorRuler> iteratorRulers = new ArrayList<CatcherIteratorRuler>();
-		catcherModel.setIteratorRulers(iteratorRulers);
+		// List<CatcherIteratorRuler> iteratorRulers = new
+		// ArrayList<CatcherIteratorRuler>();
+		// catcherModel.setIteratorRulers(iteratorRulers);
 		CatcherIteratorRuler iteratorRuler = new CatcherIteratorRuler();
-		iteratorRulers.add(iteratorRuler);
+		// iteratorRulers.add(iteratorRuler);
+		catcherModel.setIteratorRuler(iteratorRuler);
 
 		// 中间path
 		iteratorRuler.setContentXPath("//div[@id='article_content']/div[@class='markdown_views']/*");
@@ -73,16 +75,14 @@ public class CSDNYinWenJie extends ParentTest {
 		List<String> breakValues = new ArrayList<String>();
 
 		List<CatcherReplaceModel> replaceModelsA = new ArrayList<CatcherReplaceModel>();
-		CatcherReplaceModel catcherReplaceModel = new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(),
-				new String[] { "a", "span" }, "");
+		CatcherReplaceModel catcherReplaceModel = new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(), "a,span", "");
 		catcherReplaceModel.setIndexOfcondition("http://blog.csdn.net/yinwenjie");
 		replaceModelsA.add(catcherReplaceModel);
 		// replaceModelsA.add(new
 		// CatcherReplaceModel(HtmlMarcherEnum.TAG_ATTRIBUTE.getCode(),
 		// new String[] { "strong", "p", "span", "ul", "li" }, ""));
 		//
-		CatcherReplaceModel catcherReplaceModel1 = new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(),
-				new String[] { "a", "span" }, "");
+		CatcherReplaceModel catcherReplaceModel1 = new CatcherReplaceModel(HtmlMarcherEnum.TAG.getCode(), "a,span", "");
 		catcherReplaceModel1.setIndexOfcondition("http://lib.csdn.net");
 		replaceModelsA.add(catcherReplaceModel1);
 
@@ -178,7 +178,7 @@ public class CSDNYinWenJie extends ParentTest {
 	}
 
 	public static List<CatchRuler> evalueCatchRulers(List<CatchRuler> catchRulers, String tryXPath, String getXPath,
-			Integer replaceCode, String[] replaceTagNames, String replacement, Integer handlerCode,
+			Integer replaceCode, String replaceTagNames, String replacement, Integer handlerCode,
 			List<String> breakValues, String indexOfFilter) {
 		if (null == catchRulers) {
 			catchRulers = new ArrayList<CatchRuler>();
@@ -222,7 +222,7 @@ public class CSDNYinWenJie extends ParentTest {
 	}
 
 	public void addCatcherReplaceModels(List<CatcherReplaceModel> replaceModels, Integer replaceCode,
-			String[] replaceTagNames, String replacement) {
+			String replaceTagNames, String replacement) {
 		if (null == replaceModels) {
 			replaceModels = new ArrayList<CatcherReplaceModel>();
 		}

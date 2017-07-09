@@ -17,7 +17,6 @@ public class CatcherIteratorRuler {
 	private List<CatchRuler> twoLevelContentTitleCatchRulers;// 二级内容标题
 	private List<CatchRuler> contentCatchRulers;// 内容
 	private List<CatchRuler> contentPathCatchRulers;// 路径
-	private boolean ifMark;// 是否是标记
 
 	/**
 	 * @return the contentXPath
@@ -94,18 +93,5 @@ public class CatcherIteratorRuler {
 		this.contentPathCatchRulers = contentPathCatchRulers;
 	}
 
-	/**
-	 * @return the ifMark
-	 */
-	public boolean isIfMark() {
-		return ifMark;
-	}
-
-	/**
-	 * @param ifMark the ifMark to set
-	 */
-	public void setIfMark(boolean ifMark) {
-		this.ifMark = ifMark;
-	}
 
 }

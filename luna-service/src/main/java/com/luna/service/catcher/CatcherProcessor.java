@@ -96,30 +96,30 @@ public class CatcherProcessor implements PageProcessor {
 		}
 
 		List<CatcherContent> rcs = new ArrayList<CatcherContent>();
-		List<CatcherIteratorRuler> xpaths = catcherModel.getIteratorRulers();
-		Iterator<CatcherIteratorRuler> iterator = xpaths.iterator();
+//		CatcherIteratorRuler xpaths = catcherModel.getIteratorRuler()
+		//Iterator<CatcherIteratorRuler> iterator = xpaths.iterator();
 
 		// Long currentLevel = null;// 当前级别
 		Long oneLevelId = null;// 一级别id
 		Long twoLevelId = null;// 二级别id
 		Long levelId = 0L;// 当前levelId
 		// boolean ifSkip = false;// 是否终止
-		while (iterator.hasNext()) {
-			CatcherIteratorRuler iteratorRuler = iterator.next();
-			if (iteratorRuler.isIfMark()) {
-				// 获取一级内容标题
-				CatcherSubModel oneLevelContentTitleKv = handler(iteratorRuler.getOneLevelContentTitleCatchRulers(),
-						page.getHtml());
-				if (null != oneLevelContentTitleKv) {
-					CatcherContent rc = new CatcherContent();
-					rc.setTitle(oneLevelContentTitleKv.getValue());
-					rc.setHandlerCode(oneLevelContentTitleKv.getHandlerCode());
-					rcs.add(rc);
-					oneLevelId = ++levelId;
-					rc.setLevelId(oneLevelId);
-					// currentLevel = 1L;
-				}
-			} else {
+//		while (iterator.hasNext()) {
+			CatcherIteratorRuler iteratorRuler = catcherModel.getIteratorRuler();
+//			if (iteratorRuler.isIfMark()) {
+//				// 获取一级内容标题
+//				CatcherSubModel oneLevelContentTitleKv = handler(iteratorRuler.getOneLevelContentTitleCatchRulers(),
+//						page.getHtml());
+//				if (null != oneLevelContentTitleKv) {
+//					CatcherContent rc = new CatcherContent();
+//					rc.setTitle(oneLevelContentTitleKv.getValue());
+//					rc.setHandlerCode(oneLevelContentTitleKv.getHandlerCode());
+//					rcs.add(rc);
+//					oneLevelId = ++levelId;
+//					rc.setLevelId(oneLevelId);
+//					// currentLevel = 1L;
+//				}
+//			} else {
 				List<String> transit = page.getHtml().xpath(iteratorRuler.getContentXPath()).all();
 				CatcherContent rc = null;
 				for (int i = 0; i < transit.size(); i++) {
@@ -260,11 +260,11 @@ public class CatcherProcessor implements PageProcessor {
 
 				}
 
-				if (null != rc) {
-
-				}
-			}
-		}
+//				if (null != rc) {
+//
+//				}
+//			}
+//		}
 		resourcesMapper.insert(resources);
 		ContentUtils.insertCatchers(contentMapper, rcs, resources.getId());
 	}
@@ -307,7 +307,7 @@ public class CatcherProcessor implements PageProcessor {
 			// 替换内容
 			if (CollectionUtils.isNotEmpty(ruler.getReplaceModels())) {
 				for (CatcherReplaceModel catchReplaceModel : ruler.getReplaceModels()) {
-					String[] tagNames = catchReplaceModel.getReplaceTagNames();
+					String[] tagNames = StringUtils.split(catchReplaceModel.getReplaceTagNames(),",");
 					HtmlMarcherEnum marcherEnum = HtmlMarcherEnum.get(catchReplaceModel.getReplaceCode());
 					if (ArrayUtils.isEmpty(tagNames) || null == marcherEnum) {
 						continue;

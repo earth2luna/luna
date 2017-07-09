@@ -24,6 +24,9 @@ public class CatchRuler {
 	private List<String> breakValues;// 规则取到的值与此值相同则停止抓取
 	private List<String> indexOfFilters;// index of 过滤条件
 	private List<String> equalsFilters;// equals时过滤
+	
+	public CatchRuler() {
+	}
 
 	public CatchRuler(String tryXPath, String getXPath, List<CatcherReplaceModel> replaceModels, Integer handlerCode,
 			List<String> breakValues, List<String> indexOfFilters) {
@@ -65,11 +68,16 @@ public class CatchRuler {
 	public void setGetXPath(String getXPath) {
 		this.getXPath = getXPath;
 	}
-
+	/**
+	 * @return the replaceModels
+	 */
 	public List<CatcherReplaceModel> getReplaceModels() {
 		return replaceModels;
 	}
 
+	/**
+	 * @param replaceModels the replaceModels to set
+	 */
 	public void setReplaceModels(List<CatcherReplaceModel> replaceModels) {
 		this.replaceModels = replaceModels;
 	}
