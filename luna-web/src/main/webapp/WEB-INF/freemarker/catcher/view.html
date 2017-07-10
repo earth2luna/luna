@@ -41,7 +41,15 @@
 				  </div>
 				  <div class="form-group">
 				    <label for="catcherWebsiteCode">被抓取网站的数字编码</label>
-				    <input type="text" class="form-control"  placeholder="被抓取网站的数字编码" id="catcherWebsiteCode" name="catcherWebsiteCode" value="${rule.catcherWebsiteCode}">
+				    <select class="form-control" id="catcherWebsiteCode" name="catcherWebsiteCode">
+				    	<#list websiteKeyNames as keyName>
+				    		<#if keyName.id==rule.catcherWebsiteCode>
+								<option value="${keyName.id}" selected="selected">${keyName.description}</option>
+							<#else>
+								<option value="${keyName.id}">${keyName.description}</option>
+							</#if>
+						</#list>
+				    </select>
 				  </div>
 				  <div class="form-group">
 				    <label for="resourceCategoryCode">被抓取资源所属类目</label>
@@ -54,6 +62,15 @@
 							</#if>
 						</#list>
 					</select>
+				  </div>
+				  <div class="checkbox">
+				    <label>
+				      <input type="checkbox"> 标题切换
+				    </label>
+				  </div>
+				  <div class="form-group">
+				    <label for="resourceTitle">文章标题</label>
+				    <input type="text" class="form-control"  placeholder="文章标题" id="resourceTitle" name="resourceTitle" value="${rule.resourceTitle}">
 				  </div>
 				  <div class="form-group">
 				  	<label>标题抓取规则</label>
@@ -74,6 +91,15 @@
 					  		</li>
 				  		</#if>
 				  	</ol>
+				  </div>
+				  <div class="checkbox">
+				    <label>
+				      <input type="checkbox"> 作者切换
+				    </label>
+				  </div>
+				  <div class="form-group">
+				    <label for="resourceAuthor">原作者</label>
+				    <input type="text" class="form-control"  placeholder="原作者" id="resourceAuthor" name="resourceAuthor" value="${rule.resourceAuthor}">
 				  </div>
 				  <div class="form-group">
 				  	<label>作者抓取规则</label>
@@ -97,23 +123,32 @@
 				  </div>
 				  <div class="form-group">
 				    <label for="resourceDateFormat">时间格式</label>
-				    <input type="text" class="form-control"  placeholder="时间格式" id="resourceDateFormat" name="resourceDateFormat">
+				    <input type="text" class="form-control"  placeholder="时间格式" id="resourceDateFormat" name="resourceDateFormat" value="${rule.resourceDateFormat}">
+				  </div>
+				  <div class="checkbox">
+				    <label>
+				      <input type="checkbox"> 时间切换
+				    </label>
 				  </div>
 				  <div class="form-group">
-				  	<label>时间抓取规则</label>
+				    <label for="resourceDate">发布日期</label>
+				    <input type="text" class="form-control"  placeholder="发布日期" id="resourceDate" name="resourceDate" value="${rule.resourceDate}">
+				  </div>
+				  <div class="form-group">
+				  	<label>发布日期抓取规则</label>
 				  	<ol>
 				  		<#if (rule.resourceDateCatchRulers??&&rule.resourceDateCatchRulers?size > 0)>
 					  		<#list rule.resourceDateCatchRulers as catcher>
 					  			<li>
 						  			<div class="input-group script-p-m">
-						  				<input type="text" class="form-control" placeholder="日期抓取规则"  originName="resourceDateCatchRulers[].getXPath" value="${catcher.getXPath}">
+						  				<input type="text" class="form-control" placeholder="发布日期抓取规则"  originName="resourceDateCatchRulers[].getXPath" value="${catcher.getXPath}">
 						  			</div>
 						  		</li>
 					  		</#list>
 					  	<#else>
 					  		<li>
 					  			<div class="input-group script-p-m">
-					  				<input type="text" class="form-control" placeholder="日期抓取规则"  originName="resourceDateCatchRulers[].getXPath">
+					  				<input type="text" class="form-control" placeholder="发布日期抓取规则"  originName="resourceDateCatchRulers[].getXPath">
 					  			</div>
 					  		</li>
 				  		</#if>
@@ -121,7 +156,7 @@
 				  </div>
 				  <div class="form-group">
 				    <label for="contentXPath">循环内容抓取规则</label>
-				    <input type="text" class="form-control"  placeholder="循环内容抓取规则" id="contentXPath" name="iteratorRuler.contentXPath">
+				    <input type="text" class="form-control"  placeholder="循环内容抓取规则" id="contentXPath" name="iteratorRuler.contentXPath" value="${rule.iteratorRuler.contentXPath}">
 				  </div>
 				  <div class="form-group">
 				  	<label>一级内容标题抓取规则</label>

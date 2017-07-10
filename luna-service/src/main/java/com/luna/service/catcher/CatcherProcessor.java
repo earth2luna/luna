@@ -35,7 +35,7 @@ public class CatcherProcessor implements PageProcessor {
 	// private static final Logger LOGGER =
 	// LoggerFactory.getLogger(CatcherProcessor.class);
 
-	private Site site = Site.me().setRetryTimes(3).setSleepTime(5000);
+	private Site site = Site.me().setRetryTimes(3).setSleepTime(5000).setTimeOut(10000);
 
 	private IResourcesMapper resourcesMapper;
 	private IResourcesContentMapper contentMapper;
@@ -96,175 +96,174 @@ public class CatcherProcessor implements PageProcessor {
 		}
 
 		List<CatcherContent> rcs = new ArrayList<CatcherContent>();
-//		CatcherIteratorRuler xpaths = catcherModel.getIteratorRuler()
-		//Iterator<CatcherIteratorRuler> iterator = xpaths.iterator();
+		// CatcherIteratorRuler xpaths = catcherModel.getIteratorRuler()
+		// Iterator<CatcherIteratorRuler> iterator = xpaths.iterator();
 
 		// Long currentLevel = null;// 当前级别
 		Long oneLevelId = null;// 一级别id
 		Long twoLevelId = null;// 二级别id
 		Long levelId = 0L;// 当前levelId
 		// boolean ifSkip = false;// 是否终止
-//		while (iterator.hasNext()) {
-			CatcherIteratorRuler iteratorRuler = catcherModel.getIteratorRuler();
-//			if (iteratorRuler.isIfMark()) {
-//				// 获取一级内容标题
-//				CatcherSubModel oneLevelContentTitleKv = handler(iteratorRuler.getOneLevelContentTitleCatchRulers(),
-//						page.getHtml());
-//				if (null != oneLevelContentTitleKv) {
-//					CatcherContent rc = new CatcherContent();
-//					rc.setTitle(oneLevelContentTitleKv.getValue());
-//					rc.setHandlerCode(oneLevelContentTitleKv.getHandlerCode());
-//					rcs.add(rc);
-//					oneLevelId = ++levelId;
-//					rc.setLevelId(oneLevelId);
-//					// currentLevel = 1L;
-//				}
-//			} else {
-				List<String> transit = page.getHtml().xpath(iteratorRuler.getContentXPath()).all();
-				CatcherContent rc = null;
-				for (int i = 0; i < transit.size(); i++) {
-					String content = transit.get(i);
-					Html tempHtml = Html.create(content);
-					// 获取一级内容标题
-					CatcherSubModel oneLevelContentTitleKv = handler(iteratorRuler.getOneLevelContentTitleCatchRulers(),
-							tempHtml);
-					if (null != oneLevelContentTitleKv) {
-						if (oneLevelContentTitleKv.isIfBreak()) {
-							break;
-						}
-						if (oneLevelContentTitleKv.isIfFilter()) {
-							continue;
-						}
-						// 如果当前是一或者二级级标题，并且找到了一级标题
-						if (null != rc) {
-							rcs.add(rc);
-						}
-						// 重新开启一个一级标题
-						rc = new CatcherContent();
-						rc.setTitle(oneLevelContentTitleKv.getValue());
-						rc.setHandlerCode(oneLevelContentTitleKv.getHandlerCode());
-						oneLevelId = ++levelId;
-						rc.setLevelId(oneLevelId);
-						// currentLevel = 1L;
-						continue;
-					}
-					// 如果第一个不是一级标题，则把文章看作一级标题
-					if (null == oneLevelId) {
-						rc = new CatcherContent();
-						rc.setTitle(resources.getTitle());
-						rc.setHandlerCode(HandlerMethodEnum.P.getCode());
-						oneLevelId = ++levelId;
-						rc.setLevelId(oneLevelId);
-					}
+		// while (iterator.hasNext()) {
+		CatcherIteratorRuler iteratorRuler = catcherModel.getIteratorRuler();
+		// if (iteratorRuler.isIfMark()) {
+		// // 获取一级内容标题
+		// CatcherSubModel oneLevelContentTitleKv =
+		// handler(iteratorRuler.getOneLevelContentTitleCatchRulers(),
+		// page.getHtml());
+		// if (null != oneLevelContentTitleKv) {
+		// CatcherContent rc = new CatcherContent();
+		// rc.setTitle(oneLevelContentTitleKv.getValue());
+		// rc.setHandlerCode(oneLevelContentTitleKv.getHandlerCode());
+		// rcs.add(rc);
+		// oneLevelId = ++levelId;
+		// rc.setLevelId(oneLevelId);
+		// // currentLevel = 1L;
+		// }
+		// } else {
+		List<String> transit = page.getHtml().xpath(iteratorRuler.getContentXPath()).all();
+		CatcherContent rc = null;
+		for (int i = 0; i < transit.size(); i++) {
+			String content = transit.get(i);
+			Html tempHtml = Html.create(content);
+			// 获取一级内容标题
+			CatcherSubModel oneLevelContentTitleKv = handler(iteratorRuler.getOneLevelContentTitleCatchRulers(),
+					tempHtml);
+			if (null != oneLevelContentTitleKv) {
+				if (oneLevelContentTitleKv.isIfBreak()) {
+					break;
+				}
+				if (oneLevelContentTitleKv.isIfFilter()) {
+					continue;
+				}
+				// 如果当前是一或者二级级标题，并且找到了一级标题
+				if (null != rc) {
+					rcs.add(rc);
+				}
+				// 重新开启一个一级标题
+				rc = new CatcherContent();
+				rc.setTitle(oneLevelContentTitleKv.getValue());
+				rc.setHandlerCode(oneLevelContentTitleKv.getHandlerCode());
+				oneLevelId = ++levelId;
+				rc.setLevelId(oneLevelId);
+				// currentLevel = 1L;
+				continue;
+			}
+			// 如果第一个不是一级标题，则把文章看作一级标题
+			if (null == oneLevelId) {
+				rc = new CatcherContent();
+				rc.setTitle(resources.getTitle());
+				rc.setHandlerCode(HandlerMethodEnum.P.getCode());
+				oneLevelId = ++levelId;
+				rc.setLevelId(oneLevelId);
+			}
 
-					// 获取二级内容标题
-					CatcherSubModel twoLevelContentTitleKv = handler(iteratorRuler.getTwoLevelContentTitleCatchRulers(),
-							tempHtml);
-					if (null != twoLevelContentTitleKv) {
+			// 获取二级内容标题
+			CatcherSubModel twoLevelContentTitleKv = handler(iteratorRuler.getTwoLevelContentTitleCatchRulers(),
+					tempHtml);
+			if (null != twoLevelContentTitleKv) {
 
-						if (twoLevelContentTitleKv.isIfBreak()) {
-							break;
-						}
+				if (twoLevelContentTitleKv.isIfBreak()) {
+					break;
+				}
 
-						if (twoLevelContentTitleKv.isIfFilter()) {
-							continue;
-						}
-						// 如果当前是一或者二级级标题，并且第二次找到了二级标题，则先放入当前标题，则先放入当前标题
-						if (null != rc) {
-							rcs.add(rc);
-						}
-						// 重新开启一个二级标题
-						rc = new CatcherContent();
-						rc.setTitle(twoLevelContentTitleKv.getValue());
-						rc.setHandlerCode(twoLevelContentTitleKv.getHandlerCode());
-						rc.setParentLevelId(oneLevelId);
+				if (twoLevelContentTitleKv.isIfFilter()) {
+					continue;
+				}
+				// 如果当前是一或者二级级标题，并且第二次找到了二级标题，则先放入当前标题，则先放入当前标题
+				if (null != rc) {
+					rcs.add(rc);
+				}
+				// 重新开启一个二级标题
+				rc = new CatcherContent();
+				rc.setTitle(twoLevelContentTitleKv.getValue());
+				rc.setHandlerCode(twoLevelContentTitleKv.getHandlerCode());
+				rc.setParentLevelId(oneLevelId);
 
-						twoLevelId = ++levelId;
-						rc.setLevelId(twoLevelId);
-						// currentLevel = 2L;
-						continue;
-					}
+				twoLevelId = ++levelId;
+				rc.setLevelId(twoLevelId);
+				// currentLevel = 2L;
+				continue;
+			}
 
-					// 获取当前内容属于哪个标题下
+			// 获取当前内容属于哪个标题下
 
-					Long currentLevelId = oneLevelId;
+			Long currentLevelId = oneLevelId;
 
-					// 获取路径
-					CatcherSubModel contentPathKv = handler(iteratorRuler.getContentPathCatchRulers(), tempHtml);
-					if (null != contentPathKv) {
-						if (contentPathKv.isIfBreak()) {
-							break;
-						}
+			// 获取路径
+			CatcherSubModel contentPathKv = handler(iteratorRuler.getContentPathCatchRulers(), tempHtml);
+			if (null != contentPathKv) {
+				if (contentPathKv.isIfBreak()) {
+					break;
+				}
 
-						if (contentPathKv.isIfFilter()) {
-							continue;
-						}
-						for (String path : contentPathKv.getValues()) {
-							// 网站编码+类目编码+当前日期+系统毫秒时间
-							String endPath = FilePropertyUtils.appendPath(
-									catcherModel.getCatcherWebsiteCode().toString(),
-									catcherModel.getResourceCategoryCode().toString(),
-									DateUtils.getCurrentDateFormat(DateUtils.DATE_PATTERN_3),
-									LangUtils.toString(System.currentTimeMillis()));
-							// 附件路径+网站编码+类目编码+系统毫秒时间
-							String outputPath = FilePropertyUtils.appendPath(catcherModel.getAttachementPath(),
-									endPath);
-							KV<String, Boolean> storeValue = DowloadUtils.storeImage(path, outputPath);
-							if (storeValue.getV()) {
-								if (null == rc) {
-									rc = new CatcherContent();
-									rc.setParentLevelId(currentLevelId);
-								} else {
-									if (StringUtils.isNotEmpty(rc.getPath())) {
-										rcs.add(rc);
-										rc = new CatcherContent();
-										rc.setParentLevelId(currentLevelId);
-									}
-								}
-								rc.setPath(endPath + FilePropertyUtils.SPLITOR_SUFFIX + storeValue.getK());
-								rc.setHandlerCode(contentPathKv.getHandlerCode());
-								rcs.add(rc);
-								rc = null;
-								continue;
-							}
-						}
-
-					}
-
-					// 获取内容
-					CatcherSubModel contentKv = handler(iteratorRuler.getContentCatchRulers(), tempHtml);
-					if (null != contentKv) {
-						if (contentKv.isIfBreak()) {
-							break;
-						}
-
-						if (contentKv.isIfFilter()) {
-							continue;
-						}
+				if (contentPathKv.isIfFilter()) {
+					continue;
+				}
+				for (String path : contentPathKv.getValues()) {
+					// 网站编码+类目编码+当前日期+系统毫秒时间
+					String endPath = FilePropertyUtils.appendPath(catcherModel.getCatcherWebsiteCode().toString(),
+							catcherModel.getResourceCategoryCode().toString(),
+							DateUtils.getCurrentDateFormat(DateUtils.DATE_PATTERN_3),
+							LangUtils.toString(System.currentTimeMillis()));
+					// 附件路径+网站编码+类目编码+系统毫秒时间
+					String outputPath = FilePropertyUtils.appendPath(catcherModel.getAttachementPath(), endPath);
+					KV<String, Boolean> storeValue = DowloadUtils.storeImage(path, outputPath);
+					if (storeValue.getV()) {
 						if (null == rc) {
 							rc = new CatcherContent();
 							rc.setParentLevelId(currentLevelId);
 						} else {
-							if (StringUtils.isNotEmpty(rc.getContent())) {
+							if (StringUtils.isNotEmpty(rc.getPath())) {
 								rcs.add(rc);
 								rc = new CatcherContent();
 								rc.setParentLevelId(currentLevelId);
 							}
 						}
-						rc.setContent(contentKv.getValue());
-						rc.setHandlerCode(contentKv.getHandlerCode());
+						rc.setPath(endPath + FilePropertyUtils.SPLITOR_SUFFIX + storeValue.getK());
+						rc.setHandlerCode(contentPathKv.getHandlerCode());
 						rcs.add(rc);
 						rc = null;
 						continue;
 					}
-
 				}
 
-//				if (null != rc) {
-//
-//				}
-//			}
-//		}
+			}
+
+			// 获取内容
+			CatcherSubModel contentKv = handler(iteratorRuler.getContentCatchRulers(), tempHtml);
+			if (null != contentKv) {
+				if (contentKv.isIfBreak()) {
+					break;
+				}
+
+				if (contentKv.isIfFilter()) {
+					continue;
+				}
+				if (null == rc) {
+					rc = new CatcherContent();
+					rc.setParentLevelId(currentLevelId);
+				} else {
+					if (StringUtils.isNotEmpty(rc.getContent())) {
+						rcs.add(rc);
+						rc = new CatcherContent();
+						rc.setParentLevelId(currentLevelId);
+					}
+				}
+				rc.setContent(contentKv.getValue());
+				rc.setHandlerCode(contentKv.getHandlerCode());
+				rcs.add(rc);
+				rc = null;
+				continue;
+			}
+
+		}
+
+		// if (null != rc) {
+		//
+		// }
+		// }
+		// }
 		resourcesMapper.insert(resources);
 		ContentUtils.insertCatchers(contentMapper, rcs, resources.getId());
 	}
@@ -307,7 +306,7 @@ public class CatcherProcessor implements PageProcessor {
 			// 替换内容
 			if (CollectionUtils.isNotEmpty(ruler.getReplaceModels())) {
 				for (CatcherReplaceModel catchReplaceModel : ruler.getReplaceModels()) {
-					String[] tagNames = StringUtils.split(catchReplaceModel.getReplaceTagNames(),",");
+					String[] tagNames = StringUtils.split(catchReplaceModel.getReplaceTagNames(), ",");
 					HtmlMarcherEnum marcherEnum = HtmlMarcherEnum.get(catchReplaceModel.getReplaceCode());
 					if (ArrayUtils.isEmpty(tagNames) || null == marcherEnum) {
 						continue;
@@ -335,7 +334,7 @@ public class CatcherProcessor implements PageProcessor {
 			// index of 过滤文本
 			if (CollectionUtils.isNotEmpty(ruler.getIndexOfFilters())) {
 				for (String indexFilter : ruler.getIndexOfFilters()) {
-					if (-1 != value.indexOf(indexFilter)) {
+					if (StringUtils.isNotBlank(indexFilter) && -1 != value.indexOf(indexFilter)) {
 						return new CatcherSubModel(null, null, false, true);
 					}
 				}
@@ -344,7 +343,7 @@ public class CatcherProcessor implements PageProcessor {
 			// equals 过滤文本
 			if (CollectionUtils.isNotEmpty(ruler.getEqualsFilters())) {
 				for (String eqFilter : ruler.getEqualsFilters()) {
-					if (StringUtils.equals(value, eqFilter)) {
+					if (StringUtils.isNotBlank(eqFilter) && StringUtils.equals(value, eqFilter)) {
 						return new CatcherSubModel(null, null, false, true);
 					}
 				}
@@ -353,7 +352,7 @@ public class CatcherProcessor implements PageProcessor {
 			// 结束抓取
 			if (CollectionUtils.isNotEmpty(ruler.getBreakValues())) {
 				for (String breakValue : ruler.getBreakValues()) {
-					if (StringUtils.equals(value, breakValue)) {
+					if (StringUtils.isNotBlank(breakValue) && StringUtils.equals(value, breakValue)) {
 						return new CatcherSubModel(null, null, true, false);
 					}
 				}

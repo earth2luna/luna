@@ -3,6 +3,9 @@
  */
 package com.luna.service;
 
+import java.util.List;
+
+import com.luna.dao.vo.KeyNameVo;
 import com.luna.service.catcher.CatchRuler;
 import com.luna.service.catcher.CatcherModel;
 import com.luna.utils.classes.Page;
@@ -23,4 +26,6 @@ public interface CatcherService {
 	public void delete(Long id);
 	
 	public void catching(Long id);
+	
+	public List<KeyNameVo> selectWebsiteKeyName();
 }

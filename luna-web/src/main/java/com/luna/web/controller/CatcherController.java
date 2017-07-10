@@ -95,6 +95,7 @@ public class CatcherController extends ParentController {
 		model.addAttribute("handlers", HandlerMethodEnum.values());
 		model.addAttribute("htmlMarchers", HtmlMarcherEnum.values());
 		model.addAttribute("childrenCategories", categoryService.getChildrenCategories());
+		model.addAttribute("websiteKeyNames", catcherService.selectWebsiteKeyName());
 		CatcherModel catcherModel = catcherService.select(key);
 		if (null != catcherModel) {
 			model.addAttribute("rule", catcherModel);

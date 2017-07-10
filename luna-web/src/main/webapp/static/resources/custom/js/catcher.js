@@ -48,9 +48,10 @@ Catcher = {
 //				});
 				location.href="/catcher/list";
 			} else {
-				layer.alert(data.message, {
-					icon : 2
-				});
+//				layer.alert(data.message, {
+//					icon : 2
+//				});
+				alert(data.message);
 			}
 		});
 	},

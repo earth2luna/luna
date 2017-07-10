@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.luna.dao.po.Resources;
+import com.luna.dao.vo.KeyNameVo;
 import com.luna.dao.vo.ResourcesCasecade;
 
 /**
@@ -17,4 +18,6 @@ import com.luna.dao.vo.ResourcesCasecade;
 public interface IResourcesMapper extends IMapper<Resources> {
 
 	public List<ResourcesCasecade> selectResourcesCasecade(Map<String, Object> map);
+	
+	public List<KeyNameVo> selectWebsiteKeyName();
 }

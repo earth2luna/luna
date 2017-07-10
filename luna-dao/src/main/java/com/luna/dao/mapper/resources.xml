@@ -185,4 +185,13 @@
 		    l_resources_content lrc ON lr.id = lrc.resources_id
 		ORDER BY lrc.sort_code ASC
 	</select>
+	
+	<select id="selectWebsiteKeyName"  resultType="com.luna.dao.vo.KeyNameVo">
+		SELECT 
+		    websiteCode id, source_site_name description
+		FROM
+		    l_resources
+		GROUP BY websiteCode , source_site_name
+		ORDER BY id DESC
+	</select>
 </mapper>

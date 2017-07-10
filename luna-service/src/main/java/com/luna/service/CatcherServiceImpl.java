@@ -3,6 +3,7 @@
  */
 package com.luna.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -16,6 +17,7 @@ import com.luna.dao.mapper.ICatcherRuleMapper;
 import com.luna.dao.mapper.IResourcesContentMapper;
 import com.luna.dao.mapper.IResourcesMapper;
 import com.luna.dao.po.CatcherRule;
+import com.luna.dao.vo.KeyNameVo;
 import com.luna.service.catcher.CatchRuler;
 import com.luna.service.catcher.CatcherModel;
 import com.luna.service.catcher.CatcherProcessor;
@@ -133,6 +135,28 @@ public class CatcherServiceImpl implements CatcherService {
 				.thread(1)
 				// 启动爬虫
 				.run();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.luna.service.CatcherService#selectWebsiteKeyName()
+	 */
+	@Override
+	public List<KeyNameVo> selectWebsiteKeyName() {
+		List<KeyNameVo> keyNameVos = resourcesMapper.selectWebsiteKeyName();
+		Long code = 0L;
+		if (CollectionUtils.isNotEmpty(keyNameVos)) {
+			KeyNameVo keyNameVo = keyNameVos.stream().findFirst().get();
+			code = keyNameVo.getId();
+		}else {
+			keyNameVos=new ArrayList<KeyNameVo>();
+		}
+		KeyNameVo keyNameVo = new KeyNameVo();
+		keyNameVo.setId(++code);
+		keyNameVo.setDescription("MAX");
+		keyNameVos.add(0,keyNameVo);
+		return keyNameVos;
 	}
 
 }
