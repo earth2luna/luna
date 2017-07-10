@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class CatcherModel {
 
+	private Long id;
 	private String catcherWebUrl;
 	private String catcherWebName;
 	private Integer catcherWebsiteCode;
@@ -235,6 +236,14 @@ public class CatcherModel {
 
 	public void setResourceDate(String resourceDate) {
 		this.resourceDate = resourceDate;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }

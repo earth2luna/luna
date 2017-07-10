@@ -25,28 +25,29 @@
 	 <div class="container bs-docs-container">
 	     <div class="row">
 		      <div class="col-md-9" role="main">
-				<form class="script-catcher-form" method="post" action="/catcher/add">
+				<form class="script-catcher-form" method="post" action="/catcher/modify">
 				  <div class="form-group">
 				    <label for="catcherWebUrl">被抓取网站的URL</label>
-				    <input type="text" class="form-control" placeholder="被抓取的URL" id="catcherWebUrl" name="catcherWebUrl">
+				    <input type="hidden" name="id" value="${rule.id}">
+				    <input type="text" class="form-control" placeholder="被抓取的URL" id="catcherWebUrl" name="catcherWebUrl" value="${rule.catcherWebUrl}">
 				  </div>
 				  <div class="form-group">
 				    <label for="catcherWebName">被抓取网站的中文名称</label>
-				    <input type="text" class="form-control"  placeholder="被抓取网站的中文名称" id="catcherWebName" name="catcherWebName">
+				    <input type="text" class="form-control"  placeholder="被抓取网站的中文名称" id="catcherWebName" name="catcherWebName" value="${rule.catcherWebName}">
 				  </div>
 				  <div class="form-group">
 				    <label for="attachementPath">附件路径</label>
-				    <input type="text" class="form-control"  placeholder="附件路径" id="attachementPath" name="attachementPath">
+				    <input type="text" class="form-control"  placeholder="附件路径" id="attachementPath" name="attachementPath" value="${rule.attachementPath}">
 				  </div>
 				  <div class="form-group">
 				    <label for="catcherWebsiteCode">被抓取网站的数字编码</label>
-				    <input type="text" class="form-control"  placeholder="被抓取网站的数字编码" id="catcherWebsiteCode" name="catcherWebsiteCode">
+				    <input type="text" class="form-control"  placeholder="被抓取网站的数字编码" id="catcherWebsiteCode" name="catcherWebsiteCode" value="${rule.catcherWebsiteCode}">
 				  </div>
 				  <div class="form-group">
 				    <label for="resourceCategoryCode">被抓取资源所属类目</label>
 				    <select class="form-control"  id="resourceCategoryCode" name="resourceCategoryCode">
 						<#list childrenCategories as category>
-							<#if category.id==resources.categoryId>
+							<#if category.id==rule.resourceCategoryCode>
 								<option value="${category.id}" selected="selected">${category.name}</option>
 							<#else>
 								<option value="${category.id}">${category.name}</option>
@@ -57,21 +58,41 @@
 				  <div class="form-group">
 				  	<label>标题抓取规则</label>
 				  	<ol>
-				  		<li>
-				  			<div class="input-group script-p-m">
-				  				<input type="text" class="form-control" placeholder="标题抓取规则"  originName="resourceTitleCatchRulers[].getXPath">
-				  			</div>
-				  		</li>
+				  		<#if (rule.resourceTitleCatchRulers??&&rule.resourceTitleCatchRulers?size > 0)>
+					  		<#list rule.resourceTitleCatchRulers as catcher>
+					  			<li>
+						  			<div class="input-group script-p-m">
+						  				<input type="text" class="form-control" placeholder="标题抓取规则"  originName="resourceTitleCatchRulers[].getXPath" value="${catcher.getXPath}">
+						  			</div>
+						  		</li>
+					  		</#list>
+					  	<#else>
+					  		<li>
+					  			<div class="input-group script-p-m">
+					  				<input type="text" class="form-control" placeholder="标题抓取规则"  originName="resourceTitleCatchRulers[].getXPath">
+					  			</div>
+					  		</li>
+				  		</#if>
 				  	</ol>
 				  </div>
 				  <div class="form-group">
 				  	<label>作者抓取规则</label>
 				  	<ol>
-				  		<li>
-				  			<div class="input-group script-p-m">
-				  				<input type="text" class="form-control" placeholder="作者抓取规则"  originName="resourceAuthorCatchRulers[].getXPath">
-				  			</div>
-				  		</li>
+				  		<#if (rule.resourceAuthorCatchRulers?? && rule.resourceAuthorCatchRulers?size > 0)>
+					  		<#list rule.resourceAuthorCatchRulers as catcher>
+					  			<li>
+						  			<div class="input-group script-p-m">
+						  				<input type="text" class="form-control" placeholder="作者抓取规则"  originName="resourceAuthorCatchRulers[].getXPath" value="${catcher.getXPath}">
+						  			</div>
+						  		</li>
+					  		</#list>
+					  	<#else>
+					  		<li>
+					  			<div class="input-group script-p-m">
+					  				<input type="text" class="form-control" placeholder="作者抓取规则"  originName="resourceAuthorCatchRulers[].getXPath">
+					  			</div>
+					  		</li>
+				  		</#if>
 				  	</ol>
 				  </div>
 				  <div class="form-group">
@@ -81,11 +102,21 @@
 				  <div class="form-group">
 				  	<label>时间抓取规则</label>
 				  	<ol>
-				  		<li>
-				  			<div class="input-group script-p-m">
-				  				<input type="text" class="form-control" placeholder="日期抓取规则"  originName="resourceDateCatchRulers[].getXPath">
-				  			</div>
-				  		</li>
+				  		<#if (rule.resourceDateCatchRulers??&&rule.resourceDateCatchRulers?size > 0)>
+					  		<#list rule.resourceDateCatchRulers as catcher>
+					  			<li>
+						  			<div class="input-group script-p-m">
+						  				<input type="text" class="form-control" placeholder="日期抓取规则"  originName="resourceDateCatchRulers[].getXPath" value="${catcher.getXPath}">
+						  			</div>
+						  		</li>
+					  		</#list>
+					  	<#else>
+					  		<li>
+					  			<div class="input-group script-p-m">
+					  				<input type="text" class="form-control" placeholder="日期抓取规则"  originName="resourceDateCatchRulers[].getXPath">
+					  			</div>
+					  		</li>
+				  		</#if>
 				  	</ol>
 				  </div>
 				  <div class="form-group">
@@ -95,108 +126,196 @@
 				  <div class="form-group">
 				  	<label>一级内容标题抓取规则</label>
 				  	<ol>
-				  		<li>
-				  			<div class="input-group script-p-m">
-				  				<input type="text" class="form-control" placeholder="一级内容标题抓取规则"  originName="iteratorRuler.oneLevelContentTitleCatchRulers[].getXPath">
-				  			</div>
-				  		</li>
+				  		<#if (rule.iteratorRuler??&& rule.iteratorRuler.oneLevelContentTitleCatchRulers?? && rule.iteratorRuler.oneLevelContentTitleCatchRulers?size > 0)>
+					  		<#list rule.iteratorRuler.oneLevelContentTitleCatchRulers as catcher>
+					  			<li>
+						  			<div class="input-group script-p-m">
+						  				<input type="text" class="form-control" placeholder="一级内容标题抓取规则"  originName="iteratorRuler.oneLevelContentTitleCatchRulers[].getXPath" value="${catcher.getXPath}">
+						  			</div>
+						  		</li>
+					  		</#list>
+					  	<#else>
+					  		<li>
+					  			<div class="input-group script-p-m">
+					  				<input type="text" class="form-control" placeholder="一级内容标题抓取规则"  originName="iteratorRuler.oneLevelContentTitleCatchRulers[].getXPath">
+					  			</div>
+					  		</li>
+				  		</#if>
 				  	</ol>
 				  </div>
 				  <div class="form-group">
 				  	<label>二级内容标题抓取规则</label>
 				  	<ol>
-				  		<li>
-				  			<div class="input-group script-p-m">
-				  				<input type="text" class="form-control" placeholder="二级内容标题抓取规则"  originName="iteratorRuler.twoLevelContentTitleCatchRulers[].getXPath">
-				  			</div>
-				  		</li>
+				  		<#if (rule.iteratorRuler?? && rule.iteratorRuler.twoLevelContentTitleCatchRulers && rule.iteratorRuler.twoLevelContentTitleCatchRulers?size > 0)>
+					  		<#list rule.iteratorRuler.twoLevelContentTitleCatchRulers as catcher>
+					  			<li>
+						  			<div class="input-group script-p-m">
+						  				<input type="text" class="form-control" placeholder="二级内容标题抓取规则"  originName="iteratorRuler.twoLevelContentTitleCatchRulers[].getXPath" value="${catcher.getXPath}">
+						  			</div>
+						  		</li>
+					  		</#list>
+					  	<#else>
+					  		<li>
+					  			<div class="input-group script-p-m">
+					  				<input type="text" class="form-control" placeholder="二级内容标题抓取规则"  originName="iteratorRuler.twoLevelContentTitleCatchRulers[].getXPath">
+					  			</div>
+					  		</li>
+				  		</#if>
 				  	</ol>
 				  </div>
 				  <div class="form-group">
 				  	<label>内容附件抓取规则</label>
 				  	<ol>
-				  		<li>
-				  			<div class="input-group script-p-m">
-				  				<input type="text" class="form-control" placeholder="内容附件抓取规则"  originName="iteratorRuler.contentPathCatchRulers[].getXPath">
-				  			</div>
-				  		</li>
+				  		<#if (rule.iteratorRuler?? && rule.iteratorRuler.contentPathCatchRulers?? && rule.iteratorRuler.contentPathCatchRulers?size > 0)>
+					  		<#list rule.iteratorRuler.contentPathCatchRulers as catcher>
+					  			<li>
+						  			<div class="input-group script-p-m">
+						  				<input type="text" class="form-control" placeholder="内容附件抓取规则"  originName="iteratorRuler.contentPathCatchRulers[].getXPath" value="${catcher.getXPath}">
+						  			</div>
+						  		</li>
+					  		</#list>
+					  	<#else>
+					  		<li>
+					  			<div class="input-group script-p-m">
+					  				<input type="text" class="form-control" placeholder="内容附件抓取规则"  originName="iteratorRuler.contentPathCatchRulers[].getXPath">
+					  			</div>
+					  		</li>
+				  		</#if>
 				  	</ol>
 				  </div>
 				  <div class="form-group">
 				  	<label>正文抓取规则</label>
 				  	<ol>
-				  		<li>
-				  			<div class="input-group script-p-m">
-				  				<input type="text" class="form-control" placeholder="正文尝试抓取规则"  originName="iteratorRuler.contentCatchRulers[].tryXPath" >
-				  				<input type="text" class="form-control" placeholder="正文正式抓取规则"  originName="iteratorRuler.contentCatchRulers[].getXPath" >
-				  				<select class="form-control"  originName="iteratorRuler.contentCatchRulers[].handlerCode">
-									<#list handlers as handler>
-										<#if content?? && content.handlerCode==handler.getCode()>
-											<option value="${handler.getCode()}" selected="selected">${handler.getName()}</option>
-										<#else>
+				  		<#if (rule.iteratorRuler?? && rule.iteratorRuler.contentCatchRulers?? && rule.iteratorRuler.contentCatchRulers?size > 0)>
+					  		<#list rule.iteratorRuler.contentCatchRulers as catcher>
+					  			<li>
+						  			<div class="input-group script-p-m">
+						  				<input type="text" class="form-control" placeholder="正文尝试抓取规则"  originName="iteratorRuler.contentCatchRulers[].tryXPath" value="${catcher.tryXPath}">
+						  				<input type="text" class="form-control" placeholder="正文正式抓取规则"  originName="iteratorRuler.contentCatchRulers[].getXPath" value="${catcher.getXPath}">
+						  				<select class="form-control"  originName="iteratorRuler.contentCatchRulers[].handlerCode">
+											<#list handlers as handler>
+												<#if catcher?? && catcher.handlerCode==handler.getCode()>
+													<option value="${handler.getCode()}" selected="selected">${handler.getName()}</option>
+												<#else>
+													<option value="${handler.getCode()}">${handler.getName()}</option>
+												</#if>
+											</#list>
+										</select>
+						  			</div>
+						  		</li>
+					  		</#list>
+					  	<#else>
+					  		<li>
+					  			<div class="input-group script-p-m">
+					  				<input type="text" class="form-control" placeholder="正文尝试抓取规则"  originName="iteratorRuler.contentCatchRulers[].tryXPath" >
+					  				<input type="text" class="form-control" placeholder="正文正式抓取规则"  originName="iteratorRuler.contentCatchRulers[].getXPath" >
+					  				<select class="form-control"  originName="iteratorRuler.contentCatchRulers[].handlerCode">
+										<#list handlers as handler>
 											<option value="${handler.getCode()}">${handler.getName()}</option>
-										</#if>
-									</#list>
-								</select>
-				  			</div>
-				  		</li>
+										</#list>
+									</select>
+					  			</div>
+					  		</li>
+				  		</#if>
 				  	</ol>
 				  </div>
 				  <div class="form-group">
 				  	<label>全局替换规则</label>
 				  	<ol>
-				  		<li>
-				  			<div class="input-group script-p-m">
-				  				<input type="text" class="form-control" placeholder="替换条件"  originName="replaceModels[].indexOfcondition">
-				  				<select class="form-control" originName="replaceModels[].replaceCode">
-									<#list htmlMarchers as marcher>
-										<#if content?? && content.handlerCode==marcher.getCode()>
-											<option value="${marcher.getCode()}" selected="selected">${marcher.getName()}</option>
-										<#else>
+				  		<#if (hRule.replaceModels ?? && hRule.replaceModels?size > 0)>
+					  		<#list hRule.replaceModels as catcher>
+					  			<li>
+						  			<div class="input-group script-p-m">
+						  				<input type="text" class="form-control" placeholder="替换条件"  originName="replaceModels[].indexOfcondition" value="${catcher.indexOfcondition}">
+						  				<select class="form-control" originName="replaceModels[].replaceCode">
+											<#list htmlMarchers as marcher>
+												<#if catcher?? && catcher.replaceCode==marcher.getCode()>
+													<option value="${marcher.getCode()}" selected="selected">${marcher.getName()}</option>
+												<#else>
+													<option value="${marcher.getCode()}">${marcher.getName()}</option>
+												</#if>
+											</#list>
+										</select>
+										<input type="text" class="form-control" placeholder="替换标签，多个以逗号分割"  originName="replaceModels[].replaceTagNames" value="${catcher.replaceTagNames}">
+										<input type="text" class="form-control" placeholder="替换内容" originName="replaceModels[].replacement" value="${catcher.replacement}">
+						  			</div>
+						  		</li>
+					  		</#list>
+					  	<#else>
+					  		<li>
+					  			<div class="input-group script-p-m">
+					  				<input type="text" class="form-control" placeholder="替换条件"  originName="replaceModels[].indexOfcondition">
+					  				<select class="form-control" originName="replaceModels[].replaceCode">
+										<#list htmlMarchers as marcher>
 											<option value="${marcher.getCode()}">${marcher.getName()}</option>
-										</#if>
-									</#list>
-								</select>
-								<input type="text" class="form-control" placeholder="替换标签，多个以逗号分割"  originName="replaceModels[].replaceTagNames">
-								<input type="text" class="form-control" placeholder="替换内容" originName="replaceModels[].replacement">
-				  			</div>
-				  		</li>
+										</#list>
+									</select>
+									<input type="text" class="form-control" placeholder="替换标签，多个以逗号分割"  originName="replaceModels[].replaceTagNames">
+									<input type="text" class="form-control" placeholder="替换内容" originName="replaceModels[].replacement">
+					  			</div>
+					  		</li>
+				  		</#if>
 				  	</ol>
 				  </div>
 				  <div class="form-group">
 				  	<label>indexOfFilter</label>
 				  	<ol>
-				  		<li>
-				  			<div class="input-group script-p-m">
-				  				<input type="text" class="form-control" placeholder="indexOfFilter"  originName="indexOfFilters">
-				  			</div>
-				  		</li>
+				  		<#if (hRule.indexOfFilters?? && hRule.indexOfFilters?size > 0)>
+					  		<#list hRule.indexOfFilters as catcher>
+					  			<li>
+						  			<div class="input-group script-p-m">
+						  				<input type="text" class="form-control" placeholder="indexOfFilter"  originName="indexOfFilters" value="${catcher}">
+						  			</div>
+						  		</li>
+					  		</#list>
+					  	<#else>
+					  		<li>
+					  			<div class="input-group script-p-m">
+					  				<input type="text" class="form-control" placeholder="indexOfFilter"  originName="indexOfFilters">
+					  			</div>
+					  		</li>
+				  		</#if>
 				  	</ol>
 				  </div>
 				  <div class="form-group">
 				  	<label>equalsFilter</label>
 				  	<ol>
-				  		<li>
-				  			<div class="input-group script-p-m">
-				  				<input type="text" class="form-control" placeholder="equalsFilter"  originName="equalsFilters">
-				  			</div>
-				  		</li>
+				  		<#if (hRule.equalsFilters?? && hRule.equalsFilters?size > 0)>
+					  		<#list hRule.equalsFilters as catcher>
+					  			<li>
+						  			<div class="input-group script-p-m">
+						  				<input type="text" class="form-control" placeholder="equalsFilter"  originName="equalsFilters" value="${catcher}">
+						  			</div>
+						  		</li>
+					  		</#list>
+					  	<#else>
+					  		<li>
+					  			<div class="input-group script-p-m">
+					  				<input type="text" class="form-control" placeholder="equalsFilter"  originName="equalsFilters">
+					  			</div>
+					  		</li>
+				  		</#if>
 				  	</ol>
 				  </div>
 				  <div class="form-group">
 				  	<label>breakValue</label>
 				  	<ol>
-				  		<li>
-				  			<div class="input-group script-p-m">
-				  				<input type="text" class="form-control" placeholder="breakValue" originName="breakValues">
-				  			</div>
-				  		</li>
+				  		<#if (hRule.breakValues?? && hRule.breakValues?size > 0)>
+					  		<#list hRule.breakValues as catcher>
+					  			<li>
+						  			<div class="input-group script-p-m">
+						  				<input type="text" class="form-control" placeholder="breakValue" originName="breakValues" value="${catcher}">
+						  			</div>
+						  		</li>
+					  		</#list>
+					  	<#else>
+					  		<li>
+					  			<div class="input-group script-p-m">
+					  				<input type="text" class="form-control" placeholder="breakValue" originName="breakValues">
+					  			</div>
+					  		</li>
+				  		</#if>
 				  	</ol>
-				  </div>
-				  <div class="checkbox">
-				    <label>
-				      <input type="checkbox"> Check me out
-				    </label>
 				  </div>
 				  <button type="button" onclick="Catcher.submit();" class="btn btn-default">Submit</button>
 				</form>

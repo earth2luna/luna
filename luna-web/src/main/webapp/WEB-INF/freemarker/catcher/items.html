@@ -1,0 +1,14 @@
+<#list page.list as item>
+<tr>
+	<td>${item.id}</td>
+	<td><a href="${item.catcherWebUrl}">${item.catcherWebName}</a></td>
+	<td>${item.attachementPath}</td>
+	<td>
+		<input type="button" value=" 编 辑 " onclick="Catcher.edit(${item.id});">
+		<input type="button" value=" 抓 取 " onclick="Catcher.catching(${item.id});">
+		<input type="button" value=" 删 除 " onclick="Catcher.del(${item.id});">
+	</td>
+</tr>
+</#list>
+<input type="hidden"
+	value="{page:${page.pageNow},pageSize:${page.pageSize},total:${page.count}}" />

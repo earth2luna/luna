@@ -67,6 +67,12 @@ public class ConditionUtils {
 	public static void evalPops(Map<String, Object> map, Object object) {
 		map.put(DEFAULT_PROP_KEY, object);
 	}
+	
+	public static Map<String, Object> evalPops( Object object) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put(DEFAULT_PROP_KEY, object);
+		return map;
+	}
 
 	public static void evalPopStatus(Map<String, Object> map, Integer status) {
 		Map<String, Object> props = getProps(map);
