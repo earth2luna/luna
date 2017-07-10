@@ -76,6 +76,19 @@ public class CatcherController extends ParentController {
 		}
 		return invokeVo;
 	}
+	
+	@RequestMapping("/copy")
+	@ResponseBody
+	public InvokeVo copy(Long key, HttpServletRequest request) {
+		InvokeVo invokeVo = new InvokeVo("执行成功", null, 1);
+		try {
+			catcherService.copy(key);
+		} catch (Exception e) {
+			invokeVo = new InvokeVo("执行失败", null, 0);
+			LOGGER.error("del error:", e);
+		}
+		return invokeVo;
+	}
 
 	@RequestMapping("/items")
 	public String items(Model model, Integer page) {

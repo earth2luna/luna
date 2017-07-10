@@ -4,6 +4,11 @@ PlusMinus = {
 	minusHtml : "<span class=\"input-group-addon\"><a href=\"javascript:void(0);\" onclick=\"PlusMinus.minus(this);\"><i class=\"fa fa-minus\" aria-hidden=\"true\"></i></a></span>",
 	init : function() {
 		$(this.event_parent_selector).append(this.plusHtml);
+		$(this.event_parent_selector).parent("li").each(function(){
+			if($(this).siblings("li").length>1){
+				$(this).children(PlusMinus.event_parent_selector).append(PlusMinus.minusHtml);
+			}
+		});
 	},
 	plus : function(current) {
 		var selector_li = $(current).parents('li');
@@ -90,6 +95,14 @@ Catcher = {
 	},
 	catching:function(key){
 		jc.sPost("/catcher/catching",{key:key},function(data){
+			layer.alert(data.message, {
+				icon : 1
+			});
+		});
+	},
+	copy:function(key){
+		jc.sPost("/catcher/copy",{key:key},function(data){
+			Catcher.tableRenderInit(pageObject.runtime.page);
 			layer.alert(data.message, {
 				icon : 1
 			});

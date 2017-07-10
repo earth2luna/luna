@@ -8,6 +8,8 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.luna.dao.mapper.IResourcesContentMapper;
 import com.luna.dao.mapper.IResourcesMapper;
@@ -22,6 +24,7 @@ import com.luna.utils.DateUtils;
 import com.luna.utils.DowloadUtils;
 import com.luna.utils.FilePropertyUtils;
 import com.luna.utils.LangUtils;
+import com.luna.utils.UrlUtils;
 import com.luna.utils.classes.KV;
 
 import us.codecraft.webmagic.Page;
@@ -32,8 +35,7 @@ import us.codecraft.webmagic.selector.Selectable;
 
 public class CatcherProcessor implements PageProcessor {
 
-	// private static final Logger LOGGER =
-	// LoggerFactory.getLogger(CatcherProcessor.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CatcherProcessor.class);
 
 	private Site site = Site.me().setRetryTimes(3).setSleepTime(5000).setTimeOut(10000);
 
@@ -146,6 +148,7 @@ public class CatcherProcessor implements PageProcessor {
 				rc.setHandlerCode(oneLevelContentTitleKv.getHandlerCode());
 				oneLevelId = ++levelId;
 				rc.setLevelId(oneLevelId);
+				LOGGER.info("一级标题:" + oneLevelContentTitleKv.getValue());
 				// currentLevel = 1L;
 				continue;
 			}
@@ -182,6 +185,7 @@ public class CatcherProcessor implements PageProcessor {
 
 				twoLevelId = ++levelId;
 				rc.setLevelId(twoLevelId);
+				LOGGER.info("二级标题:" + twoLevelContentTitleKv.getValue());
 				// currentLevel = 2L;
 				continue;
 			}
@@ -200,6 +204,8 @@ public class CatcherProcessor implements PageProcessor {
 				if (contentPathKv.isIfFilter()) {
 					continue;
 				}
+
+				boolean pathFlat = false;
 				for (String path : contentPathKv.getValues()) {
 					// 网站编码+类目编码+当前日期+系统毫秒时间
 					String endPath = FilePropertyUtils.appendPath(catcherModel.getCatcherWebsiteCode().toString(),
@@ -208,7 +214,10 @@ public class CatcherProcessor implements PageProcessor {
 							LangUtils.toString(System.currentTimeMillis()));
 					// 附件路径+网站编码+类目编码+系统毫秒时间
 					String outputPath = FilePropertyUtils.appendPath(catcherModel.getAttachementPath(), endPath);
-					KV<String, Boolean> storeValue = DowloadUtils.storeImage(path, outputPath);
+					String fullPath = UrlUtils.makesureFullUrl(catcherModel.getCatcherWebUrl(), path);
+					LOGGER.info("当前下载路径:" + fullPath);
+					LOGGER.info("下载至:" + outputPath);
+					KV<String, Boolean> storeValue = DowloadUtils.storeImage(fullPath, outputPath);
 					if (storeValue.getV()) {
 						if (null == rc) {
 							rc = new CatcherContent();
@@ -224,8 +233,11 @@ public class CatcherProcessor implements PageProcessor {
 						rc.setHandlerCode(contentPathKv.getHandlerCode());
 						rcs.add(rc);
 						rc = null;
-						continue;
+						pathFlat = true;
 					}
+				}
+				if (pathFlat) {
+					continue;
 				}
 
 			}
@@ -254,6 +266,8 @@ public class CatcherProcessor implements PageProcessor {
 				rc.setHandlerCode(contentKv.getHandlerCode());
 				rcs.add(rc);
 				rc = null;
+
+				LOGGER.info("内容:" + contentKv.getValue());
 				continue;
 			}
 

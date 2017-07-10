@@ -28,4 +28,6 @@ public interface CatcherService {
 	public void catching(Long id);
 	
 	public List<KeyNameVo> selectWebsiteKeyName();
+
+	public void copy(Long key);
 }

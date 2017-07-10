@@ -23,6 +23,7 @@ import com.luna.service.catcher.CatcherModel;
 import com.luna.service.catcher.CatcherProcessor;
 import com.luna.service.data.utils.CatcherRuleUtils;
 import com.luna.service.data.utils.ConditionUtils;
+import com.luna.service.enumer.content.HandlerMethodEnum;
 import com.luna.utils.LangUtils;
 import com.luna.utils.classes.Page;
 
@@ -53,36 +54,41 @@ public class CatcherServiceImpl implements CatcherService {
 	public void modify(CatcherModel catcherModel, CatchRuler catchRuler) {
 		merge(catcherModel, catchRuler);
 		CatcherRule t = new CatcherRule();
-		t.setId(catcherModel.getId());
 		t.setContent(JSON.toJSONString(catcherModel, SerializerFeature.DisableCircularReferenceDetect));
-		if (LangUtils.booleanValueOfNumber(t.getId())) {
-			catcherRuleMapper.update(ConditionUtils.evalPops(t));
+		if (LangUtils.booleanValueOfNumber(catcherModel.getId())) {
+			catcherRuleMapper.update(ConditionUtils.evalUpdateMap(catcherModel.getId(), t));
 		} else {
 			catcherRuleMapper.insert(t);
 		}
 	}
 
 	private void merge(CatcherModel catcherModel, CatchRuler catchRuler) {
-		merge(catcherModel.getResourceTitleCatchRulers(), catchRuler);
-		merge(catcherModel.getResourceAuthorCatchRulers(), catchRuler);
-		merge(catcherModel.getResourceDateCatchRulers(), catchRuler);
-		merge(catcherModel.getIteratorRuler().getContentCatchRulers(), catchRuler);
-		merge(catcherModel.getIteratorRuler().getContentPathCatchRulers(), catchRuler);
-		merge(catcherModel.getIteratorRuler().getOneLevelContentTitleCatchRulers(), catchRuler);
-		merge(catcherModel.getIteratorRuler().getTwoLevelContentTitleCatchRulers(), catchRuler);
+		merge(catcherModel.getResourceTitleCatchRulers(), catchRuler, HandlerMethodEnum.P.getCode());
+		merge(catcherModel.getResourceAuthorCatchRulers(), catchRuler, HandlerMethodEnum.P.getCode());
+		merge(catcherModel.getResourceDateCatchRulers(), catchRuler, HandlerMethodEnum.P.getCode());
+		merge(catcherModel.getIteratorRuler().getContentCatchRulers(), catchRuler, HandlerMethodEnum.P.getCode());
+		merge(catcherModel.getIteratorRuler().getContentPathCatchRulers(), catchRuler,
+				HandlerMethodEnum.IMAGE.getCode());
+		merge(catcherModel.getIteratorRuler().getOneLevelContentTitleCatchRulers(), catchRuler,
+				HandlerMethodEnum.P.getCode());
+		merge(catcherModel.getIteratorRuler().getTwoLevelContentTitleCatchRulers(), catchRuler,
+				HandlerMethodEnum.P.getCode());
 	}
 
-	private void merge(List<CatchRuler> catchRulers, CatchRuler catchRuler) {
+	private void merge(List<CatchRuler> catchRulers, CatchRuler catchRuler, Integer defaultHandlerCode) {
 		if (CollectionUtils.isNotEmpty(catchRulers)) {
-			catchRulers.forEach(element -> merge(element, catchRuler));
+			catchRulers.forEach(element -> merge(element, catchRuler, defaultHandlerCode));
 		}
 	}
 
-	private void merge(CatchRuler catchRuler1, CatchRuler catchRuler2) {
+	private void merge(CatchRuler catchRuler1, CatchRuler catchRuler2, Integer defaultHandlerCode) {
 		catchRuler1.setBreakValues(catchRuler2.getBreakValues());
 		catchRuler1.setEqualsFilters(catchRuler2.getEqualsFilters());
 		catchRuler1.setIndexOfFilters(catchRuler2.getIndexOfFilters());
 		catchRuler1.setReplaceModels(catchRuler2.getReplaceModels());
+		if (!LangUtils.booleanValueOfNumber(catchRuler1.getHandlerCode())) {
+			catchRuler1.setHandlerCode(defaultHandlerCode);
+		}
 	}
 
 	/*
@@ -115,6 +121,7 @@ public class CatcherServiceImpl implements CatcherService {
 	 */
 	@Override
 	public void delete(Long id) {
+		Validate.isTrue(LangUtils.booleanValueOfNumber(id), "无效的key 值");
 		catcherRuleMapper.deleteById(id);
 
 	}
@@ -127,7 +134,7 @@ public class CatcherServiceImpl implements CatcherService {
 	@Override
 	public void catching(Long id) {
 		CatcherModel catcherModel = select(id);
-		Validate.notNull(catcherModel);
+		Validate.notNull(catcherModel, "无效的key值");
 		Spider.create(new CatcherProcessor(resourcesMapper, contentMapper, catcherModel))
 				// 开始抓
 				.addUrl(catcherModel.getCatcherWebUrl())
@@ -149,14 +156,28 @@ public class CatcherServiceImpl implements CatcherService {
 		if (CollectionUtils.isNotEmpty(keyNameVos)) {
 			KeyNameVo keyNameVo = keyNameVos.stream().findFirst().get();
 			code = keyNameVo.getId();
-		}else {
-			keyNameVos=new ArrayList<KeyNameVo>();
+		} else {
+			keyNameVos = new ArrayList<KeyNameVo>();
 		}
 		KeyNameVo keyNameVo = new KeyNameVo();
 		keyNameVo.setId(++code);
 		keyNameVo.setDescription("MAX");
-		keyNameVos.add(0,keyNameVo);
+		keyNameVos.add(0, keyNameVo);
 		return keyNameVos;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.luna.service.CatcherService#copy(java.lang.Long)
+	 */
+	@Override
+	public void copy(Long key) {
+		Validate.isTrue(LangUtils.booleanValueOfNumber(key), "无效的key 值");
+		CatcherRule catcherRule = catcherRuleMapper.selectById(key);
+		Validate.notNull(catcherRule, "无效的key值");
+		catcherRule.setId(null);
+		catcherRuleMapper.insert(catcherRule);
 	}
 
 }
