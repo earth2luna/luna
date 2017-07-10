@@ -32,12 +32,12 @@ public class ExportData extends AbstractListWhileDoNormal<Map<String, Object>> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ExportData.class);
 
-	private JdbcTemplate jdbcTemplate;
+	protected JdbcTemplate jdbcTemplate;
+	protected String filePath;
 	private String tableName;
 	private Integer pageSize;
 	private Long ltId;
 	private Long gtId;
-	private String filePath;
 
 	private Table table;
 	private String insertTableFormat;
@@ -52,6 +52,10 @@ public class ExportData extends AbstractListWhileDoNormal<Map<String, Object>> {
 		this.ltId = ltId;
 		this.gtId = gtId;
 		this.filePath = filePath;
+	}
+
+	public ExportData() {
+
 	}
 
 	/*
@@ -109,6 +113,10 @@ public class ExportData extends AbstractListWhileDoNormal<Map<String, Object>> {
 
 	}
 
+	protected void clearFile(File exportFile) {
+		FilePropertyUtils.deleteFile(exportFile);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -116,10 +124,10 @@ public class ExportData extends AbstractListWhileDoNormal<Map<String, Object>> {
 	 */
 	@Override
 	public void before() {
-		//先删除
+		// 先删除
 		exportFile = new File(filePath);
-		FilePropertyUtils.deleteFile(exportFile);
-		
+		clearFile(exportFile);
+
 		Connection connection = null;
 		try {
 			connection = jdbcTemplate.getDataSource().getConnection();
@@ -142,7 +150,7 @@ public class ExportData extends AbstractListWhileDoNormal<Map<String, Object>> {
 	 */
 	@Override
 	public void after(long count) {
-		
+
 	}
 
 	private String getInsertTableFormat(Table table) {

@@ -13,4 +13,6 @@ public interface FunctionService {
 	public void exportResourceData(Long ltId, Long gtId, String filePath);
 
 	public void exportResourceContentData(Long ltId, Long gtId, String filePath);
+	
+	public void exportResourceCasecadeData(Long ltId, Long gtId, String filePath);
 }

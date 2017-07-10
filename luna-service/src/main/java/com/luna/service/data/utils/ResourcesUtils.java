@@ -88,10 +88,10 @@ public class ResourcesUtils {
 		return resourcesMapper.selectList(map);
 	}
 
-	public static int selectBetweenResourceCount(IResourcesMapper resourcesMapper, Long gtId, Long ltId) {
+	public static int selectBetweenResourceCount(IResourcesMapper resourcesMapper, Long ltId, Long gtId) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("gtId", gtId);
 		map.put("ltId", ltId);
+		map.put("gtId", gtId);
 		return resourcesMapper.selectCount(map);
 	}
 

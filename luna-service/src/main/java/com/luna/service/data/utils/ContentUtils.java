@@ -31,13 +31,36 @@ import com.luna.utils.classes.Page;
 public class ContentUtils {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ContentUtils.class);
-	
-	
-	public static int selectBetweenContentCount(IResourcesContentMapper resourcesContentMapper, Long gtId, Long ltId) {
+
+	public static int selectBetweenContentCountById(IResourcesContentMapper resourcesContentMapper, Long ltId,
+			Long gtId) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("gtId", gtId);
 		map.put("ltId", ltId);
+		map.put("gtId", gtId);
 		return resourcesContentMapper.selectCount(map);
+	}
+
+	public static int selectBetweenContentCountByResourceId(IResourcesContentMapper resourcesContentMapper,
+			Long ltResourcesId, Long gtResourcesId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("ltResourcesId", ltResourcesId);
+		map.put("gtResourcesId", gtResourcesId);
+		return resourcesContentMapper.selectCount(map);
+	}
+
+	public static ResourcesContent selectBetweenContentByResourceId(IResourcesContentMapper resourcesContentMapper,
+			Long ltResourcesId, Long gtResourcesId, String idOrder) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("ltResourcesId", ltResourcesId);
+		map.put("gtResourcesId", gtResourcesId);
+		ConditionUtils.evalSortOrderMap(map, "id", idOrder);
+		ConditionUtils.evalPageMap(map, 1, 1);
+		List<ResourcesContent> contents = resourcesContentMapper.selectList(map);
+		ResourcesContent content = null;
+		if (CollectionUtils.isNotEmpty(contents)) {
+			content = contents.get(0);
+		}
+		return content;
 	}
 
 	public static Page<ResourcesContent> selectResourcesContents(IResourcesContentMapper resourcesContentMapper,

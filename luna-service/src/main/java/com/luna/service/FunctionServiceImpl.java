@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.luna.dao.mapper.IResourcesContentMapper;
 import com.luna.dao.mapper.IResourcesMapper;
+import com.luna.dao.po.ResourcesContent;
+import com.luna.service.data.utils.ConditionUtils;
 import com.luna.service.data.utils.Configure;
 import com.luna.service.data.utils.ContentUtils;
 import com.luna.service.data.utils.ResourcesUtils;
@@ -43,7 +45,7 @@ public class FunctionServiceImpl implements FunctionService {
 	public void exportResourceData(Long ltId, Long gtId, String filePath) {
 		String tableName = "l_resources";
 		int totalCount = ResourcesUtils.selectBetweenResourceCount(resourcesMapper, ltId, gtId);
-		String exportDefaultPath=FilePropertyUtils.appendPath(Configure.getExportDefaultPath(),"resource.sql");
+		String exportDefaultPath = FilePropertyUtils.appendPath(Configure.getExportDefaultPath(), "resource.sql");
 		export(tableName, totalCount, ltId, gtId, LangUtils.defaultValue(filePath, exportDefaultPath));
 	}
 
@@ -57,8 +59,8 @@ public class FunctionServiceImpl implements FunctionService {
 	@Override
 	public void exportResourceContentData(Long ltId, Long gtId, String filePath) {
 		String tableName = "l_resources_content";
-		int totalCount = ContentUtils.selectBetweenContentCount(resourcesContentMapper, ltId, gtId);
-		String exportDefaultPath=FilePropertyUtils.appendPath(Configure.getExportDefaultPath(),"content.sql");
+		int totalCount = ContentUtils.selectBetweenContentCountById(resourcesContentMapper, ltId, gtId);
+		String exportDefaultPath = FilePropertyUtils.appendPath(Configure.getExportDefaultPath(), "content.sql");
 		export(tableName, totalCount, ltId, gtId, LangUtils.defaultValue(filePath, exportDefaultPath));
 	}
 
@@ -71,5 +73,28 @@ public class FunctionServiceImpl implements FunctionService {
 			divisor += 1;
 		}
 		new ExportData(jdbcTemplate, tableName, pageSize, ltId, gtId, filePath).synchronizedAll(divisor);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.luna.service.FunctionService#exportResourceCasecadeData(java.lang.Long,
+	 * java.lang.Long, java.lang.String)
+	 */
+	@Override
+	public void exportResourceCasecadeData(Long ltId, Long gtId, String filePath) {
+
+		ResourcesContent contentLt = ContentUtils.selectBetweenContentByResourceId(resourcesContentMapper, ltId, gtId,
+				ConditionUtils.ASC);
+		Validate.notNull(contentLt);
+
+		ResourcesContent contentGt = ContentUtils.selectBetweenContentByResourceId(resourcesContentMapper, ltId, gtId,
+				ConditionUtils.DESC);
+		Validate.notNull(contentGt);
+
+		exportResourceContentData(contentLt.getId(), contentGt.getId(), filePath);
+		exportResourceData(ltId, gtId, filePath);
+
 	}
 }

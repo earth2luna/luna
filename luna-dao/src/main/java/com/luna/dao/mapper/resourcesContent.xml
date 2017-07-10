@@ -46,16 +46,18 @@
 
 	<sql id="whereAllSQL">
 		<trim prefix="WHERE" prefixOverrides="AND|OR" suffixOverrides=",">
-			<if test="null!=resourcesId">and resources_id=#{resourcesId}</if>
 			<if test="null!=title and ''!=title">and title like CONCAT('%','${title}','%')</if>
 			<if test="null!=content and ''!=content">and content like CONCAT('%','${content}','%')</if>
 			<if test="null!=pId">and p_id=#{pId}</if>
 			<if test="null!=pIdIsNull">and p_id IS NULL</if>
 			<if test="null!=sortCode">and sort_code=#{sortCode}</if>
 			<if test="null!=id">and id=#{id}</if>
-			<if test="null!=gtId"><![CDATA[ and id>#{gtId}]]></if>
-			<if test="null!=ltId"><![CDATA[ and id<#{ltId}]]></if>
+			<if test="null!=gtId"><![CDATA[ and id<=#{gtId}]]></if>
+			<if test="null!=ltId"><![CDATA[ and id>=#{ltId}]]></if>
 			<if test="null!=keys">id IN <foreach item="id" collection="keys" open="(" separator="," close=")">#{id}</foreach></if>
+			<if test="null!=resourcesId">and resources_id=#{resourcesId}</if>
+			<if test="null!=gtResourcesId"><![CDATA[ and resources_id<=#{gtResourcesId}]]></if>
+			<if test="null!=ltResourcesId"><![CDATA[ and resources_id>=#{ltResourcesId}]]></if>
 		</trim>
 	</sql>
 

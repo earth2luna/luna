@@ -49,6 +49,9 @@ public class SupperController extends ParentController {
 			} else if (LangUtils.equals("4", op)) {
 				functionService.exportResourceContentData(Long.valueOf(request.getParameter("ltId")),
 						Long.valueOf(request.getParameter("gtId")), null);
+			} else if (LangUtils.equals("5", op)) {
+				functionService.exportResourceCasecadeData(Long.valueOf(request.getParameter("ltId")),
+						Long.valueOf(request.getParameter("gtId")), null);
 			}
 		} catch (Exception e) {
 			invokeVo = new InvokeVo("执行失败", null, 0);
@@ -56,8 +59,7 @@ public class SupperController extends ParentController {
 		}
 		return invokeVo;
 	}
-	
-	
+
 	@RequestMapping("/view")
 	public String view() {
 		return "super/view";
