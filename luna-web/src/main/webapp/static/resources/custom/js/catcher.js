@@ -43,9 +43,10 @@ Catcher = {
 				});
 		form_seletor.ajaxSubmit(function(data){
 			if (1 == data.code) {
-				layer.alert(data.message, {
-					icon : 1
-				});
+//				layer.alert(data.message, {
+//					icon : 1
+//				});
+				location.href="/catcher/list";
 			} else {
 				layer.alert(data.message, {
 					icon : 2

@@ -109,6 +109,7 @@ public class LoginUtils {
 			}
 		} catch (Exception e) {
 			invokeVo = new InvokeVo("verification exception!", null, -1);
+			LOGGER.error("login error:" + e);
 		}
 
 		return invokeVo;
