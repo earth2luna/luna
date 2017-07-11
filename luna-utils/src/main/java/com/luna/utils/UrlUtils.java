@@ -35,6 +35,9 @@ public class UrlUtils {
 				if (tryUrl.startsWith("//")) {
 					return LangUtils.append(url.getProtocol(), ":", tryUrl);
 				}
+				if (!tryUrl.startsWith("/")) {
+					return FilePropertyUtils.appendPath(requestUrl, tryUrl);
+				}
 				String home = LangUtils.append(url.getProtocol(), "://", url.getHost());
 				return FilePropertyUtils.appendPath(home, tryUrl);
 			}
@@ -50,5 +53,8 @@ public class UrlUtils {
 				"//harttle.com/2016/04/24/client-height-width.html"));
 		System.out.println(makesureFullUrl("http://harttle.com/2016/04/24/client-height-width.html",
 				"/2016/04/24/client-height-width.html"));
+		
+		System.out.println(makesureFullUrl("http://harttle.com/2016/04/24/",
+				"client-height-width.html"));
 	}
 }
