@@ -3,14 +3,14 @@
 	<tr>
 		<td class="text-right">父段落：</td>
 		<td><select name="pId">
+				<option value="">父段落</option>
 				<#list parents as parent>
 					<#if content?? && content.PId==parent.id>
 						<option value="${parent.id}" selected="selected">${parent.title}</option>
 					<#else>
 						<option value="${parent.id}">${parent.title}</option>
 					</#if>
-				</#list>
-				<option value="">父段落</option>
+				</#list>				
 		</select></td>
 		<td class="text-right">处理方式：</td>
 		<td><select name="hc">

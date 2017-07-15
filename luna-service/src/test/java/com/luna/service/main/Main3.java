@@ -26,7 +26,7 @@ public class Main3 implements PageProcessor {
 	@Override
 	public void process(Page page) {
 //		List<String> answers = page.getHtml().xpath("//article[@class='hentry']/div[@class='asset-content']/*").all();
-		List<String> answers = page.getHtml().xpath("//tbody[@class='d-block']/tr[@class='d-block']/td/*").all();
+		List<String> answers = page.getHtml().xpath("//div[@class='dw-article-toc']/div[@class='ibm-col-6-4']/*").all();
 		for (String answer : answers) {
 //			String vote = new Html(answer).xpath("//p/tidyText()").toString();
 //			String vote = new Html(answer).xpath("//blockquote/pre/code/tidyText()").toString();
@@ -34,10 +34,10 @@ public class Main3 implements PageProcessor {
 //			String vote = new Html(answer).xpath("//blockquote/pre/code/allText()").toString();
 //			String vote = new Html(answer).xpath("//blockquote/pre/code/html()").toString();
 //			String vote = new Html(answer).xpath("//blockquote/html()").toString();
-			String vote = new Html(answer).xpath("//div[@class='timeline-comment']/div[@class='timeline-comment-header']/h3[@class='timeline-comment-header-text']/allText()").toString();
+			Html vote = new Html(answer);
 //			System.out.println(vote);
 			System.out.println("*********************************");
-			System.out.println(vote);
+			System.out.println(vote.xpath("/html/body/p/allText()"));
 		}
 	}
 
@@ -59,7 +59,7 @@ public class Main3 implements PageProcessor {
 //		.run();
 //		Spider.create(new Main()).addUrl("http://www.ruanyifeng.com/blog/2016/09/csp.html").thread(5)
 //		.run();
-		Spider.create(new Main3()).addUrl("https://github.com/xufei/blog/issues/21").thread(5)
+		Spider.create(new Main3()).addUrl("https://www.ibm.com/developerworks/cn/java/j-jvmc2/index.html").thread(5)
 				.run();
 	}
 }

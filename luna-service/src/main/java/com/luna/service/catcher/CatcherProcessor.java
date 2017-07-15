@@ -282,6 +282,21 @@ public class CatcherProcessor implements PageProcessor {
 		ContentUtils.insertCatchers(contentMapper, rcs, resources.getId());
 	}
 
+	private static void completeRootXPath(CatchRuler ruler) {
+		if (null != ruler) {
+			String beforeInsert = "/html/body";
+			// 如果是根，并且没有加根标记，就加上根标记
+			if (StringUtils.isNotBlank(ruler.getGetXPath()) && ruler.getGetXPath().startsWith("/")
+					&& !ruler.getGetXPath().startsWith(beforeInsert)) {
+				ruler.setGetXPath(beforeInsert + ruler.getGetXPath());
+			}
+			if (StringUtils.isNotBlank(ruler.getTryXPath()) && ruler.getTryXPath().startsWith("/")
+					&& !ruler.getTryXPath().startsWith(beforeInsert)) {
+				ruler.setTryXPath(beforeInsert + ruler.getTryXPath());
+			}
+		}
+	}
+
 	private static CatcherSubModel handler(List<CatchRuler> rulers, Html relative) {
 		if (CollectionUtils.isEmpty(rulers))
 			return null;
@@ -292,30 +307,31 @@ public class CatcherProcessor implements PageProcessor {
 			if (LangUtils.isBlank(ruler.getGetXPath())) {
 				continue;
 			}
-			String value = null;
-			Selectable originValue = null;
+
+			// 增加根xPath补全
+			completeRootXPath(ruler);
+
+			String tryValue = null;
+			Selectable originSelectable = null;
 
 			// 探测拦截
 			if (LangUtils.isNotBlank(ruler.getTryXPath())) {
-				value = LangUtils.trim(html.xpath(ruler.getTryXPath()));
+				tryValue = LangUtils.trim(html.xpath(ruler.getTryXPath()));
 
-				if (LangUtils.isBlank(value)) {
+				if (LangUtils.isBlank(tryValue)) {
 					continue;
 				}
 			}
 
 			// 真正获取
 
-			originValue = html.xpath(ruler.getGetXPath());
+			originSelectable = html.xpath(ruler.getGetXPath());
 
-			if (null == originValue) {
+			if (null == originSelectable || LangUtils.isBlank(originSelectable.toString())) {
 				continue;
 			}
-			value = LangUtils.trim(originValue);
-			// 过滤空串
-			if (LangUtils.isBlank(value)) {
-				continue;
-			}
+
+			String originValue = LangUtils.trim(StringUtils.join(originSelectable.all(), ""));
 
 			// 替换内容
 			if (CollectionUtils.isNotEmpty(ruler.getReplaceModels())) {
@@ -327,28 +343,46 @@ public class CatcherProcessor implements PageProcessor {
 					}
 
 					if (StringUtils.isEmpty(catchReplaceModel.getIndexOfcondition())
-							|| -1 != value.indexOf(catchReplaceModel.getIndexOfcondition())) {
+							|| -1 != originValue.indexOf(catchReplaceModel.getIndexOfcondition())) {
 						String replacement = LangUtils.defaultValue(catchReplaceModel.getReplacement(), "");
 
 						String regex = marcherEnum.getRegex(tagNames);
-						originValue = originValue.replace(regex, replacement);
+						originSelectable = originSelectable.replace(regex, replacement);
 					}
 
 				}
 			}
+			// 替换完成后再重新生成
+			originValue = StringUtils.join(originSelectable.all(), "");
+			// trim
+			String trimValue = LangUtils.trim(originValue);
 
-			// 再trim
-			value = LangUtils.trim(originValue);
-
-			// 再过滤空串
-			if (LangUtils.isBlank(value)) {
+			// 过滤空串
+			if (LangUtils.isBlank(trimValue)) {
 				continue;
+			}
+
+			// 集合值
+			List<String> values = originSelectable.all();
+
+			// 处理编码
+			Integer code = getHandlerCode(ruler, html);
+			HandlerMethodEnum methodEnum = HandlerMethodEnum.get(code);
+			// pre 不去除空格、不进行文本过滤、不进行抓取结束
+
+			if (HandlerMethodEnum.LANGUGE_BASH == methodEnum || HandlerMethodEnum.LANGUGE_HTML == methodEnum
+					|| HandlerMethodEnum.LANGUGE_JAVA == methodEnum || HandlerMethodEnum.LANGUGE_JS == methodEnum
+					|| HandlerMethodEnum.LANGUGE_JSON == methodEnum || HandlerMethodEnum.PRE == methodEnum) {
+
+				CatcherSubModel model = new CatcherSubModel(originValue, code, false, false);
+				model.setValues(values);
+				return model;
 			}
 
 			// index of 过滤文本
 			if (CollectionUtils.isNotEmpty(ruler.getIndexOfFilters())) {
 				for (String indexFilter : ruler.getIndexOfFilters()) {
-					if (StringUtils.isNotBlank(indexFilter) && -1 != value.indexOf(indexFilter)) {
+					if (StringUtils.isNotBlank(indexFilter) && -1 != trimValue.indexOf(indexFilter)) {
 						return new CatcherSubModel(null, null, false, true);
 					}
 				}
@@ -357,7 +391,7 @@ public class CatcherProcessor implements PageProcessor {
 			// equals 过滤文本
 			if (CollectionUtils.isNotEmpty(ruler.getEqualsFilters())) {
 				for (String eqFilter : ruler.getEqualsFilters()) {
-					if (StringUtils.isNotBlank(eqFilter) && StringUtils.equals(value, eqFilter)) {
+					if (StringUtils.isNotBlank(eqFilter) && StringUtils.equals(trimValue, eqFilter)) {
 						return new CatcherSubModel(null, null, false, true);
 					}
 				}
@@ -366,23 +400,15 @@ public class CatcherProcessor implements PageProcessor {
 			// 结束抓取
 			if (CollectionUtils.isNotEmpty(ruler.getBreakValues())) {
 				for (String breakValue : ruler.getBreakValues()) {
-					if (StringUtils.isNotBlank(breakValue) && StringUtils.equals(value, breakValue)) {
+					if (StringUtils.isNotBlank(breakValue) && StringUtils.equals(trimValue, breakValue)) {
 						return new CatcherSubModel(null, null, true, false);
 					}
 				}
 			}
 
-			// pre 不去除空格
-			Integer code = getHandlerCode(ruler, html);
+			CatcherSubModel model = new CatcherSubModel(trimValue, code, false, false);
 
-			HandlerMethodEnum methodEnum = HandlerMethodEnum.get(code);
-
-			String outputValue = HandlerMethodEnum.P == methodEnum || HandlerMethodEnum.IMAGE == methodEnum ? value
-					: LangUtils.toString(originValue);
-
-			CatcherSubModel model = new CatcherSubModel(outputValue, code, false, false);
-
-			model.setValues(originValue.all());
+			model.setValues(values);
 			return model;
 		}
 
