@@ -44,12 +44,22 @@ public class IndexController extends ParentController {
 		return "categroy/list";
 	}
 
-	@RequestMapping("/")
-	public String home(Model model) {
+	@RequestMapping(value = { "/{query}/{pageNow}/", "/{query}/{pageNow}" })
+	public String home(Model model, @PathVariable String query, @PathVariable Long pageNow) {
 		addHeader(model, null);
 		model.addAttribute("QUERY_STRING_MAX_LENGTH", Constants.QUERY_STRING_MAX_LENGTH);
-		model.addAttribute("page", resourcesSolrService.query(null, 1, Constants.HOME_SEARCH_ITEMS_PAGE_SIZE));
+		model.addAttribute("homeVo", resourcesSolrService.getHomeVo(query, pageNow));
 		return "front/page_home";
+	}
+
+	@RequestMapping(value = { "/{pageNow}/", "/{pageNow}" })
+	public String home(Model model, @PathVariable Long pageNow) {
+		return home(model, null, pageNow);
+	}
+
+	@RequestMapping("/")
+	public String home(Model model) {
+		return home(model, null, null);
 	}
 
 	@RequestMapping("/about")

@@ -4,7 +4,7 @@
 		<p>${PAGE_HEADER_SAY.description}</p>
 		<div class="search-wraper" role="search">
 			<div class="input-group">
-			  <input class="form-control search" type="text" placeholder="搜索公开文章，例如：架构设计" maxlength="${QUERY_STRING_MAX_LENGTH}">
+			  <input class="form-control search" type="text" value="${homeVo.query}" placeholder="搜索公开文章，例如：架构设计" maxlength="${QUERY_STRING_MAX_LENGTH}">
 			  <span class="input-group-btn">
 			  	 <button class="btn btn-default" type="button"><i class="fa fa-search fa-fw" aria-hidden="true"></i></button>
 			  </span>
@@ -19,7 +19,7 @@
 				<div class="list-group">
 				  <#include "front/search_items.html"/>
 				</div>
-				 <span class="async-page"></span>
+				${homeVo.iteratorPage}
 			</div>
 		</div>
 	</div>

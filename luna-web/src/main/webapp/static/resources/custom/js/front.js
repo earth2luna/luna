@@ -89,7 +89,7 @@ jQuery(function() {
 
 	// view
 
-	simpleSearch();
+    simpleSearch();
 
 	// jQuery('.thumbnail-origin').zoom();
 	jQuery('.thumbnail-origin').parent("div").click(function() {

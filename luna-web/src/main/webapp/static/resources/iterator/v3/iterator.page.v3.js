@@ -30,10 +30,11 @@ var PageObject = {
 		var selector = jQuery(currentSelector).siblings("span").find(":input");
 		var currentValue = parseInt(selector.val());
 		if (currentValue && currentValue > 0 && currentValue < pages) {
+			var defaultRoute = route ? "/" + route + "/" : "/";
 			if (appender) {
-				location.href = route + "/" + currentValue + "/" + appender;
+				location.href = defaultRoute + currentValue + "/" + appender;
 			} else {
-				location.href = route + "/" + currentValue + "/";
+				location.href = defaultRoute + currentValue + "/";
 			}
 
 		}

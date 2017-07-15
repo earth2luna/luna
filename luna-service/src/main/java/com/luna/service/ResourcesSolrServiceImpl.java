@@ -25,10 +25,12 @@ import com.luna.service.componet.SuggetVo;
 import com.luna.service.data.utils.Configure;
 import com.luna.service.data.utils.Constants;
 import com.luna.service.data.utils.ResourcesUtils;
+import com.luna.service.dto.HomeVo;
 import com.luna.service.dto.ResourceSolrVo;
 import com.luna.service.sync.SynchronizedResource;
 import com.luna.utils.LangUtils;
 import com.luna.utils.classes.Page;
+import com.luna.utils.page.PageUtils;
 
 /**
  * @author laulyl
@@ -202,5 +204,24 @@ public class ResourcesSolrServiceImpl implements ResourcesSolrService {
 			solrQuery = new SolrQueryPage("*", pageNow, pageSize);
 		}
 		return solrQuery;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.luna.service.ResourcesSolrService#getHomeVo()
+	 */
+	@Override
+	public HomeVo getHomeVo(String query, Long pageNow) {
+		int defaultPageSize = Constants.HOME_SEARCH_ITEMS_PAGE_SIZE;
+		Long defaultPageNow = LangUtils.defaultValue(pageNow, 1L);
+		String defaultQuery = LangUtils.defaultValue(query, "*:*");
+		Page<ResourceSolrVo> page = query(defaultQuery, defaultPageNow.intValue(), defaultPageSize);
+		// 获取分页迭代内容
+		String route = LangUtils.trim(query);
+		String defaultRoute = StringUtils.isNotBlank(route) ? LangUtils.append("/", route) : null;
+		String iteratorPage = PageUtils.evaluate(page.getCount(), defaultPageNow, Long.valueOf(defaultPageSize),
+				defaultRoute, LangUtils.append("#", "a"));
+		return new HomeVo(page, iteratorPage, query);
 	}
 }

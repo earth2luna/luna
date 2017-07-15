@@ -6,6 +6,7 @@ package com.luna.service;
 import java.util.List;
 
 import com.luna.service.componet.SuggetVo;
+import com.luna.service.dto.HomeVo;
 import com.luna.service.dto.ResourceSolrVo;
 import com.luna.utils.classes.Page;
 
@@ -25,4 +26,6 @@ public interface ResourcesSolrService {
 	public Page<ResourceSolrVo> query(String query, Integer pageNo,Integer pageSize);
 	
 	public Page<ResourceSolrVo> SimpleQuery(String query, Integer pageNow, Integer pageSize);
+	
+	public HomeVo getHomeVo(String query,Long pageNow);
 }

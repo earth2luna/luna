@@ -1,5 +1,7 @@
 package com.luna.utils.page;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.luna.utils.LangUtils;
 import com.luna.utils.infce.IInputOutput;
 
@@ -111,9 +113,18 @@ public abstract class AbstractRoutePageOutput implements IInputOutput<PageOutput
 				+ "\" type=\"text\"><i class=\"plus_v1\" onclick=\"PageObject.inputValuePlus(this," + i.getPages()
 				+ ");\"></i><i class=\"reduce_v1\" onclick=\"PageObject.inputValueMinus(this)\"></i></span>");
 		ret.append("<span class=\"txt\">页&nbsp;</span>");
-		ret.append("<input value=\"go\" class=\"btn-vice script-go\" type=\"button\" onclick=\"PageObject.go(this,'"
-				+ route + "," + appender + "'," + i.getPages() + ")\">");
+		ret.append("<input value=\"go\" class=\"btn-vice script-go\" type=\"button\" onclick=\"PageObject.go(this,"
+				+ getJavaScriptInputValue(route) + "," + getJavaScriptInputValue(appender) + "," + i.getPages()
+				+ ")\">");
 		return ret.toString();
+	}
+
+	private String getJavaScriptInputValue(String value) {
+		String ret = "null";
+		if (StringUtils.isNotBlank(value)) {
+			ret = LangUtils.append("'", value, "'");
+		}
+		return ret;
 	}
 
 	public abstract String getRoute(Long pageNow);

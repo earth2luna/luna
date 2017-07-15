@@ -1,11 +1,10 @@
-<#if (page.list)?? && (page.list?size>0)>
-	<div class="alert alert-success" role="alert">
-	   <strong>Well done!</strong> You successfully query ${page.count} items.
+<#if (homeVo.page.list)?? && (homeVo.page.list?size>0)>
+	<div id="a" class="alert alert-success" role="alert">
+	   <strong>Well done!</strong> You successfully query ${homeVo.page.count} items.
 	</div>
 	<#include "front/search_iterator.html"/>
 <#else>
-	<div class="alert alert-danger" role="alert">
+	<div id="a" class="alert alert-danger" role="alert">
 	  <strong>Oh snap!</strong> <a href="javascript:void(0);" class="alert-link">Change a few things up</a> and try submitting again.
 	</div>
 </#if>
-<input type="hidden" value="{page:${page.pageNow!'1'},pageSize:${page.pageSize!'20'},total:${page.count!'0'}}" />
