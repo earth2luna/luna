@@ -95,7 +95,7 @@ public class ExportData extends AbstractListWhileDoNormal<Map<String, Object>> {
 					builder.append(DateUtils.getDateFormat(object, DateUtils.DATE_PATTERN_1));
 					break;
 				default:
-					builder.append(object);
+					builder.append(object.toString().replace("\n", "\\n").replace("'", "\\'"));
 				}
 				builder.append("'");
 			}
@@ -163,6 +163,11 @@ public class ExportData extends AbstractListWhileDoNormal<Map<String, Object>> {
 			}
 		}
 		return builder.append(") VALUES(%s);").toString();
+	}
+	
+	public static void main(String[] args) {
+		String ss="\n'";
+		System.out.println(ss.replace("\n", "\\n").replace("'", "\\'"));
 	}
 
 }
