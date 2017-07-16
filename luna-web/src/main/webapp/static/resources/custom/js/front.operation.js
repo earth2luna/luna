@@ -3,7 +3,7 @@ jQuery(function() {
 	var selector_input = jQuery(".search-wraper .form-control.search");
 
 	function search(query) {
-		var href = query ? "/" + query + "/1/" : "/1/";
+		var href = query ? "/query/" + query + "/1/" : "/1/";
 		location.href = href;
 	}
 

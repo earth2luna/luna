@@ -219,7 +219,7 @@ public class ResourcesSolrServiceImpl implements ResourcesSolrService {
 		Page<ResourceSolrVo> page = query(defaultQuery, defaultPageNow.intValue(), defaultPageSize);
 		// 获取分页迭代内容
 		String route = LangUtils.trim(query);
-		String defaultRoute = StringUtils.isNotBlank(route) ? LangUtils.append("/", route) : null;
+		String defaultRoute = StringUtils.isNotBlank(route) ? LangUtils.append("/query/", route) : null;
 		String iteratorPage = PageUtils.evaluate(page.getCount(), defaultPageNow, Long.valueOf(defaultPageSize),
 				defaultRoute, LangUtils.append("#", "a"));
 		return new HomeVo(page, iteratorPage, query);

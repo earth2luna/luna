@@ -44,7 +44,7 @@ public class IndexController extends ParentController {
 		return "categroy/list";
 	}
 
-	@RequestMapping(value = { "/{query}/{pageNow}/", "/{query}/{pageNow}" })
+	@RequestMapping(value = { "/query/{query}/{pageNow}/", "/query/{query}/{pageNow}" })
 	public String home(Model model, @PathVariable String query, @PathVariable Long pageNow) {
 		addHeader(model, null);
 		model.addAttribute("QUERY_STRING_MAX_LENGTH", Constants.QUERY_STRING_MAX_LENGTH);
