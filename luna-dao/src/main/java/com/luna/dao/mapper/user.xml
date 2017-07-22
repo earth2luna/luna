@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luna.dao.mapper.UserMapper">
+
+	<sql id="selectColumnSQL">
+		<![CDATA[
+	    	SELECT 
+				id id,
+				pin pin,
+				password password,
+				gender gender,
+				mobile mobile,
+				email email,
+				blog_link blogLink,
+				thumbnail thumbnail,
+				profession profession,
+				company company,
+				position position,
+				university university,
+				us_start_time usStartTime,
+				us_end_time usEndTime,
+				educational_background educationalBackground,
+				scored scored,
+				site_eval siteEval,
+				self_eval selfEval,
+				appeal appeal,
+				service_status serviceStatus,
+				user_view userView,
+				page_view pageView,
+				create_time createTime,
+				update_time updateTime,
+				first_login_time firstLoginTime,
+				last_login_time lastLoginTime
+			FROM l_user
+	    ]]>
+	</sql>
+
+	<sql id="selectCountSQL">
+		<![CDATA[
+	    	SELECT COUNT(1) count FROM l_user
+	    ]]>
+	</sql>
+
+	<sql id="deleteSQL">
+		<![CDATA[
+	    	DELETE FROM l_user
+	    ]]>
+	</sql>
+
+	<sql id="updateSQL">
+		UPDATE l_user
+			<trim prefix="SET" suffixOverrides=",">
+				<if test="null!=prop.pin and ''!=prop.pin">pin=#{prop.pin},</if>
+				<if test="null!=prop.password and ''!=prop.password">password=#{prop.password},</if>
+				<if test="null!=prop.gender">gender=#{prop.gender},</if>
+				<if test="null!=prop.mobile and ''!=prop.mobile">mobile=#{prop.mobile},</if>
+				<if test="null!=prop.email and ''!=prop.email">email=#{prop.email},</if>
+				<if test="null!=prop.blogLink and ''!=prop.blogLink">blog_link=#{prop.blogLink},</if>
+				<if test="null!=prop.thumbnail and ''!=prop.thumbnail">thumbnail=#{prop.thumbnail},</if>
+				<if test="null!=prop.profession and ''!=prop.profession">profession=#{prop.profession},</if>
+				<if test="null!=prop.company and ''!=prop.company">company=#{prop.company},</if>
+				<if test="null!=prop.position and ''!=prop.position">position=#{prop.position},</if>
+				<if test="null!=prop.university and ''!=prop.university">university=#{prop.university},</if>
+				<if test="null!=prop.usStartTime">us_start_time=#{prop.usStartTime},</if>
+				<if test="null!=prop.usEndTime">us_end_time=#{prop.usEndTime},</if>
+				<if test="null!=prop.educationalBackground">educational_background=#{prop.educationalBackground},</if>
+				<if test="null!=prop.scored">scored=#{prop.scored},</if>
+				<if test="null!=prop.siteEval and ''!=prop.siteEval">site_eval=#{prop.siteEval},</if>
+				<if test="null!=prop.selfEval and ''!=prop.selfEval">self_eval=#{prop.selfEval},</if>
+				<if test="null!=prop.appeal and ''!=prop.appeal">appeal=#{prop.appeal},</if>
+				<if test="null!=prop.serviceStatus">service_status=#{prop.serviceStatus},</if>
+				<if test="null!=prop.userView">user_view=#{prop.userView},</if>
+				<if test="null!=prop.pageView">page_view=#{prop.pageView},</if>
+				<if test="null!=prop.createTime">create_time=#{prop.createTime},</if>
+				<if test="null!=prop.updateTime">update_time=#{prop.updateTime},</if>
+				<if test="null!=prop.firstLoginTime">first_login_time=#{prop.firstLoginTime},</if>
+				<if test="null!=prop.lastLoginTime">last_login_time=#{prop.lastLoginTime},</if>
+			</trim>
+	</sql>
+
+	<sql id="whereAllSQL">
+		<trim prefix="WHERE" prefixOverrides="AND|OR" suffixOverrides=",">
+			<if test="null!=pin and ''!=pin">and pin=#{pin}</if>
+			<if test="null!=gender">and gender=#{gender}</if>
+			<if test="null!=mobile and ''!=mobile">and mobile like CONCAT('%','${mobile}','%')</if>
+			<if test="null!=email and ''!=email">and email like CONCAT('%','${email}','%')</if>
+			<if test="null!=blogLink and ''!=blogLink">and blog_link like CONCAT('%','${blogLink}','%')</if>
+			<if test="null!=profession and ''!=profession">and profession like CONCAT('%','${profession}','%')</if>
+			<if test="null!=company and ''!=company">and company like CONCAT('%','${company}','%')</if>
+			<if test="null!=position and ''!=position">and position like CONCAT('%','${position}','%')</if>
+			<if test="null!=university and ''!=university">and university like CONCAT('%','${university}','%')</if>
+			<if test="null!=startUsStartTime"><![CDATA[ and us_start_time>=#{startUsStartTime}]]></if>
+			<if test="null!=endUsStartTime"><![CDATA[ and us_start_time<=#{endUsStartTime}]]></if>
+			<if test="null!=startUsEndTime"><![CDATA[ and us_end_time>=#{startUsEndTime}]]></if>
+			<if test="null!=endUsEndTime"><![CDATA[ and us_end_time<=#{endUsEndTime}]]></if>
+			<if test="null!=educationalBackground">and educational_background=#{educationalBackground}</if>
+			<if test="null!=scored">and scored=#{scored}</if>
+			<if test="null!=siteEval and ''!=siteEval">and site_eval like CONCAT('%','${siteEval}','%')</if>
+			<if test="null!=selfEval and ''!=selfEval">and self_eval like CONCAT('%','${selfEval}','%')</if>
+			<if test="null!=appeal and ''!=appeal">and appeal like CONCAT('%','${appeal}','%')</if>
+			<if test="null!=serviceStatus">and service_status=#{serviceStatus}</if>
+			<if test="null!=startCreateTime"><![CDATA[ and create_time>=#{startCreateTime}]]></if>
+			<if test="null!=endCreateTime"><![CDATA[ and create_time<=#{endCreateTime}]]></if>
+			<if test="null!=startUpdateTime"><![CDATA[ and update_time>=#{startUpdateTime}]]></if>
+			<if test="null!=endUpdateTime"><![CDATA[ and update_time<=#{endUpdateTime}]]></if>
+			<if test="null!=startFirstLoginTime"><![CDATA[ and first_login_time>=#{startFirstLoginTime}]]></if>
+			<if test="null!=endFirstLoginTime"><![CDATA[ and first_login_time<=#{endFirstLoginTime}]]></if>
+			<if test="null!=startLastLoginTime"><![CDATA[ and last_login_time>=#{startLastLoginTime}]]></if>
+			<if test="null!=endLastLoginTime"><![CDATA[ and last_login_time<=#{endLastLoginTime}]]></if>
+			<if test="null!=keys">id IN <foreach item="id" collection="keys" open="(" separator="," close=")">#{id}</foreach></if>
+		</trim>
+	</sql>
+
+	<sql id="whereIdSQL">
+		<![CDATA[
+	    	WHERE id=#{id}
+	    ]]>
+	</sql>
+
+	<sql id="orderBySQL">
+		<if test="null!=sortProperty and null!=sortOrder and ''!=sortProperty and ''!=sortOrder ">ORDER BY ${sortProperty} ${sortOrder}</if>
+	</sql>
+
+	<sql id="limitSQL">
+		<if test="null!=startIndex">limit #{startIndex}<if test="null!=endIndex">, #{endIndex}</if></if>
+	</sql>
+
+	<insert id="insert" parameterType="user" useGeneratedKeys="true" keyProperty="id">
+	    <![CDATA[
+	    	INSERT INTO l_user(pin,password,gender,mobile,email,blog_link,thumbnail,profession,company,position,university,us_start_time,us_end_time,educational_background,scored,site_eval,self_eval,appeal,service_status,user_view,page_view,create_time,update_time,first_login_time,last_login_time)
+			VALUES(#{pin},#{password},#{gender},#{mobile},#{email},#{blogLink},#{thumbnail},#{profession},#{company},#{position},#{university},#{usStartTime},#{usEndTime},#{educationalBackground},#{scored},#{siteEval},#{selfEval},#{appeal},#{serviceStatus},#{userView},#{pageView},#{createTime},#{updateTime},#{firstLoginTime},#{lastLoginTime})
+	     ]]>
+	</insert>
+
+	<delete id="deleteById" parameterType="Long">
+		<include refid="deleteSQL"/>
+		<include refid="whereIdSQL"/>
+	</delete>
+
+	<delete id="delete" parameterType="map">
+		<include refid="deleteSQL"/>
+		<include refid="whereAllSQL"/>
+	</delete>
+
+	<update id="updateById" parameterType="map">
+		<include refid="updateSQL"/>
+		<include refid="whereIdSQL"/>
+	</update>
+
+	<update id="update" parameterType="map">
+		<include refid="updateSQL"/>
+		<include refid="whereAllSQL"/>
+	</update>
+
+	<select id="selectById" parameterType="Long" resultType="user">
+		<include refid="selectColumnSQL"/>
+		<include refid="whereIdSQL"/>
+	</select>
+
+	<select id="selectList" parameterType="map" resultType="user">
+		<include refid="selectColumnSQL"/>
+		<include refid="whereAllSQL"/>
+		<include refid="orderBySQL"/>
+		<include refid="limitSQL"/>
+	</select>
+
+	<select id="selectCount" parameterType="map" resultType="int">
+		<include refid="selectCountSQL"/>
+		<include refid="whereAllSQL"/>
+	</select>
+</mapper>
