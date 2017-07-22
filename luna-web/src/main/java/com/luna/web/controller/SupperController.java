@@ -44,14 +44,14 @@ public class SupperController extends ParentController {
 			} else if (LangUtils.equals("2", op)) {
 				resourcesSolrService.delete(request.getParameter("DELETEDIDS"));
 			} else if (LangUtils.equals("3", op)) {
-				functionService.exportResourceData(Long.valueOf(request.getParameter("ltId")),
-						Long.valueOf(request.getParameter("gtId")), null);
+				functionService.exportResourceData(LangUtils.toLongDfNull(request.getParameter("ltId")),
+						LangUtils.toLongDfNull(request.getParameter("gtId")), null);
 			} else if (LangUtils.equals("4", op)) {
-				functionService.exportResourceContentData(Long.valueOf(request.getParameter("ltId")),
-						Long.valueOf(request.getParameter("gtId")), null);
+				functionService.exportResourceContentData(LangUtils.toLongDfNull(request.getParameter("ltId")),
+						LangUtils.toLongDfNull(request.getParameter("gtId")), null);
 			} else if (LangUtils.equals("5", op)) {
-				functionService.exportResourceCasecadeData(Long.valueOf(request.getParameter("ltId")),
-						Long.valueOf(request.getParameter("gtId")), null);
+				functionService.exportResourceCasecadeData(LangUtils.toLongDfNull(request.getParameter("ltId")),
+						LangUtils.toLongDfNull(request.getParameter("gtId")), null);
 			}
 		} catch (Exception e) {
 			invokeVo = new InvokeVo("执行失败", null, 0);

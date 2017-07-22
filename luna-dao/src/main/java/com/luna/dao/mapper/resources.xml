@@ -194,4 +194,11 @@
 		GROUP BY websiteCode , source_site_name
 		ORDER BY id DESC
 	</select>
+	
+	<select id="selectMaxId"  resultType="Long">
+		SELECT 
+		    MAX(id)
+		FROM
+		    l_resources
+	</select>
 </mapper>

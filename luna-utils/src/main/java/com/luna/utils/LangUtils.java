@@ -117,10 +117,10 @@ public class LangUtils {
 	 * 
 	 * <pre>
 	 * decode(true, &quot;value&quot;); // return value decode(false,
-	 * &quot;value&quot;, true, &quot;value1&quot;); // return value1
-	 * decode(false, &quot;value&quot;, false, &quot;value1&quot;); // return
-	 * null decode(false); // throw validate format exception decode(false,
-	 * &quot;value&quot;, &quot;value1&quot;); // return value1
+	 * &quot;value&quot;, true, &quot;value1&quot;); // return value1 decode(false,
+	 * &quot;value&quot;, false, &quot;value1&quot;); // return null decode(false);
+	 * // throw validate format exception decode(false, &quot;value&quot;,
+	 * &quot;value1&quot;); // return value1
 	 * decode(false,"value","true","value1","value2"); //return value2
 	 * 
 	 * <pre>
@@ -308,6 +308,26 @@ public class LangUtils {
 		return number.doubleValue() > 0;
 	}
 
+	public static Long toLong(String input, Long defaultValue) {
+		if (isBlank(input)) {
+			return defaultValue;
+		}
+		try {
+			return Long.parseLong(input);
+		} catch (NumberFormatException nfe) {
+			return defaultValue;
+		}
+		
+	}
+
+	public static Long toLongDfNull(String input) {
+		return toLong(input, null);
+	}
+
+	public static Long toLongDf0(String input) {
+		return toLong(input, 0L);
+	}
+
 	public static <I, O> void joins2Collection(Collection<O> collection, Collection<I> list,
 			IInputOutput<I, O> inputOutput) {
 		Validate.notNull(inputOutput);
@@ -375,7 +395,8 @@ public class LangUtils {
 					: object1 instanceof Number || object2 instanceof Number
 							? Double.valueOf(object1.toString()).equals(Double.valueOf(object2.toString()))
 							: object1 instanceof String || object2 instanceof String
-									? object1.toString().equals(object2.toString()) : object1.equals(object2);
+									? object1.toString().equals(object2.toString())
+									: object1.equals(object2);
 		} catch (Exception e) {
 			return false;
 		}

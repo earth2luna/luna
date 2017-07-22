@@ -20,4 +20,6 @@ public interface IResourcesMapper extends IMapper<Resources> {
 	public List<ResourcesCasecade> selectResourcesCasecade(Map<String, Object> map);
 	
 	public List<KeyNameVo> selectWebsiteKeyName();
+	
+	public Long selectMaxId();
 }

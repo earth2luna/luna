@@ -46,7 +46,12 @@ public class FunctionServiceImpl implements FunctionService {
 		String tableName = "l_resources";
 		int totalCount = ResourcesUtils.selectBetweenResourceCount(resourcesMapper, ltId, gtId);
 		String exportDefaultPath = FilePropertyUtils.appendPath(Configure.getExportDefaultPath(), "resource.sql");
-		export(tableName, totalCount, ltId, gtId, LangUtils.defaultValue(filePath, exportDefaultPath));
+		Long defaultLtId = LangUtils.defaultValue(ltId, 1L);
+		Long defaultGtId = gtId;
+		if (null == defaultGtId) {
+			defaultGtId=resourcesMapper.selectMaxId();
+		}
+		export(tableName, totalCount, defaultLtId, defaultGtId, LangUtils.defaultValue(filePath, exportDefaultPath));
 	}
 
 	/*
