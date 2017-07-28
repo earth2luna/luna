@@ -18,6 +18,7 @@ import com.luna.dao.mapper.IResourcesMapper;
 import com.luna.dao.po.Resources;
 import com.luna.dao.po.ResourcesCategory;
 import com.luna.service.data.utils.CategoryUtils;
+import com.luna.service.data.utils.Configure;
 import com.luna.service.data.utils.ResourcesUtils;
 import com.luna.service.dto.CategoryResourceVo;
 import com.luna.service.enumer.resource.StatusEnum;
@@ -81,7 +82,8 @@ public class CategoryServiceImpl implements CategoryService {
 				LangUtils.intValueOfNumber(LangUtils.defaultValue(pageNow, 1)));
 		// 获取分页迭代内容
 		String iteratorPage = PageUtils.evaluate(page.getCount(), pageNow, defaultPageSize,
-				LangUtils.append("/category/", categoryId), LangUtils.append("#", category.getName()));
+				LangUtils.append(Configure.getThisWebDomain(), "/category/", categoryId),
+				LangUtils.append("#", category.getName()));
 		return new CategoryResourceVo(category, ResourcesUtils.transferResourcesVo(page), iteratorPage);
 	}
 

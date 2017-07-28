@@ -29,8 +29,8 @@ var PageObject = {
 	go : function(currentSelector, route, appender, pages) {
 		var selector = jQuery(currentSelector).siblings("span").find(":input");
 		var currentValue = parseInt(selector.val());
-		if (currentValue && currentValue > 0 && currentValue < pages) {
-			var defaultRoute = route ? "/" + route + "/" : "/";
+		if (currentValue && currentValue > 0 && currentValue <= pages) {
+			var defaultRoute = route ? route + "/" : "/";
 			if (appender) {
 				location.href = defaultRoute + currentValue + "/" + appender;
 			} else {
