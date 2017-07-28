@@ -33,16 +33,28 @@ public class InputOutputPage implements IInputOutput<PageInput, PageOutput> {
 		// 总页码数
 		long pages = 0 == remainder ? quotient : quotient + 1;
 
+		// 校验当前页码
+		if (input.getPageNow() > pages) {
+			input.setPageNow(pages);
+		}
+
+		long half = input.getIteratorCount() / 2;
+
+		long diff = pages - input.getIteratorCount();
+
 		// 开始迭代计算公式
-		long startCalc = input.getPageNow() - (input.getIteratorCount() / 2 + 1);
+		long startCalc = input.getPageNow() - half;
+
+		startCalc = startCalc > diff ? diff + 1 : startCalc;
+
 		// 开始迭代值
 		long iteratorStart = startCalc < 1 ? 1 : startCalc;
 
 		// 结束迭代计算公式
-		long endCalc = input.getPageNow() + input.getIteratorCount() / 2;
+		long endCalc = 1 == iteratorStart ? input.getIteratorCount() : input.getPageNow() + half;
+
 		// 结束迭代值
-		long iteratorEnd = endCalc > pages ? pages
-				: endCalc < input.getIteratorCount() ? input.getIteratorCount() : endCalc;
+		long iteratorEnd = endCalc > pages ? pages : endCalc;
 
 		// 获取输入对象
 		return new PageOutput(pages, iteratorStart, iteratorEnd, input);

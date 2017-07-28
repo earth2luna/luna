@@ -120,8 +120,8 @@ public class ResourcesSolrServiceImpl implements ResourcesSolrService {
 				solrQuery.set("hl.preserveMulti", true);
 				// set sort
 				solrQuery.addSort("score", ORDER.desc);
-				solrQuery.addSort("sourceDate", ORDER.desc);
 				solrQuery.addSort("createTime", ORDER.desc);
+				solrQuery.addSort("sourceDate", ORDER.desc);
 				// get response
 				QueryResponse queryResponse = resourceSolrComponet.getSolrClient().query(solrQuery);
 				SolrDocumentList solrDocumentList = queryResponse.getResults();
@@ -164,8 +164,8 @@ public class ResourcesSolrServiceImpl implements ResourcesSolrService {
 	public Page<ResourceSolrVo> query(Integer pageNow, Integer pageSize) {
 		try {
 			SolrQueryPage solrQuery = new SolrQueryPage("*:*", pageNow, pageSize);
-			solrQuery.addSort("sourceDate", ORDER.desc);
 			solrQuery.addSort("createTime", ORDER.desc);
+			solrQuery.addSort("sourceDate", ORDER.desc);
 			Page<ResourceSolrVo> page = resourceSolrComponet.query(solrQuery, ResourceSolrVo.class);
 			evalResource(page);
 			return page;
@@ -179,8 +179,8 @@ public class ResourcesSolrServiceImpl implements ResourcesSolrService {
 		try {
 
 			SolrQueryPage solrQuery = getQuery(query, pageNow, pageSize);
-			solrQuery.addSort("sourceDate", ORDER.desc);
 			solrQuery.addSort("createTime", ORDER.desc);
+			solrQuery.addSort("sourceDate", ORDER.desc);
 			Page<ResourceSolrVo> page = resourceSolrComponet.query(solrQuery, ResourceSolrVo.class);
 			if (CollectionUtils.isEmpty(page.getList())) {
 				solrQuery.setQuery("*");
