@@ -215,6 +215,7 @@ public class ResourcesSolrServiceImpl implements ResourcesSolrService {
 	public HomeVo getHomeVo(String query, Long pageNow) {
 		int defaultPageSize = Constants.HOME_SEARCH_ITEMS_PAGE_SIZE;
 		Long defaultPageNow = LangUtils.defaultValue(pageNow, 1L);
+		
 		String defaultQuery = LangUtils.defaultValue(query, "*:*");
 		Page<ResourceSolrVo> page = query(defaultQuery, defaultPageNow.intValue(), defaultPageSize);
 		// 获取分页迭代内容

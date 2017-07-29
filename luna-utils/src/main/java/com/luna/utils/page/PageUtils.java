@@ -14,6 +14,12 @@ public class PageUtils {
 		return new InputOutputPage().get(pageInput);
 	}
 
+	// 输出基本计算参数
+	public static PageOutput evaluate(Long totalCount, Long pageNow, Long pageSize) {
+		return evaluate(new PageInput(LangUtils.longValueOfNumber(totalCount), LangUtils.defaultValue(pageNow, 1L),
+				LangUtils.defaultValue(pageSize, 10L), 5));
+	}
+
 	// 路由输出，直接输入html
 	// 由v3.js支持
 	public static String evaluate(PageInput pageInput, String route, String appender) {
@@ -23,8 +29,7 @@ public class PageUtils {
 	// 默认路由输出
 	// 由v3.js支持
 	public static String evaluate(Long totalCount, Long pageNow, Long pageSize, String route, String appender) {
-		return evaluate(new PageInput(LangUtils.longValueOfNumber(totalCount), LangUtils.defaultValue(pageNow, 1L),
-				LangUtils.defaultValue(pageSize, 10L), 5), route, appender);
+		return evaluate(evaluate(totalCount, pageNow, pageSize), route, appender);
 	}
 
 }
