@@ -71,12 +71,12 @@ public class CatcherController extends ParentController {
 		try {
 			catcherService.catching(key);
 		} catch (Exception e) {
-			invokeVo = new InvokeVo("执行失败", e.getMessage(), 0);
+			invokeVo = new InvokeVo(e.getMessage(), null, 0);
 			LOGGER.error("del error:", e);
 		}
 		return invokeVo;
 	}
-	
+
 	@RequestMapping("/copy")
 	@ResponseBody
 	public InvokeVo copy(Long key, HttpServletRequest request) {
