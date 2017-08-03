@@ -17,12 +17,14 @@ import com.luna.dao.mapper.ICatcherRuleMapper;
 import com.luna.dao.mapper.IResourcesContentMapper;
 import com.luna.dao.mapper.IResourcesMapper;
 import com.luna.dao.po.CatcherRule;
+import com.luna.dao.po.Resources;
 import com.luna.dao.vo.KeyNameVo;
 import com.luna.service.catcher.CatchRuler;
 import com.luna.service.catcher.CatcherModel;
 import com.luna.service.catcher.CatcherProcessor;
 import com.luna.service.data.utils.CatcherRuleUtils;
 import com.luna.service.data.utils.ConditionUtils;
+import com.luna.service.data.utils.ResourcesUtils;
 import com.luna.service.enumer.content.HandlerMethodEnum;
 import com.luna.utils.LangUtils;
 import com.luna.utils.classes.Page;
@@ -135,6 +137,9 @@ public class CatcherServiceImpl implements CatcherService {
 	public void catching(Long id) {
 		CatcherModel catcherModel = select(id);
 		Validate.notNull(catcherModel, "无效的key值");
+		Resources resourcecs = ResourcesUtils.selecResourcesBySiteLink(resourcesMapper,
+				catcherModel.getCatcherWebUrl());
+		Validate.isTrue(null == resourcecs, "url 已存在");
 		Spider.create(new CatcherProcessor(resourcesMapper, contentMapper, catcherModel))
 				// 开始抓
 				.addUrl(catcherModel.getCatcherWebUrl())

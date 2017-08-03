@@ -60,7 +60,7 @@
 			<if test="null!=startCreateTime"><![CDATA[ and create_time>=#{startCreateTime}]]></if>
 			<if test="null!=endCreateTime"><![CDATA[ and create_time<=#{endCreateTime}]]></if>
 			<if test="null!=sourceSiteName and ''!=sourceSiteName">and source_site_name like CONCAT('%','${sourceSiteName}','%')</if>
-			<if test="null!=sourceSiteLink and ''!=sourceSiteLink">and source_site_link like CONCAT('%','${sourceSiteLink}','%')</if>
+			<if test="null!=sourceSiteLink and ''!=sourceSiteLink">and source_site_link =#{sourceSiteLink}</if>
 			<if test="null!=creatorId">and creator_id=#{creatorId}</if>
 			<if test="null!=categoryId">and category_id=#{categoryId}</if>
 			<if test="null!=title and ''!=title">and title like CONCAT('%','${title}','%')</if>

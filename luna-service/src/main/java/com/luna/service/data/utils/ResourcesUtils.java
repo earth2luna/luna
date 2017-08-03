@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.jsoup.helper.Validate;
 
 import com.luna.dao.mapper.IMapper;
 import com.luna.dao.mapper.IResourcesContentMarkMapper;
@@ -36,6 +37,18 @@ import com.luna.utils.node.INode;
  * @description
  */
 public class ResourcesUtils {
+
+	public static Resources selecResourcesBySiteLink(IResourcesMapper resourcesMapper, String sourceLink) {
+		Validate.isTrue(LangUtils.isNotBlank(sourceLink), "网站链接无效");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("sourceSiteLink", sourceLink);
+		List<Resources> list = resourcesMapper.selectList(map);
+		Resources resources = null;
+		if (CollectionUtils.isNotEmpty(list)) {
+			resources = list.get(0);
+		}
+		return resources;
+	}
 
 	public static List<ResourcesCasecade> selectResourcesCasecades(IResourcesMapper resourcesMapper, int startIndex,
 			int endIndex) {
